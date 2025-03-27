@@ -1,0 +1,17 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": ["rncandle"],
+  "ios": {
+    "iosModuleName": "ReactNativeCandle"
+  },
+  "android": {
+    "androidNamespace": ["rncandle"],
+    "androidCxxLibName": "ReactNativeCandle"
+  },
+  "autolinking": {
+    "RNCandle": {
+      "swift": "HybridRNCandle"
+    }
+  },
+  "ignorePaths": ["**/node_modules"]
+}

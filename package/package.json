@@ -1,0 +1,111 @@
+{
+  "name": "react-native-candle",
+  "version": "0.0.0",
+  "description": "Candle SDK for React Native",
+  "main": "./lib/commonjs/index.js",
+  "module": "./lib/module/index.js",
+  "types": "./lib/typescript/commonjs/src/index.d.ts",
+  "react-native": "src/index",
+  "source": "src/index",
+  "scripts": {
+    "build": "rm -rf lib && bun typecheck && bob build",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf android/build node_modules/**/android/build lib android/.cxx node_modules/**/android/.cxx",
+    "release": "release-it",
+    "specs": "bun typecheck && nitro-codegen --logLevel=\\\"debug\\\" && bun run build",
+    "specs:pod": "bun specs && bun --cwd ../example pod"
+  },
+  "keywords": [
+    "react-native",
+    "nitro",
+    "nitro-modile",
+    "expo",
+    "apple",
+    "ai"
+  ],
+  "files": [
+    "src",
+    "react-native.config.js",
+    "lib",
+    "nitrogen",
+    "plugin",
+    "cpp",
+    "android/build.gradle",
+    "android/gradle.properties",
+    "android/CMakeLists.txt",
+    "android/src",
+    "ios/**/*.h",
+    "ios/**/*.m",
+    "ios/**/*.mm",
+    "ios/**/*.cpp",
+    "ios/**/*.swift",
+    "app.plugin.js",
+    "*.podspec",
+    "README.md"
+  ],
+  "repository": "https://github.com/candlefinance/candle-react-native.git",
+  "author": "Gary Tokman",
+  "license": "MIT",
+  "bugs": "https://github.com/candlefinance/candle-react-native/issues",
+  "homepage": "https://github.com/candlefinance/candle-react-native",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@expo/config-plugins": "^9.0.10",
+    "react": "^18.3.1",
+    "react-native": "^0.78.1",
+    "nitro-codegen": "^0.25.2",
+    "react-native-nitro-modules": "^0.25.2",
+    "react-native-builder-bob": "^0.35.2",
+    "release-it": "^18.1.2",
+    "@release-it/bumper": "^7.0.1",
+    "@release-it/conventional-changelog": "^10.0.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-nitro-modules": "*"
+  },
+  "release-it": {
+    "npm": {
+      "publish": true
+    },
+    "git": false,
+    "github": {
+      "release": false
+    },
+    "hooks": {
+      "before:init": "bun typecheck",
+      "after:bump": "bun build"
+    }
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "commonjs",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "esm": true
+        }
+      ]
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ]
+}
