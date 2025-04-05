@@ -36,7 +36,30 @@ const withIosDeploymentTarget = (config) => {
         return config;
       }
 
-      fs.writeFileSync(podfile, setDeploymentTarget.contents);
+      const setPreInstallHook = mergeContents({
+        tag: "rnreanimated-preinstall",
+        src: setDeploymentTarget.contents,
+        newSrc: `  pre_install do |installer|
+    installer.pod_targets.each do |pod|
+      if pod.name.eql?('RNReanimated')
+        def pod.build_type;
+          # This is a workaround for the issue with the dynamic library
+          Pod::BuildType.static_library;
+        end
+      end
+    end
+  end`,
+        anchor: /post_install do \|installer\|/i,
+        offset: 0,
+        comment: "#",
+      });
+
+      if (!setPreInstallHook.didMerge) {
+        console.log("Failed to insert RNReanimated pre_install hook");
+        return config;
+      }
+
+      fs.writeFileSync(podfile, setPreInstallHook.contents);
 
       return config;
     },

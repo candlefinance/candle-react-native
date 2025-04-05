@@ -25,8 +25,8 @@ Pod::Spec.new do |s|
   spm_dependency(s,
     url: "https://github.com/candlefinance/candle-swift.git",
     requirement: {
-      "kind": "branch",
-      "branch": "main"
+      "kind": "revision",
+      "revision": "fa0db96e9a73740bbd4977160894a45c6db96f51"
     },
     products: ["Candle"]
   )
