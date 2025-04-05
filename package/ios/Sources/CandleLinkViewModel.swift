@@ -48,7 +48,7 @@ final class CandleLinkViewModel: ObservableObject {
     }
   }
 
-  var toCandleService: Candle.Models.SupportedService? {
+  var toCandleService: Candle.Models.Service? {
     switch service {
     case .apple:
       return .apple
@@ -58,6 +58,10 @@ final class CandleLinkViewModel: ObservableObject {
       return .demo
     case .robinhood:
       return .robinhood
+    case .uber:
+      return .uber
+    case .lyft:
+      return .lyft
     case .venmo:
       return .venmo
     case .none, .default:

@@ -6,6 +6,8 @@ export type Service =
   | "venmo"
   | "apple"
   | "demo"
+  | "uber"
+  | "lyft"
   | "default";
 
 export type PresentationBackground = "default" | "blur";

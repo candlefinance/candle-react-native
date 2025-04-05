@@ -5,36 +5,34 @@
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
 
-/**
- * Represents the JS union `PresentationStyle`, backed by a C++ enum.
- */
+/// Represents the JS union `PresentationStyle`, backed by a C++ enum.
 public typealias PresentationStyle = margelo.nitro.rncandle.PresentationStyle
 
-public extension PresentationStyle {
+extension PresentationStyle {
   /**
    * Get a PresentationStyle for the given String value, or
    * return `nil` if the given value was invalid/unknown.
    */
-  init?(fromString string: String) {
+  public init?(fromString string: String) {
     switch string {
-      case "sheet":
-        self = .sheet
-      case "fullScreen":
-        self = .fullscreen
-      default:
-        return nil
+    case "sheet":
+      self = .sheet
+    case "fullScreen":
+      self = .fullscreen
+    default:
+      return nil
     }
   }
 
   /**
    * Get the String value this PresentationStyle represents.
    */
-  var stringValue: String {
+  public var stringValue: String {
     switch self {
-      case .sheet:
-        return "sheet"
-      case .fullscreen:
-        return "fullScreen"
+    case .sheet:
+      return "sheet"
+    case .fullscreen:
+      return "fullScreen"
     }
   }
 }

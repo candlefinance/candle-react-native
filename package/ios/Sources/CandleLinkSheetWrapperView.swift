@@ -26,7 +26,6 @@ struct CandleLinkSheetWrapper: View {
           service: service,
           customerName: viewModel.customerName,
           cornerRadius: viewModel.cornerRadius,
-          showSandbox: viewModel.showSandbox,
           showDynamicLoading: viewModel.showDynamicLoading,
           presentationStyle: viewModel.toCandlePresentationStyle,
           presentationBackground: viewModel.toCandlePresentationBackground
@@ -40,7 +39,7 @@ struct CandleLinkSheetWrapper: View {
           isPresented: $viewModel.showSheet,
           customerName: viewModel.customerName,
           cornerRadius: viewModel.cornerRadius,
-          showSandbox: viewModel.showSandbox,
+          services: viewModel.showSandbox ? .supported + [.demo] : .supported,
           showDynamicLoading: viewModel.showDynamicLoading,
           presentationStyle: viewModel.toCandlePresentationStyle,
           presentationBackground: viewModel.toCandlePresentationBackground

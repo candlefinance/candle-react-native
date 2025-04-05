@@ -34,7 +34,9 @@ namespace margelo::nitro::rncandle {
     VENMO      SWIFT_NAME(venmo) = 2,
     APPLE      SWIFT_NAME(apple) = 3,
     DEMO      SWIFT_NAME(demo) = 4,
-    DEFAULT      SWIFT_NAME(default) = 5,
+    UBER      SWIFT_NAME(uber) = 5,
+    LYFT      SWIFT_NAME(lyft) = 6,
+    DEFAULT      SWIFT_NAME(default) = 7,
   } CLOSED_ENUM;
 
 } // namespace margelo::nitro::rncandle
@@ -54,6 +56,8 @@ namespace margelo::nitro {
         case hashString("venmo"): return Service::VENMO;
         case hashString("apple"): return Service::APPLE;
         case hashString("demo"): return Service::DEMO;
+        case hashString("uber"): return Service::UBER;
+        case hashString("lyft"): return Service::LYFT;
         case hashString("default"): return Service::DEFAULT;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum Service - invalid value!");
@@ -66,6 +70,8 @@ namespace margelo::nitro {
         case Service::VENMO: return JSIConverter<std::string>::toJSI(runtime, "venmo");
         case Service::APPLE: return JSIConverter<std::string>::toJSI(runtime, "apple");
         case Service::DEMO: return JSIConverter<std::string>::toJSI(runtime, "demo");
+        case Service::UBER: return JSIConverter<std::string>::toJSI(runtime, "uber");
+        case Service::LYFT: return JSIConverter<std::string>::toJSI(runtime, "lyft");
         case Service::DEFAULT: return JSIConverter<std::string>::toJSI(runtime, "default");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert Service to JS - invalid value: "
@@ -83,6 +89,8 @@ namespace margelo::nitro {
         case hashString("venmo"):
         case hashString("apple"):
         case hashString("demo"):
+        case hashString("uber"):
+        case hashString("lyft"):
         case hashString("default"):
           return true;
         default:
