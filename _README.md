@@ -6,7 +6,6 @@
 - `bun specs` - Generate specs and run build
 - `bun typescript` - TypeScript type checking
 - `bun --cwd ./package specs:pod` - Generate specs and install pods
-- `sh ./scripts/build-framework.sh` - Build native framework
 
 ## Example App Commands
 
