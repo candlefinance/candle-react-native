@@ -23,12 +23,44 @@ Pod::Spec.new do |s|
   ]
 
   spm_dependency(s,
-    url: "https://github.com/candlefinance/candle-swift",
+    url: "https://github.com/candlefinance/swift-security.git",
     requirement: {
-      "kind": "revision",
-      "revision": "fa0db96e9a73740bbd4977160894a45c6db96f51"
+      "kind": "branch",
+      "branch": "main"
     },
-    products: ["Candle"]
+    products: ["SwiftSecurity"]
+  )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-openapi-urlsession", 
+    requirement: {
+      "kind": "exact",
+      "exact": "1.0.2"
+    },
+    products: ["OpenAPIURLSession"]
+  )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-nio.git", 
+    requirement: {
+      "kind": "exact",
+      "exact": "2.81.0"
+    },
+    products: ["NIO", "NIOHTTP1", "NIOWebSocket"]
+  )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-nio-ssl.git", 
+    requirement: {
+      "kind": "exact",
+      "exact": "2.29.3"
+    },
+    products: ["NIOSSL"]
+  )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-nio-transport-services.git", 
+    requirement: {
+      "kind": "exact",
+      "exact": "1.23.1"
+    },
+    products: ["NIOTransportServices"]
   )
 
   s.pod_target_xcconfig = {
@@ -41,5 +73,6 @@ Pod::Spec.new do |s|
 
   s.dependency 'React-jsi'
   s.dependency 'React-callinvoker'
+  s.dependency 'Candle'
   install_modules_dependencies(s)
 end
