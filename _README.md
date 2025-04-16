@@ -10,6 +10,8 @@
 
 ## Example App Commands
 
+- `cd example && bun install` - Install dependencies
+- `cd example && bun prebuild --clean` - Generate native code
 - `cd example && bun start` - Start the example app
 - `cd example && bun ios` - Run on iOS simulator
 - `cd example && bun android` - Run on Android emulator

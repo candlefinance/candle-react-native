@@ -110,7 +110,7 @@ fi`;
 
   // reference the "props"
   const { version, repositoryUrl, repoName, productName } = {
-    repositoryUrl: "https://github.com/candlefinance/candle-swift.git",
+    repositoryUrl: "https://github.com/candlefinance/candle-swift",
     repoName: "candle-swift",
     productName: "Candle",
     version: "fa0db96e9a73740bbd4977160894a45c6db96f51",
