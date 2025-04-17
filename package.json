@@ -63,7 +63,7 @@
   },
   "release-it": {
     "npm": {
-      "publish": false,
+      "publish": true,
       "versionArgs": [
         "--allow-same-version"
       ]
@@ -78,7 +78,8 @@
     "git": {
       "commitMessage": "chore: release ${version}",
       "tagName": "v${version}",
-      "requireCleanWorkingDir": false
+      "requireCleanWorkingDir": false,
+      "push": false
     },
     "plugins": {
       "@release-it/bumper": {
