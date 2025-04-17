@@ -63,7 +63,7 @@
   },
   "release-it": {
     "npm": {
-      "publish": true,
+      "publish": false,
       "versionArgs": [
         "--allow-same-version"
       ]
