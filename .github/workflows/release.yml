@@ -21,11 +21,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: bun install
+        run: npx bun install
 
       - name: Release
         working-directory: .
-        run: release-it --non-interactive
+        run: npx bun release-it --non-interactive
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
