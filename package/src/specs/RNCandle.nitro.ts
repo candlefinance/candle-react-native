@@ -5,10 +5,9 @@ export type Service =
   | "cash_app"
   | "venmo"
   | "apple"
-  | "demo"
+  | "sandbox"
   | "uber"
-  | "lyft"
-  | "default";
+  | "lyft";
 
 export type PresentationBackground = "default" | "blur";
 export type PresentationStyle = "sheet" | "fullScreen";
@@ -37,10 +36,9 @@ export type ToolCall = {
 export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   candleLinkSheet(
     isPresented: boolean,
-    service: Service,
+    services: Service[] | undefined,
     cornerRadius: number,
     customerName: string | undefined,
-    showSandbox: boolean,
     showDynamicLoading: boolean,
     presentationBackground: PresentationBackground,
     presentationStyle: PresentationStyle,

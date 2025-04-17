@@ -9,10 +9,9 @@ final class CandleLinkViewModel: ObservableObject {
   @Published var showSheet = false
   @Published var linkedAccount: Models.LinkedAccount?
   @Published var isPresented: Bool = false
-  @Published var service: Service?
+  @Published var services: [Service]?
   @Published var cornerRadius: Double = 0
   @Published var customerName: String?
-  @Published var showSandbox: Bool = false
   @Published var showDynamicLoading: Bool = false
   @Published var presentationBackground: PresentationBackground = .default
   @Published var presentationStyle: PresentationStyle = .fullscreen
@@ -45,27 +44,6 @@ final class CandleLinkViewModel: ObservableObject {
       return nil
     case .blur:
       return AnyShapeStyle(Material.regular)
-    }
-  }
-
-  var toCandleService: Candle.Models.Service? {
-    switch service {
-    case .apple:
-      return .apple
-    case .cashApp:
-      return .cashApp
-    case .demo:
-      return .demo
-    case .robinhood:
-      return .robinhood
-    case .uber:
-      return .uber
-    case .lyft:
-      return .lyft
-    case .venmo:
-      return .venmo
-    case .none, .default:
-      return nil
     }
   }
 }

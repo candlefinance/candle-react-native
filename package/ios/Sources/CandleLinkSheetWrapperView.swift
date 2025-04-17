@@ -18,14 +18,33 @@ struct CandleLinkSheetWrapper: View {
     self.viewModel = viewModel
   }
 
+  func toCandleService(service: Service) -> Candle.Models.Service {
+    switch service {
+    case .apple:
+      return .apple
+    case .cashApp:
+      return .cashApp
+    case .sandbox:
+      return .sandbox
+    case .robinhood:
+      return .robinhood
+    case .uber:
+      return .uber
+    case .lyft:
+      return .lyft
+    case .venmo:
+      return .venmo
+    }
+  }
+
   var body: some View {
-    if let service = viewModel.toCandleService {
+    if let services = viewModel.services {
       Spacer()
         .candleLinkSheet(
           isPresented: $viewModel.showSheet,
-          service: service,
           customerName: viewModel.customerName,
           cornerRadius: viewModel.cornerRadius,
+          services: services.map(toCandleService),
           showDynamicLoading: viewModel.showDynamicLoading,
           presentationStyle: viewModel.toCandlePresentationStyle,
           presentationBackground: viewModel.toCandlePresentationBackground
@@ -39,7 +58,7 @@ struct CandleLinkSheetWrapper: View {
           isPresented: $viewModel.showSheet,
           customerName: viewModel.customerName,
           cornerRadius: viewModel.cornerRadius,
-          services: viewModel.showSandbox ? .supported + [.demo] : .supported,
+          services: .supported,
           showDynamicLoading: viewModel.showDynamicLoading,
           presentationStyle: viewModel.toCandlePresentationStyle,
           presentationBackground: viewModel.toCandlePresentationBackground

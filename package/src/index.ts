@@ -11,16 +11,15 @@ const CandleHybridObject =
   NitroModules.createHybridObject<RNCandle>("RNCandle");
 
 export function presentCandleLinkSheet({
-  service = "default",
+  services = undefined,
   cornerRadius = 24,
   customerName,
-  showSandbox = false,
   showDynamicLoading = true,
   presentationBackground = "default",
   presentationStyle = "sheet",
   onSuccess,
 }: {
-  service?: Service;
+  services?: Service[];
   cornerRadius?: number;
   customerName?: string;
   showSandbox?: boolean;
@@ -31,10 +30,9 @@ export function presentCandleLinkSheet({
 }): void {
   CandleHybridObject.candleLinkSheet(
     true,
-    service,
+    services,
     cornerRadius,
     customerName,
-    showSandbox,
     showDynamicLoading,
     presentationBackground,
     presentationStyle,

@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
     url: "https://github.com/candlefinance/candle-swift",
     requirement: {
       "kind": "revision",
-      "revision": "fa0db96e9a73740bbd4977160894a45c6db96f51"
+      "revision": "500edb89f41250b8bccd51faa7ce4de7743dc7e1"
     },
     products: ["Candle"]
   )

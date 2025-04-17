@@ -5,60 +5,54 @@
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
 
-/**
- * Represents the JS union `Service`, backed by a C++ enum.
- */
+/// Represents the JS union `Service`, backed by a C++ enum.
 public typealias Service = margelo.nitro.rncandle.Service
 
-public extension Service {
+extension Service {
   /**
    * Get a Service for the given String value, or
    * return `nil` if the given value was invalid/unknown.
    */
-  init?(fromString string: String) {
+  public init?(fromString string: String) {
     switch string {
-      case "robinhood":
-        self = .robinhood
-      case "cash_app":
-        self = .cashApp
-      case "venmo":
-        self = .venmo
-      case "apple":
-        self = .apple
-      case "demo":
-        self = .demo
-      case "uber":
-        self = .uber
-      case "lyft":
-        self = .lyft
-      case "default":
-        self = .default
-      default:
-        return nil
+    case "robinhood":
+      self = .robinhood
+    case "cash_app":
+      self = .cashApp
+    case "venmo":
+      self = .venmo
+    case "apple":
+      self = .apple
+    case "sandbox":
+      self = .sandbox
+    case "uber":
+      self = .uber
+    case "lyft":
+      self = .lyft
+    default:
+      return nil
     }
   }
 
   /**
    * Get the String value this Service represents.
    */
-  var stringValue: String {
+  public var stringValue: String {
     switch self {
-      case .robinhood:
-        return "robinhood"
-      case .cashApp:
-        return "cash_app"
-      case .venmo:
-        return "venmo"
-      case .apple:
-        return "apple"
-      case .demo:
-        return "demo"
-      case .uber:
-        return "uber"
-      case .lyft:
-        return "lyft"
-      case .default:
-        return "default"
+    case .robinhood:
+      return "robinhood"
+    case .cashApp:
+      return "cash_app"
+    case .venmo:
+      return "venmo"
+    case .apple:
+      return "apple"
+    case .sandbox:
+      return "sandbox"
+    case .uber:
+      return "uber"
+    case .lyft:
+      return "lyft"
     }
   }
 }

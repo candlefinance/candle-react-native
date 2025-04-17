@@ -27,14 +27,14 @@ namespace margelo::nitro::rncandle { enum class State; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
 
-#include "Service.hpp"
 #include <optional>
+#include <vector>
+#include "Service.hpp"
 #include <string>
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
 #include <functional>
 #include <NitroModules/Promise.hpp>
-#include <vector>
 #include "LinkedAccount.hpp"
 #include "Details.hpp"
 #include "State.hpp"
@@ -79,8 +79,8 @@ namespace margelo::nitro::rncandle {
 
   public:
     // Methods
-    inline void candleLinkSheet(bool isPresented, Service service, double cornerRadius, const std::optional<std::string>& customerName, bool showSandbox, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const std::string& /* account */)>& onSuccess) override {
-      auto __result = _swiftPart.candleLinkSheet(std::forward<decltype(isPresented)>(isPresented), static_cast<int>(service), std::forward<decltype(cornerRadius)>(cornerRadius), customerName, std::forward<decltype(showSandbox)>(showSandbox), std::forward<decltype(showDynamicLoading)>(showDynamicLoading), static_cast<int>(presentationBackground), static_cast<int>(presentationStyle), onSuccess);
+    inline void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const std::string& /* account */)>& onSuccess) override {
+      auto __result = _swiftPart.candleLinkSheet(std::forward<decltype(isPresented)>(isPresented), services, std::forward<decltype(cornerRadius)>(cornerRadius), customerName, std::forward<decltype(showDynamicLoading)>(showDynamicLoading), static_cast<int>(presentationBackground), static_cast<int>(presentationStyle), onSuccess);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

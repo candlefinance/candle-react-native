@@ -7,34 +7,35 @@
 
 import NitroModules
 
-/**
- * Represents an instance of `Details`, backed by a C++ struct.
- */
+/// Represents an instance of `Details`, backed by a C++ struct.
 public typealias Details = margelo.nitro.rncandle.Details
 
-public extension Details {
+extension Details {
   private typealias bridge = margelo.nitro.rncandle.bridge.swift
 
   /**
    * Create a new instance of `Details`.
    */
-  init(state: State, username: String?, legalName: String, accountOpened: String?) {
-    self.init(state, { () -> bridge.std__optional_std__string_ in
-      if let __unwrappedValue = username {
-        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-      } else {
-        return .init()
-      }
-    }(), std.string(legalName), { () -> bridge.std__optional_std__string_ in
-      if let __unwrappedValue = accountOpened {
-        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-      } else {
-        return .init()
-      }
-    }())
+  public init(state: State, username: String?, legalName: String, accountOpened: String?) {
+    self.init(
+      state,
+      { () -> bridge.std__optional_std__string_ in
+        if let __unwrappedValue = username {
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        } else {
+          return .init()
+        }
+      }(), std.string(legalName),
+      { () -> bridge.std__optional_std__string_ in
+        if let __unwrappedValue = accountOpened {
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        } else {
+          return .init()
+        }
+      }())
   }
 
-  var state: State {
+  public var state: State {
     @inline(__always)
     get {
       return self.__state
@@ -44,8 +45,8 @@ public extension Details {
       self.__state = newValue
     }
   }
-  
-  var username: String? {
+
+  public var username: String? {
     @inline(__always)
     get {
       return { () -> String? in
@@ -67,8 +68,8 @@ public extension Details {
       }()
     }
   }
-  
-  var legalName: String {
+
+  public var legalName: String {
     @inline(__always)
     get {
       return String(self.__legalName)
@@ -78,8 +79,8 @@ public extension Details {
       self.__legalName = std.string(newValue)
     }
   }
-  
-  var accountOpened: String? {
+
+  public var accountOpened: String? {
     @inline(__always)
     get {
       return { () -> String? in

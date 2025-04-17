@@ -7,10 +7,8 @@
 
 import NitroModules
 
-/**
- * Wraps a Swift `(_ value: [LinkedAccount]) -> Void` as a class.
- * This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
- */
+/// Wraps a Swift `(_ value: [LinkedAccount]) -> Void` as a class.
+/// This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
 public final class Func_void_std__vector_LinkedAccount_ {
   public typealias bridge = margelo.nitro.rncandle.bridge.swift
 
@@ -21,7 +19,7 @@ public final class Func_void_std__vector_LinkedAccount_ {
   }
 
   @inline(__always)
-  public func call(value: bridge.std__vector_LinkedAccount_) -> Void {
+  public func call(value: bridge.std__vector_LinkedAccount_) {
     self.closure(value.map({ __item in __item }))
   }
 
@@ -40,7 +38,9 @@ public final class Func_void_std__vector_LinkedAccount_ {
    * This removes one strong reference from the object!
    */
   @inline(__always)
-  public static func fromUnsafe(_ pointer: UnsafeMutableRawPointer) -> Func_void_std__vector_LinkedAccount_ {
+  public static func fromUnsafe(_ pointer: UnsafeMutableRawPointer)
+    -> Func_void_std__vector_LinkedAccount_
+  {
     return Unmanaged<Func_void_std__vector_LinkedAccount_>.fromOpaque(pointer).takeRetainedValue()
   }
 }

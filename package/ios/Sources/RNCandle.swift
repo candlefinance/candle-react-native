@@ -23,10 +23,9 @@ final class HybridRNCandle: HybridRNCandleSpec {
 
   public func candleLinkSheet(
     isPresented: Bool,
-    service: Service,
+    services: [Service]?,
     cornerRadius: Double,
     customerName: String?,
-    showSandbox: Bool,
     showDynamicLoading: Bool,
     presentationBackground: PresentationBackground,
     presentationStyle: PresentationStyle,
@@ -34,10 +33,9 @@ final class HybridRNCandle: HybridRNCandleSpec {
   ) throws {
     Task { @MainActor in
       viewModel.isPresented = isPresented
-      viewModel.service = service
+      viewModel.services = services
       viewModel.cornerRadius = cornerRadius
       viewModel.customerName = customerName
-      viewModel.showSandbox = showSandbox
       viewModel.showDynamicLoading = showDynamicLoading
       viewModel.presentationBackground = presentationBackground
       viewModel.presentationStyle = presentationStyle
@@ -82,7 +80,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
         case .venmo:
           service = .venmo
         default:
-          service = .demo
+          service = .sandbox
         }
         switch account.details {
         case .ActiveLinkedAccountDetails(let details):

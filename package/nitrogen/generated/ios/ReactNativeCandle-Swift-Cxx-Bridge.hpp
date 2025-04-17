@@ -45,6 +45,26 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
  */
 namespace margelo::nitro::rncandle::bridge::swift {
 
+  // pragma MARK: std::vector<Service>
+  /**
+   * Specialized version of `std::vector<Service>`.
+   */
+  using std__vector_Service_ = std::vector<Service>;
+  inline std::vector<Service> create_std__vector_Service_(size_t size) {
+    std::vector<Service> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::optional<std::vector<Service>>
+  /**
+   * Specialized version of `std::optional<std::vector<Service>>`.
+   */
+  using std__optional_std__vector_Service__ = std::optional<std::vector<Service>>;
+  inline std::optional<std::vector<Service>> create_std__optional_std__vector_Service__(const std::vector<Service>& value) {
+    return std::optional<std::vector<Service>>(value);
+  }
+  
   // pragma MARK: std::optional<std::string>
   /**
    * Specialized version of `std::optional<std::string>`.

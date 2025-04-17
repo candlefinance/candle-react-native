@@ -24,14 +24,14 @@ namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
 
-#include "Service.hpp"
 #include <optional>
+#include <vector>
+#include "Service.hpp"
 #include <string>
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
 #include <functional>
 #include <NitroModules/Promise.hpp>
-#include <vector>
 #include "LinkedAccount.hpp"
 #include "ToolCall.hpp"
 
@@ -66,7 +66,7 @@ namespace margelo::nitro::rncandle {
 
     public:
       // Methods
-      virtual void candleLinkSheet(bool isPresented, Service service, double cornerRadius, const std::optional<std::string>& customerName, bool showSandbox, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const std::string& /* account */)>& onSuccess) = 0;
+      virtual void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const std::string& /* account */)>& onSuccess) = 0;
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<void>> unlinkAccount(const std::string& linkedAccountID) = 0;
       virtual std::shared_ptr<Promise<std::string>> getFiatAccounts() = 0;
