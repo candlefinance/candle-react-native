@@ -20,12 +20,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Install dependencies
-        run: npx bun install
+        run: bun install
 
       - name: Release
         working-directory: .
-        run: npx bun release-it --non-interactive
+        run: bun release-it --non-interactive
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
