@@ -17,8 +17,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "fi.candle.example",
       "infoPlist": {
-        "CandleAppKey": "",
-        "CandleAppSecret": "",
+        "CandleAppKey": "key-f38v2kcxqiuld64g58acupqs",
+        "CandleAppSecret": "sec-8YN5H7GzS2HEIPiLdtYP0JpCI9QMAfIRUTmXaZNWFL8=",
         "ITSAppUsesNonExemptEncryption": false
       }
     },

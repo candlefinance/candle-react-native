@@ -1,5 +1,6 @@
 import { NitroModules } from "react-native-nitro-modules";
 import type {
+  LinkedAccount,
   PresentationBackground,
   PresentationStyle,
   RNCandle,
@@ -41,21 +42,21 @@ export function presentCandleLinkSheet({
   );
 }
 
+export async function getLinkedAccounts(): Promise<LinkedAccount[]> {
+  return await CandleHybridObject.getLinkedAccounts();
+}
+
 export async function unlinkAccount(linkedAccountID: string): Promise<void> {
   await CandleHybridObject.unlinkAccount(linkedAccountID);
 }
 
-export async function getLinkedAccounts(): Promise<string> {
-  return await CandleHybridObject.getLinkedAccounts();
-}
+// export async function getFiatAccounts(): Promise<string> {
+//   return await CandleHybridObject.getFiatAccounts();
+// }
 
-export async function getFiatAccounts(): Promise<string> {
-  return await CandleHybridObject.getFiatAccounts();
-}
-
-export async function getActivity(span?: string): Promise<string> {
-  return await CandleHybridObject.getActivity(span);
-}
+// export async function getActivity(span?: string): Promise<string> {
+//   return await CandleHybridObject.getActivity(span);
+// }
 
 export async function deleteUser(): Promise<void> {
   await CandleHybridObject.deleteUser();

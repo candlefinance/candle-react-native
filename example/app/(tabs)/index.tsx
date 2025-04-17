@@ -5,8 +5,6 @@ import {
   unlinkAccount,
   executeTool,
   getAvailableTools,
-  getFiatAccounts,
-  getActivity,
   getLinkedAccounts,
   presentCandleLinkSheet,
 } from "react-native-candle";
@@ -77,42 +75,12 @@ export default function TabOneScreen() {
         }}
       />
       <Button
-        title="Get Fiat Accounts"
-        onPress={() => {
-          setIsLoading(true);
-          getFiatAccounts()
-            .then((accounts) => {
-              console.log("Fiat accounts:", accounts);
-              setIsLoading(false);
-            })
-            .catch((error) => {
-              console.error("Error fetching fiat accounts:", error);
-              setIsLoading(false);
-            });
-        }}
-      />
-      <Button
-        title="Get Activity"
-        onPress={() => {
-          setIsLoading(true);
-          getActivity("P1D")
-            .then((activity) => {
-              console.log("Activity:", activity);
-              setIsLoading(false);
-            })
-            .catch((error) => {
-              console.error("Error fetching activity:", error);
-              setIsLoading(false);
-            });
-        }}
-      />
-      <Button
         title="Get Linked Accounts"
         onPress={() => {
           setIsLoading(true);
           getLinkedAccounts()
             .then((accounts) => {
-              console.log("Linked accounts:", accounts);
+              console.log("Linked accounts:", accounts[0].details);
               setIsLoading(false);
             })
             .catch((error) => {

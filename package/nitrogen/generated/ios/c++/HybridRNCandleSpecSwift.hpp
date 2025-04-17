@@ -18,6 +18,12 @@ namespace margelo::nitro::rncandle { enum class Service; }
 namespace margelo::nitro::rncandle { enum class PresentationBackground; }
 // Forward declaration of `PresentationStyle` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class PresentationStyle; }
+// Forward declaration of `LinkedAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccount; }
+// Forward declaration of `Details` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Details; }
+// Forward declaration of `State` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class State; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
 
@@ -28,6 +34,10 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "PresentationStyle.hpp"
 #include <functional>
 #include <NitroModules/Promise.hpp>
+#include <vector>
+#include "LinkedAccount.hpp"
+#include "Details.hpp"
+#include "State.hpp"
 #include "ToolCall.hpp"
 
 #include "ReactNativeCandle-Swift-Cxx-Umbrella.hpp"
@@ -75,7 +85,7 @@ namespace margelo::nitro::rncandle {
         std::rethrow_exception(__result.error());
       }
     }
-    inline std::shared_ptr<Promise<std::string>> getLinkedAccounts() override {
+    inline std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() override {
       auto __result = _swiftPart.getLinkedAccounts();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());

@@ -8,22 +8,31 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `Details` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
 namespace margelo::nitro::rncandle { class HybridRNCandleSpec; }
+// Forward declaration of `LinkedAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `PresentationBackground` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class PresentationBackground; }
 // Forward declaration of `PresentationStyle` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class PresentationStyle; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
+// Forward declaration of `State` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class State; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
 
 // Include C++ defined types
+#include "Details.hpp"
 #include "HybridRNCandleSpec.hpp"
+#include "LinkedAccount.hpp"
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
 #include "Service.hpp"
+#include "State.hpp"
 #include "ToolCall.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
@@ -32,6 +41,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 // C++ helpers for Swift
 #include "ReactNativeCandle-Swift-Cxx-Bridge.hpp"

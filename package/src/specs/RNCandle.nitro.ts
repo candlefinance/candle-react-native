@@ -13,6 +13,22 @@ export type Service =
 export type PresentationBackground = "default" | "blur";
 export type PresentationStyle = "sheet" | "fullScreen";
 
+export type State = "active" | "inactive";
+
+export type Details = {
+  state: State;
+  username: string | undefined;
+  legalName: string;
+  accountOpened: string | undefined;
+};
+
+export interface LinkedAccount {
+  serviceUserID: string;
+  details: Details | undefined;
+  linkedAccountID: string;
+  service: Service;
+}
+
 export type ToolCall = {
   name: string;
   arguments: string;
@@ -30,7 +46,7 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
     presentationStyle: PresentationStyle,
     onSuccess: (account: string) => void
   ): void;
-  getLinkedAccounts(): Promise<string>;
+  getLinkedAccounts(): Promise<LinkedAccount[]>;
   unlinkAccount(linkedAccountID: string): Promise<void>;
   getFiatAccounts(): Promise<string>;
   getActivity(span: string | undefined): Promise<string>;

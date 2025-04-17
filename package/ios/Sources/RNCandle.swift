@@ -62,10 +62,50 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  public func getLinkedAccounts() throws -> NitroModules.Promise<String> {
+  public func getLinkedAccounts() throws -> NitroModules.Promise<[LinkedAccount]> {
     Promise.async {
       let accounts = try await self.viewModel.candleClient?.getLinkedAccounts() ?? []
-      return try self.encodeToJSONString(accounts)
+      // FIXME: Make this mapping better or use Codable
+      return accounts.map { account in
+        let service: Service
+        switch account.service {
+        case .apple:
+          service = .apple
+        case .cashApp:
+          service = .cashApp
+        case .lyft:
+          service = .lyft
+        case .uber:
+          service = .uber
+        case .robinhood:
+          service = .robinhood
+        case .venmo:
+          service = .venmo
+        default:
+          service = .demo
+        }
+        switch account.details {
+        case .ActiveLinkedAccountDetails(let details):
+          return LinkedAccount(
+            serviceUserID: account.serviceUserID,
+            details: .init(
+              state: .active,
+              username: details.username,
+              legalName: details.legalName,
+              accountOpened: details.accountOpened
+            ),
+            linkedAccountID: account.linkedAccountID,
+            service: service
+          )
+        case .InactiveLinkedAccountDetails:
+          return LinkedAccount(
+            serviceUserID: account.serviceUserID,
+            details: nil,
+            linkedAccountID: account.linkedAccountID,
+            service: service
+          )
+        }
+      }
     }
   }
 

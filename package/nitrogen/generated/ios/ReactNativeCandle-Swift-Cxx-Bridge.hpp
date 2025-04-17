@@ -8,15 +8,27 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `Details` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
 namespace margelo::nitro::rncandle { class HybridRNCandleSpec; }
+// Forward declaration of `LinkedAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccount; }
+// Forward declaration of `Service` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class Service; }
+// Forward declaration of `State` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class State; }
 
 // Forward declarations of Swift defined types
 // Forward declaration of `HybridRNCandleSpec_cxx` to properly resolve imports.
 namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 
 // Include C++ defined types
+#include "Details.hpp"
 #include "HybridRNCandleSpec.hpp"
+#include "LinkedAccount.hpp"
+#include "Service.hpp"
+#include "State.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/PromiseHolder.hpp>
 #include <NitroModules/Result.hpp>
@@ -25,6 +37,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 /**
  * Contains specialized versions of C++ templated types so they can be accessed from Swift,
@@ -63,16 +76,58 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Func_void_std__string_Wrapper(std::move(value));
   }
   
-  // pragma MARK: std::shared_ptr<Promise<std::string>>
+  // pragma MARK: std::optional<Details>
   /**
-   * Specialized version of `std::shared_ptr<Promise<std::string>>`.
+   * Specialized version of `std::optional<Details>`.
    */
-  using std__shared_ptr_Promise_std__string__ = std::shared_ptr<Promise<std::string>>;
-  inline std::shared_ptr<Promise<std::string>> create_std__shared_ptr_Promise_std__string__() {
-    return Promise<std::string>::create();
+  using std__optional_Details_ = std::optional<Details>;
+  inline std::optional<Details> create_std__optional_Details_(const Details& value) {
+    return std::optional<Details>(value);
   }
-  inline PromiseHolder<std::string> wrap_std__shared_ptr_Promise_std__string__(std::shared_ptr<Promise<std::string>> promise) {
-    return PromiseHolder<std::string>(std::move(promise));
+  
+  // pragma MARK: std::vector<LinkedAccount>
+  /**
+   * Specialized version of `std::vector<LinkedAccount>`.
+   */
+  using std__vector_LinkedAccount_ = std::vector<LinkedAccount>;
+  inline std::vector<LinkedAccount> create_std__vector_LinkedAccount_(size_t size) {
+    std::vector<LinkedAccount> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<std::vector<LinkedAccount>>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<std::vector<LinkedAccount>>>`.
+   */
+  using std__shared_ptr_Promise_std__vector_LinkedAccount___ = std::shared_ptr<Promise<std::vector<LinkedAccount>>>;
+  inline std::shared_ptr<Promise<std::vector<LinkedAccount>>> create_std__shared_ptr_Promise_std__vector_LinkedAccount___() {
+    return Promise<std::vector<LinkedAccount>>::create();
+  }
+  inline PromiseHolder<std::vector<LinkedAccount>> wrap_std__shared_ptr_Promise_std__vector_LinkedAccount___(std::shared_ptr<Promise<std::vector<LinkedAccount>>> promise) {
+    return PromiseHolder<std::vector<LinkedAccount>>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const std::vector<LinkedAccount>& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const std::vector<LinkedAccount>&)>`.
+   */
+  using Func_void_std__vector_LinkedAccount_ = std::function<void(const std::vector<LinkedAccount>& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::vector<LinkedAccount>& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__vector_LinkedAccount__Wrapper final {
+  public:
+    explicit Func_void_std__vector_LinkedAccount__Wrapper(std::function<void(const std::vector<LinkedAccount>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<LinkedAccount>& /* result */)>>(std::move(func))) {}
+    inline void call(std::vector<LinkedAccount> result) const {
+      _function->operator()(result);
+    }
+  private:
+    std::shared_ptr<std::function<void(const std::vector<LinkedAccount>& /* result */)>> _function;
+  };
+  Func_void_std__vector_LinkedAccount_ create_Func_void_std__vector_LinkedAccount_(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_std__vector_LinkedAccount__Wrapper wrap_Func_void_std__vector_LinkedAccount_(Func_void_std__vector_LinkedAccount_ value) {
+    return Func_void_std__vector_LinkedAccount__Wrapper(std::move(value));
   }
   
   // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
@@ -131,6 +186,18 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Func_void_Wrapper(std::move(value));
   }
   
+  // pragma MARK: std::shared_ptr<Promise<std::string>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<std::string>>`.
+   */
+  using std__shared_ptr_Promise_std__string__ = std::shared_ptr<Promise<std::string>>;
+  inline std::shared_ptr<Promise<std::string>> create_std__shared_ptr_Promise_std__string__() {
+    return Promise<std::string>::create();
+  }
+  inline PromiseHolder<std::string> wrap_std__shared_ptr_Promise_std__string__(std::shared_ptr<Promise<std::string>> promise) {
+    return PromiseHolder<std::string>(std::move(promise));
+  }
+  
   // pragma MARK: std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>
   /**
    * Specialized version of `std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>`.
@@ -152,13 +219,13 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Result<void>::withError(error);
   }
   
-  // pragma MARK: Result<std::shared_ptr<Promise<std::string>>>
-  using Result_std__shared_ptr_Promise_std__string___ = Result<std::shared_ptr<Promise<std::string>>>;
-  inline Result_std__shared_ptr_Promise_std__string___ create_Result_std__shared_ptr_Promise_std__string___(const std::shared_ptr<Promise<std::string>>& value) {
-    return Result<std::shared_ptr<Promise<std::string>>>::withValue(value);
+  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>
+  using Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ = Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>;
+  inline Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(const std::shared_ptr<Promise<std::vector<LinkedAccount>>>& value) {
+    return Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_std__string___ create_Result_std__shared_ptr_Promise_std__string___(const std::exception_ptr& error) {
-    return Result<std::shared_ptr<Promise<std::string>>>::withError(error);
+  inline Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(const std::exception_ptr& error) {
+    return Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<void>>>
@@ -168,6 +235,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::exception_ptr& error) {
     return Result<std::shared_ptr<Promise<void>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<std::string>>>
+  using Result_std__shared_ptr_Promise_std__string___ = Result<std::shared_ptr<Promise<std::string>>>;
+  inline Result_std__shared_ptr_Promise_std__string___ create_Result_std__shared_ptr_Promise_std__string___(const std::shared_ptr<Promise<std::string>>& value) {
+    return Result<std::shared_ptr<Promise<std::string>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_std__string___ create_Result_std__shared_ptr_Promise_std__string___(const std::exception_ptr& error) {
+    return Result<std::shared_ptr<Promise<std::string>>>::withError(error);
   }
 
 } // namespace margelo::nitro::rncandle::bridge::swift

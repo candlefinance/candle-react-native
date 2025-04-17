@@ -5,34 +5,36 @@
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
 
-/// Represents the JS union `PresentationBackground`, backed by a C++ enum.
+/**
+ * Represents the JS union `PresentationBackground`, backed by a C++ enum.
+ */
 public typealias PresentationBackground = margelo.nitro.rncandle.PresentationBackground
 
-extension PresentationBackground {
+public extension PresentationBackground {
   /**
    * Get a PresentationBackground for the given String value, or
    * return `nil` if the given value was invalid/unknown.
    */
-  public init?(fromString string: String) {
+  init?(fromString string: String) {
     switch string {
-    case "default":
-      self = .default
-    case "blur":
-      self = .blur
-    default:
-      return nil
+      case "default":
+        self = .default
+      case "blur":
+        self = .blur
+      default:
+        return nil
     }
   }
 
   /**
    * Get the String value this PresentationBackground represents.
    */
-  public var stringValue: String {
+  var stringValue: String {
     switch self {
-    case .default:
-      return "default"
-    case .blur:
-      return "blur"
+      case .default:
+        return "default"
+      case .blur:
+        return "blur"
     }
   }
 }
