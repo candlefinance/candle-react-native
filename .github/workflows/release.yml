@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}
+
+jobs:
+  create_release:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Release
+        working-directory: .
+        run: release-it --non-interactive
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Push version bump commit
+        uses: CasperWA/push-protected@v2
+        with:
+          token: ${{ secrets.ADMIN_PAT }}
+          ref: ${{ github.base_ref }}
+          tags: true
