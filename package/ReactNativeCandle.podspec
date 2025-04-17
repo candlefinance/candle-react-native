@@ -23,54 +23,45 @@ Pod::Spec.new do |s|
   ]
 
   spm_dependency(s,
-    url: "https://github.com/candlefinance/candle-swift",
+    url: "https://github.com/candlefinance/swift-security.git",
     requirement: {
-      "kind": "revision",
-      "revision": "500edb89f41250b8bccd51faa7ce4de7743dc7e1"
+      "kind": "branch",
+      "branch": "main"
     },
-    products: ["Candle"]
+    products: ["SwiftSecurity"]
   )
-
-  # spm_dependency(s,
-  #   url: "https://github.com/candlefinance/swift-security.git",
-  #   requirement: {
-  #     "kind": "branch",
-  #     "branch": "main"
-  #   },
-  #   products: ["SwiftSecurity"]
-  # )
-  # spm_dependency(s,
-  #   url: "https://github.com/apple/swift-openapi-urlsession", 
-  #   requirement: {
-  #     "kind": "exact",
-  #     "exact": "1.0.2"
-  #   },
-  #   products: ["OpenAPIURLSession"]
-  # )
-  # spm_dependency(s,
-  #   url: "https://github.com/apple/swift-nio.git", 
-  #   requirement: {
-  #     "kind": "exact",
-  #     "exact": "2.81.0"
-  #   },
-  #   products: ["NIO", "NIOHTTP1", "NIOWebSocket"]
-  # )
-  # spm_dependency(s,
-  #   url: "https://github.com/apple/swift-nio-ssl.git", 
-  #   requirement: {
-  #     "kind": "exact",
-  #     "exact": "2.29.3"
-  #   },
-  #   products: ["NIOSSL"]
-  # )
-  # spm_dependency(s,
-  #   url: "https://github.com/apple/swift-nio-transport-services.git", 
-  #   requirement: {
-  #     "kind": "exact",
-  #     "exact": "1.23.1"
-  #   },
-  #   products: ["NIOTransportServices"]
-  # )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-openapi-urlsession", 
+    requirement: {
+      "kind": "exact",
+      "exact": "1.0.2"
+    },
+    products: ["OpenAPIURLSession"]
+  )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-nio.git", 
+    requirement: {
+      "kind": "exact",
+      "exact": "2.81.0"
+    },
+    products: ["NIO", "NIOHTTP1", "NIOWebSocket"]
+  )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-nio-ssl.git", 
+    requirement: {
+      "kind": "exact",
+      "exact": "2.29.3"
+    },
+    products: ["NIOSSL"]
+  )
+  spm_dependency(s,
+    url: "https://github.com/apple/swift-nio-transport-services.git", 
+    requirement: {
+      "kind": "exact",
+      "exact": "1.23.1"
+    },
+    products: ["NIOTransportServices"]
+  )
 
   s.pod_target_xcconfig = {
     # C++ compiler flags, mainly for folly.
@@ -80,6 +71,7 @@ Pod::Spec.new do |s|
   load 'nitrogen/generated/ios/ReactNativeCandle+autolinking.rb'
   add_nitrogen_files(s)
 
+  s.dependency 'Candle', '3.0.224'
   s.dependency 'React-jsi'
   s.dependency 'React-callinvoker'
   install_modules_dependencies(s)
