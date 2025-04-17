@@ -80,7 +80,9 @@ export default function TabOneScreen() {
           setIsLoading(true);
           getLinkedAccounts()
             .then((accounts) => {
-              console.log("Linked accounts:", accounts[0].details);
+              if (accounts.length > 0) {
+                console.log("Linked accounts:", accounts[0].details);
+              }
               setIsLoading(false);
             })
             .catch((error) => {
