@@ -39,19 +39,35 @@ struct CandleLinkSheetWrapper: View {
 
   var body: some View {
     if let services = viewModel.services {
-      Spacer()
-        .candleLinkSheet(
-          isPresented: $viewModel.showSheet,
-          customerName: viewModel.customerName,
-          cornerRadius: viewModel.cornerRadius,
-          services: services.map(toCandleService),
-          showDynamicLoading: viewModel.showDynamicLoading,
-          presentationStyle: viewModel.toCandlePresentationStyle,
-          presentationBackground: viewModel.toCandlePresentationBackground
-        ) { newLinkedAccount in
-          viewModel.linkedAccount = newLinkedAccount
+        if services.count == 1 {
+            Spacer()
+                .candleLinkSheet(
+                    isPresented: $viewModel.showSheet,
+                    service: toCandleService(service: services[0]),
+                    customerName: viewModel.customerName,
+                    cornerRadius: viewModel.cornerRadius,
+                    showDynamicLoading: viewModel.showDynamicLoading,
+                    presentationStyle: viewModel.toCandlePresentationStyle,
+                    presentationBackground: viewModel.toCandlePresentationBackground
+                ) { newLinkedAccount in
+                    viewModel.linkedAccount = newLinkedAccount
+                }
+                .environment(candleClient)
+        } else {
+            Spacer()
+                .candleLinkSheet(
+                    isPresented: $viewModel.showSheet,
+                    customerName: viewModel.customerName,
+                    cornerRadius: viewModel.cornerRadius,
+                    services: services.map(toCandleService),
+                    showDynamicLoading: viewModel.showDynamicLoading,
+                    presentationStyle: viewModel.toCandlePresentationStyle,
+                    presentationBackground: viewModel.toCandlePresentationBackground
+                ) { newLinkedAccount in
+                    viewModel.linkedAccount = newLinkedAccount
+                }
+                .environment(candleClient)
         }
-        .environment(candleClient)
     } else {
       Spacer()
         .candleLinkSheet(
