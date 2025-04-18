@@ -1,6 +1,6 @@
 {
   "name": "react-native-candle",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Candle SDK for React Native",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
