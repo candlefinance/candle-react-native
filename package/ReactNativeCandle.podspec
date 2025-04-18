@@ -71,7 +71,7 @@ Pod::Spec.new do |s|
   load 'nitrogen/generated/ios/ReactNativeCandle+autolinking.rb'
   add_nitrogen_files(s)
 
-  s.dependency 'Candle', '3.0.228-beta'
+  s.dependency 'Candle', '3.0.230-beta'
   s.dependency 'React-jsi'
   s.dependency 'React-callinvoker'
   install_modules_dependencies(s)
