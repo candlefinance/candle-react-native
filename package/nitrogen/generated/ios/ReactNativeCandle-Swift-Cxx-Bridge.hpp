@@ -8,6 +8,8 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `AnyMap` to properly resolve imports.
+namespace NitroModules { class AnyMap; }
 // Forward declaration of `Details` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
@@ -29,6 +31,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "LinkedAccount.hpp"
 #include "Service.hpp"
 #include "State.hpp"
+#include <NitroModules/AnyMap.hpp>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/PromiseHolder.hpp>
 #include <NitroModules/Result.hpp>
@@ -74,28 +77,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return std::optional<std::string>(value);
   }
   
-  // pragma MARK: std::function<void(const std::string& /* account */)>
-  /**
-   * Specialized version of `std::function<void(const std::string&)>`.
-   */
-  using Func_void_std__string = std::function<void(const std::string& /* account */)>;
-  /**
-   * Wrapper class for a `std::function<void(const std::string& / * account * /)>`, this can be used from Swift.
-   */
-  class Func_void_std__string_Wrapper final {
-  public:
-    explicit Func_void_std__string_Wrapper(std::function<void(const std::string& /* account */)>&& func): _function(std::make_shared<std::function<void(const std::string& /* account */)>>(std::move(func))) {}
-    inline void call(std::string account) const {
-      _function->operator()(account);
-    }
-  private:
-    std::shared_ptr<std::function<void(const std::string& /* account */)>> _function;
-  };
-  Func_void_std__string create_Func_void_std__string(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__string_Wrapper wrap_Func_void_std__string(Func_void_std__string value) {
-    return Func_void_std__string_Wrapper(std::move(value));
-  }
-  
   // pragma MARK: std::optional<Details>
   /**
    * Specialized version of `std::optional<Details>`.
@@ -103,6 +84,28 @@ namespace margelo::nitro::rncandle::bridge::swift {
   using std__optional_Details_ = std::optional<Details>;
   inline std::optional<Details> create_std__optional_Details_(const Details& value) {
     return std::optional<Details>(value);
+  }
+  
+  // pragma MARK: std::function<void(const LinkedAccount& /* account */)>
+  /**
+   * Specialized version of `std::function<void(const LinkedAccount&)>`.
+   */
+  using Func_void_LinkedAccount = std::function<void(const LinkedAccount& /* account */)>;
+  /**
+   * Wrapper class for a `std::function<void(const LinkedAccount& / * account * /)>`, this can be used from Swift.
+   */
+  class Func_void_LinkedAccount_Wrapper final {
+  public:
+    explicit Func_void_LinkedAccount_Wrapper(std::function<void(const LinkedAccount& /* account */)>&& func): _function(std::make_shared<std::function<void(const LinkedAccount& /* account */)>>(std::move(func))) {}
+    inline void call(LinkedAccount account) const {
+      _function->operator()(account);
+    }
+  private:
+    std::shared_ptr<std::function<void(const LinkedAccount& /* account */)>> _function;
+  };
+  Func_void_LinkedAccount create_Func_void_LinkedAccount(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_LinkedAccount_Wrapper wrap_Func_void_LinkedAccount(Func_void_LinkedAccount value) {
+    return Func_void_LinkedAccount_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::vector<LinkedAccount>
@@ -218,6 +221,73 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return PromiseHolder<std::string>(std::move(promise));
   }
   
+  // pragma MARK: std::function<void(const std::string& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const std::string&)>`.
+   */
+  using Func_void_std__string = std::function<void(const std::string& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::string& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__string_Wrapper final {
+  public:
+    explicit Func_void_std__string_Wrapper(std::function<void(const std::string& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::string& /* result */)>>(std::move(func))) {}
+    inline void call(std::string result) const {
+      _function->operator()(result);
+    }
+  private:
+    std::shared_ptr<std::function<void(const std::string& /* result */)>> _function;
+  };
+  Func_void_std__string create_Func_void_std__string(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_std__string_Wrapper wrap_Func_void_std__string(Func_void_std__string value) {
+    return Func_void_std__string_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::vector<std::shared_ptr<AnyMap>>
+  /**
+   * Specialized version of `std::vector<std::shared_ptr<AnyMap>>`.
+   */
+  using std__vector_std__shared_ptr_AnyMap__ = std::vector<std::shared_ptr<AnyMap>>;
+  inline std::vector<std::shared_ptr<AnyMap>> create_std__vector_std__shared_ptr_AnyMap__(size_t size) {
+    std::vector<std::shared_ptr<AnyMap>> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>`.
+   */
+  using std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____ = std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>;
+  inline std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> create_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____() {
+    return Promise<std::vector<std::shared_ptr<AnyMap>>>::create();
+  }
+  inline PromiseHolder<std::vector<std::shared_ptr<AnyMap>>> wrap_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____(std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> promise) {
+    return PromiseHolder<std::vector<std::shared_ptr<AnyMap>>>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const std::vector<std::shared_ptr<AnyMap>>&)>`.
+   */
+  using Func_void_std__vector_std__shared_ptr_AnyMap__ = std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::vector<std::shared_ptr<AnyMap>>& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__vector_std__shared_ptr_AnyMap___Wrapper final {
+  public:
+    explicit Func_void_std__vector_std__shared_ptr_AnyMap___Wrapper(std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>>(std::move(func))) {}
+    inline void call(std::vector<std::shared_ptr<AnyMap>> result) const {
+      _function->operator()(result);
+    }
+  private:
+    std::shared_ptr<std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>> _function;
+  };
+  Func_void_std__vector_std__shared_ptr_AnyMap__ create_Func_void_std__vector_std__shared_ptr_AnyMap__(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_std__vector_std__shared_ptr_AnyMap___Wrapper wrap_Func_void_std__vector_std__shared_ptr_AnyMap__(Func_void_std__vector_std__shared_ptr_AnyMap__ value) {
+    return Func_void_std__vector_std__shared_ptr_AnyMap___Wrapper(std::move(value));
+  }
+  
   // pragma MARK: std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>
   /**
    * Specialized version of `std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>`.
@@ -264,6 +334,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   inline Result_std__shared_ptr_Promise_std__string___ create_Result_std__shared_ptr_Promise_std__string___(const std::exception_ptr& error) {
     return Result<std::shared_ptr<Promise<std::string>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>>
+  using Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____ = Result<std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>>;
+  inline Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____ create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(const std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>& value) {
+    return Result<std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____ create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(const std::exception_ptr& error) {
+    return Result<std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>>::withError(error);
   }
 
 } // namespace margelo::nitro::rncandle::bridge::swift

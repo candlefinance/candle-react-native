@@ -2,7 +2,6 @@ import UIKit
 
 extension UIApplication {
   /// Returns the current key window if available.
-  @MainActor
   static var keyWindow: UIWindow? {
     UIApplication
       .shared
