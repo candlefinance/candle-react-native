@@ -16,10 +16,15 @@ public final class ReactNativeCandleAutolinking {
    * in the `"autolinking"` property of `nitro.json` (in this case, `HybridRNCandle`).
    */
   public static func createRNCandle() -> bridge.std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ {
-    let hybridObject = HybridRNCandle()
-    return { () -> bridge.std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ in
-      let __cxxWrapped = hybridObject.getCxxWrapper()
-      return __cxxWrapped.getCxxPart()
-    }()
+      if #available(iOS 17.0, *) {
+        let hybridObject = HybridRNCandle()
+        return { () -> bridge.std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ in
+          let __cxxWrapped = hybridObject.getCxxWrapper()
+          return __cxxWrapped.getCxxPart()
+        }()
+      } else {
+        // Fallback on earlier versions
+        fatalError("[error] Only iOS 17+ is supported.")
+      }
   }
 }
