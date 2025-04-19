@@ -95,6 +95,7 @@ export default function TabOneScreen() {
               setIsLoading(false);
             })
             .catch((error) => {
+              setIsLoading(false);
               console.error("Error fetching linked accounts:", error);
             });
         }}
@@ -107,7 +108,6 @@ export default function TabOneScreen() {
               console.log("Account selected:", linkedAccount);
             },
             customerName: "Akme Inc.",
-            presentationStyle: "sheet",
           });
         }}
       />
@@ -118,7 +118,6 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
