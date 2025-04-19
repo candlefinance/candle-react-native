@@ -11,11 +11,14 @@ import NitroModules
 /// See ``HybridRNCandleSpec``
 public protocol HybridRNCandleSpec_protocol: HybridObject {
   // Properties
-  
 
   // Methods
-  func candleLinkSheet(isPresented: Bool, services: [Service]?, cornerRadius: Double, customerName: String?, showDynamicLoading: Bool, presentationBackground: PresentationBackground, presentationStyle: PresentationStyle, onSuccess: @escaping (_ account: LinkedAccount) -> Void) throws -> Void
-  func initialize(appUser: AppUser) throws -> Void
+  func candleLinkSheet(
+    isPresented: Bool, services: [Service]?, cornerRadius: Double, customerName: String?,
+    showDynamicLoading: Bool, presentationBackground: PresentationBackground,
+    presentationStyle: PresentationStyle, onSuccess: @escaping (_ account: LinkedAccount) -> Void)
+    throws
+  func initialize(appUser: AppUser) throws
   func getLinkedAccounts() throws -> Promise<[LinkedAccount]>
   func unlinkAccount(linkedAccountID: String) throws -> Promise<Void>
   func getFiatAccounts() throws -> Promise<String>
@@ -29,11 +32,13 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
 public class HybridRNCandleSpec_base {
   private weak var cxxWrapper: HybridRNCandleSpec_cxx? = nil
   public func getCxxWrapper() -> HybridRNCandleSpec_cxx {
-  #if DEBUG
-    guard self is HybridRNCandleSpec else {
-      fatalError("`self` is not a `HybridRNCandleSpec`! Did you accidentally inherit from `HybridRNCandleSpec_base` instead of `HybridRNCandleSpec`?")
-    }
-  #endif
+    #if DEBUG
+      guard self is HybridRNCandleSpec else {
+        fatalError(
+          "`self` is not a `HybridRNCandleSpec`! Did you accidentally inherit from `HybridRNCandleSpec_base` instead of `HybridRNCandleSpec`?"
+        )
+      }
+    #endif
     if let cxxWrapper = self.cxxWrapper {
       return cxxWrapper
     } else {
@@ -44,13 +49,11 @@ public class HybridRNCandleSpec_base {
   }
 }
 
-/**
- * A Swift base-protocol representing the RNCandle HybridObject.
- * Implement this protocol to create Swift-based instances of RNCandle.
- * ```swift
- * class HybridRNCandle : HybridRNCandleSpec {
- *   // ...
- * }
- * ```
- */
+/// A Swift base-protocol representing the RNCandle HybridObject.
+/// Implement this protocol to create Swift-based instances of RNCandle.
+/// ```swift
+/// class HybridRNCandle : HybridRNCandleSpec {
+///   // ...
+/// }
+/// ```
 public typealias HybridRNCandleSpec = HybridRNCandleSpec_protocol & HybridRNCandleSpec_base

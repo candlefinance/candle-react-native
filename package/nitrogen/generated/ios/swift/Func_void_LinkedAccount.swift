@@ -7,10 +7,8 @@
 
 import NitroModules
 
-/**
- * Wraps a Swift `(_ account: LinkedAccount) -> Void` as a class.
- * This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
- */
+/// Wraps a Swift `(_ account: LinkedAccount) -> Void` as a class.
+/// This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
 public final class Func_void_LinkedAccount {
   public typealias bridge = margelo.nitro.rncandle.bridge.swift
 
@@ -21,7 +19,7 @@ public final class Func_void_LinkedAccount {
   }
 
   @inline(__always)
-  public func call(account: LinkedAccount) -> Void {
+  public func call(account: LinkedAccount) {
     self.closure(account)
   }
 

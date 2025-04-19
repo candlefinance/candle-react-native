@@ -3,7 +3,6 @@ import type {
   AppUser,
   LinkedAccount,
   PresentationBackground,
-  PresentationStyle,
   RNCandle,
   Service,
 } from "./specs/RNCandle.nitro";

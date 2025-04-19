@@ -7,28 +7,28 @@
 
 import NitroModules
 
-/**
- * Represents an instance of `LinkedAccount`, backed by a C++ struct.
- */
+/// Represents an instance of `LinkedAccount`, backed by a C++ struct.
 public typealias LinkedAccount = margelo.nitro.rncandle.LinkedAccount
 
-public extension LinkedAccount {
+extension LinkedAccount {
   private typealias bridge = margelo.nitro.rncandle.bridge.swift
 
   /**
    * Create a new instance of `LinkedAccount`.
    */
-  init(serviceUserID: String, details: Details?, linkedAccountID: String, service: Service) {
-    self.init(std.string(serviceUserID), { () -> bridge.std__optional_Details_ in
-      if let __unwrappedValue = details {
-        return bridge.create_std__optional_Details_(__unwrappedValue)
-      } else {
-        return .init()
-      }
-    }(), std.string(linkedAccountID), service)
+  public init(serviceUserID: String, details: Details?, linkedAccountID: String, service: Service) {
+    self.init(
+      std.string(serviceUserID),
+      { () -> bridge.std__optional_Details_ in
+        if let __unwrappedValue = details {
+          return bridge.create_std__optional_Details_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }(), std.string(linkedAccountID), service)
   }
 
-  var serviceUserID: String {
+  public var serviceUserID: String {
     @inline(__always)
     get {
       return String(self.__serviceUserID)
@@ -38,8 +38,8 @@ public extension LinkedAccount {
       self.__serviceUserID = std.string(newValue)
     }
   }
-  
-  var details: Details? {
+
+  public var details: Details? {
     @inline(__always)
     get {
       return { () -> Details? in
@@ -61,8 +61,8 @@ public extension LinkedAccount {
       }()
     }
   }
-  
-  var linkedAccountID: String {
+
+  public var linkedAccountID: String {
     @inline(__always)
     get {
       return String(self.__linkedAccountID)
@@ -72,8 +72,8 @@ public extension LinkedAccount {
       self.__linkedAccountID = std.string(newValue)
     }
   }
-  
-  var service: Service {
+
+  public var service: Service {
     @inline(__always)
     get {
       return self.__service

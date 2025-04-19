@@ -7,22 +7,20 @@
 
 import NitroModules
 
-/**
- * Represents an instance of `AppUser`, backed by a C++ struct.
- */
+/// Represents an instance of `AppUser`, backed by a C++ struct.
 public typealias AppUser = margelo.nitro.rncandle.AppUser
 
-public extension AppUser {
+extension AppUser {
   private typealias bridge = margelo.nitro.rncandle.bridge.swift
 
   /**
    * Create a new instance of `AppUser`.
    */
-  init(appKey: String, appSecret: String) {
+  public init(appKey: String, appSecret: String) {
     self.init(std.string(appKey), std.string(appSecret))
   }
 
-  var appKey: String {
+  public var appKey: String {
     @inline(__always)
     get {
       return String(self.__appKey)
@@ -32,8 +30,8 @@ public extension AppUser {
       self.__appKey = std.string(newValue)
     }
   }
-  
-  var appSecret: String {
+
+  public var appSecret: String {
     @inline(__always)
     get {
       return String(self.__appSecret)

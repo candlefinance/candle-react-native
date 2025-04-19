@@ -7,10 +7,8 @@
 
 import NitroModules
 
-/**
- * Wraps a Swift `(_ value: [AnyMapHolder]) -> Void` as a class.
- * This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
- */
+/// Wraps a Swift `(_ value: [AnyMapHolder]) -> Void` as a class.
+/// This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
 public final class Func_void_std__vector_std__shared_ptr_AnyMap__ {
   public typealias bridge = margelo.nitro.rncandle.bridge.swift
 
@@ -21,7 +19,7 @@ public final class Func_void_std__vector_std__shared_ptr_AnyMap__ {
   }
 
   @inline(__always)
-  public func call(value: bridge.std__vector_std__shared_ptr_AnyMap__) -> Void {
+  public func call(value: bridge.std__vector_std__shared_ptr_AnyMap__) {
     self.closure(value.map({ __item in AnyMapHolder(withCppPart: __item) }))
   }
 
@@ -40,7 +38,10 @@ public final class Func_void_std__vector_std__shared_ptr_AnyMap__ {
    * This removes one strong reference from the object!
    */
   @inline(__always)
-  public static func fromUnsafe(_ pointer: UnsafeMutableRawPointer) -> Func_void_std__vector_std__shared_ptr_AnyMap__ {
-    return Unmanaged<Func_void_std__vector_std__shared_ptr_AnyMap__>.fromOpaque(pointer).takeRetainedValue()
+  public static func fromUnsafe(_ pointer: UnsafeMutableRawPointer)
+    -> Func_void_std__vector_std__shared_ptr_AnyMap__
+  {
+    return Unmanaged<Func_void_std__vector_std__shared_ptr_AnyMap__>.fromOpaque(pointer)
+      .takeRetainedValue()
   }
 }
