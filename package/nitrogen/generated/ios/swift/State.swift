@@ -5,34 +5,36 @@
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
 
-/// Represents the JS union `State`, backed by a C++ enum.
+/**
+ * Represents the JS union `State`, backed by a C++ enum.
+ */
 public typealias State = margelo.nitro.rncandle.State
 
-extension State {
+public extension State {
   /**
    * Get a State for the given String value, or
    * return `nil` if the given value was invalid/unknown.
    */
-  public init?(fromString string: String) {
+  init?(fromString string: String) {
     switch string {
-    case "active":
-      self = .active
-    case "inactive":
-      self = .inactive
-    default:
-      return nil
+      case "active":
+        self = .active
+      case "inactive":
+        self = .inactive
+      default:
+        return nil
     }
   }
 
   /**
    * Get the String value this State represents.
    */
-  public var stringValue: String {
+  var stringValue: String {
     switch self {
-    case .active:
-      return "active"
-    case .inactive:
-      return "inactive"
+      case .active:
+        return "active"
+      case .inactive:
+        return "inactive"
     }
   }
 }

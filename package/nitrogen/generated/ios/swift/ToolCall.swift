@@ -7,20 +7,22 @@
 
 import NitroModules
 
-/// Represents an instance of `ToolCall`, backed by a C++ struct.
+/**
+ * Represents an instance of `ToolCall`, backed by a C++ struct.
+ */
 public typealias ToolCall = margelo.nitro.rncandle.ToolCall
 
-extension ToolCall {
+public extension ToolCall {
   private typealias bridge = margelo.nitro.rncandle.bridge.swift
 
   /**
    * Create a new instance of `ToolCall`.
    */
-  public init(name: String, arguments: String) {
+  init(name: String, arguments: String) {
     self.init(std.string(name), std.string(arguments))
   }
 
-  public var name: String {
+  var name: String {
     @inline(__always)
     get {
       return String(self.__name)
@@ -30,8 +32,8 @@ extension ToolCall {
       self.__name = std.string(newValue)
     }
   }
-
-  public var arguments: String {
+  
+  var arguments: String {
     @inline(__always)
     get {
       return String(self.__arguments)

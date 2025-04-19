@@ -7,8 +7,10 @@
 
 import NitroModules
 
-/// Wraps a Swift `(_ error: Error) -> Void` as a class.
-/// This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
+/**
+ * Wraps a Swift `(_ error: Error) -> Void` as a class.
+ * This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
+ */
 public final class Func_void_std__exception_ptr {
   public typealias bridge = margelo.nitro.rncandle.bridge.swift
 
@@ -19,7 +21,7 @@ public final class Func_void_std__exception_ptr {
   }
 
   @inline(__always)
-  public func call(error: std.exception_ptr) {
+  public func call(error: std.exception_ptr) -> Void {
     self.closure(RuntimeError.from(cppError: error))
   }
 
@@ -38,8 +40,7 @@ public final class Func_void_std__exception_ptr {
    * This removes one strong reference from the object!
    */
   @inline(__always)
-  public static func fromUnsafe(_ pointer: UnsafeMutableRawPointer) -> Func_void_std__exception_ptr
-  {
+  public static func fromUnsafe(_ pointer: UnsafeMutableRawPointer) -> Func_void_std__exception_ptr {
     return Unmanaged<Func_void_std__exception_ptr>.fromOpaque(pointer).takeRetainedValue()
   }
 }

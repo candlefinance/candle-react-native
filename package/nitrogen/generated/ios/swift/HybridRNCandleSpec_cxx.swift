@@ -8,13 +8,15 @@
 import Foundation
 import NitroModules
 
-/// A class implementation that bridges HybridRNCandleSpec over to C++.
-/// In C++, we cannot use Swift protocols - so we need to wrap it in a class to make it strongly defined.
-///
-/// Also, some Swift types need to be bridged with special handling:
-/// - Enums need to be wrapped in Structs, otherwise they cannot be accessed bi-directionally (Swift bug: https://github.com/swiftlang/swift/issues/75330)
-/// - Other HybridObjects need to be wrapped/unwrapped from the Swift TCxx wrapper
-/// - Throwing methods need to be wrapped with a Result<T, Error> type, as exceptions cannot be propagated to C++
+/**
+ * A class implementation that bridges HybridRNCandleSpec over to C++.
+ * In C++, we cannot use Swift protocols - so we need to wrap it in a class to make it strongly defined.
+ *
+ * Also, some Swift types need to be bridged with special handling:
+ * - Enums need to be wrapped in Structs, otherwise they cannot be accessed bi-directionally (Swift bug: https://github.com/swiftlang/swift/issues/75330)
+ * - Other HybridObjects need to be wrapped/unwrapped from the Swift TCxx wrapper
+ * - Throwing methods need to be wrapped with a Result<T, Error> type, as exceptions cannot be propagated to C++
+ */
 public class HybridRNCandleSpec_cxx {
   /**
    * The Swift <> C++ bridge's namespace (`margelo::nitro::rncandle::bridge::swift`)
@@ -77,13 +79,13 @@ public class HybridRNCandleSpec_cxx {
     if cachedCxxPart.__convertToBool() {
       return cachedCxxPart
     } else {
-      let newCxxPart = bridge.create_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(
-        self.toUnsafe())
-      __cxxPart = bridge.weakify_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(
-        newCxxPart)
+      let newCxxPart = bridge.create_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(self.toUnsafe())
+      __cxxPart = bridge.weakify_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(newCxxPart)
       return newCxxPart
     }
   }
+
+  
 
   /**
    * Get the memory size of the Swift class (plus size of any other allocations)
@@ -95,48 +97,37 @@ public class HybridRNCandleSpec_cxx {
   }
 
   // Properties
+  
 
   // Methods
   @inline(__always)
-  public final func candleLinkSheet(
-    isPresented: Bool, services: bridge.std__optional_std__vector_Service__, cornerRadius: Double,
-    customerName: bridge.std__optional_std__string_, showDynamicLoading: Bool,
-    presentationBackground: Int32, presentationStyle: Int32,
-    onSuccess: bridge.Func_void_LinkedAccount
-  ) -> bridge.Result_void_ {
+  public final func candleLinkSheet(isPresented: Bool, services: bridge.std__optional_std__vector_Service__, cornerRadius: Double, customerName: bridge.std__optional_std__string_, showDynamicLoading: Bool, presentationBackground: Int32, presentationStyle: Int32, onSuccess: bridge.Func_void_LinkedAccount) -> bridge.Result_void_ {
     do {
-      try self.__implementation.candleLinkSheet(
-        isPresented: isPresented,
-        services: { () -> [Service]? in
-          if let __unwrapped = services.value {
-            return __unwrapped.map({ __item in __item })
-          } else {
-            return nil
-          }
-        }(), cornerRadius: cornerRadius,
-        customerName: { () -> String? in
-          if let __unwrapped = customerName.value {
-            return String(__unwrapped)
-          } else {
-            return nil
-          }
-        }(), showDynamicLoading: showDynamicLoading,
-        presentationBackground: margelo.nitro.rncandle.PresentationBackground(
-          rawValue: presentationBackground)!,
-        presentationStyle: margelo.nitro.rncandle.PresentationStyle(rawValue: presentationStyle)!,
-        onSuccess: { () -> (LinkedAccount) -> Void in
-          let __wrappedFunction = bridge.wrap_Func_void_LinkedAccount(onSuccess)
-          return { (__account: LinkedAccount) -> Void in
-            __wrappedFunction.call(__account)
-          }
-        }())
+      try self.__implementation.candleLinkSheet(isPresented: isPresented, services: { () -> [Service]? in
+        if let __unwrapped = services.value {
+          return __unwrapped.map({ __item in __item })
+        } else {
+          return nil
+        }
+      }(), cornerRadius: cornerRadius, customerName: { () -> String? in
+        if let __unwrapped = customerName.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }(), showDynamicLoading: showDynamicLoading, presentationBackground: margelo.nitro.rncandle.PresentationBackground(rawValue: presentationBackground)!, presentationStyle: margelo.nitro.rncandle.PresentationStyle(rawValue: presentationStyle)!, onSuccess: { () -> (LinkedAccount) -> Void in
+        let __wrappedFunction = bridge.wrap_Func_void_LinkedAccount(onSuccess)
+        return { (__account: LinkedAccount) -> Void in
+          __wrappedFunction.call(__account)
+        }
+      }())
       return bridge.create_Result_void_()
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
       return bridge.create_Result_void_(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
   public final func initialize(appUser: AppUser) -> bridge.Result_void_ {
     do {
@@ -147,46 +138,36 @@ public class HybridRNCandleSpec_cxx {
       return bridge.create_Result_void_(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
-  public final func getLinkedAccounts()
-    -> bridge.Result_std__shared_ptr_Promise_std__vector_LinkedAccount____
-  {
+  public final func getLinkedAccounts() -> bridge.Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ {
     do {
       let __result = try self.__implementation.getLinkedAccounts()
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__vector_LinkedAccount___ in
         let __promise = bridge.create_std__shared_ptr_Promise_std__vector_LinkedAccount___()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__vector_LinkedAccount___(
-          __promise)
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__vector_LinkedAccount___(__promise)
         __result
-          .then({ __result in
-            __promiseHolder.resolve(
-              { () -> bridge.std__vector_LinkedAccount_ in
-                var __vector = bridge.create_std__vector_LinkedAccount_(__result.count)
-                for __item in __result {
-                  __vector.push_back(__item)
-                }
-                return __vector
-              }())
-          })
+          .then({ __result in __promiseHolder.resolve({ () -> bridge.std__vector_LinkedAccount_ in
+              var __vector = bridge.create_std__vector_LinkedAccount_(__result.count)
+              for __item in __result {
+                __vector.push_back(__item)
+              }
+              return __vector
+            }()) })
           .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
         return __promise
       }()
       return bridge.create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(
-        __exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
-  public final func unlinkAccount(linkedAccountID: std.string)
-    -> bridge.Result_std__shared_ptr_Promise_void___
-  {
+  public final func unlinkAccount(linkedAccountID: std.string) -> bridge.Result_std__shared_ptr_Promise_void___ {
     do {
-      let __result = try self.__implementation.unlinkAccount(
-        linkedAccountID: String(linkedAccountID))
+      let __result = try self.__implementation.unlinkAccount(linkedAccountID: String(linkedAccountID))
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
         let __promise = bridge.create_std__shared_ptr_Promise_void__()
         let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
@@ -201,7 +182,7 @@ public class HybridRNCandleSpec_cxx {
       return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
   public final func getFiatAccounts() -> bridge.Result_std__shared_ptr_Promise_std__string___ {
     do {
@@ -220,20 +201,17 @@ public class HybridRNCandleSpec_cxx {
       return bridge.create_Result_std__shared_ptr_Promise_std__string___(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
-  public final func getActivity(span: bridge.std__optional_std__string_)
-    -> bridge.Result_std__shared_ptr_Promise_std__string___
-  {
+  public final func getActivity(span: bridge.std__optional_std__string_) -> bridge.Result_std__shared_ptr_Promise_std__string___ {
     do {
-      let __result = try self.__implementation.getActivity(
-        span: { () -> String? in
-          if let __unwrapped = span.value {
-            return String(__unwrapped)
-          } else {
-            return nil
-          }
-        }())
+      let __result = try self.__implementation.getActivity(span: { () -> String? in
+        if let __unwrapped = span.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }())
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__string__ in
         let __promise = bridge.create_std__shared_ptr_Promise_std__string__()
         let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__string__(__promise)
@@ -248,7 +226,7 @@ public class HybridRNCandleSpec_cxx {
       return bridge.create_Result_std__shared_ptr_Promise_std__string___(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
   public final func deleteUser() -> bridge.Result_std__shared_ptr_Promise_void___ {
     do {
@@ -267,46 +245,34 @@ public class HybridRNCandleSpec_cxx {
       return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
-  public final func getAvailableTools()
-    -> bridge.Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____
-  {
+  public final func getAvailableTools() -> bridge.Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____ {
     do {
       let __result = try self.__implementation.getAvailableTools()
-      let __resultCpp = {
-        () -> bridge.std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____ in
-        let __promise =
-          bridge.create_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____()
-        let __promiseHolder =
-          bridge.wrap_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____(__promise)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____ in
+        let __promise = bridge.create_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____(__promise)
         __result
-          .then({ __result in
-            __promiseHolder.resolve(
-              { () -> bridge.std__vector_std__shared_ptr_AnyMap__ in
-                var __vector = bridge.create_std__vector_std__shared_ptr_AnyMap__(__result.count)
-                for __item in __result {
-                  __vector.push_back(__item.cppPart)
-                }
-                return __vector
-              }())
-          })
+          .then({ __result in __promiseHolder.resolve({ () -> bridge.std__vector_std__shared_ptr_AnyMap__ in
+              var __vector = bridge.create_std__vector_std__shared_ptr_AnyMap__(__result.count)
+              for __item in __result {
+                __vector.push_back(__item.cppPart)
+              }
+              return __vector
+            }()) })
           .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
         return __promise
       }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(
-        __resultCpp)
+      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(
-        __exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(__exceptionPtr)
     }
   }
-
+  
   @inline(__always)
-  public final func executeTool(tool: ToolCall)
-    -> bridge.Result_std__shared_ptr_Promise_std__string___
-  {
+  public final func executeTool(tool: ToolCall) -> bridge.Result_std__shared_ptr_Promise_std__string___ {
     do {
       let __result = try self.__implementation.executeTool(tool: tool)
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__string__ in

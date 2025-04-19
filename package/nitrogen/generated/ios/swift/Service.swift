@@ -5,346 +5,348 @@
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
 
-/// Represents the JS union `Service`, backed by a C++ enum.
+/**
+ * Represents the JS union `Service`, backed by a C++ enum.
+ */
 public typealias Service = margelo.nitro.rncandle.Service
 
-extension Service {
+public extension Service {
   /**
    * Get a Service for the given String value, or
    * return `nil` if the given value was invalid/unknown.
    */
-  public init?(fromString string: String) {
+  init?(fromString string: String) {
     switch string {
-    case "robinhood":
-      self = .robinhood
-    case "cash_app":
-      self = .cashApp
-    case "venmo":
-      self = .venmo
-    case "apple":
-      self = .apple
-    case "sandbox":
-      self = .sandbox
-    case "uber":
-      self = .uber
-    case "lyft":
-      self = .lyft
-    case "chime":
-      self = .chime
-    case "paypal":
-      self = .paypal
-    case "coinbase":
-      self = .coinbase
-    case "discover":
-      self = .discover
-    case "american_express":
-      self = .americanExpress
-    case "jpmorgan_chase":
-      self = .jpmorganChase
-    case "bank_of_america":
-      self = .bankOfAmerica
-    case "capital_one":
-      self = .capitalOne
-    case "citibank":
-      self = .citibank
-    case "vanguard":
-      self = .vanguard
-    case "wells_fargo":
-      self = .wellsFargo
-    case "charles_schwab":
-      self = .charlesSchwab
-    case "kalshi":
-      self = .kalshi
-    case "experian":
-      self = .experian
-    case "waymo":
-      self = .waymo
-    case "revel":
-      self = .revel
-    case "turo":
-      self = .turo
-    case "getaround":
-      self = .getaround
-    case "zipcar":
-      self = .zipcar
-    case "airbnb":
-      self = .airbnb
-    case "american_airlines":
-      self = .americanAirlines
-    case "delta":
-      self = .delta
-    case "united":
-      self = .united
-    case "jetblue":
-      self = .jetblue
-    case "southwest":
-      self = .southwest
-    case "hawaiian":
-      self = .hawaiian
-    case "hotels":
-      self = .hotels
-    case "geico":
-      self = .geico
-    case "progressive":
-      self = .progressive
-    case "aaa":
-      self = .aaa
-    case "state_farm":
-      self = .stateFarm
-    case "hertz":
-      self = .hertz
-    case "avis":
-      self = .avis
-    case "tesla":
-      self = .tesla
-    case "doordash":
-      self = .doordash
-    case "uber_eats":
-      self = .uberEats
-    case "grubhub":
-      self = .grubhub
-    case "resy":
-      self = .resy
-    case "opentable":
-      self = .opentable
-    case "starbucks":
-      self = .starbucks
-    case "blue_bottle":
-      self = .blueBottle
-    case "costco":
-      self = .costco
-    case "amazon":
-      self = .amazon
-    case "walmart":
-      self = .walmart
-    case "whole_foods":
-      self = .wholeFoods
-    case "mcdonalds":
-      self = .mcdonalds
-    case "chipotle":
-      self = .chipotle
-    case "sweetgreen":
-      self = .sweetgreen
-    case "snapchat":
-      self = .snapchat
-    case "x":
-      self = .x
-    case "facebook":
-      self = .facebook
-    case "instagram":
-      self = .instagram
-    case "signal":
-      self = .signal
-    case "whatsapp":
-      self = .whatsapp
-    case "messenger":
-      self = .messenger
-    case "linkedin":
-      self = .linkedin
-    case "discord":
-      self = .discord
-    case "messages":
-      self = .messages
-    case "telegram":
-      self = .telegram
-    case "reddit":
-      self = .reddit
-    case "pinterest":
-      self = .pinterest
-    case "new_york_times":
-      self = .newYorkTimes
-    case "washington_post":
-      self = .washingtonPost
-    case "wall_street_journal":
-      self = .wallStreetJournal
-    case "cnn":
-      self = .cnn
-    case "yahoo":
-      self = .yahoo
-    case "fox":
-      self = .fox
-    case "perplexity":
-      self = .perplexity
-    case "openai":
-      self = .openai
-    case "polymarket":
-      self = .polymarket
-    case "espn":
-      self = .espn
-    case "youtube":
-      self = .youtube
-    case "netflix":
-      self = .netflix
-    default:
-      return nil
+      case "robinhood":
+        self = .robinhood
+      case "cash_app":
+        self = .cashApp
+      case "venmo":
+        self = .venmo
+      case "apple":
+        self = .apple
+      case "sandbox":
+        self = .sandbox
+      case "uber":
+        self = .uber
+      case "lyft":
+        self = .lyft
+      case "chime":
+        self = .chime
+      case "paypal":
+        self = .paypal
+      case "coinbase":
+        self = .coinbase
+      case "discover":
+        self = .discover
+      case "american_express":
+        self = .americanExpress
+      case "jpmorgan_chase":
+        self = .jpmorganChase
+      case "bank_of_america":
+        self = .bankOfAmerica
+      case "capital_one":
+        self = .capitalOne
+      case "citibank":
+        self = .citibank
+      case "vanguard":
+        self = .vanguard
+      case "wells_fargo":
+        self = .wellsFargo
+      case "charles_schwab":
+        self = .charlesSchwab
+      case "kalshi":
+        self = .kalshi
+      case "experian":
+        self = .experian
+      case "waymo":
+        self = .waymo
+      case "revel":
+        self = .revel
+      case "turo":
+        self = .turo
+      case "getaround":
+        self = .getaround
+      case "zipcar":
+        self = .zipcar
+      case "airbnb":
+        self = .airbnb
+      case "american_airlines":
+        self = .americanAirlines
+      case "delta":
+        self = .delta
+      case "united":
+        self = .united
+      case "jetblue":
+        self = .jetblue
+      case "southwest":
+        self = .southwest
+      case "hawaiian":
+        self = .hawaiian
+      case "hotels":
+        self = .hotels
+      case "geico":
+        self = .geico
+      case "progressive":
+        self = .progressive
+      case "aaa":
+        self = .aaa
+      case "state_farm":
+        self = .stateFarm
+      case "hertz":
+        self = .hertz
+      case "avis":
+        self = .avis
+      case "tesla":
+        self = .tesla
+      case "doordash":
+        self = .doordash
+      case "uber_eats":
+        self = .uberEats
+      case "grubhub":
+        self = .grubhub
+      case "resy":
+        self = .resy
+      case "opentable":
+        self = .opentable
+      case "starbucks":
+        self = .starbucks
+      case "blue_bottle":
+        self = .blueBottle
+      case "costco":
+        self = .costco
+      case "amazon":
+        self = .amazon
+      case "walmart":
+        self = .walmart
+      case "whole_foods":
+        self = .wholeFoods
+      case "mcdonalds":
+        self = .mcdonalds
+      case "chipotle":
+        self = .chipotle
+      case "sweetgreen":
+        self = .sweetgreen
+      case "snapchat":
+        self = .snapchat
+      case "x":
+        self = .x
+      case "facebook":
+        self = .facebook
+      case "instagram":
+        self = .instagram
+      case "signal":
+        self = .signal
+      case "whatsapp":
+        self = .whatsapp
+      case "messenger":
+        self = .messenger
+      case "linkedin":
+        self = .linkedin
+      case "discord":
+        self = .discord
+      case "messages":
+        self = .messages
+      case "telegram":
+        self = .telegram
+      case "reddit":
+        self = .reddit
+      case "pinterest":
+        self = .pinterest
+      case "new_york_times":
+        self = .newYorkTimes
+      case "washington_post":
+        self = .washingtonPost
+      case "wall_street_journal":
+        self = .wallStreetJournal
+      case "cnn":
+        self = .cnn
+      case "yahoo":
+        self = .yahoo
+      case "fox":
+        self = .fox
+      case "perplexity":
+        self = .perplexity
+      case "openai":
+        self = .openai
+      case "polymarket":
+        self = .polymarket
+      case "espn":
+        self = .espn
+      case "youtube":
+        self = .youtube
+      case "netflix":
+        self = .netflix
+      default:
+        return nil
     }
   }
 
   /**
    * Get the String value this Service represents.
    */
-  public var stringValue: String {
+  var stringValue: String {
     switch self {
-    case .robinhood:
-      return "robinhood"
-    case .cashApp:
-      return "cash_app"
-    case .venmo:
-      return "venmo"
-    case .apple:
-      return "apple"
-    case .sandbox:
-      return "sandbox"
-    case .uber:
-      return "uber"
-    case .lyft:
-      return "lyft"
-    case .chime:
-      return "chime"
-    case .paypal:
-      return "paypal"
-    case .coinbase:
-      return "coinbase"
-    case .discover:
-      return "discover"
-    case .americanExpress:
-      return "american_express"
-    case .jpmorganChase:
-      return "jpmorgan_chase"
-    case .bankOfAmerica:
-      return "bank_of_america"
-    case .capitalOne:
-      return "capital_one"
-    case .citibank:
-      return "citibank"
-    case .vanguard:
-      return "vanguard"
-    case .wellsFargo:
-      return "wells_fargo"
-    case .charlesSchwab:
-      return "charles_schwab"
-    case .kalshi:
-      return "kalshi"
-    case .experian:
-      return "experian"
-    case .waymo:
-      return "waymo"
-    case .revel:
-      return "revel"
-    case .turo:
-      return "turo"
-    case .getaround:
-      return "getaround"
-    case .zipcar:
-      return "zipcar"
-    case .airbnb:
-      return "airbnb"
-    case .americanAirlines:
-      return "american_airlines"
-    case .delta:
-      return "delta"
-    case .united:
-      return "united"
-    case .jetblue:
-      return "jetblue"
-    case .southwest:
-      return "southwest"
-    case .hawaiian:
-      return "hawaiian"
-    case .hotels:
-      return "hotels"
-    case .geico:
-      return "geico"
-    case .progressive:
-      return "progressive"
-    case .aaa:
-      return "aaa"
-    case .stateFarm:
-      return "state_farm"
-    case .hertz:
-      return "hertz"
-    case .avis:
-      return "avis"
-    case .tesla:
-      return "tesla"
-    case .doordash:
-      return "doordash"
-    case .uberEats:
-      return "uber_eats"
-    case .grubhub:
-      return "grubhub"
-    case .resy:
-      return "resy"
-    case .opentable:
-      return "opentable"
-    case .starbucks:
-      return "starbucks"
-    case .blueBottle:
-      return "blue_bottle"
-    case .costco:
-      return "costco"
-    case .amazon:
-      return "amazon"
-    case .walmart:
-      return "walmart"
-    case .wholeFoods:
-      return "whole_foods"
-    case .mcdonalds:
-      return "mcdonalds"
-    case .chipotle:
-      return "chipotle"
-    case .sweetgreen:
-      return "sweetgreen"
-    case .snapchat:
-      return "snapchat"
-    case .x:
-      return "x"
-    case .facebook:
-      return "facebook"
-    case .instagram:
-      return "instagram"
-    case .signal:
-      return "signal"
-    case .whatsapp:
-      return "whatsapp"
-    case .messenger:
-      return "messenger"
-    case .linkedin:
-      return "linkedin"
-    case .discord:
-      return "discord"
-    case .messages:
-      return "messages"
-    case .telegram:
-      return "telegram"
-    case .reddit:
-      return "reddit"
-    case .pinterest:
-      return "pinterest"
-    case .newYorkTimes:
-      return "new_york_times"
-    case .washingtonPost:
-      return "washington_post"
-    case .wallStreetJournal:
-      return "wall_street_journal"
-    case .cnn:
-      return "cnn"
-    case .yahoo:
-      return "yahoo"
-    case .fox:
-      return "fox"
-    case .perplexity:
-      return "perplexity"
-    case .openai:
-      return "openai"
-    case .polymarket:
-      return "polymarket"
-    case .espn:
-      return "espn"
-    case .youtube:
-      return "youtube"
-    case .netflix:
-      return "netflix"
+      case .robinhood:
+        return "robinhood"
+      case .cashApp:
+        return "cash_app"
+      case .venmo:
+        return "venmo"
+      case .apple:
+        return "apple"
+      case .sandbox:
+        return "sandbox"
+      case .uber:
+        return "uber"
+      case .lyft:
+        return "lyft"
+      case .chime:
+        return "chime"
+      case .paypal:
+        return "paypal"
+      case .coinbase:
+        return "coinbase"
+      case .discover:
+        return "discover"
+      case .americanExpress:
+        return "american_express"
+      case .jpmorganChase:
+        return "jpmorgan_chase"
+      case .bankOfAmerica:
+        return "bank_of_america"
+      case .capitalOne:
+        return "capital_one"
+      case .citibank:
+        return "citibank"
+      case .vanguard:
+        return "vanguard"
+      case .wellsFargo:
+        return "wells_fargo"
+      case .charlesSchwab:
+        return "charles_schwab"
+      case .kalshi:
+        return "kalshi"
+      case .experian:
+        return "experian"
+      case .waymo:
+        return "waymo"
+      case .revel:
+        return "revel"
+      case .turo:
+        return "turo"
+      case .getaround:
+        return "getaround"
+      case .zipcar:
+        return "zipcar"
+      case .airbnb:
+        return "airbnb"
+      case .americanAirlines:
+        return "american_airlines"
+      case .delta:
+        return "delta"
+      case .united:
+        return "united"
+      case .jetblue:
+        return "jetblue"
+      case .southwest:
+        return "southwest"
+      case .hawaiian:
+        return "hawaiian"
+      case .hotels:
+        return "hotels"
+      case .geico:
+        return "geico"
+      case .progressive:
+        return "progressive"
+      case .aaa:
+        return "aaa"
+      case .stateFarm:
+        return "state_farm"
+      case .hertz:
+        return "hertz"
+      case .avis:
+        return "avis"
+      case .tesla:
+        return "tesla"
+      case .doordash:
+        return "doordash"
+      case .uberEats:
+        return "uber_eats"
+      case .grubhub:
+        return "grubhub"
+      case .resy:
+        return "resy"
+      case .opentable:
+        return "opentable"
+      case .starbucks:
+        return "starbucks"
+      case .blueBottle:
+        return "blue_bottle"
+      case .costco:
+        return "costco"
+      case .amazon:
+        return "amazon"
+      case .walmart:
+        return "walmart"
+      case .wholeFoods:
+        return "whole_foods"
+      case .mcdonalds:
+        return "mcdonalds"
+      case .chipotle:
+        return "chipotle"
+      case .sweetgreen:
+        return "sweetgreen"
+      case .snapchat:
+        return "snapchat"
+      case .x:
+        return "x"
+      case .facebook:
+        return "facebook"
+      case .instagram:
+        return "instagram"
+      case .signal:
+        return "signal"
+      case .whatsapp:
+        return "whatsapp"
+      case .messenger:
+        return "messenger"
+      case .linkedin:
+        return "linkedin"
+      case .discord:
+        return "discord"
+      case .messages:
+        return "messages"
+      case .telegram:
+        return "telegram"
+      case .reddit:
+        return "reddit"
+      case .pinterest:
+        return "pinterest"
+      case .newYorkTimes:
+        return "new_york_times"
+      case .washingtonPost:
+        return "washington_post"
+      case .wallStreetJournal:
+        return "wall_street_journal"
+      case .cnn:
+        return "cnn"
+      case .yahoo:
+        return "yahoo"
+      case .fox:
+        return "fox"
+      case .perplexity:
+        return "perplexity"
+      case .openai:
+        return "openai"
+      case .polymarket:
+        return "polymarket"
+      case .espn:
+        return "espn"
+      case .youtube:
+        return "youtube"
+      case .netflix:
+        return "netflix"
     }
   }
 }

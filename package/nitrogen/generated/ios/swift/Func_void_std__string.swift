@@ -7,8 +7,10 @@
 
 import NitroModules
 
-/// Wraps a Swift `(_ value: String) -> Void` as a class.
-/// This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
+/**
+ * Wraps a Swift `(_ value: String) -> Void` as a class.
+ * This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
+ */
 public final class Func_void_std__string {
   public typealias bridge = margelo.nitro.rncandle.bridge.swift
 
@@ -19,7 +21,7 @@ public final class Func_void_std__string {
   }
 
   @inline(__always)
-  public func call(value: std.string) {
+  public func call(value: std.string) -> Void {
     self.closure(String(value))
   }
 
