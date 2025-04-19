@@ -13,10 +13,10 @@
 
 namespace margelo::nitro::rncandle::bridge::swift {
 
-  // pragma MARK: std::function<void(const std::string& /* account */)>
-  Func_void_std__string create_Func_void_std__string(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__string::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::string& account) mutable -> void {
+  // pragma MARK: std::function<void(const LinkedAccount& /* account */)>
+  Func_void_LinkedAccount create_Func_void_LinkedAccount(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_LinkedAccount::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const LinkedAccount& account) mutable -> void {
       swiftClosure.call(account);
     };
   }
@@ -42,6 +42,22 @@ namespace margelo::nitro::rncandle::bridge::swift {
     auto swiftClosure = ReactNativeCandle::Func_void::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)]() mutable -> void {
       swiftClosure.call();
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::string& /* result */)>
+  Func_void_std__string create_Func_void_std__string(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_std__string::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::string& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>
+  Func_void_std__vector_std__shared_ptr_AnyMap__ create_Func_void_std__vector_std__shared_ptr_AnyMap__(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_std__shared_ptr_AnyMap__::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::vector<std::shared_ptr<AnyMap>>& result) mutable -> void {
+      swiftClosure.call(result);
     };
   }
   

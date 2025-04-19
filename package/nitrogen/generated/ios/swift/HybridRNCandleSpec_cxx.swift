@@ -101,7 +101,8 @@ public class HybridRNCandleSpec_cxx {
   public final func candleLinkSheet(
     isPresented: Bool, services: bridge.std__optional_std__vector_Service__, cornerRadius: Double,
     customerName: bridge.std__optional_std__string_, showDynamicLoading: Bool,
-    presentationBackground: Int32, presentationStyle: Int32, onSuccess: bridge.Func_void_std__string
+    presentationBackground: Int32, presentationStyle: Int32,
+    onSuccess: bridge.Func_void_LinkedAccount
   ) -> bridge.Result_void_ {
     do {
       try self.__implementation.candleLinkSheet(
@@ -123,12 +124,23 @@ public class HybridRNCandleSpec_cxx {
         presentationBackground: margelo.nitro.rncandle.PresentationBackground(
           rawValue: presentationBackground)!,
         presentationStyle: margelo.nitro.rncandle.PresentationStyle(rawValue: presentationStyle)!,
-        onSuccess: { () -> (String) -> Void in
-          let __wrappedFunction = bridge.wrap_Func_void_std__string(onSuccess)
-          return { (__account: String) -> Void in
-            __wrappedFunction.call(std.string(__account))
+        onSuccess: { () -> (LinkedAccount) -> Void in
+          let __wrappedFunction = bridge.wrap_Func_void_LinkedAccount(onSuccess)
+          return { (__account: LinkedAccount) -> Void in
+            __wrappedFunction.call(__account)
           }
         }())
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+
+  @inline(__always)
+  public final func initialize(appUser: AppUser) -> bridge.Result_void_ {
+    do {
+      try self.__implementation.initialize(appUser: appUser)
       return bridge.create_Result_void_()
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
@@ -257,21 +269,37 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func getAvailableTools() -> bridge.Result_std__shared_ptr_Promise_std__string___ {
+  public final func getAvailableTools()
+    -> bridge.Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____
+  {
     do {
       let __result = try self.__implementation.getAvailableTools()
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__string__ in
-        let __promise = bridge.create_std__shared_ptr_Promise_std__string__()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__string__(__promise)
+      let __resultCpp = {
+        () -> bridge.std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____ in
+        let __promise =
+          bridge.create_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____()
+        let __promiseHolder =
+          bridge.wrap_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____(__promise)
         __result
-          .then({ __result in __promiseHolder.resolve(std.string(__result)) })
+          .then({ __result in
+            __promiseHolder.resolve(
+              { () -> bridge.std__vector_std__shared_ptr_AnyMap__ in
+                var __vector = bridge.create_std__vector_std__shared_ptr_AnyMap__(__result.count)
+                for __item in __result {
+                  __vector.push_back(__item.cppPart)
+                }
+                return __vector
+              }())
+          })
           .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
         return __promise
       }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__string___(__resultCpp)
+      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(
+        __resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__string___(__exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(
+        __exceptionPtr)
     }
   }
 

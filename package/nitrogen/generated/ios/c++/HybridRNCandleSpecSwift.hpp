@@ -24,6 +24,10 @@ namespace margelo::nitro::rncandle { struct LinkedAccount; }
 namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `State` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class State; }
+// Forward declaration of `AppUser` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AppUser; }
+// Forward declaration of `AnyMap` to properly resolve imports.
+namespace NitroModules { class AnyMap; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
 
@@ -34,10 +38,12 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
 #include <functional>
-#include <NitroModules/Promise.hpp>
 #include "LinkedAccount.hpp"
 #include "Details.hpp"
 #include "State.hpp"
+#include "AppUser.hpp"
+#include <NitroModules/Promise.hpp>
+#include <NitroModules/AnyMap.hpp>
 #include "ToolCall.hpp"
 
 #include "ReactNativeCandle-Swift-Cxx-Umbrella.hpp"
@@ -79,8 +85,14 @@ namespace margelo::nitro::rncandle {
 
   public:
     // Methods
-    inline void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const std::string& /* account */)>& onSuccess) override {
+    inline void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const LinkedAccount& /* account */)>& onSuccess) override {
       auto __result = _swiftPart.candleLinkSheet(std::forward<decltype(isPresented)>(isPresented), services, std::forward<decltype(cornerRadius)>(cornerRadius), customerName, std::forward<decltype(showDynamicLoading)>(showDynamicLoading), static_cast<int>(presentationBackground), static_cast<int>(presentationStyle), onSuccess);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    }
+    inline void initialize(const AppUser& appUser) override {
+      auto __result = _swiftPart.initialize(appUser);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
@@ -125,7 +137,7 @@ namespace margelo::nitro::rncandle {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<std::string>> getAvailableTools() override {
+    inline std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> getAvailableTools() override {
       auto __result = _swiftPart.getAvailableTools();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());

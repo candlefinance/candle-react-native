@@ -36,6 +36,79 @@ namespace margelo::nitro::rncandle {
     SANDBOX      SWIFT_NAME(sandbox) = 4,
     UBER      SWIFT_NAME(uber) = 5,
     LYFT      SWIFT_NAME(lyft) = 6,
+    CHIME      SWIFT_NAME(chime) = 7,
+    PAYPAL      SWIFT_NAME(paypal) = 8,
+    COINBASE      SWIFT_NAME(coinbase) = 9,
+    DISCOVER      SWIFT_NAME(discover) = 10,
+    AMERICAN_EXPRESS      SWIFT_NAME(americanExpress) = 11,
+    JPMORGAN_CHASE      SWIFT_NAME(jpmorganChase) = 12,
+    BANK_OF_AMERICA      SWIFT_NAME(bankOfAmerica) = 13,
+    CAPITAL_ONE      SWIFT_NAME(capitalOne) = 14,
+    CITIBANK      SWIFT_NAME(citibank) = 15,
+    VANGUARD      SWIFT_NAME(vanguard) = 16,
+    WELLS_FARGO      SWIFT_NAME(wellsFargo) = 17,
+    CHARLES_SCHWAB      SWIFT_NAME(charlesSchwab) = 18,
+    KALSHI      SWIFT_NAME(kalshi) = 19,
+    EXPERIAN      SWIFT_NAME(experian) = 20,
+    WAYMO      SWIFT_NAME(waymo) = 21,
+    REVEL      SWIFT_NAME(revel) = 22,
+    TURO      SWIFT_NAME(turo) = 23,
+    GETAROUND      SWIFT_NAME(getaround) = 24,
+    ZIPCAR      SWIFT_NAME(zipcar) = 25,
+    AIRBNB      SWIFT_NAME(airbnb) = 26,
+    AMERICAN_AIRLINES      SWIFT_NAME(americanAirlines) = 27,
+    DELTA      SWIFT_NAME(delta) = 28,
+    UNITED      SWIFT_NAME(united) = 29,
+    JETBLUE      SWIFT_NAME(jetblue) = 30,
+    SOUTHWEST      SWIFT_NAME(southwest) = 31,
+    HAWAIIAN      SWIFT_NAME(hawaiian) = 32,
+    HOTELS      SWIFT_NAME(hotels) = 33,
+    GEICO      SWIFT_NAME(geico) = 34,
+    PROGRESSIVE      SWIFT_NAME(progressive) = 35,
+    AAA      SWIFT_NAME(aaa) = 36,
+    STATE_FARM      SWIFT_NAME(stateFarm) = 37,
+    HERTZ      SWIFT_NAME(hertz) = 38,
+    AVIS      SWIFT_NAME(avis) = 39,
+    TESLA      SWIFT_NAME(tesla) = 40,
+    DOORDASH      SWIFT_NAME(doordash) = 41,
+    UBER_EATS      SWIFT_NAME(uberEats) = 42,
+    GRUBHUB      SWIFT_NAME(grubhub) = 43,
+    RESY      SWIFT_NAME(resy) = 44,
+    OPENTABLE      SWIFT_NAME(opentable) = 45,
+    STARBUCKS      SWIFT_NAME(starbucks) = 46,
+    BLUE_BOTTLE      SWIFT_NAME(blueBottle) = 47,
+    COSTCO      SWIFT_NAME(costco) = 48,
+    AMAZON      SWIFT_NAME(amazon) = 49,
+    WALMART      SWIFT_NAME(walmart) = 50,
+    WHOLE_FOODS      SWIFT_NAME(wholeFoods) = 51,
+    MCDONALDS      SWIFT_NAME(mcdonalds) = 52,
+    CHIPOTLE      SWIFT_NAME(chipotle) = 53,
+    SWEETGREEN      SWIFT_NAME(sweetgreen) = 54,
+    SNAPCHAT      SWIFT_NAME(snapchat) = 55,
+    X      SWIFT_NAME(x) = 56,
+    FACEBOOK      SWIFT_NAME(facebook) = 57,
+    INSTAGRAM      SWIFT_NAME(instagram) = 58,
+    SIGNAL      SWIFT_NAME(signal) = 59,
+    WHATSAPP      SWIFT_NAME(whatsapp) = 60,
+    MESSENGER      SWIFT_NAME(messenger) = 61,
+    LINKEDIN      SWIFT_NAME(linkedin) = 62,
+    DISCORD      SWIFT_NAME(discord) = 63,
+    MESSAGES      SWIFT_NAME(messages) = 64,
+    TELEGRAM      SWIFT_NAME(telegram) = 65,
+    REDDIT      SWIFT_NAME(reddit) = 66,
+    PINTEREST      SWIFT_NAME(pinterest) = 67,
+    NEW_YORK_TIMES      SWIFT_NAME(newYorkTimes) = 68,
+    WASHINGTON_POST      SWIFT_NAME(washingtonPost) = 69,
+    WALL_STREET_JOURNAL      SWIFT_NAME(wallStreetJournal) = 70,
+    CNN      SWIFT_NAME(cnn) = 71,
+    YAHOO      SWIFT_NAME(yahoo) = 72,
+    FOX      SWIFT_NAME(fox) = 73,
+    PERPLEXITY      SWIFT_NAME(perplexity) = 74,
+    OPENAI      SWIFT_NAME(openai) = 75,
+    POLYMARKET      SWIFT_NAME(polymarket) = 76,
+    ESPN      SWIFT_NAME(espn) = 77,
+    YOUTUBE      SWIFT_NAME(youtube) = 78,
+    NETFLIX      SWIFT_NAME(netflix) = 79,
   } CLOSED_ENUM;
 
 } // namespace margelo::nitro::rncandle
@@ -57,6 +130,79 @@ namespace margelo::nitro {
         case hashString("sandbox"): return Service::SANDBOX;
         case hashString("uber"): return Service::UBER;
         case hashString("lyft"): return Service::LYFT;
+        case hashString("chime"): return Service::CHIME;
+        case hashString("paypal"): return Service::PAYPAL;
+        case hashString("coinbase"): return Service::COINBASE;
+        case hashString("discover"): return Service::DISCOVER;
+        case hashString("american_express"): return Service::AMERICAN_EXPRESS;
+        case hashString("jpmorgan_chase"): return Service::JPMORGAN_CHASE;
+        case hashString("bank_of_america"): return Service::BANK_OF_AMERICA;
+        case hashString("capital_one"): return Service::CAPITAL_ONE;
+        case hashString("citibank"): return Service::CITIBANK;
+        case hashString("vanguard"): return Service::VANGUARD;
+        case hashString("wells_fargo"): return Service::WELLS_FARGO;
+        case hashString("charles_schwab"): return Service::CHARLES_SCHWAB;
+        case hashString("kalshi"): return Service::KALSHI;
+        case hashString("experian"): return Service::EXPERIAN;
+        case hashString("waymo"): return Service::WAYMO;
+        case hashString("revel"): return Service::REVEL;
+        case hashString("turo"): return Service::TURO;
+        case hashString("getaround"): return Service::GETAROUND;
+        case hashString("zipcar"): return Service::ZIPCAR;
+        case hashString("airbnb"): return Service::AIRBNB;
+        case hashString("american_airlines"): return Service::AMERICAN_AIRLINES;
+        case hashString("delta"): return Service::DELTA;
+        case hashString("united"): return Service::UNITED;
+        case hashString("jetblue"): return Service::JETBLUE;
+        case hashString("southwest"): return Service::SOUTHWEST;
+        case hashString("hawaiian"): return Service::HAWAIIAN;
+        case hashString("hotels"): return Service::HOTELS;
+        case hashString("geico"): return Service::GEICO;
+        case hashString("progressive"): return Service::PROGRESSIVE;
+        case hashString("aaa"): return Service::AAA;
+        case hashString("state_farm"): return Service::STATE_FARM;
+        case hashString("hertz"): return Service::HERTZ;
+        case hashString("avis"): return Service::AVIS;
+        case hashString("tesla"): return Service::TESLA;
+        case hashString("doordash"): return Service::DOORDASH;
+        case hashString("uber_eats"): return Service::UBER_EATS;
+        case hashString("grubhub"): return Service::GRUBHUB;
+        case hashString("resy"): return Service::RESY;
+        case hashString("opentable"): return Service::OPENTABLE;
+        case hashString("starbucks"): return Service::STARBUCKS;
+        case hashString("blue_bottle"): return Service::BLUE_BOTTLE;
+        case hashString("costco"): return Service::COSTCO;
+        case hashString("amazon"): return Service::AMAZON;
+        case hashString("walmart"): return Service::WALMART;
+        case hashString("whole_foods"): return Service::WHOLE_FOODS;
+        case hashString("mcdonalds"): return Service::MCDONALDS;
+        case hashString("chipotle"): return Service::CHIPOTLE;
+        case hashString("sweetgreen"): return Service::SWEETGREEN;
+        case hashString("snapchat"): return Service::SNAPCHAT;
+        case hashString("x"): return Service::X;
+        case hashString("facebook"): return Service::FACEBOOK;
+        case hashString("instagram"): return Service::INSTAGRAM;
+        case hashString("signal"): return Service::SIGNAL;
+        case hashString("whatsapp"): return Service::WHATSAPP;
+        case hashString("messenger"): return Service::MESSENGER;
+        case hashString("linkedin"): return Service::LINKEDIN;
+        case hashString("discord"): return Service::DISCORD;
+        case hashString("messages"): return Service::MESSAGES;
+        case hashString("telegram"): return Service::TELEGRAM;
+        case hashString("reddit"): return Service::REDDIT;
+        case hashString("pinterest"): return Service::PINTEREST;
+        case hashString("new_york_times"): return Service::NEW_YORK_TIMES;
+        case hashString("washington_post"): return Service::WASHINGTON_POST;
+        case hashString("wall_street_journal"): return Service::WALL_STREET_JOURNAL;
+        case hashString("cnn"): return Service::CNN;
+        case hashString("yahoo"): return Service::YAHOO;
+        case hashString("fox"): return Service::FOX;
+        case hashString("perplexity"): return Service::PERPLEXITY;
+        case hashString("openai"): return Service::OPENAI;
+        case hashString("polymarket"): return Service::POLYMARKET;
+        case hashString("espn"): return Service::ESPN;
+        case hashString("youtube"): return Service::YOUTUBE;
+        case hashString("netflix"): return Service::NETFLIX;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum Service - invalid value!");
       }
@@ -70,6 +216,79 @@ namespace margelo::nitro {
         case Service::SANDBOX: return JSIConverter<std::string>::toJSI(runtime, "sandbox");
         case Service::UBER: return JSIConverter<std::string>::toJSI(runtime, "uber");
         case Service::LYFT: return JSIConverter<std::string>::toJSI(runtime, "lyft");
+        case Service::CHIME: return JSIConverter<std::string>::toJSI(runtime, "chime");
+        case Service::PAYPAL: return JSIConverter<std::string>::toJSI(runtime, "paypal");
+        case Service::COINBASE: return JSIConverter<std::string>::toJSI(runtime, "coinbase");
+        case Service::DISCOVER: return JSIConverter<std::string>::toJSI(runtime, "discover");
+        case Service::AMERICAN_EXPRESS: return JSIConverter<std::string>::toJSI(runtime, "american_express");
+        case Service::JPMORGAN_CHASE: return JSIConverter<std::string>::toJSI(runtime, "jpmorgan_chase");
+        case Service::BANK_OF_AMERICA: return JSIConverter<std::string>::toJSI(runtime, "bank_of_america");
+        case Service::CAPITAL_ONE: return JSIConverter<std::string>::toJSI(runtime, "capital_one");
+        case Service::CITIBANK: return JSIConverter<std::string>::toJSI(runtime, "citibank");
+        case Service::VANGUARD: return JSIConverter<std::string>::toJSI(runtime, "vanguard");
+        case Service::WELLS_FARGO: return JSIConverter<std::string>::toJSI(runtime, "wells_fargo");
+        case Service::CHARLES_SCHWAB: return JSIConverter<std::string>::toJSI(runtime, "charles_schwab");
+        case Service::KALSHI: return JSIConverter<std::string>::toJSI(runtime, "kalshi");
+        case Service::EXPERIAN: return JSIConverter<std::string>::toJSI(runtime, "experian");
+        case Service::WAYMO: return JSIConverter<std::string>::toJSI(runtime, "waymo");
+        case Service::REVEL: return JSIConverter<std::string>::toJSI(runtime, "revel");
+        case Service::TURO: return JSIConverter<std::string>::toJSI(runtime, "turo");
+        case Service::GETAROUND: return JSIConverter<std::string>::toJSI(runtime, "getaround");
+        case Service::ZIPCAR: return JSIConverter<std::string>::toJSI(runtime, "zipcar");
+        case Service::AIRBNB: return JSIConverter<std::string>::toJSI(runtime, "airbnb");
+        case Service::AMERICAN_AIRLINES: return JSIConverter<std::string>::toJSI(runtime, "american_airlines");
+        case Service::DELTA: return JSIConverter<std::string>::toJSI(runtime, "delta");
+        case Service::UNITED: return JSIConverter<std::string>::toJSI(runtime, "united");
+        case Service::JETBLUE: return JSIConverter<std::string>::toJSI(runtime, "jetblue");
+        case Service::SOUTHWEST: return JSIConverter<std::string>::toJSI(runtime, "southwest");
+        case Service::HAWAIIAN: return JSIConverter<std::string>::toJSI(runtime, "hawaiian");
+        case Service::HOTELS: return JSIConverter<std::string>::toJSI(runtime, "hotels");
+        case Service::GEICO: return JSIConverter<std::string>::toJSI(runtime, "geico");
+        case Service::PROGRESSIVE: return JSIConverter<std::string>::toJSI(runtime, "progressive");
+        case Service::AAA: return JSIConverter<std::string>::toJSI(runtime, "aaa");
+        case Service::STATE_FARM: return JSIConverter<std::string>::toJSI(runtime, "state_farm");
+        case Service::HERTZ: return JSIConverter<std::string>::toJSI(runtime, "hertz");
+        case Service::AVIS: return JSIConverter<std::string>::toJSI(runtime, "avis");
+        case Service::TESLA: return JSIConverter<std::string>::toJSI(runtime, "tesla");
+        case Service::DOORDASH: return JSIConverter<std::string>::toJSI(runtime, "doordash");
+        case Service::UBER_EATS: return JSIConverter<std::string>::toJSI(runtime, "uber_eats");
+        case Service::GRUBHUB: return JSIConverter<std::string>::toJSI(runtime, "grubhub");
+        case Service::RESY: return JSIConverter<std::string>::toJSI(runtime, "resy");
+        case Service::OPENTABLE: return JSIConverter<std::string>::toJSI(runtime, "opentable");
+        case Service::STARBUCKS: return JSIConverter<std::string>::toJSI(runtime, "starbucks");
+        case Service::BLUE_BOTTLE: return JSIConverter<std::string>::toJSI(runtime, "blue_bottle");
+        case Service::COSTCO: return JSIConverter<std::string>::toJSI(runtime, "costco");
+        case Service::AMAZON: return JSIConverter<std::string>::toJSI(runtime, "amazon");
+        case Service::WALMART: return JSIConverter<std::string>::toJSI(runtime, "walmart");
+        case Service::WHOLE_FOODS: return JSIConverter<std::string>::toJSI(runtime, "whole_foods");
+        case Service::MCDONALDS: return JSIConverter<std::string>::toJSI(runtime, "mcdonalds");
+        case Service::CHIPOTLE: return JSIConverter<std::string>::toJSI(runtime, "chipotle");
+        case Service::SWEETGREEN: return JSIConverter<std::string>::toJSI(runtime, "sweetgreen");
+        case Service::SNAPCHAT: return JSIConverter<std::string>::toJSI(runtime, "snapchat");
+        case Service::X: return JSIConverter<std::string>::toJSI(runtime, "x");
+        case Service::FACEBOOK: return JSIConverter<std::string>::toJSI(runtime, "facebook");
+        case Service::INSTAGRAM: return JSIConverter<std::string>::toJSI(runtime, "instagram");
+        case Service::SIGNAL: return JSIConverter<std::string>::toJSI(runtime, "signal");
+        case Service::WHATSAPP: return JSIConverter<std::string>::toJSI(runtime, "whatsapp");
+        case Service::MESSENGER: return JSIConverter<std::string>::toJSI(runtime, "messenger");
+        case Service::LINKEDIN: return JSIConverter<std::string>::toJSI(runtime, "linkedin");
+        case Service::DISCORD: return JSIConverter<std::string>::toJSI(runtime, "discord");
+        case Service::MESSAGES: return JSIConverter<std::string>::toJSI(runtime, "messages");
+        case Service::TELEGRAM: return JSIConverter<std::string>::toJSI(runtime, "telegram");
+        case Service::REDDIT: return JSIConverter<std::string>::toJSI(runtime, "reddit");
+        case Service::PINTEREST: return JSIConverter<std::string>::toJSI(runtime, "pinterest");
+        case Service::NEW_YORK_TIMES: return JSIConverter<std::string>::toJSI(runtime, "new_york_times");
+        case Service::WASHINGTON_POST: return JSIConverter<std::string>::toJSI(runtime, "washington_post");
+        case Service::WALL_STREET_JOURNAL: return JSIConverter<std::string>::toJSI(runtime, "wall_street_journal");
+        case Service::CNN: return JSIConverter<std::string>::toJSI(runtime, "cnn");
+        case Service::YAHOO: return JSIConverter<std::string>::toJSI(runtime, "yahoo");
+        case Service::FOX: return JSIConverter<std::string>::toJSI(runtime, "fox");
+        case Service::PERPLEXITY: return JSIConverter<std::string>::toJSI(runtime, "perplexity");
+        case Service::OPENAI: return JSIConverter<std::string>::toJSI(runtime, "openai");
+        case Service::POLYMARKET: return JSIConverter<std::string>::toJSI(runtime, "polymarket");
+        case Service::ESPN: return JSIConverter<std::string>::toJSI(runtime, "espn");
+        case Service::YOUTUBE: return JSIConverter<std::string>::toJSI(runtime, "youtube");
+        case Service::NETFLIX: return JSIConverter<std::string>::toJSI(runtime, "netflix");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert Service to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");
@@ -88,6 +307,79 @@ namespace margelo::nitro {
         case hashString("sandbox"):
         case hashString("uber"):
         case hashString("lyft"):
+        case hashString("chime"):
+        case hashString("paypal"):
+        case hashString("coinbase"):
+        case hashString("discover"):
+        case hashString("american_express"):
+        case hashString("jpmorgan_chase"):
+        case hashString("bank_of_america"):
+        case hashString("capital_one"):
+        case hashString("citibank"):
+        case hashString("vanguard"):
+        case hashString("wells_fargo"):
+        case hashString("charles_schwab"):
+        case hashString("kalshi"):
+        case hashString("experian"):
+        case hashString("waymo"):
+        case hashString("revel"):
+        case hashString("turo"):
+        case hashString("getaround"):
+        case hashString("zipcar"):
+        case hashString("airbnb"):
+        case hashString("american_airlines"):
+        case hashString("delta"):
+        case hashString("united"):
+        case hashString("jetblue"):
+        case hashString("southwest"):
+        case hashString("hawaiian"):
+        case hashString("hotels"):
+        case hashString("geico"):
+        case hashString("progressive"):
+        case hashString("aaa"):
+        case hashString("state_farm"):
+        case hashString("hertz"):
+        case hashString("avis"):
+        case hashString("tesla"):
+        case hashString("doordash"):
+        case hashString("uber_eats"):
+        case hashString("grubhub"):
+        case hashString("resy"):
+        case hashString("opentable"):
+        case hashString("starbucks"):
+        case hashString("blue_bottle"):
+        case hashString("costco"):
+        case hashString("amazon"):
+        case hashString("walmart"):
+        case hashString("whole_foods"):
+        case hashString("mcdonalds"):
+        case hashString("chipotle"):
+        case hashString("sweetgreen"):
+        case hashString("snapchat"):
+        case hashString("x"):
+        case hashString("facebook"):
+        case hashString("instagram"):
+        case hashString("signal"):
+        case hashString("whatsapp"):
+        case hashString("messenger"):
+        case hashString("linkedin"):
+        case hashString("discord"):
+        case hashString("messages"):
+        case hashString("telegram"):
+        case hashString("reddit"):
+        case hashString("pinterest"):
+        case hashString("new_york_times"):
+        case hashString("washington_post"):
+        case hashString("wall_street_journal"):
+        case hashString("cnn"):
+        case hashString("yahoo"):
+        case hashString("fox"):
+        case hashString("perplexity"):
+        case hashString("openai"):
+        case hashString("polymarket"):
+        case hashString("espn"):
+        case hashString("youtube"):
+        case hashString("netflix"):
           return true;
         default:
           return false;

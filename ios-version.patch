@@ -1,0 +1,25 @@
+diff --git a/package/nitrogen/generated/ios/ReactNativeCandleAutolinking.swift b/package/nitrogen/generated/ios/ReactNativeCandleAutolinking.swift
+index 087316d..a0dc8f0 100644
+--- a/package/nitrogen/generated/ios/ReactNativeCandleAutolinking.swift
++++ b/package/nitrogen/generated/ios/ReactNativeCandleAutolinking.swift
+@@ -16,10 +16,15 @@ public final class ReactNativeCandleAutolinking {
+    * in the `"autolinking"` property of `nitro.json` (in this case, `HybridRNCandle`).
+    */
+   public static func createRNCandle() -> bridge.std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ {
+-    let hybridObject = HybridRNCandle()
+-    return { () -> bridge.std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ in
+-      let __cxxWrapped = hybridObject.getCxxWrapper()
+-      return __cxxWrapped.getCxxPart()
+-    }()
++      if #available(iOS 17.0, *) {
++        let hybridObject = HybridRNCandle()
++        return { () -> bridge.std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ in
++          let __cxxWrapped = hybridObject.getCxxWrapper()
++          return __cxxWrapped.getCxxPart()
++        }()
++      } else {
++        // Fallback on earlier versions
++        fatalError("[error] Only iOS 17+ is supported.")
++      }
+   }
+ }

@@ -21,6 +21,10 @@ namespace margelo::nitro::rncandle { enum class PresentationBackground; }
 namespace margelo::nitro::rncandle { enum class PresentationStyle; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
+// Forward declaration of `AppUser` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AppUser; }
+// Forward declaration of `AnyMap` to properly resolve imports.
+namespace NitroModules { class AnyMap; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
 
@@ -31,8 +35,10 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
 #include <functional>
-#include <NitroModules/Promise.hpp>
 #include "LinkedAccount.hpp"
+#include "AppUser.hpp"
+#include <NitroModules/Promise.hpp>
+#include <NitroModules/AnyMap.hpp>
 #include "ToolCall.hpp"
 
 namespace margelo::nitro::rncandle {
@@ -66,13 +72,14 @@ namespace margelo::nitro::rncandle {
 
     public:
       // Methods
-      virtual void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const std::string& /* account */)>& onSuccess) = 0;
+      virtual void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const LinkedAccount& /* account */)>& onSuccess) = 0;
+      virtual void initialize(const AppUser& appUser) = 0;
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<void>> unlinkAccount(const std::string& linkedAccountID) = 0;
       virtual std::shared_ptr<Promise<std::string>> getFiatAccounts() = 0;
       virtual std::shared_ptr<Promise<std::string>> getActivity(const std::optional<std::string>& span) = 0;
       virtual std::shared_ptr<Promise<void>> deleteUser() = 0;
-      virtual std::shared_ptr<Promise<std::string>> getAvailableTools() = 0;
+      virtual std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> getAvailableTools() = 0;
       virtual std::shared_ptr<Promise<std::string>> executeTool(const ToolCall& tool) = 0;
 
     protected:

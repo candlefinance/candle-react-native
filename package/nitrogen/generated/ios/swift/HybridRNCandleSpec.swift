@@ -16,13 +16,15 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
   func candleLinkSheet(
     isPresented: Bool, services: [Service]?, cornerRadius: Double, customerName: String?,
     showDynamicLoading: Bool, presentationBackground: PresentationBackground,
-    presentationStyle: PresentationStyle, onSuccess: @escaping (_ account: String) -> Void) throws
+    presentationStyle: PresentationStyle, onSuccess: @escaping (_ account: LinkedAccount) -> Void)
+    throws
+  func initialize(appUser: AppUser) throws
   func getLinkedAccounts() throws -> Promise<[LinkedAccount]>
   func unlinkAccount(linkedAccountID: String) throws -> Promise<Void>
   func getFiatAccounts() throws -> Promise<String>
   func getActivity(span: String?) throws -> Promise<String>
   func deleteUser() throws -> Promise<Void>
-  func getAvailableTools() throws -> Promise<String>
+  func getAvailableTools() throws -> Promise<[AnyMapHolder]>
   func executeTool(tool: ToolCall) throws -> Promise<String>
 }
 
