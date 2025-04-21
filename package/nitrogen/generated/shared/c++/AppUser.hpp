@@ -21,6 +21,7 @@
 
 
 #include <string>
+#include <optional>
 
 namespace margelo::nitro::rncandle {
 
@@ -31,10 +32,11 @@ namespace margelo::nitro::rncandle {
   public:
     std::string appKey     SWIFT_PRIVATE;
     std::string appSecret     SWIFT_PRIVATE;
+    std::optional<std::string> appUserID     SWIFT_PRIVATE;
 
   public:
     AppUser() = default;
-    explicit AppUser(std::string appKey, std::string appSecret): appKey(appKey), appSecret(appSecret) {}
+    explicit AppUser(std::string appKey, std::string appSecret, std::optional<std::string> appUserID): appKey(appKey), appSecret(appSecret), appUserID(appUserID) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -50,13 +52,15 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return AppUser(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "appKey")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "appSecret"))
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "appSecret")),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "appUserID"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const AppUser& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "appKey", JSIConverter<std::string>::toJSI(runtime, arg.appKey));
       obj.setProperty(runtime, "appSecret", JSIConverter<std::string>::toJSI(runtime, arg.appSecret));
+      obj.setProperty(runtime, "appUserID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.appUserID));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -66,6 +70,7 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "appKey"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "appSecret"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "appUserID"))) return false;
       return true;
     }
   };

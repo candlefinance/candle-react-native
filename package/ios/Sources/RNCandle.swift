@@ -26,7 +26,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
   public func initialize(appUser: AppUser) throws {
     Task { @MainActor in
       let wrapperView = CandleLinkSheetWrapper(
-        appUser: .init(appKey: appUser.appKey, appSecret: appUser.appSecret))
+        appUser: .init(
+          appKey: appUser.appKey, appSecret: appUser.appSecret, appUserID: appUser.appUserID))
       let hostingVC = HostingViewController(uiView: wrapperView)
       self.rootVC = hostingVC
       guard let rootViewController = UIApplication.keyWindow?.rootViewController,

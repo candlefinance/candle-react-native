@@ -16,8 +16,16 @@ extension AppUser {
   /**
    * Create a new instance of `AppUser`.
    */
-  public init(appKey: String, appSecret: String) {
-    self.init(std.string(appKey), std.string(appSecret))
+  public init(appKey: String, appSecret: String, appUserID: String?) {
+    self.init(
+      std.string(appKey), std.string(appSecret),
+      { () -> bridge.std__optional_std__string_ in
+        if let __unwrappedValue = appUserID {
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        } else {
+          return .init()
+        }
+      }())
   }
 
   public var appKey: String {
@@ -39,6 +47,29 @@ extension AppUser {
     @inline(__always)
     set {
       self.__appSecret = std.string(newValue)
+    }
+  }
+
+  public var appUserID: String? {
+    @inline(__always)
+    get {
+      return { () -> String? in
+        if let __unwrapped = self.__appUserID.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__appUserID = { () -> bridge.std__optional_std__string_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }
