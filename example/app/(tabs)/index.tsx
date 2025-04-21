@@ -3,12 +3,11 @@ import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
 import { CandleClient } from "react-native-candle";
 
 export default function TabOneScreen() {
-  const [isLoading, setIsLoading] = useState(false);
   const candleClient = useMemo(() => {
-    const appKey = ""; // Replace with your actual app key
-    const appSecret = ""; // Replace with your actual app secret
-    return new CandleClient({ appKey, appSecret });
+    return new CandleClient({ appKey: "", appSecret: "" });
   }, []);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={[styles.container]}>
@@ -104,6 +103,7 @@ export default function TabOneScreen() {
         title="Show Candle Sheet"
         onPress={() => {
           candleClient.presentCandleLinkSheet({
+            services: ["venmo"], // optional, defaults to all supported
             onSuccess: (linkedAccount) => {
               console.log("Account selected:", linkedAccount);
             },

@@ -3,6 +3,7 @@ import type { AnyMap, HybridObject } from "react-native-nitro-modules";
 export type AppUser = {
   appKey: string;
   appSecret: string;
+  appUserID?: string;
 };
 
 export type Service =
