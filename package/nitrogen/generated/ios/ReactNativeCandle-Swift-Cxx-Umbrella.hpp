@@ -8,6 +8,10 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `AnyMap` to properly resolve imports.
+namespace NitroModules { class AnyMap; }
+// Forward declaration of `AppUser` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AppUser; }
 // Forward declaration of `Details` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
@@ -26,6 +30,7 @@ namespace margelo::nitro::rncandle { enum class State; }
 namespace margelo::nitro::rncandle { struct ToolCall; }
 
 // Include C++ defined types
+#include "AppUser.hpp"
 #include "Details.hpp"
 #include "HybridRNCandleSpec.hpp"
 #include "LinkedAccount.hpp"
@@ -34,6 +39,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "Service.hpp"
 #include "State.hpp"
 #include "ToolCall.hpp"
+#include <NitroModules/AnyMap.hpp>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
 #include <exception>
