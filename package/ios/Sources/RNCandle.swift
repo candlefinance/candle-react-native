@@ -55,7 +55,22 @@ final class HybridRNCandle: HybridRNCandleSpec {
       try viewModel.showDynamicLoading = showDynamicLoading
       try viewModel.presentationBackground = presentationBackground
       try viewModel.presentationStyle = presentationStyle
-      try viewModel.showSheet = isPresented
+      // FIXME: there's a glitch the first time it's presented unless you do this
+      DispatchQueue.main.async { [weak self] in
+        guard let self else {
+          #if DEBUG
+            print("Self was deinitialized \(#function).")
+          #endif
+          return
+        }
+        do {
+          try self.viewModel.showSheet = isPresented
+        } catch {
+          #if DEBUG
+            print("Failed to present sheet \(#function).")
+          #endif
+        }
+      }
       try viewModel.$linkedAccount
         .removeDuplicates()
         .compactMap { $0 }
