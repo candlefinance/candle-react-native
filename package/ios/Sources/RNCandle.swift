@@ -98,16 +98,13 @@ final class HybridRNCandle: HybridRNCandleSpec {
 
   public func getFiatAccounts() throws -> Promise<String> {
     .async {
-      let accounts = try await self.viewModel.candleClient.getFiatAccounts()
-      return try self.encodeToJSONString(accounts)
+        return ""
     }
   }
 
   public func getActivity(span: String?) throws -> Promise<String> {
     .async {
-      let activity =
-        try await self.viewModel.candleClient.getActivity(query: .init(span: span))
-      return try self.encodeToJSONString(activity)
+        return ""
     }
   }
 
