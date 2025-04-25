@@ -8,13 +8,13 @@ import UIKit
 @available(iOS 17.0, *)
 final class HybridRNCandle: HybridRNCandleSpec {
 
-  private var rootVC: HostingViewController<CandleLinkSheetWrapper>?
+  private var rootVC: UIHostingController<CandleLinkSheetWrapper>?
 
   private var cancellables = Set<AnyCancellable>()
 
   var viewModel: CandleLinkViewModel {
     get throws {
-      if let viewModel = rootVC?.uiView.viewModel {
+      if let viewModel = rootVC?.rootView.viewModel {
         return viewModel
       }
       throw RNClientError.badInitialization(message: "Failed to properly initialize the client.")
@@ -28,22 +28,12 @@ final class HybridRNCandle: HybridRNCandleSpec {
       let wrapperView = CandleLinkSheetWrapper(
         appUser: .init(
           appKey: appUser.appKey, appSecret: appUser.appSecret, appUserID: appUser.appUserID))
-      let hostingVC = HostingViewController(uiView: wrapperView)
+      let hostingVC = UIHostingController(rootView: wrapperView)
       self.rootVC = hostingVC
-      guard let rootViewController = UIApplication.keyWindow?.rootViewController,
-        let view = rootViewController.view,
-        let rootView = view.subviews.first
-      else {
+      guard let rootViewController = UIApplication.keyWindow?.rootViewController else {
         throw RNClientError.badInitialization(message: "Application root view was not initialized.")
       }
-      view.insertSubview(hostingVC.view, belowSubview: rootView)
-      hostingVC.view.translatesAutoresizingMaskIntoConstraints = false
-      NSLayoutConstraint.activate([
-        hostingVC.view.heightAnchor.constraint(equalTo: view.heightAnchor),
-        hostingVC.view.widthAnchor.constraint(equalTo: view.widthAnchor),
-        hostingVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        hostingVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      ])
+      rootViewController.embed(hostingVC)
     }
   }
 
