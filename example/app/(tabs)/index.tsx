@@ -119,6 +119,8 @@ export default function TabOneScreen() {
               console.log("Account selected:", linkedAccount);
             },
             customerName: "Akme Inc.",
+            presentationStyle: "fullScreen",
+            presentationBackground: "blur",
           });
         }}
       />

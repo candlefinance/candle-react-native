@@ -3,6 +3,7 @@ import type {
   AppUser,
   LinkedAccount,
   PresentationBackground,
+  PresentationStyle,
   RNCandle,
   Service,
 } from "./specs/RNCandle.nitro";
@@ -23,6 +24,7 @@ export class CandleClient {
     customerName,
     showDynamicLoading = true,
     presentationBackground = "default",
+    presentationStyle = "fullScreen",
     onSuccess,
   }: {
     services?: Service[];
@@ -31,6 +33,7 @@ export class CandleClient {
     showSandbox?: boolean;
     showDynamicLoading?: boolean;
     presentationBackground?: PresentationBackground;
+    presentationStyle?: PresentationStyle;
     onSuccess: (account: LinkedAccount) => void;
   }): void {
     this.candle.candleLinkSheet(
@@ -40,7 +43,7 @@ export class CandleClient {
       customerName,
       showDynamicLoading,
       presentationBackground,
-      "fullScreen",
+      presentationStyle,
       onSuccess
     );
   }

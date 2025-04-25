@@ -76,8 +76,9 @@ namespace margelo::nitro::rncandle {
       virtual void initialize(const AppUser& appUser) = 0;
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<void>> unlinkAccount(const std::string& linkedAccountID) = 0;
-      virtual std::shared_ptr<Promise<std::string>> getFiatAccounts() = 0;
-      virtual std::shared_ptr<Promise<std::string>> getActivity(const std::optional<std::string>& span) = 0;
+      virtual std::shared_ptr<Promise<std::string>> getAssetAccounts() = 0;
+      virtual std::shared_ptr<Promise<std::string>> getTrades(const std::optional<std::string>& span) = 0;
+      virtual std::shared_ptr<Promise<std::string>> getTradeQuotes(const std::optional<std::string>& span) = 0;
       virtual std::shared_ptr<Promise<void>> deleteUser() = 0;
       virtual std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> getAvailableTools() = 0;
       virtual std::shared_ptr<Promise<std::string>> executeTool(const ToolCall& tool) = 0;
