@@ -126,8 +126,10 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   initialize(appUser: AppUser): void;
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   unlinkAccount(linkedAccountID: string): Promise<void>;
-  getFiatAccounts(): Promise<string>;
-  getActivity(span: string | undefined): Promise<string>;
+  // FIXME: Make this type safe
+  getAssetAccounts(): Promise<string>;
+  getTrades(span: string | undefined): Promise<string>;
+  getTradeQuotes(span: string | undefined): Promise<string>;
   deleteUser(): Promise<void>;
   // FIXME: The return type should be a more specific type based on the actual tool calls available.
   getAvailableTools(): Promise<Array<AnyMap>>;

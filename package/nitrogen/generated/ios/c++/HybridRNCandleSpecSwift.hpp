@@ -113,16 +113,24 @@ namespace margelo::nitro::rncandle {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<std::string>> getFiatAccounts() override {
-      auto __result = _swiftPart.getFiatAccounts();
+    inline std::shared_ptr<Promise<std::string>> getAssetAccounts() override {
+      auto __result = _swiftPart.getAssetAccounts();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<std::string>> getActivity(const std::optional<std::string>& span) override {
-      auto __result = _swiftPart.getActivity(span);
+    inline std::shared_ptr<Promise<std::string>> getTrades(const std::optional<std::string>& span) override {
+      auto __result = _swiftPart.getTrades(span);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<std::string>> getTradeQuotes(const std::optional<std::string>& span) override {
+      auto __result = _swiftPart.getTradeQuotes(span);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

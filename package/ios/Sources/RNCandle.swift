@@ -96,15 +96,21 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  public func getFiatAccounts() throws -> Promise<String> {
+  public func getAssetAccounts() throws -> Promise<String> {
     .async {
-        return ""
+      return ""
     }
   }
 
-  public func getActivity(span: String?) throws -> Promise<String> {
+  public func getTrades(span: String?) throws -> Promise<String> {
     .async {
-        return ""
+      return ""
+    }
+  }
+
+  func getTradeQuotes(span: String?) throws -> Promise<String> {
+    .async {
+      return ""
     }
   }
 

@@ -21,8 +21,9 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
   func initialize(appUser: AppUser) throws
   func getLinkedAccounts() throws -> Promise<[LinkedAccount]>
   func unlinkAccount(linkedAccountID: String) throws -> Promise<Void>
-  func getFiatAccounts() throws -> Promise<String>
-  func getActivity(span: String?) throws -> Promise<String>
+  func getAssetAccounts() throws -> Promise<String>
+  func getTrades(span: String?) throws -> Promise<String>
+  func getTradeQuotes(span: String?) throws -> Promise<String>
   func deleteUser() throws -> Promise<Void>
   func getAvailableTools() throws -> Promise<[AnyMapHolder]>
   func executeTool(tool: ToolCall) throws -> Promise<String>
