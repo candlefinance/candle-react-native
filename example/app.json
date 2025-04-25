@@ -40,7 +40,7 @@
         {
           "ios": {
             "deploymentTarget": "17.0",
-            "useFrameworks": "dynamic"
+            "newArchEnabled": true
           }
         }
       ]
