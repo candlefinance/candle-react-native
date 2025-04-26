@@ -6,6 +6,211 @@ export type AppUser = {
   appUserID?: string;
 };
 
+type ACHDetails = {
+  accountNumber: string;
+  routingNumber: string;
+  accountKind: string; // "checking" | "savings"
+};
+
+type WireDetails = {
+  accountNumber: string;
+  routingNumber: string;
+};
+
+type FiatAccountDetails = {
+  assetKind: string; // fiat
+  serviceAccountID: string;
+  currencyCode: string;
+  balance?: number;
+  ach?: ACHDetails;
+  wire?: WireDetails;
+  linkedAccountID: string;
+  service: Service;
+};
+
+type MarketAccountDetails = {
+  assetKind: string; // "stock" | "crypto"
+  serviceAccountID: string;
+  linkedAccountID: string;
+  service: Service;
+};
+
+type AssetAccountDetails = FiatAccountDetails | MarketAccountDetails;
+
+type AssetAccount = {
+  legalAccountKind: string; // "individual" | "joint" | "traditionalIra" | "rothIra"
+  nickname: string;
+  details: AssetAccountDetails;
+};
+
+type AssetAccountQuery = {
+  linkedAccountIDs?: string;
+  assetKind?: string; // "fiat" | "stock" | "crypto"
+};
+
+type FiatAsset = {
+  assetKind: string; // fiat
+  serviceTradeID?: string;
+  serviceAccountID: string;
+  currencyCode: string;
+  amount: number;
+  linkedAccountID: string;
+  service: Service;
+};
+
+type MarketTradeAsset = {
+  assetKind: string; // "stock" | "crypto"
+  serviceAccountID: string;
+  serviceAssetID: string;
+  symbol: string;
+  amount: number;
+  serviceTradeID: string;
+  linkedAccountID: string;
+  name: string;
+  color: string;
+  logoURL: string;
+};
+
+type Coordinates = {
+  latitude: number;
+  longitude: number;
+};
+
+type Address = {
+  value: string;
+};
+
+type TransportAsset = {
+  assetKind: string; // "transport"
+  serviceTradeID: string;
+  serviceAssetID: string;
+  name: string;
+  description: string;
+  imageURL: string;
+  originCoordinates: Coordinates;
+  originAddress: Address;
+  destinationCoordinates: Coordinates;
+  destinationAddress: Address;
+  seats: number;
+  linkedAccountID: string;
+  logoURL: string;
+};
+
+type OtherAsset = {
+  assetKind: string; // "other"
+};
+
+type NothingAsset = {
+  assetKind: string; // "nothing"
+};
+
+type TradeAsset =
+  | FiatAsset
+  | MarketTradeAsset
+  | TransportAsset
+  | OtherAsset
+  | NothingAsset;
+
+type MerchantLocation = {
+  countryCode: string;
+  countrySubdivisionCode: string;
+  localityName: string;
+};
+
+type MerchantCounterparty = {
+  kind: string; // "merchant";
+  name: string;
+  logoURL: string;
+  location: MerchantLocation;
+};
+
+type UserCounterparty = {
+  kind: string; // "user"
+  legalName: string;
+  avatarURL: string;
+  username: string;
+};
+
+type ServiceCounterparty = {
+  kind: string; // "service"
+  service: Service;
+};
+
+type Counterparty =
+  | MerchantCounterparty
+  | UserCounterparty
+  | ServiceCounterparty;
+
+type Trade = {
+  dateTime: string;
+  state: string; // "success" | "inProgress" | "failure"
+  counterparty: Counterparty;
+  lost: TradeAsset;
+  gained: TradeAsset;
+};
+
+type AssetKind =
+  | "fiat"
+  | "stock"
+  | "crypto"
+  | "transport"
+  | "other"
+  | "nothing";
+type CounterpartyKind = "merchant" | "user" | "service";
+
+type TradeQuery = {
+  linkedAccountIDs?: string;
+  dateTimeSpan?: string;
+  gainedAssetKind?: AssetKind; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
+  lostAssetKind?: AssetKind; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
+  counterpartyKind?: CounterpartyKind; // "merchant" | "user" | "service"
+};
+
+type FiatAssetQuoteRequest = {
+  assetKind?: string; // fiat
+  serviceAccountID?: string;
+  currencyCode?: string;
+  amount?: number;
+};
+
+type MarketAssetQuoteRequest = {
+  assetKind?: string; // "stock" | "crypto"
+  serviceAccountID?: string;
+  serviceAssetID?: string;
+  symbol?: string;
+  amount?: number;
+};
+
+type TransportAssetQuoteRequest = {
+  assetKind?: string; // "transport"
+  serviceAssetID?: string;
+  originCoordinates?: Coordinates;
+  originAddress?: Address;
+  destinationCoordinates?: Coordinates;
+  destinationAddress?: Address;
+  seats?: number;
+};
+
+type NothingAssetQuoteRequest = {
+  assetKind?: string; // "nothing"
+};
+
+type TradeAssetQuoteRequest =
+  | FiatAssetQuoteRequest
+  | MarketAssetQuoteRequest
+  | TransportAssetQuoteRequest
+  | NothingAssetQuoteRequest;
+
+type TradeQuoteRequest = {
+  linkedAccountIDs?: string;
+  gained: TradeAssetQuoteRequest;
+};
+
+type TradeQuote = {
+  lost: TradeAsset;
+  gained: TradeAsset;
+};
+
 export type Service =
   | "robinhood"
   | "cash_app"
@@ -127,9 +332,9 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   unlinkAccount(linkedAccountID: string): Promise<void>;
   // FIXME: Make this type safe
-  getAssetAccounts(): Promise<string>;
-  getTrades(span: string | undefined): Promise<string>;
-  getTradeQuotes(span: string | undefined): Promise<string>;
+  getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccount[]>;
+  getTrades(query: TradeQuery): Promise<Trade[]>;
+  getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuote[]>;
   deleteUser(): Promise<void>;
   // FIXME: The return type should be a more specific type based on the actual tool calls available.
   getAvailableTools(): Promise<Array<AnyMap>>;

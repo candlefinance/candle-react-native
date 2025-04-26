@@ -103,12 +103,14 @@ final class HybridRNCandle: HybridRNCandleSpec {
 
   public func getAssetAccounts() throws -> Promise<String> {
     .async {
+        let accounts = try await self.viewModel.candleClient.getAssetAccounts()
       return ""
     }
   }
 
   public func getTrades(span: String?) throws -> Promise<String> {
     .async {
+        let trades = try await self.viewModel.candleClient.getTrades()
       return ""
     }
   }
