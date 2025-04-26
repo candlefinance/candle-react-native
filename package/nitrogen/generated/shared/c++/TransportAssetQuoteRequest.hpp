@@ -23,8 +23,8 @@ namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `Address` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Address; }
 
-#include <optional>
 #include <string>
+#include <optional>
 #include "Coordinates.hpp"
 #include "Address.hpp"
 
@@ -35,7 +35,7 @@ namespace margelo::nitro::rncandle {
    */
   struct TransportAssetQuoteRequest {
   public:
-    std::optional<std::string> assetKind     SWIFT_PRIVATE;
+    std::string assetKind     SWIFT_PRIVATE;
     std::optional<std::string> serviceAssetID     SWIFT_PRIVATE;
     std::optional<Coordinates> originCoordinates     SWIFT_PRIVATE;
     std::optional<Address> originAddress     SWIFT_PRIVATE;
@@ -45,7 +45,7 @@ namespace margelo::nitro::rncandle {
 
   public:
     TransportAssetQuoteRequest() = default;
-    explicit TransportAssetQuoteRequest(std::optional<std::string> assetKind, std::optional<std::string> serviceAssetID, std::optional<Coordinates> originCoordinates, std::optional<Address> originAddress, std::optional<Coordinates> destinationCoordinates, std::optional<Address> destinationAddress, std::optional<double> seats): assetKind(assetKind), serviceAssetID(serviceAssetID), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats) {}
+    explicit TransportAssetQuoteRequest(std::string assetKind, std::optional<std::string> serviceAssetID, std::optional<Coordinates> originCoordinates, std::optional<Address> originAddress, std::optional<Coordinates> destinationCoordinates, std::optional<Address> destinationAddress, std::optional<double> seats): assetKind(assetKind), serviceAssetID(serviceAssetID), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -60,7 +60,7 @@ namespace margelo::nitro {
     static inline TransportAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return TransportAssetQuoteRequest(
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAssetID")),
         JSIConverter<std::optional<Coordinates>>::fromJSI(runtime, obj.getProperty(runtime, "originCoordinates")),
         JSIConverter<std::optional<Address>>::fromJSI(runtime, obj.getProperty(runtime, "originAddress")),
@@ -71,7 +71,7 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const TransportAssetQuoteRequest& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAssetID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAssetID));
       obj.setProperty(runtime, "originCoordinates", JSIConverter<std::optional<Coordinates>>::toJSI(runtime, arg.originCoordinates));
       obj.setProperty(runtime, "originAddress", JSIConverter<std::optional<Address>>::toJSI(runtime, arg.originAddress));
@@ -85,7 +85,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAssetID"))) return false;
       if (!JSIConverter<std::optional<Coordinates>>::canConvert(runtime, obj.getProperty(runtime, "originCoordinates"))) return false;
       if (!JSIConverter<std::optional<Address>>::canConvert(runtime, obj.getProperty(runtime, "originAddress"))) return false;

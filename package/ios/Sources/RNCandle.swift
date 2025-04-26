@@ -78,12 +78,9 @@ final class HybridRNCandle: HybridRNCandleSpec {
       }
       try viewModel.$linkedAccount
         .removeDuplicates()
-        .compactMap { $0 }
+        .compactMap(\.?.toLinkedAccount)
         .receive(on: RunLoop.main)
-        .sink { [weak self] linkedAccount in
-          guard let self else { return }
-          onSuccess(self.toLinkedAccount(linkedAccount))
-        }
+        .sink(receiveValue: onSuccess)
         .store(in: &cancellables)
     }
   }
@@ -97,12 +94,9 @@ final class HybridRNCandle: HybridRNCandleSpec {
   }
 
   public func getLinkedAccounts() throws -> Promise<[LinkedAccount]> {
-    .async { [weak self] in
-      guard let self else {
-        throw RNClientError.badInitialization(message: "Self was deinitialized \(#function).")
-      }
+    .async {
       let accounts = try await self.viewModel.candleClient.getLinkedAccounts()
-      return accounts.map(self.toLinkedAccount)
+      return accounts.map(\.toLinkedAccount)
     }
   }
 
@@ -145,7 +139,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
                 ach: ach,
                 wire: wire,
                 linkedAccountID: fiatDetails.linkedAccountID,
-                service: Service(fromString: fiatDetails.service.rawValue)!),
+                service: fiatDetails.service.toService),
               marketAccountDetails: nil
             )
           )
@@ -159,7 +153,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
                 assetKind: marketDetails.assetKind.rawValue,
                 serviceAccountID: marketDetails.serviceAccountID,
                 linkedAccountID: marketDetails.linkedAccountID,
-                service: Service(fromString: marketDetails.service.rawValue)!
+                service: marketDetails.service.toService
               )
             )
           )
@@ -182,7 +176,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
         return Trade(
           dateTime: trade.dateTime,
           state: TradeState(fromString: trade.state.rawValue)!,
-          counterparty: self.toCounterparty(trade),
+          counterparty: trade.toCounterparty,
           lost: trade.lost.toAsset,
           gained: trade.gained.toAsset
         )
@@ -233,7 +227,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
       let result = try await self.viewModel.candleClient.executeTool(
         tool: RNToolCall(name: tool.name, arguments: tool.arguments)
       )
-      return try self.encodeToJSONString(result)
+      return try result.encodeToJSONString
     }
   }
 
@@ -290,51 +284,68 @@ final class HybridRNCandle: HybridRNCandleSpec {
     let arguments: String
   }
 
-  private func encodeToJSONString<T: Encodable>(_ value: T) throws -> String {
-    let data = try JSONEncoder().encode(value)
-    if let string = String(data: data, encoding: .utf8) {
-      return string
-    }
-    throw RNClientError.badEncoding
-  }
+}
 
-  private func toLinkedAccount(_ account: Candle.Models.LinkedAccount) -> LinkedAccount {
-    let service: Service = Service(fromString: account.service.rawValue)!
-    switch account.details {
+extension Encodable {
+  var encodeToJSONString: String {
+    get throws {
+      let data = try JSONEncoder().encode(self)
+      if let string = String(data: data, encoding: .utf8) {
+        return string
+      }
+      throw RNClientError.badEncoding
+    }
+  }
+}
+
+extension Candle.Models.LinkedAccount {
+  var toLinkedAccount: LinkedAccount {
+    let service: Service = self.service.toService
+    switch details {
     case .ActiveLinkedAccountDetails(let details):
       return LinkedAccount(
-        serviceUserID: account.serviceUserID,
+        serviceUserID: serviceUserID,
+        state: .active,
         details: .init(
-          state: .active,
           username: details.username,
           legalName: details.legalName,
           accountOpened: details.accountOpened
         ),
-        linkedAccountID: account.linkedAccountID,
+        linkedAccountID: linkedAccountID,
         service: service
       )
     case .InactiveLinkedAccountDetails:
       return LinkedAccount(
-        serviceUserID: account.serviceUserID,
+        serviceUserID: serviceUserID,
+        state: .inactive,
         details: nil,
-        linkedAccountID: account.linkedAccountID,
+        linkedAccountID: linkedAccountID,
         service: service
       )
     }
   }
+}
 
-  func toCounterparty(_ trade: Models.Trade) -> Counterparty {
-    switch trade.counterparty {
+extension Models.MerchantCounterparty {
+  var toLocation: MerchantLocation? {
+    if let location {
+      return .init(
+        countryCode: location.countryCode, countrySubdivisionCode: location.countrySubdivisionCode,
+        localityName: location.localityName)
+    }
+    return nil
+  }
+}
+
+extension Models.Trade {
+  var toCounterparty: Counterparty {
+    switch counterparty {
     case .MerchantCounterparty(let merchant):
       return .init(
         merchantCounterparty: .init(
           kind: merchant.kind.rawValue,
           name: merchant.name, logoURL: merchant.logoURL,
-          location: .init(
-            countryCode: merchant.location?.countryCode ?? "n/a",
-            countrySubdivisionCode: merchant.location?.countrySubdivisionCode ?? "n/a",
-            localityName: merchant.location?.localityName ?? "n/a"
-          )
+          location: merchant.toLocation
         ),
         userCounterparty: nil,
         serviceCounterparty: nil
@@ -345,7 +356,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
         userCounterparty: nil,
         serviceCounterparty: .init(
           kind: service.kind.rawValue,
-          service: service.service.rawValue
+          service: service.service.toService
         )
       )
     case .UserCounterparty(let user):
@@ -361,7 +372,6 @@ final class HybridRNCandle: HybridRNCandleSpec {
       )
     }
   }
-
 }
 
 extension Models.TradeAsset {
@@ -376,7 +386,7 @@ extension Models.TradeAsset {
           currencyCode: fiatAsset.currencyCode,
           amount: fiatAsset.amount,
           linkedAccountID: fiatAsset.linkedAccountID,
-          service: Service(fromString: fiatAsset.service.rawValue)!
+          service: fiatAsset.service.toService
         ),
         marketTradeAsset: nil,
         transportAsset: nil,
@@ -464,7 +474,7 @@ extension TradeQuoteRequest {
       } else if let marketAssetQuoteRequest = gained.marketAssetQuoteRequest {
         return Models.TradeAssetQuoteRequest.MarketAssetQuoteRequest(
           .init(
-            assetKind: .init(rawValue: marketAssetQuoteRequest.assetKind ?? "") ?? .stock,
+            assetKind: .init(rawValue: marketAssetQuoteRequest.assetKind) ?? .stock,
             serviceAccountID: marketAssetQuoteRequest.serviceAccountID,
             serviceAssetID: marketAssetQuoteRequest.serviceAssetID,
             symbol: marketAssetQuoteRequest.symbol,
@@ -508,5 +518,11 @@ extension Coordinates {
       latitude: latitude,
       longitude: longitude
     )
+  }
+}
+
+extension Models.Service {
+  var toService: Service {
+    Service(fromString: rawValue)!
   }
 }

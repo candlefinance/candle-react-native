@@ -16,8 +16,16 @@ extension MerchantCounterparty {
   /**
    * Create a new instance of `MerchantCounterparty`.
    */
-  public init(kind: String, name: String, logoURL: String, location: MerchantLocation) {
-    self.init(std.string(kind), std.string(name), std.string(logoURL), location)
+  public init(kind: String, name: String, logoURL: String, location: MerchantLocation?) {
+    self.init(
+      std.string(kind), std.string(name), std.string(logoURL),
+      { () -> bridge.std__optional_MerchantLocation_ in
+        if let __unwrappedValue = location {
+          return bridge.create_std__optional_MerchantLocation_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }())
   }
 
   public var kind: String {
@@ -53,14 +61,26 @@ extension MerchantCounterparty {
     }
   }
 
-  public var location: MerchantLocation {
+  public var location: MerchantLocation? {
     @inline(__always)
     get {
-      return self.__location
+      return { () -> MerchantLocation? in
+        if let __unwrapped = self.__location.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__location = newValue
+      self.__location = { () -> bridge.std__optional_MerchantLocation_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_MerchantLocation_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }

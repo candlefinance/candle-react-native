@@ -20,10 +20,10 @@ namespace margelo::nitro::rncandle { enum class PresentationBackground; }
 namespace margelo::nitro::rncandle { enum class PresentationStyle; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
-// Forward declaration of `Details` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `State` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class State; }
+// Forward declaration of `Details` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `AppUser` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AppUser; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
@@ -107,8 +107,8 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "PresentationStyle.hpp"
 #include <functional>
 #include "LinkedAccount.hpp"
-#include "Details.hpp"
 #include "State.hpp"
+#include "Details.hpp"
 #include "AppUser.hpp"
 #include <NitroModules/Promise.hpp>
 #include "AssetAccount.hpp"

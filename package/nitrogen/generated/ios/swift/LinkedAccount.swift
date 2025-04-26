@@ -16,9 +16,12 @@ extension LinkedAccount {
   /**
    * Create a new instance of `LinkedAccount`.
    */
-  public init(serviceUserID: String, details: Details?, linkedAccountID: String, service: Service) {
+  public init(
+    serviceUserID: String, state: State, details: Details?, linkedAccountID: String,
+    service: Service
+  ) {
     self.init(
-      std.string(serviceUserID),
+      std.string(serviceUserID), state,
       { () -> bridge.std__optional_Details_ in
         if let __unwrappedValue = details {
           return bridge.create_std__optional_Details_(__unwrappedValue)
@@ -36,6 +39,17 @@ extension LinkedAccount {
     @inline(__always)
     set {
       self.__serviceUserID = std.string(newValue)
+    }
+  }
+
+  public var state: State {
+    @inline(__always)
+    get {
+      return self.__state
+    }
+    @inline(__always)
+    set {
+      self.__state = newValue
     }
   }
 

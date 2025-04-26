@@ -16,8 +16,8 @@ extension ServiceCounterparty {
   /**
    * Create a new instance of `ServiceCounterparty`.
    */
-  public init(kind: String, service: String) {
-    self.init(std.string(kind), std.string(service))
+  public init(kind: String, service: Service) {
+    self.init(std.string(kind), service)
   }
 
   public var kind: String {
@@ -31,14 +31,14 @@ extension ServiceCounterparty {
     }
   }
 
-  public var service: String {
+  public var service: Service {
     @inline(__always)
     get {
-      return String(self.__service)
+      return self.__service
     }
     @inline(__always)
     set {
-      self.__service = std.string(newValue)
+      self.__service = newValue
     }
   }
 }

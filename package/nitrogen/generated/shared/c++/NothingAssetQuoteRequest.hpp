@@ -20,7 +20,6 @@
 
 
 
-#include <optional>
 #include <string>
 
 namespace margelo::nitro::rncandle {
@@ -30,11 +29,11 @@ namespace margelo::nitro::rncandle {
    */
   struct NothingAssetQuoteRequest {
   public:
-    std::optional<std::string> assetKind     SWIFT_PRIVATE;
+    std::string assetKind     SWIFT_PRIVATE;
 
   public:
     NothingAssetQuoteRequest() = default;
-    explicit NothingAssetQuoteRequest(std::optional<std::string> assetKind): assetKind(assetKind) {}
+    explicit NothingAssetQuoteRequest(std::string assetKind): assetKind(assetKind) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -49,12 +48,12 @@ namespace margelo::nitro {
     static inline NothingAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return NothingAssetQuoteRequest(
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "assetKind"))
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const NothingAssetQuoteRequest& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -62,7 +61,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       return true;
     }
   };

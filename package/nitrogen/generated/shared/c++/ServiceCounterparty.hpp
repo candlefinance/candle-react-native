@@ -18,9 +18,11 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-
+// Forward declaration of `Service` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class Service; }
 
 #include <string>
+#include "Service.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -30,11 +32,11 @@ namespace margelo::nitro::rncandle {
   struct ServiceCounterparty {
   public:
     std::string kind     SWIFT_PRIVATE;
-    std::string service     SWIFT_PRIVATE;
+    Service service     SWIFT_PRIVATE;
 
   public:
     ServiceCounterparty() = default;
-    explicit ServiceCounterparty(std::string kind, std::string service): kind(kind), service(service) {}
+    explicit ServiceCounterparty(std::string kind, Service service): kind(kind), service(service) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -50,13 +52,13 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return ServiceCounterparty(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "kind")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "service"))
+        JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const ServiceCounterparty& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "kind", JSIConverter<std::string>::toJSI(runtime, arg.kind));
-      obj.setProperty(runtime, "service", JSIConverter<std::string>::toJSI(runtime, arg.service));
+      obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -65,7 +67,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "kind"))) return false;
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
+      if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;
     }
   };

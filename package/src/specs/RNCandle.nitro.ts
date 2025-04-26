@@ -8,13 +8,13 @@ export type AppUser = {
 
 type ACHAccountKind = "checking" | "savings";
 
-type ACHDetails = {
+export type ACHDetails = {
   accountNumber: string;
   routingNumber: string;
   accountKind: ACHAccountKind;
 };
 
-type WireDetails = {
+export type WireDetails = {
   accountNumber: string;
   routingNumber: string;
 };
@@ -42,7 +42,11 @@ type AssetAccountDetails = {
   marketAccountDetails?: MarketAccountDetails;
 };
 
-type LegalAccountKind = "individual" | "joint" | "traditionalIra" | "rothIra";
+export type LegalAccountKind =
+  | "individual"
+  | "joint"
+  | "traditionalIra"
+  | "rothIra";
 
 export type AssetAccount = {
   legalAccountKind: LegalAccountKind;
@@ -57,7 +61,7 @@ export type AssetAccountQuery = {
   assetKind?: AssetAccountKind;
 };
 
-type FiatAsset = {
+export type FiatAsset = {
   assetKind: string; // fiat
   serviceTradeID?: string;
   serviceAccountID: string;
@@ -67,7 +71,7 @@ type FiatAsset = {
   service: Service;
 };
 
-type MarketTradeAsset = {
+export type MarketTradeAsset = {
   assetKind: string; // "stock" | "crypto"
   serviceAccountID: string;
   serviceAssetID: string;
@@ -89,7 +93,7 @@ type Address = {
   value: string;
 };
 
-type TransportAsset = {
+export type TransportAsset = {
   assetKind: string; // "transport"
   serviceTradeID: string;
   serviceAssetID: string;
@@ -104,15 +108,15 @@ type TransportAsset = {
   linkedAccountID: string;
 };
 
-type OtherAsset = {
+export type OtherAsset = {
   assetKind: string; // "other"
 };
 
-type NothingAsset = {
+export type NothingAsset = {
   assetKind: string; // "nothing"
 };
 
-type TradeAsset = {
+export type TradeAsset = {
   fiatAsset?: FiatAsset;
   marketTradeAsset?: MarketTradeAsset;
   transportAsset?: TransportAsset;
@@ -126,32 +130,32 @@ type MerchantLocation = {
   localityName?: string;
 };
 
-type MerchantCounterparty = {
+export type MerchantCounterparty = {
   kind: string; // "merchant";
   name: string;
   logoURL: string;
-  location: MerchantLocation;
+  location?: MerchantLocation;
 };
 
-type UserCounterparty = {
+export type UserCounterparty = {
   kind: string; // "user"
   legalName: string;
   avatarURL: string;
   username: string;
 };
 
-type ServiceCounterparty = {
+export type ServiceCounterparty = {
   kind: string; // "service"
-  service: string;
+  service: Service;
 };
 
-type Counterparty = {
+export type Counterparty = {
   merchantCounterparty?: MerchantCounterparty;
   userCounterparty?: UserCounterparty;
   serviceCounterparty?: ServiceCounterparty;
 };
 
-type TradeState = "success" | "inProgress" | "failure";
+export type TradeState = "success" | "inProgress" | "failure";
 
 export type Trade = {
   dateTime: string;
@@ -161,16 +165,6 @@ export type Trade = {
   gained: TradeAsset;
 };
 
-// type AssetKind =
-//   | "fiat"
-//   | "stock"
-//   | "crypto"
-//   | "transport"
-//   | "other"
-//   | "nothing";
-
-// type CounterpartyKind = "merchant" | "user" | "service";
-
 export type TradeQuery = {
   linkedAccountIDs?: string;
   dateTimeSpan?: string;
@@ -179,23 +173,23 @@ export type TradeQuery = {
   counterpartyKind?: string; // "merchant" | "user" | "service"
 };
 
-type FiatAssetQuoteRequest = {
-  assetKind?: string; // fiat
+export type FiatAssetQuoteRequest = {
+  assetKind: string; // fiat
   serviceAccountID?: string;
   currencyCode?: string;
   amount?: number;
 };
 
-type MarketAssetQuoteRequest = {
-  assetKind?: string; // "stock" | "crypto"
+export type MarketAssetQuoteRequest = {
+  assetKind: string; // "stock" | "crypto"
   serviceAccountID?: string;
   serviceAssetID?: string;
   symbol?: string;
   amount?: number;
 };
 
-type TransportAssetQuoteRequest = {
-  assetKind?: string; // "transport"
+export type TransportAssetQuoteRequest = {
+  assetKind: string; // "transport"
   serviceAssetID?: string;
   originCoordinates?: Coordinates;
   originAddress?: Address;
@@ -204,11 +198,11 @@ type TransportAssetQuoteRequest = {
   seats?: number;
 };
 
-type NothingAssetQuoteRequest = {
-  assetKind?: string; // "nothing"
+export type NothingAssetQuoteRequest = {
+  assetKind: string; // "nothing"
 };
 
-type TradeAssetQuoteRequest = {
+export type TradeAssetQuoteRequest = {
   fiatAssetQuoteRequest?: FiatAssetQuoteRequest;
   marketAssetQuoteRequest?: MarketAssetQuoteRequest;
   transportAssetQuoteRequest?: TransportAssetQuoteRequest;
@@ -319,7 +313,6 @@ export type PresentationStyle = "sheet" | "fullScreen";
 export type State = "active" | "inactive";
 
 export type Details = {
-  state: State;
   username: string | undefined;
   legalName: string;
   accountOpened: string | undefined;
@@ -327,6 +320,7 @@ export type Details = {
 
 export type LinkedAccount = {
   serviceUserID: string;
+  state: State;
   details: Details | undefined;
   linkedAccountID: string;
   service: Service;

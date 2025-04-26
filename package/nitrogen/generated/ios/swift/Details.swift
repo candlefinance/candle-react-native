@@ -16,9 +16,8 @@ extension Details {
   /**
    * Create a new instance of `Details`.
    */
-  public init(state: State, username: String?, legalName: String, accountOpened: String?) {
+  public init(username: String?, legalName: String, accountOpened: String?) {
     self.init(
-      state,
       { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = username {
           return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
@@ -33,17 +32,6 @@ extension Details {
           return .init()
         }
       }())
-  }
-
-  public var state: State {
-    @inline(__always)
-    get {
-      return self.__state
-    }
-    @inline(__always)
-    set {
-      self.__state = newValue
-    }
   }
 
   public var username: String? {

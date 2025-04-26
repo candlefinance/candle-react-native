@@ -18,10 +18,8 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `State` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class State; }
 
-#include "State.hpp"
+
 #include <optional>
 #include <string>
 
@@ -32,14 +30,13 @@ namespace margelo::nitro::rncandle {
    */
   struct Details {
   public:
-    State state     SWIFT_PRIVATE;
     std::optional<std::string> username     SWIFT_PRIVATE;
     std::string legalName     SWIFT_PRIVATE;
     std::optional<std::string> accountOpened     SWIFT_PRIVATE;
 
   public:
     Details() = default;
-    explicit Details(State state, std::optional<std::string> username, std::string legalName, std::optional<std::string> accountOpened): state(state), username(username), legalName(legalName), accountOpened(accountOpened) {}
+    explicit Details(std::optional<std::string> username, std::string legalName, std::optional<std::string> accountOpened): username(username), legalName(legalName), accountOpened(accountOpened) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -54,7 +51,6 @@ namespace margelo::nitro {
     static inline Details fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return Details(
-        JSIConverter<State>::fromJSI(runtime, obj.getProperty(runtime, "state")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "username")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "legalName")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "accountOpened"))
@@ -62,7 +58,6 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const Details& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "state", JSIConverter<State>::toJSI(runtime, arg.state));
       obj.setProperty(runtime, "username", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.username));
       obj.setProperty(runtime, "legalName", JSIConverter<std::string>::toJSI(runtime, arg.legalName));
       obj.setProperty(runtime, "accountOpened", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.accountOpened));
@@ -73,7 +68,6 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<State>::canConvert(runtime, obj.getProperty(runtime, "state"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "username"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "legalName"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "accountOpened"))) return false;

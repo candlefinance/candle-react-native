@@ -398,6 +398,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return std::optional<AssetAccountKind>(value);
   }
   
+  // pragma MARK: std::optional<MerchantLocation>
+  /**
+   * Specialized version of `std::optional<MerchantLocation>`.
+   */
+  using std__optional_MerchantLocation_ = std::optional<MerchantLocation>;
+  inline std::optional<MerchantLocation> create_std__optional_MerchantLocation_(const MerchantLocation& value) {
+    return std::optional<MerchantLocation>(value);
+  }
+  
   // pragma MARK: std::optional<MerchantCounterparty>
   /**
    * Specialized version of `std::optional<MerchantCounterparty>`.

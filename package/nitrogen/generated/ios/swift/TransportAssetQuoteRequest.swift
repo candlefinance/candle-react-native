@@ -17,18 +17,12 @@ extension TransportAssetQuoteRequest {
    * Create a new instance of `TransportAssetQuoteRequest`.
    */
   public init(
-    assetKind: String?, serviceAssetID: String?, originCoordinates: Coordinates?,
+    assetKind: String, serviceAssetID: String?, originCoordinates: Coordinates?,
     originAddress: Address?, destinationCoordinates: Coordinates?, destinationAddress: Address?,
     seats: Double?
   ) {
     self.init(
-      { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = assetKind {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }(),
+      std.string(assetKind),
       { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = serviceAssetID {
           return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
@@ -73,26 +67,14 @@ extension TransportAssetQuoteRequest {
       }())
   }
 
-  public var assetKind: String? {
+  public var assetKind: String {
     @inline(__always)
     get {
-      return { () -> String? in
-        if let __unwrapped = self.__assetKind.value {
-          return String(__unwrapped)
-        } else {
-          return nil
-        }
-      }()
+      return String(self.__assetKind)
     }
     @inline(__always)
     set {
-      self.__assetKind = { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }()
+      self.__assetKind = std.string(newValue)
     }
   }
 

@@ -18,12 +18,15 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `State` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class State; }
 // Forward declaration of `Details` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
 
 #include <string>
+#include "State.hpp"
 #include <optional>
 #include "Details.hpp"
 #include "Service.hpp"
@@ -36,13 +39,14 @@ namespace margelo::nitro::rncandle {
   struct LinkedAccount {
   public:
     std::string serviceUserID     SWIFT_PRIVATE;
+    State state     SWIFT_PRIVATE;
     std::optional<Details> details     SWIFT_PRIVATE;
     std::string linkedAccountID     SWIFT_PRIVATE;
     Service service     SWIFT_PRIVATE;
 
   public:
     LinkedAccount() = default;
-    explicit LinkedAccount(std::string serviceUserID, std::optional<Details> details, std::string linkedAccountID, Service service): serviceUserID(serviceUserID), details(details), linkedAccountID(linkedAccountID), service(service) {}
+    explicit LinkedAccount(std::string serviceUserID, State state, std::optional<Details> details, std::string linkedAccountID, Service service): serviceUserID(serviceUserID), state(state), details(details), linkedAccountID(linkedAccountID), service(service) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -58,6 +62,7 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return LinkedAccount(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceUserID")),
+        JSIConverter<State>::fromJSI(runtime, obj.getProperty(runtime, "state")),
         JSIConverter<std::optional<Details>>::fromJSI(runtime, obj.getProperty(runtime, "details")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
         JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
@@ -66,6 +71,7 @@ namespace margelo::nitro {
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const LinkedAccount& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "serviceUserID", JSIConverter<std::string>::toJSI(runtime, arg.serviceUserID));
+      obj.setProperty(runtime, "state", JSIConverter<State>::toJSI(runtime, arg.state));
       obj.setProperty(runtime, "details", JSIConverter<std::optional<Details>>::toJSI(runtime, arg.details));
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
       obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
@@ -77,6 +83,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceUserID"))) return false;
+      if (!JSIConverter<State>::canConvert(runtime, obj.getProperty(runtime, "state"))) return false;
       if (!JSIConverter<std::optional<Details>>::canConvert(runtime, obj.getProperty(runtime, "details"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
       if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;

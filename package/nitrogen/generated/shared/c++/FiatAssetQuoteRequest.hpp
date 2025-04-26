@@ -20,8 +20,8 @@
 
 
 
-#include <optional>
 #include <string>
+#include <optional>
 
 namespace margelo::nitro::rncandle {
 
@@ -30,14 +30,14 @@ namespace margelo::nitro::rncandle {
    */
   struct FiatAssetQuoteRequest {
   public:
-    std::optional<std::string> assetKind     SWIFT_PRIVATE;
+    std::string assetKind     SWIFT_PRIVATE;
     std::optional<std::string> serviceAccountID     SWIFT_PRIVATE;
     std::optional<std::string> currencyCode     SWIFT_PRIVATE;
     std::optional<double> amount     SWIFT_PRIVATE;
 
   public:
     FiatAssetQuoteRequest() = default;
-    explicit FiatAssetQuoteRequest(std::optional<std::string> assetKind, std::optional<std::string> serviceAccountID, std::optional<std::string> currencyCode, std::optional<double> amount): assetKind(assetKind), serviceAccountID(serviceAccountID), currencyCode(currencyCode), amount(amount) {}
+    explicit FiatAssetQuoteRequest(std::string assetKind, std::optional<std::string> serviceAccountID, std::optional<std::string> currencyCode, std::optional<double> amount): assetKind(assetKind), serviceAccountID(serviceAccountID), currencyCode(currencyCode), amount(amount) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -52,7 +52,7 @@ namespace margelo::nitro {
     static inline FiatAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return FiatAssetQuoteRequest(
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "currencyCode")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "amount"))
@@ -60,7 +60,7 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const FiatAssetQuoteRequest& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAccountID));
       obj.setProperty(runtime, "currencyCode", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.currencyCode));
       obj.setProperty(runtime, "amount", JSIConverter<std::optional<double>>::toJSI(runtime, arg.amount));
@@ -71,7 +71,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "currencyCode"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "amount"))) return false;
