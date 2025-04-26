@@ -6,10 +6,12 @@ export type AppUser = {
   appUserID?: string;
 };
 
+type ACHAccountKind = "checking" | "savings";
+
 type ACHDetails = {
   accountNumber: string;
   routingNumber: string;
-  accountKind: string; // "checking" | "savings"
+  accountKind: ACHAccountKind;
 };
 
 type WireDetails = {
@@ -37,15 +39,19 @@ type MarketAccountDetails = {
 
 type AssetAccountDetails = FiatAccountDetails | MarketAccountDetails;
 
-type AssetAccount = {
-  legalAccountKind: string; // "individual" | "joint" | "traditionalIra" | "rothIra"
+type LegalAccountKind = "individual" | "joint" | "traditionalIra" | "rothIra";
+
+export type AssetAccount = {
+  legalAccountKind: LegalAccountKind;
   nickname: string;
   details: AssetAccountDetails;
 };
 
-type AssetAccountQuery = {
+type AssetAccountKind = "fiat" | "stock" | "crypto";
+
+export type AssetAccountQuery = {
   linkedAccountIDs?: string;
-  assetKind?: string; // "fiat" | "stock" | "crypto"
+  assetKind?: AssetAccountKind;
 };
 
 type FiatAsset = {
@@ -141,9 +147,11 @@ type Counterparty =
   | UserCounterparty
   | ServiceCounterparty;
 
-type Trade = {
+type TradeState = "success" | "inProgress" | "failure";
+
+export type Trade = {
   dateTime: string;
-  state: string; // "success" | "inProgress" | "failure"
+  state: TradeState;
   counterparty: Counterparty;
   lost: TradeAsset;
   gained: TradeAsset;
@@ -156,9 +164,10 @@ type AssetKind =
   | "transport"
   | "other"
   | "nothing";
+
 type CounterpartyKind = "merchant" | "user" | "service";
 
-type TradeQuery = {
+export type TradeQuery = {
   linkedAccountIDs?: string;
   dateTimeSpan?: string;
   gainedAssetKind?: AssetKind; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
@@ -173,8 +182,10 @@ type FiatAssetQuoteRequest = {
   amount?: number;
 };
 
+type MarketAssetKind = "stock" | "crypto";
+
 type MarketAssetQuoteRequest = {
-  assetKind?: string; // "stock" | "crypto"
+  assetKind?: MarketAssetKind;
   serviceAccountID?: string;
   serviceAssetID?: string;
   symbol?: string;
@@ -201,12 +212,12 @@ type TradeAssetQuoteRequest =
   | TransportAssetQuoteRequest
   | NothingAssetQuoteRequest;
 
-type TradeQuoteRequest = {
+export type TradeQuoteRequest = {
   linkedAccountIDs?: string;
   gained: TradeAssetQuoteRequest;
 };
 
-type TradeQuote = {
+export type TradeQuote = {
   lost: TradeAsset;
   gained: TradeAsset;
 };

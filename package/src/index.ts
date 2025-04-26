@@ -1,11 +1,17 @@
 import { NitroModules } from "react-native-nitro-modules";
 import type {
   AppUser,
+  AssetAccount,
+  AssetAccountQuery,
   LinkedAccount,
   PresentationBackground,
   PresentationStyle,
   RNCandle,
   Service,
+  Trade,
+  TradeQuery,
+  TradeQuote,
+  TradeQuoteRequest,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -69,6 +75,22 @@ export class CandleClient {
     arguments: string;
   }): Promise<string> {
     return this.candle.executeTool(tool);
+  }
+
+  public async getAssetAccounts(
+    query: AssetAccountQuery
+  ): Promise<AssetAccount[]> {
+    return this.candle.getAssetAccounts(query);
+  }
+
+  public async getTrades(query: TradeQuery): Promise<Trade[]> {
+    return this.candle.getTrades(query);
+  }
+
+  public async getTradeQuotes(
+    request: TradeQuoteRequest
+  ): Promise<TradeQuote[]> {
+    return this.candle.getTradeQuotes(request);
   }
 }
 
