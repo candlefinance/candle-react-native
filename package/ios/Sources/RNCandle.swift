@@ -5,6 +5,11 @@ import NitroModules
 import SwiftUI
 import UIKit
 
+public enum RNClientError: Error {
+  case badEncoding
+  case badInitialization(message: String)
+}
+
 @available(iOS 17.0, *)
 final class HybridRNCandle: HybridRNCandleSpec {
 
@@ -164,10 +169,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
   }
 
   public func getTrades(query: TradeQuery) throws -> Promise<[Trade]> {
-    .async { [weak self] in
-      guard let self else {
-        throw RNClientError.badInitialization(message: "Self was deinitialized \(#function).")
-      }
+    .async {
       let trades = try await self.viewModel.candleClient.getTrades(
         query: .init(
           linkedAccountIDs: query.linkedAccountIDs,
@@ -181,29 +183,26 @@ final class HybridRNCandle: HybridRNCandleSpec {
           dateTime: trade.dateTime,
           state: TradeState(fromString: trade.state.rawValue)!,
           counterparty: self.toCounterparty(trade),
-          lost: self.toAssetTrade(trade.lost),
-          gained: self.toAssetTrade(trade.gained)
+          lost: trade.lost.toAsset,
+          gained: trade.gained.toAsset
         )
       }
     }
   }
 
   public func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<[TradeQuote]> {
-    .async { [weak self] in
-      guard let self else {
-        throw RNClientError.badInitialization(message: "Self was deinitialized \(#function).")
-      }
+    .async {
       let accounts = try await self.viewModel.candleClient.getTradeQuotes(
         request:
           .init(
             linkedAccountIDs: request.linkedAccountIDs,
-            gained: self.toGained(request)
+            gained: try request.toGained
           )
       )
       return accounts.map { account in
         TradeQuote(
-          lost: self.toAssetTrade(account.lost),
-          gained: self.toAssetTrade(account.gained)
+          lost: account.lost.toAsset,
+          gained: account.gained.toAsset
         )
       }
     }
@@ -286,11 +285,6 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  enum RNClientError: Error {
-    case badEncoding
-    case badInitialization(message: String)
-  }
-
   struct RNToolCall: ToolCallRequest, Codable {
     let name: String
     let arguments: String
@@ -368,8 +362,11 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  func toAssetTrade(_ value: Models.TradeAsset) -> TradeAsset {
-    switch value {
+}
+
+extension Models.TradeAsset {
+  var toAsset: TradeAsset {
+    switch self {
     case .FiatAsset(let fiatAsset):
       return .init(
         fiatAsset: .init(
@@ -450,62 +447,66 @@ final class HybridRNCandle: HybridRNCandleSpec {
       )
     }
   }
+}
 
-  func toGained(_ request: TradeQuoteRequest) throws -> Models.TradeAssetQuoteRequest {
-    if let fiatAssetQuoteRequest = request.gained.fiatAssetQuoteRequest {
-      return Models.TradeAssetQuoteRequest.FiatAssetQuoteRequest(
-        .init(
-          assetKind: .fiat,
-          serviceAccountID: fiatAssetQuoteRequest.serviceAccountID,
-          currencyCode: fiatAssetQuoteRequest.currencyCode,
-          amount: fiatAssetQuoteRequest.amount
+extension TradeQuoteRequest {
+  var toGained: Models.TradeAssetQuoteRequest {
+    get throws {
+      if let fiatAssetQuoteRequest = gained.fiatAssetQuoteRequest {
+        return Models.TradeAssetQuoteRequest.FiatAssetQuoteRequest(
+          .init(
+            assetKind: .fiat,
+            serviceAccountID: fiatAssetQuoteRequest.serviceAccountID,
+            currencyCode: fiatAssetQuoteRequest.currencyCode,
+            amount: fiatAssetQuoteRequest.amount
+          )
         )
-      )
-    } else if let marketAssetQuoteRequest = request.gained.marketAssetQuoteRequest {
-      return Models.TradeAssetQuoteRequest.MarketAssetQuoteRequest(
-        .init(
-          assetKind: .init(rawValue: marketAssetQuoteRequest.assetKind ?? "") ?? .stock,
-          serviceAccountID: marketAssetQuoteRequest.serviceAccountID,
-          serviceAssetID: marketAssetQuoteRequest.serviceAssetID,
-          symbol: marketAssetQuoteRequest.symbol,
-          amount: marketAssetQuoteRequest.amount
+      } else if let marketAssetQuoteRequest = gained.marketAssetQuoteRequest {
+        return Models.TradeAssetQuoteRequest.MarketAssetQuoteRequest(
+          .init(
+            assetKind: .init(rawValue: marketAssetQuoteRequest.assetKind ?? "") ?? .stock,
+            serviceAccountID: marketAssetQuoteRequest.serviceAccountID,
+            serviceAssetID: marketAssetQuoteRequest.serviceAssetID,
+            symbol: marketAssetQuoteRequest.symbol,
+            amount: marketAssetQuoteRequest.amount
+          )
         )
-      )
-    } else if request.gained.nothingAssetQuoteRequest != nil {
-      return Models.TradeAssetQuoteRequest.NothingAssetQuoteRequest(
-        .init(assetKind: .nothing)
-      )
-    } else if let transportAssetQuoteRequest = request.gained.transportAssetQuoteRequest {
-      return Models.TradeAssetQuoteRequest.TransportAssetQuoteRequest(
-        .init(
-          assetKind: .transport,
-          serviceAssetID: transportAssetQuoteRequest.serviceAssetID,
-          originCoordinates: transportAssetQuoteRequest.originCoordinates?.toCoordinates,
-          originAddress: transportAssetQuoteRequest.originAddress?.toAddress,
-          destinationCoordinates: transportAssetQuoteRequest.destinationCoordinates?.toCoordinates,
-          destinationAddress: transportAssetQuoteRequest.destinationAddress?.toAddress,
-          seats: transportAssetQuoteRequest.seats
+      } else if gained.nothingAssetQuoteRequest != nil {
+        return Models.TradeAssetQuoteRequest.NothingAssetQuoteRequest(
+          .init(assetKind: .nothing)
         )
-      )
-    } else {
-      throw RNClientError.badInitialization(
-        message: "Unsuppoted TradeQuoteRequest: \(String(describing: request))")
+      } else if let transportAssetQuoteRequest = gained.transportAssetQuoteRequest {
+        return Models.TradeAssetQuoteRequest.TransportAssetQuoteRequest(
+          .init(
+            assetKind: .transport,
+            serviceAssetID: transportAssetQuoteRequest.serviceAssetID,
+            originCoordinates: transportAssetQuoteRequest.originCoordinates?.toCoordinates,
+            originAddress: transportAssetQuoteRequest.originAddress?.toAddress,
+            destinationCoordinates: transportAssetQuoteRequest.destinationCoordinates?
+              .toCoordinates,
+            destinationAddress: transportAssetQuoteRequest.destinationAddress?.toAddress,
+            seats: transportAssetQuoteRequest.seats
+          )
+        )
+      } else {
+        throw RNClientError.badInitialization(
+          message: "Unsuppoted TradeQuoteRequest: \(String(describing: self))")
+      }
     }
   }
-
 }
 
 extension Address {
-    var toAddress: Models.Address {
-        return .init(value: value)
-    }
+  var toAddress: Models.Address {
+    return .init(value: value)
+  }
 }
 
 extension Coordinates {
-    var toCoordinates: Models.Coordinates {
-        return .init(
-            latitude: latitude,
-            longitude: longitude
-        )
-    }
+  var toCoordinates: Models.Coordinates {
+    return .init(
+      latitude: latitude,
+      longitude: longitude
+    )
+  }
 }
