@@ -108,7 +108,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
           linkedAccountIDs: query.linkedAccountIDs,
           assetKind: query.assetKind?.stringValue == nil
             ? nil : .init(rawValue: query.assetKind!.stringValue)
-        ))
+        )
+      )
       return accounts.map { model in
         let legalAccountKind = LegalAccountKind(fromString: model.legalAccountKind.rawValue)!
         switch model.details {
@@ -131,8 +132,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
           return AssetAccount(
             legalAccountKind: legalAccountKind,
             nickname: model.nickname,
-            details: .first(
-              .init(
+            details: .init(
+                fiatAccountDetails: .init(
                 assetKind: fiatDetails.assetKind.rawValue,
                 serviceAccountID: fiatDetails.serviceAccountID,
                 currencyCode: fiatDetails.currencyCode,
@@ -140,20 +141,23 @@ final class HybridRNCandle: HybridRNCandleSpec {
                 ach: ach,
                 wire: wire,
                 linkedAccountID: fiatDetails.linkedAccountID,
-                service: Service(fromString: fiatDetails.service.rawValue)!)
+                service: Service(fromString: fiatDetails.service.rawValue)!),
+                marketAccountDetails: nil
             )
           )
         case .MarketAccountDetails(let marketDetails):
           return AssetAccount(
             legalAccountKind: legalAccountKind,
             nickname: model.nickname,
-            details: .second(
-              .init(
-                assetKind: marketDetails.assetKind.rawValue,
-                serviceAccountID: marketDetails.serviceAccountID,
-                linkedAccountID: marketDetails.linkedAccountID,
-                service: Service(fromString: marketDetails.service.rawValue)!
-              ))
+            details: .init(
+                fiatAccountDetails: nil,
+                marketAccountDetails: .init(
+                    assetKind: marketDetails.assetKind.rawValue,
+                    serviceAccountID: marketDetails.serviceAccountID,
+                    linkedAccountID: marketDetails.linkedAccountID,
+                    service: Service(fromString: marketDetails.service.rawValue)!
+                )
+            )
           )
         }
       }
@@ -264,7 +268,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
   }
 
   private func toLinkedAccount(_ account: Candle.Models.LinkedAccount) -> LinkedAccount {
-    let service: Service = toRNService(service: account.service)
+    let service: Service = Service(fromString: account.service.rawValue)!
     switch account.details {
     case .ActiveLinkedAccountDetails(let details):
       return LinkedAccount(
@@ -288,168 +292,4 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  func toRNService(service: Candle.Models.Service) -> Service {
-    switch service {
-    case .apple:
-      return .apple
-    case .cashApp:
-      return .cashApp
-    case .sandbox:
-      return .sandbox
-    case .robinhood:
-      return .robinhood
-    case .uber:
-      return .uber
-    case .lyft:
-      return .lyft
-    case .venmo:
-      return .venmo
-    case .chime:
-      return .chime
-    case .paypal:
-      return .paypal
-    case .coinbase:
-      return .coinbase
-    case .discover:
-      return .discover
-    case .americanExpress:
-      return .americanExpress
-    case .jpmorganChase:
-      return .jpmorganChase
-    case .bankOfAmerica:
-      return .bankOfAmerica
-    case .capitalOne:
-      return .capitalOne
-    case .citibank:
-      return .citibank
-    case .vanguard:
-      return .vanguard
-    case .wellsFargo:
-      return .wellsFargo
-    case .charlesSchwab:
-      return .charlesSchwab
-    case .kalshi:
-      return .kalshi
-    case .experian:
-      return .experian
-    case .waymo:
-      return .waymo
-    case .revel:
-      return .revel
-    case .turo:
-      return .turo
-    case .getaround:
-      return .getaround
-    case .zipcar:
-      return .zipcar
-    case .airbnb:
-      return .airbnb
-    case .americanAirlines:
-      return .americanAirlines
-    case .delta:
-      return .delta
-    case .united:
-      return .united
-    case .jetblue:
-      return .jetblue
-    case .southwest:
-      return .southwest
-    case .hawaiian:
-      return .hawaiian
-    case .hotels:
-      return .hotels
-    case .geico:
-      return .geico
-    case .progressive:
-      return .progressive
-    case .aaa:
-      return .aaa
-    case .stateFarm:
-      return .stateFarm
-    case .hertz:
-      return .hertz
-    case .avis:
-      return .avis
-    case .tesla:
-      return .tesla
-    case .doordash:
-      return .doordash
-    case .uberEats:
-      return .uberEats
-    case .grubhub:
-      return .grubhub
-    case .resy:
-      return .resy
-    case .opentable:
-      return .opentable
-    case .starbucks:
-      return .starbucks
-    case .blueBottle:
-      return .blueBottle
-    case .costco:
-      return .costco
-    case .amazon:
-      return .amazon
-    case .walmart:
-      return .walmart
-    case .wholeFoods:
-      return .wholeFoods
-    case .mcdonalds:
-      return .mcdonalds
-    case .chipotle:
-      return .chipotle
-    case .sweetgreen:
-      return .sweetgreen
-    case .snapchat:
-      return .snapchat
-    case .x:
-      return .x
-    case .facebook:
-      return .facebook
-    case .instagram:
-      return .instagram
-    case .signal:
-      return .signal
-    case .whatsapp:
-      return .whatsapp
-    case .messenger:
-      return .messenger
-    case .linkedin:
-      return .linkedin
-    case .discord:
-      return .discord
-    case .messages:
-      return .messages
-    case .telegram:
-      return .telegram
-    case .reddit:
-      return .reddit
-    case .pinterest:
-      return .pinterest
-    case .newYorkTimes:
-      return .newYorkTimes
-    case .washingtonPost:
-      return .washingtonPost
-    case .wallStreetJournal:
-      return .wallStreetJournal
-    case .cnn:
-      return .cnn
-    case .yahoo:
-      return .yahoo
-    case .fox:
-      return .fox
-    case .perplexity:
-      return .perplexity
-    case .openai:
-      return .openai
-    case .polymarket:
-      return .polymarket
-    case .espn:
-      return .espn
-    case .youtube:
-      return .youtube
-    case .netflix:
-      return .netflix
-    }
-  }
 }

@@ -18,15 +18,10 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `AssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class AssetKind; }
-// Forward declaration of `CounterpartyKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
+
 
 #include <optional>
 #include <string>
-#include "AssetKind.hpp"
-#include "CounterpartyKind.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -37,13 +32,13 @@ namespace margelo::nitro::rncandle {
   public:
     std::optional<std::string> linkedAccountIDs     SWIFT_PRIVATE;
     std::optional<std::string> dateTimeSpan     SWIFT_PRIVATE;
-    std::optional<AssetKind> gainedAssetKind     SWIFT_PRIVATE;
-    std::optional<AssetKind> lostAssetKind     SWIFT_PRIVATE;
-    std::optional<CounterpartyKind> counterpartyKind     SWIFT_PRIVATE;
+    std::optional<std::string> gainedAssetKind     SWIFT_PRIVATE;
+    std::optional<std::string> lostAssetKind     SWIFT_PRIVATE;
+    std::optional<std::string> counterpartyKind     SWIFT_PRIVATE;
 
   public:
     TradeQuery() = default;
-    explicit TradeQuery(std::optional<std::string> linkedAccountIDs, std::optional<std::string> dateTimeSpan, std::optional<AssetKind> gainedAssetKind, std::optional<AssetKind> lostAssetKind, std::optional<CounterpartyKind> counterpartyKind): linkedAccountIDs(linkedAccountIDs), dateTimeSpan(dateTimeSpan), gainedAssetKind(gainedAssetKind), lostAssetKind(lostAssetKind), counterpartyKind(counterpartyKind) {}
+    explicit TradeQuery(std::optional<std::string> linkedAccountIDs, std::optional<std::string> dateTimeSpan, std::optional<std::string> gainedAssetKind, std::optional<std::string> lostAssetKind, std::optional<std::string> counterpartyKind): linkedAccountIDs(linkedAccountIDs), dateTimeSpan(dateTimeSpan), gainedAssetKind(gainedAssetKind), lostAssetKind(lostAssetKind), counterpartyKind(counterpartyKind) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -60,18 +55,18 @@ namespace margelo::nitro {
       return TradeQuery(
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountIDs")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "dateTimeSpan")),
-        JSIConverter<std::optional<AssetKind>>::fromJSI(runtime, obj.getProperty(runtime, "gainedAssetKind")),
-        JSIConverter<std::optional<AssetKind>>::fromJSI(runtime, obj.getProperty(runtime, "lostAssetKind")),
-        JSIConverter<std::optional<CounterpartyKind>>::fromJSI(runtime, obj.getProperty(runtime, "counterpartyKind"))
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "gainedAssetKind")),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "lostAssetKind")),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "counterpartyKind"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeQuery& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "linkedAccountIDs", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.linkedAccountIDs));
       obj.setProperty(runtime, "dateTimeSpan", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.dateTimeSpan));
-      obj.setProperty(runtime, "gainedAssetKind", JSIConverter<std::optional<AssetKind>>::toJSI(runtime, arg.gainedAssetKind));
-      obj.setProperty(runtime, "lostAssetKind", JSIConverter<std::optional<AssetKind>>::toJSI(runtime, arg.lostAssetKind));
-      obj.setProperty(runtime, "counterpartyKind", JSIConverter<std::optional<CounterpartyKind>>::toJSI(runtime, arg.counterpartyKind));
+      obj.setProperty(runtime, "gainedAssetKind", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.gainedAssetKind));
+      obj.setProperty(runtime, "lostAssetKind", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.lostAssetKind));
+      obj.setProperty(runtime, "counterpartyKind", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.counterpartyKind));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -81,9 +76,9 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountIDs"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "dateTimeSpan"))) return false;
-      if (!JSIConverter<std::optional<AssetKind>>::canConvert(runtime, obj.getProperty(runtime, "gainedAssetKind"))) return false;
-      if (!JSIConverter<std::optional<AssetKind>>::canConvert(runtime, obj.getProperty(runtime, "lostAssetKind"))) return false;
-      if (!JSIConverter<std::optional<CounterpartyKind>>::canConvert(runtime, obj.getProperty(runtime, "counterpartyKind"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "gainedAssetKind"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "lostAssetKind"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "counterpartyKind"))) return false;
       return true;
     }
   };

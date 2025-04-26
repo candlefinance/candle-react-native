@@ -17,16 +17,7 @@ extension AssetAccount {
    * Create a new instance of `AssetAccount`.
    */
   public init(legalAccountKind: LegalAccountKind, nickname: String, details: AssetAccountDetails) {
-    self.init(
-      legalAccountKind, std.string(nickname),
-      { () -> bridge.std__variant_FiatAccountDetails__MarketAccountDetails_ in
-        switch details {
-        case .first(let __value):
-          return bridge.create_std__variant_FiatAccountDetails__MarketAccountDetails_(__value)
-        case .second(let __value):
-          return bridge.create_std__variant_FiatAccountDetails__MarketAccountDetails_(__value)
-        }
-      }().variant)
+    self.init(legalAccountKind, std.string(nickname), details)
   }
 
   public var legalAccountKind: LegalAccountKind {
@@ -54,32 +45,11 @@ extension AssetAccount {
   public var details: AssetAccountDetails {
     @inline(__always)
     get {
-      return { () -> AssetAccountDetails in
-        let __variant = bridge.std__variant_FiatAccountDetails__MarketAccountDetails_(
-          self.__details)
-        switch __variant.index() {
-        case 0:
-          let __actual = __variant.get_0()
-          return .first(__actual)
-        case 1:
-          let __actual = __variant.get_1()
-          return .second(__actual)
-        default:
-          fatalError("Variant can never have index \(__variant.index())!")
-        }
-      }()
+      return self.__details
     }
     @inline(__always)
     set {
-      self.__details =
-        { () -> bridge.std__variant_FiatAccountDetails__MarketAccountDetails_ in
-          switch newValue {
-          case .first(let __value):
-            return bridge.create_std__variant_FiatAccountDetails__MarketAccountDetails_(__value)
-          case .second(let __value):
-            return bridge.create_std__variant_FiatAccountDetails__MarketAccountDetails_(__value)
-          }
-        }().variant
+      self.__details = newValue
     }
   }
 }

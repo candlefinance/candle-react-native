@@ -18,18 +18,16 @@ namespace margelo::nitro::rncandle { struct Address; }
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `AppUser` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AppUser; }
+// Forward declaration of `AssetAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountDetails; }
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 // Forward declaration of `AssetAccountQuery` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccountQuery; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
-// Forward declaration of `AssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class AssetKind; }
 // Forward declaration of `Coordinates` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Coordinates; }
-// Forward declaration of `CounterpartyKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
 // Forward declaration of `Details` to properly resolve imports.
@@ -48,8 +46,6 @@ namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `MarketAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAccountDetails; }
-// Forward declaration of `MarketAssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
 // Forward declaration of `MarketAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 // Forward declaration of `MarketTradeAsset` to properly resolve imports.
@@ -105,12 +101,11 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "Address.hpp"
 #include "AppUser.hpp"
 #include "AssetAccount.hpp"
+#include "AssetAccountDetails.hpp"
 #include "AssetAccountKind.hpp"
 #include "AssetAccountQuery.hpp"
-#include "AssetKind.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
-#include "CounterpartyKind.hpp"
 #include "Details.hpp"
 #include "FiatAccountDetails.hpp"
 #include "FiatAsset.hpp"
@@ -119,7 +114,6 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "LegalAccountKind.hpp"
 #include "LinkedAccount.hpp"
 #include "MarketAccountDetails.hpp"
-#include "MarketAssetKind.hpp"
 #include "MarketAssetQuoteRequest.hpp"
 #include "MarketTradeAsset.hpp"
 #include "MerchantCounterparty.hpp"
@@ -152,7 +146,6 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include <memory>
 #include <optional>
 #include <string>
-#include <variant>
 #include <vector>
 
 // C++ helpers for Swift

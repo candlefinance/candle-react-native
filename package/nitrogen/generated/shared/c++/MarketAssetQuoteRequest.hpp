@@ -18,11 +18,9 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `MarketAssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
+
 
 #include <optional>
-#include "MarketAssetKind.hpp"
 #include <string>
 
 namespace margelo::nitro::rncandle {
@@ -32,7 +30,7 @@ namespace margelo::nitro::rncandle {
    */
   struct MarketAssetQuoteRequest {
   public:
-    std::optional<MarketAssetKind> assetKind     SWIFT_PRIVATE;
+    std::optional<std::string> assetKind     SWIFT_PRIVATE;
     std::optional<std::string> serviceAccountID     SWIFT_PRIVATE;
     std::optional<std::string> serviceAssetID     SWIFT_PRIVATE;
     std::optional<std::string> symbol     SWIFT_PRIVATE;
@@ -40,7 +38,7 @@ namespace margelo::nitro::rncandle {
 
   public:
     MarketAssetQuoteRequest() = default;
-    explicit MarketAssetQuoteRequest(std::optional<MarketAssetKind> assetKind, std::optional<std::string> serviceAccountID, std::optional<std::string> serviceAssetID, std::optional<std::string> symbol, std::optional<double> amount): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount) {}
+    explicit MarketAssetQuoteRequest(std::optional<std::string> assetKind, std::optional<std::string> serviceAccountID, std::optional<std::string> serviceAssetID, std::optional<std::string> symbol, std::optional<double> amount): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -55,7 +53,7 @@ namespace margelo::nitro {
     static inline MarketAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return MarketAssetQuoteRequest(
-        JSIConverter<std::optional<MarketAssetKind>>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAssetID")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "symbol")),
@@ -64,7 +62,7 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const MarketAssetQuoteRequest& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::optional<MarketAssetKind>>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAccountID));
       obj.setProperty(runtime, "serviceAssetID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAssetID));
       obj.setProperty(runtime, "symbol", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.symbol));
@@ -76,7 +74,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<MarketAssetKind>>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAssetID"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "symbol"))) return false;

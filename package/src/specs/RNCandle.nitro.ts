@@ -37,7 +37,10 @@ type MarketAccountDetails = {
   service: Service;
 };
 
-type AssetAccountDetails = FiatAccountDetails | MarketAccountDetails;
+type AssetAccountDetails = {
+  fiatAccountDetails?: FiatAccountDetails;
+  marketAccountDetails?: MarketAccountDetails;
+};
 
 type LegalAccountKind = "individual" | "joint" | "traditionalIra" | "rothIra";
 
@@ -159,22 +162,22 @@ export type Trade = {
   gained: TradeAsset;
 };
 
-type AssetKind =
-  | "fiat"
-  | "stock"
-  | "crypto"
-  | "transport"
-  | "other"
-  | "nothing";
+// type AssetKind =
+//   | "fiat"
+//   | "stock"
+//   | "crypto"
+//   | "transport"
+//   | "other"
+//   | "nothing";
 
-type CounterpartyKind = "merchant" | "user" | "service";
+// type CounterpartyKind = "merchant" | "user" | "service";
 
 export type TradeQuery = {
   linkedAccountIDs?: string;
   dateTimeSpan?: string;
-  gainedAssetKind?: AssetKind; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
-  lostAssetKind?: AssetKind; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
-  counterpartyKind?: CounterpartyKind; // "merchant" | "user" | "service"
+  gainedAssetKind?: string; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
+  lostAssetKind?: string; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
+  counterpartyKind?: string; // "merchant" | "user" | "service"
 };
 
 type FiatAssetQuoteRequest = {
@@ -184,10 +187,10 @@ type FiatAssetQuoteRequest = {
   amount?: number;
 };
 
-type MarketAssetKind = "stock" | "crypto";
+// type MarketAssetKind = "stock" | "crypto";
 
 type MarketAssetQuoteRequest = {
-  assetKind?: MarketAssetKind;
+  assetKind?: string; // "stock" | "crypto"
   serviceAccountID?: string;
   serviceAssetID?: string;
   symbol?: string;

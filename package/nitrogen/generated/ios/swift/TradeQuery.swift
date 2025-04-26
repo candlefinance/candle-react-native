@@ -17,8 +17,8 @@ extension TradeQuery {
    * Create a new instance of `TradeQuery`.
    */
   public init(
-    linkedAccountIDs: String?, dateTimeSpan: String?, gainedAssetKind: AssetKind?,
-    lostAssetKind: AssetKind?, counterpartyKind: CounterpartyKind?
+    linkedAccountIDs: String?, dateTimeSpan: String?, gainedAssetKind: String?,
+    lostAssetKind: String?, counterpartyKind: String?
   ) {
     self.init(
       { () -> bridge.std__optional_std__string_ in
@@ -35,23 +35,23 @@ extension TradeQuery {
           return .init()
         }
       }(),
-      { () -> bridge.std__optional_AssetKind_ in
+      { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = gainedAssetKind {
-          return bridge.create_std__optional_AssetKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
       }(),
-      { () -> bridge.std__optional_AssetKind_ in
+      { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = lostAssetKind {
-          return bridge.create_std__optional_AssetKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
       }(),
-      { () -> bridge.std__optional_CounterpartyKind_ in
+      { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = counterpartyKind {
-          return bridge.create_std__optional_CounterpartyKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
@@ -104,16 +104,22 @@ extension TradeQuery {
     }
   }
 
-  public var gainedAssetKind: AssetKind? {
+  public var gainedAssetKind: String? {
     @inline(__always)
     get {
-      return self.__gainedAssetKind.value
+      return { () -> String? in
+        if let __unwrapped = self.__gainedAssetKind.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__gainedAssetKind = { () -> bridge.std__optional_AssetKind_ in
+      self.__gainedAssetKind = { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_AssetKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
@@ -121,16 +127,22 @@ extension TradeQuery {
     }
   }
 
-  public var lostAssetKind: AssetKind? {
+  public var lostAssetKind: String? {
     @inline(__always)
     get {
-      return self.__lostAssetKind.value
+      return { () -> String? in
+        if let __unwrapped = self.__lostAssetKind.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__lostAssetKind = { () -> bridge.std__optional_AssetKind_ in
+      self.__lostAssetKind = { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_AssetKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
@@ -138,16 +150,22 @@ extension TradeQuery {
     }
   }
 
-  public var counterpartyKind: CounterpartyKind? {
+  public var counterpartyKind: String? {
     @inline(__always)
     get {
-      return self.__counterpartyKind.value
+      return { () -> String? in
+        if let __unwrapped = self.__counterpartyKind.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__counterpartyKind = { () -> bridge.std__optional_CounterpartyKind_ in
+      self.__counterpartyKind = { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_CounterpartyKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }

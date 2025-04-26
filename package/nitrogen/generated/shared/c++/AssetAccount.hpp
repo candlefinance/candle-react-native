@@ -20,16 +20,12 @@
 
 // Forward declaration of `LegalAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
-// Forward declaration of `FiatAccountDetails` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct FiatAccountDetails; }
-// Forward declaration of `MarketAccountDetails` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct MarketAccountDetails; }
+// Forward declaration of `AssetAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountDetails; }
 
 #include "LegalAccountKind.hpp"
 #include <string>
-#include <variant>
-#include "FiatAccountDetails.hpp"
-#include "MarketAccountDetails.hpp"
+#include "AssetAccountDetails.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -40,11 +36,11 @@ namespace margelo::nitro::rncandle {
   public:
     LegalAccountKind legalAccountKind     SWIFT_PRIVATE;
     std::string nickname     SWIFT_PRIVATE;
-    std::variant<FiatAccountDetails, MarketAccountDetails> details     SWIFT_PRIVATE;
+    AssetAccountDetails details     SWIFT_PRIVATE;
 
   public:
     AssetAccount() = default;
-    explicit AssetAccount(LegalAccountKind legalAccountKind, std::string nickname, std::variant<FiatAccountDetails, MarketAccountDetails> details): legalAccountKind(legalAccountKind), nickname(nickname), details(details) {}
+    explicit AssetAccount(LegalAccountKind legalAccountKind, std::string nickname, AssetAccountDetails details): legalAccountKind(legalAccountKind), nickname(nickname), details(details) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -61,14 +57,14 @@ namespace margelo::nitro {
       return AssetAccount(
         JSIConverter<LegalAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "legalAccountKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "nickname")),
-        JSIConverter<std::variant<FiatAccountDetails, MarketAccountDetails>>::fromJSI(runtime, obj.getProperty(runtime, "details"))
+        JSIConverter<AssetAccountDetails>::fromJSI(runtime, obj.getProperty(runtime, "details"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const AssetAccount& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "legalAccountKind", JSIConverter<LegalAccountKind>::toJSI(runtime, arg.legalAccountKind));
       obj.setProperty(runtime, "nickname", JSIConverter<std::string>::toJSI(runtime, arg.nickname));
-      obj.setProperty(runtime, "details", JSIConverter<std::variant<FiatAccountDetails, MarketAccountDetails>>::toJSI(runtime, arg.details));
+      obj.setProperty(runtime, "details", JSIConverter<AssetAccountDetails>::toJSI(runtime, arg.details));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -78,7 +74,7 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<LegalAccountKind>::canConvert(runtime, obj.getProperty(runtime, "legalAccountKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "nickname"))) return false;
-      if (!JSIConverter<std::variant<FiatAccountDetails, MarketAccountDetails>>::canConvert(runtime, obj.getProperty(runtime, "details"))) return false;
+      if (!JSIConverter<AssetAccountDetails>::canConvert(runtime, obj.getProperty(runtime, "details"))) return false;
       return true;
     }
   };

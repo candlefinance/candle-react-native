@@ -17,13 +17,13 @@ extension MarketAssetQuoteRequest {
    * Create a new instance of `MarketAssetQuoteRequest`.
    */
   public init(
-    assetKind: MarketAssetKind?, serviceAccountID: String?, serviceAssetID: String?,
-    symbol: String?, amount: Double?
+    assetKind: String?, serviceAccountID: String?, serviceAssetID: String?, symbol: String?,
+    amount: Double?
   ) {
     self.init(
-      { () -> bridge.std__optional_MarketAssetKind_ in
+      { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = assetKind {
-          return bridge.create_std__optional_MarketAssetKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
@@ -58,16 +58,22 @@ extension MarketAssetQuoteRequest {
       }())
   }
 
-  public var assetKind: MarketAssetKind? {
+  public var assetKind: String? {
     @inline(__always)
     get {
-      return self.__assetKind.value
+      return { () -> String? in
+        if let __unwrapped = self.__assetKind.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__assetKind = { () -> bridge.std__optional_MarketAssetKind_ in
+      self.__assetKind = { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_MarketAssetKind_(__unwrappedValue)
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }

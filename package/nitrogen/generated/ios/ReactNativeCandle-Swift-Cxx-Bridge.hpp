@@ -16,16 +16,14 @@ namespace margelo::nitro::rncandle { struct ACHDetails; }
 namespace margelo::nitro::rncandle { struct Address; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
+// Forward declaration of `AssetAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountDetails; }
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
-// Forward declaration of `AssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class AssetKind; }
 // Forward declaration of `Coordinates` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Coordinates; }
-// Forward declaration of `CounterpartyKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
 // Forward declaration of `Details` to properly resolve imports.
@@ -44,8 +42,6 @@ namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `MarketAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAccountDetails; }
-// Forward declaration of `MarketAssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
 // Forward declaration of `MarketAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 // Forward declaration of `MarketTradeAsset` to properly resolve imports.
@@ -92,11 +88,10 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "ACHDetails.hpp"
 #include "Address.hpp"
 #include "AssetAccount.hpp"
+#include "AssetAccountDetails.hpp"
 #include "AssetAccountKind.hpp"
-#include "AssetKind.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
-#include "CounterpartyKind.hpp"
 #include "Details.hpp"
 #include "FiatAccountDetails.hpp"
 #include "FiatAsset.hpp"
@@ -105,7 +100,6 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "LegalAccountKind.hpp"
 #include "LinkedAccount.hpp"
 #include "MarketAccountDetails.hpp"
-#include "MarketAssetKind.hpp"
 #include "MarketAssetQuoteRequest.hpp"
 #include "MarketTradeAsset.hpp"
 #include "MerchantCounterparty.hpp"
@@ -133,7 +127,6 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include <memory>
 #include <optional>
 #include <string>
-#include <variant>
 #include <vector>
 
 /**
@@ -330,33 +323,22 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return std::optional<WireDetails>(value);
   }
   
-  // pragma MARK: std::variant<FiatAccountDetails, MarketAccountDetails>
+  // pragma MARK: std::optional<FiatAccountDetails>
   /**
-   * Wrapper struct for `std::variant<FiatAccountDetails, MarketAccountDetails>`.
-   * std::variant cannot be used in Swift because of a Swift bug.
-   * Not even specializing it works. So we create a wrapper struct.
+   * Specialized version of `std::optional<FiatAccountDetails>`.
    */
-  struct std__variant_FiatAccountDetails__MarketAccountDetails_ {
-    std::variant<FiatAccountDetails, MarketAccountDetails> variant;
-    std__variant_FiatAccountDetails__MarketAccountDetails_(std::variant<FiatAccountDetails, MarketAccountDetails> variant): variant(variant) { }
-    operator std::variant<FiatAccountDetails, MarketAccountDetails>() const {
-      return variant;
-    }
-    inline size_t index() const {
-      return variant.index();
-    }
-    inline FiatAccountDetails get_0() const {
-      return std::get<0>(variant);
-    }
-    inline MarketAccountDetails get_1() const {
-      return std::get<1>(variant);
-    }
-  };
-  inline std__variant_FiatAccountDetails__MarketAccountDetails_ create_std__variant_FiatAccountDetails__MarketAccountDetails_(const FiatAccountDetails& value) {
-    return std__variant_FiatAccountDetails__MarketAccountDetails_(value);
+  using std__optional_FiatAccountDetails_ = std::optional<FiatAccountDetails>;
+  inline std::optional<FiatAccountDetails> create_std__optional_FiatAccountDetails_(const FiatAccountDetails& value) {
+    return std::optional<FiatAccountDetails>(value);
   }
-  inline std__variant_FiatAccountDetails__MarketAccountDetails_ create_std__variant_FiatAccountDetails__MarketAccountDetails_(const MarketAccountDetails& value) {
-    return std__variant_FiatAccountDetails__MarketAccountDetails_(value);
+  
+  // pragma MARK: std::optional<MarketAccountDetails>
+  /**
+   * Specialized version of `std::optional<MarketAccountDetails>`.
+   */
+  using std__optional_MarketAccountDetails_ = std::optional<MarketAccountDetails>;
+  inline std::optional<MarketAccountDetails> create_std__optional_MarketAccountDetails_(const MarketAccountDetails& value) {
+    return std::optional<MarketAccountDetails>(value);
   }
   
   // pragma MARK: std::vector<AssetAccount>
@@ -530,24 +512,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Func_void_std__vector_Trade__Wrapper(std::move(value));
   }
   
-  // pragma MARK: std::optional<AssetKind>
-  /**
-   * Specialized version of `std::optional<AssetKind>`.
-   */
-  using std__optional_AssetKind_ = std::optional<AssetKind>;
-  inline std::optional<AssetKind> create_std__optional_AssetKind_(const AssetKind& value) {
-    return std::optional<AssetKind>(value);
-  }
-  
-  // pragma MARK: std::optional<CounterpartyKind>
-  /**
-   * Specialized version of `std::optional<CounterpartyKind>`.
-   */
-  using std__optional_CounterpartyKind_ = std::optional<CounterpartyKind>;
-  inline std::optional<CounterpartyKind> create_std__optional_CounterpartyKind_(const CounterpartyKind& value) {
-    return std::optional<CounterpartyKind>(value);
-  }
-  
   // pragma MARK: std::vector<TradeQuote>
   /**
    * Specialized version of `std::vector<TradeQuote>`.
@@ -600,15 +564,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
   using std__optional_FiatAssetQuoteRequest_ = std::optional<FiatAssetQuoteRequest>;
   inline std::optional<FiatAssetQuoteRequest> create_std__optional_FiatAssetQuoteRequest_(const FiatAssetQuoteRequest& value) {
     return std::optional<FiatAssetQuoteRequest>(value);
-  }
-  
-  // pragma MARK: std::optional<MarketAssetKind>
-  /**
-   * Specialized version of `std::optional<MarketAssetKind>`.
-   */
-  using std__optional_MarketAssetKind_ = std::optional<MarketAssetKind>;
-  inline std::optional<MarketAssetKind> create_std__optional_MarketAssetKind_(const MarketAssetKind& value) {
-    return std::optional<MarketAssetKind>(value);
   }
   
   // pragma MARK: std::optional<MarketAssetQuoteRequest>
