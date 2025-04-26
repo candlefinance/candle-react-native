@@ -8,10 +8,10 @@ import type {
   PresentationStyle,
   RNCandle,
   Service,
-  Trade,
-  TradeQuery,
-  TradeQuote,
-  TradeQuoteRequest,
+  // Trade,
+  // TradeQuery,
+  // TradeQuote,
+  // TradeQuoteRequest,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -83,15 +83,15 @@ export class CandleClient {
     return this.candle.getAssetAccounts(query);
   }
 
-  public async getTrades(query: TradeQuery): Promise<Trade[]> {
-    return this.candle.getTrades(query);
-  }
+  // public async getTrades(query: TradeQuery): Promise<Trade[]> {
+  //   return this.candle.getTrades(query);
+  // }
 
-  public async getTradeQuotes(
-    request: TradeQuoteRequest
-  ): Promise<TradeQuote[]> {
-    return this.candle.getTradeQuotes(request);
-  }
+  // public async getTradeQuotes(
+  //   request: TradeQuoteRequest
+  // ): Promise<TradeQuote[]> {
+  //   return this.candle.getTradeQuotes(request);
+  // }
 }
 
 export type { LinkedAccount, AppUser };

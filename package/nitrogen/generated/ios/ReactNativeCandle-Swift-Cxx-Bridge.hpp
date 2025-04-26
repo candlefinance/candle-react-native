@@ -12,28 +12,16 @@
 namespace margelo::nitro::rncandle { enum class ACHAccountKind; }
 // Forward declaration of `ACHDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ACHDetails; }
-// Forward declaration of `Address` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct Address; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
-// Forward declaration of `AssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class AssetKind; }
-// Forward declaration of `Coordinates` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct Coordinates; }
-// Forward declaration of `CounterpartyKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
 // Forward declaration of `Details` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `FiatAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct FiatAccountDetails; }
-// Forward declaration of `FiatAssetQuoteRequest` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct FiatAssetQuoteRequest; }
-// Forward declaration of `FiatAsset` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct FiatAsset; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
 namespace margelo::nitro::rncandle { class HybridRNCandleSpec; }
 // Forward declaration of `LegalAccountKind` to properly resolve imports.
@@ -42,40 +30,10 @@ namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `MarketAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAccountDetails; }
-// Forward declaration of `MarketAssetKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
-// Forward declaration of `MarketAssetQuoteRequest` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
-// Forward declaration of `MarketTradeAsset` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct MarketTradeAsset; }
-// Forward declaration of `MerchantCounterparty` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct MerchantCounterparty; }
-// Forward declaration of `MerchantLocation` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct MerchantLocation; }
-// Forward declaration of `NothingAssetQuoteRequest` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
-// Forward declaration of `NothingAsset` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct NothingAsset; }
-// Forward declaration of `OtherAsset` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct OtherAsset; }
-// Forward declaration of `ServiceCounterparty` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
 // Forward declaration of `State` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class State; }
-// Forward declaration of `TradeQuote` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct TradeQuote; }
-// Forward declaration of `TradeState` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class TradeState; }
-// Forward declaration of `Trade` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct Trade; }
-// Forward declaration of `TransportAssetQuoteRequest` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
-// Forward declaration of `TransportAsset` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct TransportAsset; }
-// Forward declaration of `UserCounterparty` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct UserCounterparty; }
 // Forward declaration of `WireDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct WireDetails; }
 
@@ -86,37 +44,16 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 // Include C++ defined types
 #include "ACHAccountKind.hpp"
 #include "ACHDetails.hpp"
-#include "Address.hpp"
 #include "AssetAccount.hpp"
 #include "AssetAccountKind.hpp"
-#include "AssetKind.hpp"
-#include "Coordinates.hpp"
-#include "CounterpartyKind.hpp"
 #include "Details.hpp"
 #include "FiatAccountDetails.hpp"
-#include "FiatAsset.hpp"
-#include "FiatAssetQuoteRequest.hpp"
 #include "HybridRNCandleSpec.hpp"
 #include "LegalAccountKind.hpp"
 #include "LinkedAccount.hpp"
 #include "MarketAccountDetails.hpp"
-#include "MarketAssetKind.hpp"
-#include "MarketAssetQuoteRequest.hpp"
-#include "MarketTradeAsset.hpp"
-#include "MerchantCounterparty.hpp"
-#include "MerchantLocation.hpp"
-#include "NothingAsset.hpp"
-#include "NothingAssetQuoteRequest.hpp"
-#include "OtherAsset.hpp"
 #include "Service.hpp"
-#include "ServiceCounterparty.hpp"
 #include "State.hpp"
-#include "Trade.hpp"
-#include "TradeQuote.hpp"
-#include "TradeState.hpp"
-#include "TransportAsset.hpp"
-#include "TransportAssetQuoteRequest.hpp"
-#include "UserCounterparty.hpp"
 #include "WireDetails.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include <NitroModules/Promise.hpp>
@@ -407,264 +344,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return std::optional<AssetAccountKind>(value);
   }
   
-  // pragma MARK: std::variant<MerchantCounterparty, UserCounterparty, ServiceCounterparty>
-  /**
-   * Wrapper struct for `std::variant<MerchantCounterparty, UserCounterparty, ServiceCounterparty>`.
-   * std::variant cannot be used in Swift because of a Swift bug.
-   * Not even specializing it works. So we create a wrapper struct.
-   */
-  struct std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_ {
-    std::variant<MerchantCounterparty, UserCounterparty, ServiceCounterparty> variant;
-    std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_(std::variant<MerchantCounterparty, UserCounterparty, ServiceCounterparty> variant): variant(variant) { }
-    operator std::variant<MerchantCounterparty, UserCounterparty, ServiceCounterparty>() const {
-      return variant;
-    }
-    inline size_t index() const {
-      return variant.index();
-    }
-    inline MerchantCounterparty get_0() const {
-      return std::get<0>(variant);
-    }
-    inline UserCounterparty get_1() const {
-      return std::get<1>(variant);
-    }
-    inline ServiceCounterparty get_2() const {
-      return std::get<2>(variant);
-    }
-  };
-  inline std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_ create_std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_(const MerchantCounterparty& value) {
-    return std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_(value);
-  }
-  inline std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_ create_std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_(const UserCounterparty& value) {
-    return std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_(value);
-  }
-  inline std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_ create_std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_(const ServiceCounterparty& value) {
-    return std__variant_MerchantCounterparty__UserCounterparty__ServiceCounterparty_(value);
-  }
-  
-  // pragma MARK: std::variant<FiatAsset, MarketTradeAsset, TransportAsset, OtherAsset, NothingAsset>
-  /**
-   * Wrapper struct for `std::variant<FiatAsset, MarketTradeAsset, TransportAsset, OtherAsset, NothingAsset>`.
-   * std::variant cannot be used in Swift because of a Swift bug.
-   * Not even specializing it works. So we create a wrapper struct.
-   */
-  struct std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_ {
-    std::variant<FiatAsset, MarketTradeAsset, TransportAsset, OtherAsset, NothingAsset> variant;
-    std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(std::variant<FiatAsset, MarketTradeAsset, TransportAsset, OtherAsset, NothingAsset> variant): variant(variant) { }
-    operator std::variant<FiatAsset, MarketTradeAsset, TransportAsset, OtherAsset, NothingAsset>() const {
-      return variant;
-    }
-    inline size_t index() const {
-      return variant.index();
-    }
-    inline FiatAsset get_0() const {
-      return std::get<0>(variant);
-    }
-    inline MarketTradeAsset get_1() const {
-      return std::get<1>(variant);
-    }
-    inline TransportAsset get_2() const {
-      return std::get<2>(variant);
-    }
-    inline OtherAsset get_3() const {
-      return std::get<3>(variant);
-    }
-    inline NothingAsset get_4() const {
-      return std::get<4>(variant);
-    }
-  };
-  inline std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_ create_std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(const FiatAsset& value) {
-    return std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(value);
-  }
-  inline std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_ create_std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(const MarketTradeAsset& value) {
-    return std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(value);
-  }
-  inline std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_ create_std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(const TransportAsset& value) {
-    return std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(value);
-  }
-  inline std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_ create_std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(const OtherAsset& value) {
-    return std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(value);
-  }
-  inline std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_ create_std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(const NothingAsset& value) {
-    return std__variant_FiatAsset__MarketTradeAsset__TransportAsset__OtherAsset__NothingAsset_(value);
-  }
-  
-  // pragma MARK: std::vector<Trade>
-  /**
-   * Specialized version of `std::vector<Trade>`.
-   */
-  using std__vector_Trade_ = std::vector<Trade>;
-  inline std::vector<Trade> create_std__vector_Trade_(size_t size) {
-    std::vector<Trade> vector;
-    vector.reserve(size);
-    return vector;
-  }
-  
-  // pragma MARK: std::shared_ptr<Promise<std::vector<Trade>>>
-  /**
-   * Specialized version of `std::shared_ptr<Promise<std::vector<Trade>>>`.
-   */
-  using std__shared_ptr_Promise_std__vector_Trade___ = std::shared_ptr<Promise<std::vector<Trade>>>;
-  inline std::shared_ptr<Promise<std::vector<Trade>>> create_std__shared_ptr_Promise_std__vector_Trade___() {
-    return Promise<std::vector<Trade>>::create();
-  }
-  inline PromiseHolder<std::vector<Trade>> wrap_std__shared_ptr_Promise_std__vector_Trade___(std::shared_ptr<Promise<std::vector<Trade>>> promise) {
-    return PromiseHolder<std::vector<Trade>>(std::move(promise));
-  }
-  
-  // pragma MARK: std::function<void(const std::vector<Trade>& /* result */)>
-  /**
-   * Specialized version of `std::function<void(const std::vector<Trade>&)>`.
-   */
-  using Func_void_std__vector_Trade_ = std::function<void(const std::vector<Trade>& /* result */)>;
-  /**
-   * Wrapper class for a `std::function<void(const std::vector<Trade>& / * result * /)>`, this can be used from Swift.
-   */
-  class Func_void_std__vector_Trade__Wrapper final {
-  public:
-    explicit Func_void_std__vector_Trade__Wrapper(std::function<void(const std::vector<Trade>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<Trade>& /* result */)>>(std::move(func))) {}
-    inline void call(std::vector<Trade> result) const {
-      _function->operator()(result);
-    }
-  private:
-    std::shared_ptr<std::function<void(const std::vector<Trade>& /* result */)>> _function;
-  };
-  Func_void_std__vector_Trade_ create_Func_void_std__vector_Trade_(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__vector_Trade__Wrapper wrap_Func_void_std__vector_Trade_(Func_void_std__vector_Trade_ value) {
-    return Func_void_std__vector_Trade__Wrapper(std::move(value));
-  }
-  
-  // pragma MARK: std::optional<AssetKind>
-  /**
-   * Specialized version of `std::optional<AssetKind>`.
-   */
-  using std__optional_AssetKind_ = std::optional<AssetKind>;
-  inline std::optional<AssetKind> create_std__optional_AssetKind_(const AssetKind& value) {
-    return std::optional<AssetKind>(value);
-  }
-  
-  // pragma MARK: std::optional<CounterpartyKind>
-  /**
-   * Specialized version of `std::optional<CounterpartyKind>`.
-   */
-  using std__optional_CounterpartyKind_ = std::optional<CounterpartyKind>;
-  inline std::optional<CounterpartyKind> create_std__optional_CounterpartyKind_(const CounterpartyKind& value) {
-    return std::optional<CounterpartyKind>(value);
-  }
-  
-  // pragma MARK: std::vector<TradeQuote>
-  /**
-   * Specialized version of `std::vector<TradeQuote>`.
-   */
-  using std__vector_TradeQuote_ = std::vector<TradeQuote>;
-  inline std::vector<TradeQuote> create_std__vector_TradeQuote_(size_t size) {
-    std::vector<TradeQuote> vector;
-    vector.reserve(size);
-    return vector;
-  }
-  
-  // pragma MARK: std::shared_ptr<Promise<std::vector<TradeQuote>>>
-  /**
-   * Specialized version of `std::shared_ptr<Promise<std::vector<TradeQuote>>>`.
-   */
-  using std__shared_ptr_Promise_std__vector_TradeQuote___ = std::shared_ptr<Promise<std::vector<TradeQuote>>>;
-  inline std::shared_ptr<Promise<std::vector<TradeQuote>>> create_std__shared_ptr_Promise_std__vector_TradeQuote___() {
-    return Promise<std::vector<TradeQuote>>::create();
-  }
-  inline PromiseHolder<std::vector<TradeQuote>> wrap_std__shared_ptr_Promise_std__vector_TradeQuote___(std::shared_ptr<Promise<std::vector<TradeQuote>>> promise) {
-    return PromiseHolder<std::vector<TradeQuote>>(std::move(promise));
-  }
-  
-  // pragma MARK: std::function<void(const std::vector<TradeQuote>& /* result */)>
-  /**
-   * Specialized version of `std::function<void(const std::vector<TradeQuote>&)>`.
-   */
-  using Func_void_std__vector_TradeQuote_ = std::function<void(const std::vector<TradeQuote>& /* result */)>;
-  /**
-   * Wrapper class for a `std::function<void(const std::vector<TradeQuote>& / * result * /)>`, this can be used from Swift.
-   */
-  class Func_void_std__vector_TradeQuote__Wrapper final {
-  public:
-    explicit Func_void_std__vector_TradeQuote__Wrapper(std::function<void(const std::vector<TradeQuote>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<TradeQuote>& /* result */)>>(std::move(func))) {}
-    inline void call(std::vector<TradeQuote> result) const {
-      _function->operator()(result);
-    }
-  private:
-    std::shared_ptr<std::function<void(const std::vector<TradeQuote>& /* result */)>> _function;
-  };
-  Func_void_std__vector_TradeQuote_ create_Func_void_std__vector_TradeQuote_(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__vector_TradeQuote__Wrapper wrap_Func_void_std__vector_TradeQuote_(Func_void_std__vector_TradeQuote_ value) {
-    return Func_void_std__vector_TradeQuote__Wrapper(std::move(value));
-  }
-  
-  // pragma MARK: std::optional<MarketAssetKind>
-  /**
-   * Specialized version of `std::optional<MarketAssetKind>`.
-   */
-  using std__optional_MarketAssetKind_ = std::optional<MarketAssetKind>;
-  inline std::optional<MarketAssetKind> create_std__optional_MarketAssetKind_(const MarketAssetKind& value) {
-    return std::optional<MarketAssetKind>(value);
-  }
-  
-  // pragma MARK: std::optional<Coordinates>
-  /**
-   * Specialized version of `std::optional<Coordinates>`.
-   */
-  using std__optional_Coordinates_ = std::optional<Coordinates>;
-  inline std::optional<Coordinates> create_std__optional_Coordinates_(const Coordinates& value) {
-    return std::optional<Coordinates>(value);
-  }
-  
-  // pragma MARK: std::optional<Address>
-  /**
-   * Specialized version of `std::optional<Address>`.
-   */
-  using std__optional_Address_ = std::optional<Address>;
-  inline std::optional<Address> create_std__optional_Address_(const Address& value) {
-    return std::optional<Address>(value);
-  }
-  
-  // pragma MARK: std::variant<FiatAssetQuoteRequest, MarketAssetQuoteRequest, TransportAssetQuoteRequest, NothingAssetQuoteRequest>
-  /**
-   * Wrapper struct for `std::variant<FiatAssetQuoteRequest, MarketAssetQuoteRequest, TransportAssetQuoteRequest, NothingAssetQuoteRequest>`.
-   * std::variant cannot be used in Swift because of a Swift bug.
-   * Not even specializing it works. So we create a wrapper struct.
-   */
-  struct std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_ {
-    std::variant<FiatAssetQuoteRequest, MarketAssetQuoteRequest, TransportAssetQuoteRequest, NothingAssetQuoteRequest> variant;
-    std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(std::variant<FiatAssetQuoteRequest, MarketAssetQuoteRequest, TransportAssetQuoteRequest, NothingAssetQuoteRequest> variant): variant(variant) { }
-    operator std::variant<FiatAssetQuoteRequest, MarketAssetQuoteRequest, TransportAssetQuoteRequest, NothingAssetQuoteRequest>() const {
-      return variant;
-    }
-    inline size_t index() const {
-      return variant.index();
-    }
-    inline FiatAssetQuoteRequest get_0() const {
-      return std::get<0>(variant);
-    }
-    inline MarketAssetQuoteRequest get_1() const {
-      return std::get<1>(variant);
-    }
-    inline TransportAssetQuoteRequest get_2() const {
-      return std::get<2>(variant);
-    }
-    inline NothingAssetQuoteRequest get_3() const {
-      return std::get<3>(variant);
-    }
-  };
-  inline std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_ create_std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(const FiatAssetQuoteRequest& value) {
-    return std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(value);
-  }
-  inline std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_ create_std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(const MarketAssetQuoteRequest& value) {
-    return std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(value);
-  }
-  inline std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_ create_std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(const TransportAssetQuoteRequest& value) {
-    return std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(value);
-  }
-  inline std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_ create_std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(const NothingAssetQuoteRequest& value) {
-    return std__variant_FiatAssetQuoteRequest__MarketAssetQuoteRequest__TransportAssetQuoteRequest__NothingAssetQuoteRequest_(value);
-  }
-  
   // pragma MARK: std::vector<std::shared_ptr<AnyMap>>
   /**
    * Specialized version of `std::vector<std::shared_ptr<AnyMap>>`.
@@ -790,24 +469,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   inline Result_std__shared_ptr_Promise_std__vector_AssetAccount____ create_Result_std__shared_ptr_Promise_std__vector_AssetAccount____(const std::exception_ptr& error) {
     return Result<std::shared_ptr<Promise<std::vector<AssetAccount>>>>::withError(error);
-  }
-  
-  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<Trade>>>>
-  using Result_std__shared_ptr_Promise_std__vector_Trade____ = Result<std::shared_ptr<Promise<std::vector<Trade>>>>;
-  inline Result_std__shared_ptr_Promise_std__vector_Trade____ create_Result_std__shared_ptr_Promise_std__vector_Trade____(const std::shared_ptr<Promise<std::vector<Trade>>>& value) {
-    return Result<std::shared_ptr<Promise<std::vector<Trade>>>>::withValue(value);
-  }
-  inline Result_std__shared_ptr_Promise_std__vector_Trade____ create_Result_std__shared_ptr_Promise_std__vector_Trade____(const std::exception_ptr& error) {
-    return Result<std::shared_ptr<Promise<std::vector<Trade>>>>::withError(error);
-  }
-  
-  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>
-  using Result_std__shared_ptr_Promise_std__vector_TradeQuote____ = Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>;
-  inline Result_std__shared_ptr_Promise_std__vector_TradeQuote____ create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(const std::shared_ptr<Promise<std::vector<TradeQuote>>>& value) {
-    return Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>::withValue(value);
-  }
-  inline Result_std__shared_ptr_Promise_std__vector_TradeQuote____ create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(const std::exception_ptr& error) {
-    return Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>>

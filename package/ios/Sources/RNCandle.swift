@@ -103,21 +103,74 @@ final class HybridRNCandle: HybridRNCandleSpec {
 
   public func getAssetAccounts(query: AssetAccountQuery) throws -> Promise<[AssetAccount]> {
     .async {
-      return []
+      let accounts = try await self.viewModel.candleClient.getAssetAccounts(
+        query: .init(
+          linkedAccountIDs: query.linkedAccountIDs,
+          assetKind: query.assetKind?.stringValue == nil
+            ? nil : .init(rawValue: query.assetKind!.stringValue)
+        ))
+      return accounts.map { model in
+        let legalAccountKind = LegalAccountKind(fromString: model.legalAccountKind.rawValue)!
+        switch model.details {
+        case .FiatAccountDetails(let fiatDetails):
+          var ach: ACHDetails?
+          if let achDetails = fiatDetails.ach {
+            ach = ACHDetails(
+              accountNumber: achDetails.accountNumber,
+              routingNumber: achDetails.routingNumber,
+              accountKind: .init(fromString: achDetails.accountKind.rawValue)!
+            )
+          }
+          var wire: WireDetails?
+          if let wireDetails = fiatDetails.wire {
+            wire = .init(
+              accountNumber: wireDetails.accountNumber,
+              routingNumber: wireDetails.routingNumber
+            )
+          }
+          return AssetAccount(
+            legalAccountKind: legalAccountKind,
+            nickname: model.nickname,
+            details: .first(
+              .init(
+                assetKind: fiatDetails.assetKind.rawValue,
+                serviceAccountID: fiatDetails.serviceAccountID,
+                currencyCode: fiatDetails.currencyCode,
+                balance: fiatDetails.balance,
+                ach: ach,
+                wire: wire,
+                linkedAccountID: fiatDetails.linkedAccountID,
+                service: Service(fromString: fiatDetails.service.rawValue)!)
+            )
+          )
+        case .MarketAccountDetails(let marketDetails):
+          return AssetAccount(
+            legalAccountKind: legalAccountKind,
+            nickname: model.nickname,
+            details: .second(
+              .init(
+                assetKind: marketDetails.assetKind.rawValue,
+                serviceAccountID: marketDetails.serviceAccountID,
+                linkedAccountID: marketDetails.linkedAccountID,
+                service: Service(fromString: marketDetails.service.rawValue)!
+              ))
+          )
+        }
+      }
     }
   }
 
-  public func getTrades(query: TradeQuery) throws -> Promise<[Trade]> {
-    .async {
-      return []
-    }
-  }
+  // public func getTrades(query: TradeQuery) throws -> Promise<[Trade]> {
+  //   .async {
+  //     return []
+  //   }
+  // }
 
-  public func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<[TradeQuote]> {
-    .async {
-      return []
-    }
-  }
+  // public func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<[TradeQuote]> {
+  //   .async {
+  //     return []
+  //   }
+  // }
 
   public func deleteUser() throws -> Promise<Void> {
     .async {

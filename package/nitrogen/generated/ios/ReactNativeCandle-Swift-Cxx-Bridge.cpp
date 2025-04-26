@@ -53,22 +53,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
-  // pragma MARK: std::function<void(const std::vector<Trade>& /* result */)>
-  Func_void_std__vector_Trade_ create_Func_void_std__vector_Trade_(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_Trade_::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<Trade>& result) mutable -> void {
-      swiftClosure.call(result);
-    };
-  }
-  
-  // pragma MARK: std::function<void(const std::vector<TradeQuote>& /* result */)>
-  Func_void_std__vector_TradeQuote_ create_Func_void_std__vector_TradeQuote_(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_TradeQuote_::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<TradeQuote>& result) mutable -> void {
-      swiftClosure.call(result);
-    };
-  }
-  
   // pragma MARK: std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>
   Func_void_std__vector_std__shared_ptr_AnyMap__ create_Func_void_std__vector_std__shared_ptr_AnyMap__(void* _Nonnull swiftClosureWrapper) {
     auto swiftClosure = ReactNativeCandle::Func_void_std__vector_std__shared_ptr_AnyMap__::fromUnsafe(swiftClosureWrapper);
