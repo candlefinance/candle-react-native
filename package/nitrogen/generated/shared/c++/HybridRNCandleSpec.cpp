@@ -21,6 +21,7 @@ namespace margelo::nitro::rncandle {
       prototype.registerHybridMethod("getAssetAccounts", &HybridRNCandleSpec::getAssetAccounts);
       prototype.registerHybridMethod("getTrades", &HybridRNCandleSpec::getTrades);
       prototype.registerHybridMethod("getTradeQuotes", &HybridRNCandleSpec::getTradeQuotes);
+      prototype.registerHybridMethod("submitTrade", &HybridRNCandleSpec::submitTrade);
       prototype.registerHybridMethod("deleteUser", &HybridRNCandleSpec::deleteUser);
       prototype.registerHybridMethod("getAvailableTools", &HybridRNCandleSpec::getAvailableTools);
       prototype.registerHybridMethod("executeTool", &HybridRNCandleSpec::executeTool);

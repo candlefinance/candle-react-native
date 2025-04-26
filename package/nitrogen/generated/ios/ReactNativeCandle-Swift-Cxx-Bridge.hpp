@@ -66,6 +66,8 @@ namespace margelo::nitro::rncandle { enum class State; }
 namespace margelo::nitro::rncandle { struct TradeAsset; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
+// Forward declaration of `TradeResult` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeResult; }
 // Forward declaration of `TradeState` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class TradeState; }
 // Forward declaration of `Trade` to properly resolve imports.
@@ -113,6 +115,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
 #include "TradeQuote.hpp"
+#include "TradeResult.hpp"
 #include "TradeState.hpp"
 #include "TransportAsset.hpp"
 #include "TransportAssetQuoteRequest.hpp"
@@ -611,6 +614,40 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return std::optional<NothingAssetQuoteRequest>(value);
   }
   
+  // pragma MARK: std::shared_ptr<Promise<TradeResult>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<TradeResult>>`.
+   */
+  using std__shared_ptr_Promise_TradeResult__ = std::shared_ptr<Promise<TradeResult>>;
+  inline std::shared_ptr<Promise<TradeResult>> create_std__shared_ptr_Promise_TradeResult__() {
+    return Promise<TradeResult>::create();
+  }
+  inline PromiseHolder<TradeResult> wrap_std__shared_ptr_Promise_TradeResult__(std::shared_ptr<Promise<TradeResult>> promise) {
+    return PromiseHolder<TradeResult>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const TradeResult& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const TradeResult&)>`.
+   */
+  using Func_void_TradeResult = std::function<void(const TradeResult& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const TradeResult& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_TradeResult_Wrapper final {
+  public:
+    explicit Func_void_TradeResult_Wrapper(std::function<void(const TradeResult& /* result */)>&& func): _function(std::make_shared<std::function<void(const TradeResult& /* result */)>>(std::move(func))) {}
+    inline void call(TradeResult result) const {
+      _function->operator()(result);
+    }
+  private:
+    std::shared_ptr<std::function<void(const TradeResult& /* result */)>> _function;
+  };
+  Func_void_TradeResult create_Func_void_TradeResult(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_TradeResult_Wrapper wrap_Func_void_TradeResult(Func_void_TradeResult value) {
+    return Func_void_TradeResult_Wrapper(std::move(value));
+  }
+  
   // pragma MARK: std::vector<std::shared_ptr<AnyMap>>
   /**
    * Specialized version of `std::vector<std::shared_ptr<AnyMap>>`.
@@ -754,6 +791,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   inline Result_std__shared_ptr_Promise_std__vector_TradeQuote____ create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(const std::exception_ptr& error) {
     return Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<TradeResult>>>
+  using Result_std__shared_ptr_Promise_TradeResult___ = Result<std::shared_ptr<Promise<TradeResult>>>;
+  inline Result_std__shared_ptr_Promise_TradeResult___ create_Result_std__shared_ptr_Promise_TradeResult___(const std::shared_ptr<Promise<TradeResult>>& value) {
+    return Result<std::shared_ptr<Promise<TradeResult>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_TradeResult___ create_Result_std__shared_ptr_Promise_TradeResult___(const std::exception_ptr& error) {
+    return Result<std::shared_ptr<Promise<TradeResult>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>>

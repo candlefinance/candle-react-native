@@ -20,6 +20,7 @@
 
 
 
+#include <optional>
 #include <string>
 
 namespace margelo::nitro::rncandle {
@@ -29,13 +30,13 @@ namespace margelo::nitro::rncandle {
    */
   struct MerchantLocation {
   public:
-    std::string countryCode     SWIFT_PRIVATE;
-    std::string countrySubdivisionCode     SWIFT_PRIVATE;
-    std::string localityName     SWIFT_PRIVATE;
+    std::optional<std::string> countryCode     SWIFT_PRIVATE;
+    std::optional<std::string> countrySubdivisionCode     SWIFT_PRIVATE;
+    std::optional<std::string> localityName     SWIFT_PRIVATE;
 
   public:
     MerchantLocation() = default;
-    explicit MerchantLocation(std::string countryCode, std::string countrySubdivisionCode, std::string localityName): countryCode(countryCode), countrySubdivisionCode(countrySubdivisionCode), localityName(localityName) {}
+    explicit MerchantLocation(std::optional<std::string> countryCode, std::optional<std::string> countrySubdivisionCode, std::optional<std::string> localityName): countryCode(countryCode), countrySubdivisionCode(countrySubdivisionCode), localityName(localityName) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -50,16 +51,16 @@ namespace margelo::nitro {
     static inline MerchantLocation fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return MerchantLocation(
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "countryCode")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "countrySubdivisionCode")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "localityName"))
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "countryCode")),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "countrySubdivisionCode")),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "localityName"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const MerchantLocation& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "countryCode", JSIConverter<std::string>::toJSI(runtime, arg.countryCode));
-      obj.setProperty(runtime, "countrySubdivisionCode", JSIConverter<std::string>::toJSI(runtime, arg.countrySubdivisionCode));
-      obj.setProperty(runtime, "localityName", JSIConverter<std::string>::toJSI(runtime, arg.localityName));
+      obj.setProperty(runtime, "countryCode", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.countryCode));
+      obj.setProperty(runtime, "countrySubdivisionCode", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.countrySubdivisionCode));
+      obj.setProperty(runtime, "localityName", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.localityName));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -67,9 +68,9 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "countryCode"))) return false;
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "countrySubdivisionCode"))) return false;
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "localityName"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "countryCode"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "countrySubdivisionCode"))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "localityName"))) return false;
       return true;
     }
   };

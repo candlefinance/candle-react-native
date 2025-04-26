@@ -209,6 +209,10 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
+  public func submitTrade(serviceTradeID: String) throws -> Promise<TradeResult> {
+    fatalError()
+  }
+
   public func deleteUser() throws -> Promise<Void> {
     .async {
       try await self.viewModel.candleClient.deleteUser()
@@ -423,8 +427,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
           ),
           destinationAddress: .init(value: transportAsset.originAddress.value),
           seats: transportAsset.seats,
-          linkedAccountID: transportAsset.linkedAccountID,
-          logoURL: transportAsset.imageURL
+          linkedAccountID: transportAsset.linkedAccountID
         ),
         otherAsset: nil,
         nothingAsset: nil
@@ -477,20 +480,10 @@ final class HybridRNCandle: HybridRNCandleSpec {
         .init(
           assetKind: .transport,
           serviceAssetID: transportAssetQuoteRequest.serviceAssetID,
-          originCoordinates: .init(
-            latitude: transportAssetQuoteRequest.originCoordinates?.latitude ?? 0,
-            longitude: transportAssetQuoteRequest.originCoordinates?.latitude ?? 0
-          ),
-          originAddress: .init(
-            value: transportAssetQuoteRequest.originAddress?.value ?? ""
-          ),
-          destinationCoordinates: .init(
-            latitude: transportAssetQuoteRequest.destinationCoordinates?.latitude ?? 0,
-            longitude: transportAssetQuoteRequest.destinationCoordinates?.longitude ?? 0
-          ),
-          destinationAddress: .init(
-            value: transportAssetQuoteRequest.destinationAddress?.value ?? ""
-          ),
+          originCoordinates: transportAssetQuoteRequest.originCoordinates?.toCoordinates,
+          originAddress: transportAssetQuoteRequest.originAddress?.toAddress,
+          destinationCoordinates: transportAssetQuoteRequest.destinationCoordinates?.toCoordinates,
+          destinationAddress: transportAssetQuoteRequest.destinationAddress?.toAddress,
           seats: transportAssetQuoteRequest.seats
         )
       )
@@ -500,4 +493,19 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
+}
+
+extension Address {
+    var toAddress: Models.Address {
+        return .init(value: value)
+    }
+}
+
+extension Coordinates {
+    var toCoordinates: Models.Coordinates {
+        return .init(
+            latitude: latitude,
+            longitude: longitude
+        )
+    }
 }

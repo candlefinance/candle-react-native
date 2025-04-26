@@ -35,6 +35,8 @@ namespace margelo::nitro::rncandle { struct TradeQuery; }
 namespace margelo::nitro::rncandle { struct TradeQuote; }
 // Forward declaration of `TradeQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
+// Forward declaration of `TradeResult` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeResult; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `ToolCall` to properly resolve imports.
@@ -56,6 +58,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "TradeQuery.hpp"
 #include "TradeQuote.hpp"
 #include "TradeQuoteRequest.hpp"
+#include "TradeResult.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include "ToolCall.hpp"
 
@@ -97,6 +100,7 @@ namespace margelo::nitro::rncandle {
       virtual std::shared_ptr<Promise<std::vector<AssetAccount>>> getAssetAccounts(const AssetAccountQuery& query) = 0;
       virtual std::shared_ptr<Promise<std::vector<Trade>>> getTrades(const TradeQuery& query) = 0;
       virtual std::shared_ptr<Promise<std::vector<TradeQuote>>> getTradeQuotes(const TradeQuoteRequest& request) = 0;
+      virtual std::shared_ptr<Promise<TradeResult>> submitTrade(const std::string& serviceTradeID) = 0;
       virtual std::shared_ptr<Promise<void>> deleteUser() = 0;
       virtual std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> getAvailableTools() = 0;
       virtual std::shared_ptr<Promise<std::string>> executeTool(const ToolCall& tool) = 0;

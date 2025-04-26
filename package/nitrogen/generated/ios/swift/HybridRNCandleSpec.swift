@@ -24,6 +24,7 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
   func getAssetAccounts(query: AssetAccountQuery) throws -> Promise<[AssetAccount]>
   func getTrades(query: TradeQuery) throws -> Promise<[Trade]>
   func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<[TradeQuote]>
+  func submitTrade(serviceTradeID: String) throws -> Promise<TradeResult>
   func deleteUser() throws -> Promise<Void>
   func getAvailableTools() throws -> Promise<[AnyMapHolder]>
   func executeTool(tool: ToolCall) throws -> Promise<String>

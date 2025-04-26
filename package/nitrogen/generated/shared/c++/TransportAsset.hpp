@@ -46,11 +46,10 @@ namespace margelo::nitro::rncandle {
     Address destinationAddress     SWIFT_PRIVATE;
     double seats     SWIFT_PRIVATE;
     std::string linkedAccountID     SWIFT_PRIVATE;
-    std::string logoURL     SWIFT_PRIVATE;
 
   public:
     TransportAsset() = default;
-    explicit TransportAsset(std::string assetKind, std::string serviceTradeID, std::string serviceAssetID, std::string name, std::string description, std::string imageURL, Coordinates originCoordinates, Address originAddress, Coordinates destinationCoordinates, Address destinationAddress, double seats, std::string linkedAccountID, std::string logoURL): assetKind(assetKind), serviceTradeID(serviceTradeID), serviceAssetID(serviceAssetID), name(name), description(description), imageURL(imageURL), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats), linkedAccountID(linkedAccountID), logoURL(logoURL) {}
+    explicit TransportAsset(std::string assetKind, std::string serviceTradeID, std::string serviceAssetID, std::string name, std::string description, std::string imageURL, Coordinates originCoordinates, Address originAddress, Coordinates destinationCoordinates, Address destinationAddress, double seats, std::string linkedAccountID): assetKind(assetKind), serviceTradeID(serviceTradeID), serviceAssetID(serviceAssetID), name(name), description(description), imageURL(imageURL), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats), linkedAccountID(linkedAccountID) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -76,8 +75,7 @@ namespace margelo::nitro {
         JSIConverter<Coordinates>::fromJSI(runtime, obj.getProperty(runtime, "destinationCoordinates")),
         JSIConverter<Address>::fromJSI(runtime, obj.getProperty(runtime, "destinationAddress")),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "seats")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "logoURL"))
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const TransportAsset& arg) {
@@ -94,7 +92,6 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "destinationAddress", JSIConverter<Address>::toJSI(runtime, arg.destinationAddress));
       obj.setProperty(runtime, "seats", JSIConverter<double>::toJSI(runtime, arg.seats));
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
-      obj.setProperty(runtime, "logoURL", JSIConverter<std::string>::toJSI(runtime, arg.logoURL));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -114,7 +111,6 @@ namespace margelo::nitro {
       if (!JSIConverter<Address>::canConvert(runtime, obj.getProperty(runtime, "destinationAddress"))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "seats"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "logoURL"))) return false;
       return true;
     }
   };

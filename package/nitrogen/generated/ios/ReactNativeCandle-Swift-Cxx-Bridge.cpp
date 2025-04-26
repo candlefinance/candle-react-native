@@ -69,6 +69,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
+  // pragma MARK: std::function<void(const TradeResult& /* result */)>
+  Func_void_TradeResult create_Func_void_TradeResult(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_TradeResult::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const TradeResult& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
   // pragma MARK: std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>
   Func_void_std__vector_std__shared_ptr_AnyMap__ create_Func_void_std__vector_std__shared_ptr_AnyMap__(void* _Nonnull swiftClosureWrapper) {
     auto swiftClosure = ReactNativeCandle::Func_void_std__vector_std__shared_ptr_AnyMap__::fromUnsafe(swiftClosureWrapper);

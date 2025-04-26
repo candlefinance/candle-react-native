@@ -92,6 +92,8 @@ namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 // Forward declaration of `NothingAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
+// Forward declaration of `TradeResult` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeResult; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `ToolCall` to properly resolve imports.
@@ -142,6 +144,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "MarketAssetQuoteRequest.hpp"
 #include "TransportAssetQuoteRequest.hpp"
 #include "NothingAssetQuoteRequest.hpp"
+#include "TradeResult.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include "ToolCall.hpp"
 
@@ -230,6 +233,14 @@ namespace margelo::nitro::rncandle {
     }
     inline std::shared_ptr<Promise<std::vector<TradeQuote>>> getTradeQuotes(const TradeQuoteRequest& request) override {
       auto __result = _swiftPart.getTradeQuotes(request);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<TradeResult>> submitTrade(const std::string& serviceTradeID) override {
+      auto __result = _swiftPart.submitTrade(serviceTradeID);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
