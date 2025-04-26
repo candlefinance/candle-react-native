@@ -160,17 +160,17 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  // public func getTrades(query: TradeQuery) throws -> Promise<[Trade]> {
-  //   .async {
-  //     return []
-  //   }
-  // }
+  public func getTrades(query: TradeQuery) throws -> Promise<[Trade]> {
+    .async {
+      return []
+    }
+  }
 
-  // public func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<[TradeQuote]> {
-  //   .async {
-  //     return []
-  //   }
-  // }
+  public func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<[TradeQuote]> {
+    .async {
+      return []
+    }
+  }
 
   public func deleteUser() throws -> Promise<Void> {
     .async {

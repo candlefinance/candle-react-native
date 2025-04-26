@@ -44,6 +44,58 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 namespace margelo::nitro::rncandle { struct AssetAccountQuery; }
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
+// Forward declaration of `Trade` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Trade; }
+// Forward declaration of `TradeState` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class TradeState; }
+// Forward declaration of `Counterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Counterparty; }
+// Forward declaration of `MerchantCounterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MerchantCounterparty; }
+// Forward declaration of `MerchantLocation` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MerchantLocation; }
+// Forward declaration of `UserCounterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct UserCounterparty; }
+// Forward declaration of `ServiceCounterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
+// Forward declaration of `TradeAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeAsset; }
+// Forward declaration of `FiatAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAsset; }
+// Forward declaration of `MarketTradeAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketTradeAsset; }
+// Forward declaration of `TransportAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TransportAsset; }
+// Forward declaration of `Coordinates` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Coordinates; }
+// Forward declaration of `Address` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Address; }
+// Forward declaration of `OtherAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct OtherAsset; }
+// Forward declaration of `NothingAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct NothingAsset; }
+// Forward declaration of `TradeQuery` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuery; }
+// Forward declaration of `AssetKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class AssetKind; }
+// Forward declaration of `CounterpartyKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
+// Forward declaration of `TradeQuote` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuote; }
+// Forward declaration of `TradeQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
+// Forward declaration of `TradeAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeAssetQuoteRequest; }
+// Forward declaration of `FiatAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAssetQuoteRequest; }
+// Forward declaration of `MarketAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
+// Forward declaration of `MarketAssetKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
+// Forward declaration of `TransportAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
+// Forward declaration of `NothingAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `ToolCall` to properly resolve imports.
@@ -71,6 +123,32 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "WireDetails.hpp"
 #include "AssetAccountQuery.hpp"
 #include "AssetAccountKind.hpp"
+#include "Trade.hpp"
+#include "TradeState.hpp"
+#include "Counterparty.hpp"
+#include "MerchantCounterparty.hpp"
+#include "MerchantLocation.hpp"
+#include "UserCounterparty.hpp"
+#include "ServiceCounterparty.hpp"
+#include "TradeAsset.hpp"
+#include "FiatAsset.hpp"
+#include "MarketTradeAsset.hpp"
+#include "TransportAsset.hpp"
+#include "Coordinates.hpp"
+#include "Address.hpp"
+#include "OtherAsset.hpp"
+#include "NothingAsset.hpp"
+#include "TradeQuery.hpp"
+#include "AssetKind.hpp"
+#include "CounterpartyKind.hpp"
+#include "TradeQuote.hpp"
+#include "TradeQuoteRequest.hpp"
+#include "TradeAssetQuoteRequest.hpp"
+#include "FiatAssetQuoteRequest.hpp"
+#include "MarketAssetQuoteRequest.hpp"
+#include "MarketAssetKind.hpp"
+#include "TransportAssetQuoteRequest.hpp"
+#include "NothingAssetQuoteRequest.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include "ToolCall.hpp"
 
@@ -143,6 +221,22 @@ namespace margelo::nitro::rncandle {
     }
     inline std::shared_ptr<Promise<std::vector<AssetAccount>>> getAssetAccounts(const AssetAccountQuery& query) override {
       auto __result = _swiftPart.getAssetAccounts(query);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<std::vector<Trade>>> getTrades(const TradeQuery& query) override {
+      auto __result = _swiftPart.getTrades(query);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<std::vector<TradeQuote>>> getTradeQuotes(const TradeQuoteRequest& request) override {
+      auto __result = _swiftPart.getTradeQuotes(request);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
