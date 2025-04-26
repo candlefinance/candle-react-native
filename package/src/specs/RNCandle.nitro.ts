@@ -102,7 +102,6 @@ type TransportAsset = {
   destinationAddress: Address;
   seats: number;
   linkedAccountID: string;
-  logoURL: string;
 };
 
 type OtherAsset = {
@@ -122,9 +121,9 @@ type TradeAsset = {
 };
 
 type MerchantLocation = {
-  countryCode: string;
-  countrySubdivisionCode: string;
-  localityName: string;
+  countryCode?: string;
+  countrySubdivisionCode?: string;
+  localityName?: string;
 };
 
 type MerchantCounterparty = {
@@ -186,8 +185,6 @@ type FiatAssetQuoteRequest = {
   currencyCode?: string;
   amount?: number;
 };
-
-// type MarketAssetKind = "stock" | "crypto";
 
 type MarketAssetQuoteRequest = {
   assetKind?: string; // "stock" | "crypto"
@@ -348,10 +345,10 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   initialize(appUser: AppUser): void;
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   unlinkAccount(linkedAccountID: string): Promise<void>;
-  // FIXME: Make this type safe
   getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccount[]>;
   getTrades(query: TradeQuery): Promise<Trade[]>;
   getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuote[]>;
+  submitTrade(serviceTradeID: string): Promise<Trade>;
   deleteUser(): Promise<void>;
   // FIXME: The return type should be a more specific type based on the actual tool calls available.
   getAvailableTools(): Promise<Array<AnyMap>>;
