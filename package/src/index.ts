@@ -116,10 +116,7 @@ export class CandleClient {
   }
 
   public async getAssetAccounts(
-    query: AssetAccountQuery = {
-      linkedAccountIDs: undefined,
-      assetKind: undefined,
-    }
+    query: AssetAccountQuery = {}
   ): Promise<AssetAccount[]> {
     const accounts = await this.candle.getAssetAccounts(query);
     return accounts.map(this.convertToAssetAccount);
@@ -130,13 +127,7 @@ export class CandleClient {
       gainedAssetKind?: TradeQueryAssetKind;
       lostAssetKind?: TradeQueryAssetKind;
       counterpartyKind?: "merchant" | "user" | "service";
-    } & TradeQuery = {
-      counterpartyKind: undefined,
-      gainedAssetKind: undefined,
-      lostAssetKind: undefined,
-      linkedAccountIDs: undefined,
-      dateTimeSpan: undefined,
-    }
+    } & TradeQuery = {}
   ): Promise<
     {
       dateTime: string;
@@ -147,12 +138,12 @@ export class CandleClient {
     }[]
   > {
     const trades = await this.candle.getTrades(query);
-    return trades.map((t) => ({
-      dateTime: t.dateTime,
-      state: t.state,
-      counterparty: this.convertToCounterparty(t.counterparty),
-      lost: this.convertTradeAsset(t.lost)!,
-      gained: this.convertTradeAsset(t.gained)!,
+    return trades.map(({ dateTime, counterparty, gained, lost, state }) => ({
+      dateTime,
+      state,
+      counterparty: this.convertToCounterparty(counterparty),
+      lost: this.convertTradeAsset(lost)!,
+      gained: this.convertTradeAsset(gained)!,
     }));
   }
 
@@ -293,26 +284,30 @@ export class CandleClient {
     if (account.details.fiatAccountDetails !== undefined) {
       const d = account.details.fiatAccountDetails;
       return {
-        assetKind: "fiat",
         legalAccountKind: account.legalAccountKind,
         nickname: account.nickname,
-        serviceAccountID: d.serviceAccountID,
-        currencyCode: d.currencyCode,
-        balance: d.balance,
-        linkedAccountID: d.linkedAccountID,
-        service: d.service,
-        ach: d.ach,
-        wire: d.wire,
+        details: {
+          assetKind: "fiat",
+          serviceAccountID: d.serviceAccountID,
+          currencyCode: d.currencyCode,
+          balance: d.balance,
+          linkedAccountID: d.linkedAccountID,
+          service: d.service,
+          ach: d.ach,
+          wire: d.wire,
+        },
       };
     } else if (account.details.marketAccountDetails !== undefined) {
       const d = account.details.marketAccountDetails;
       return {
-        assetKind: d.assetKind as "stock" | "crypto",
         legalAccountKind: account.legalAccountKind,
         nickname: account.nickname,
-        serviceAccountID: d.serviceAccountID,
-        linkedAccountID: d.linkedAccountID,
-        service: d.service,
+        details: {
+          assetKind: d.assetKind as "stock" | "crypto",
+          serviceAccountID: d.serviceAccountID,
+          linkedAccountID: d.linkedAccountID,
+          service: d.service,
+        },
       };
     } else {
       throw new Error("Unknown asset account kind");
@@ -348,26 +343,26 @@ type TradeQueryAssetKind =
   | "other"
   | "nothing";
 
-export type AssetAccount =
-  | {
-      assetKind: "fiat";
-      legalAccountKind: LegalAccountKind;
-      nickname: string;
-      serviceAccountID: string;
-      currencyCode: string;
-      balance?: number;
-      linkedAccountID: string;
-      service: Service;
-      ach?: ACHDetails;
-      wire?: WireDetails;
-    }
-  | {
-      assetKind: "stock" | "crypto";
-      legalAccountKind: LegalAccountKind;
-      nickname: string;
-      serviceAccountID: string;
-      linkedAccountID: string;
-      service: Service;
-    };
+export type AssetAccount = {
+  legalAccountKind: LegalAccountKind;
+  nickname: string;
+  details:
+    | {
+        assetKind: "fiat";
+        serviceAccountID: string;
+        currencyCode: string;
+        balance?: number;
+        linkedAccountID: string;
+        service: Service;
+        ach?: ACHDetails;
+        wire?: WireDetails;
+      }
+    | {
+        assetKind: "stock" | "crypto";
+        serviceAccountID: string;
+        linkedAccountID: string;
+        service: Service;
+      };
+};
 
 export type { LinkedAccount, AppUser };
