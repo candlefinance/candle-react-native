@@ -7,17 +7,17 @@ import {
   View,
 } from "react-native";
 import { CandleClient } from "react-native-candle";
-import { MMKV } from "react-native-mmkv";
+// import { MMKV } from "react-native-mmkv";
 
-const storage = new MMKV();
-const isFirstLaunch = storage.getBoolean("isFirstLaunch");
-if (isFirstLaunch === undefined) {
-  console.log("First launch");
-  storage.set("isFirstLaunch", true);
-} else {
-  console.log("Not first launch");
-  storage.set("isFirstLaunch", false);
-}
+// const storage = new MMKV();
+// const isFirstLaunch = storage.getBoolean("isFirstLaunch");
+// if (isFirstLaunch === undefined) {
+//   console.log("First launch");
+//   storage.set("isFirstLaunch", true);
+// } else {
+//   console.log("Not first launch");
+//   storage.set("isFirstLaunch", false);
+// }
 
 export default function TabOneScreen() {
   const candleClient = useMemo(() => {
