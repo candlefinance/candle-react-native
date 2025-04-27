@@ -18,9 +18,11 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-
+// Forward declaration of `Service` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class Service; }
 
 #include <string>
+#include "Service.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -39,10 +41,11 @@ namespace margelo::nitro::rncandle {
     std::string name     SWIFT_PRIVATE;
     std::string color     SWIFT_PRIVATE;
     std::string logoURL     SWIFT_PRIVATE;
+    Service service     SWIFT_PRIVATE;
 
   public:
     MarketTradeAsset() = default;
-    explicit MarketTradeAsset(std::string assetKind, std::string serviceAccountID, std::string serviceAssetID, std::string symbol, double amount, std::string serviceTradeID, std::string linkedAccountID, std::string name, std::string color, std::string logoURL): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount), serviceTradeID(serviceTradeID), linkedAccountID(linkedAccountID), name(name), color(color), logoURL(logoURL) {}
+    explicit MarketTradeAsset(std::string assetKind, std::string serviceAccountID, std::string serviceAssetID, std::string symbol, double amount, std::string serviceTradeID, std::string linkedAccountID, std::string name, std::string color, std::string logoURL, Service service): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount), serviceTradeID(serviceTradeID), linkedAccountID(linkedAccountID), name(name), color(color), logoURL(logoURL), service(service) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -66,7 +69,8 @@ namespace margelo::nitro {
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "name")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "color")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "logoURL"))
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "logoURL")),
+        JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const MarketTradeAsset& arg) {
@@ -81,6 +85,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "name", JSIConverter<std::string>::toJSI(runtime, arg.name));
       obj.setProperty(runtime, "color", JSIConverter<std::string>::toJSI(runtime, arg.color));
       obj.setProperty(runtime, "logoURL", JSIConverter<std::string>::toJSI(runtime, arg.logoURL));
+      obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -98,6 +103,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "name"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "color"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "logoURL"))) return false;
+      if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;
     }
   };

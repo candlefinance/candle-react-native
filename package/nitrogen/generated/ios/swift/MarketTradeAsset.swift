@@ -19,12 +19,12 @@ extension MarketTradeAsset {
   public init(
     assetKind: String, serviceAccountID: String, serviceAssetID: String, symbol: String,
     amount: Double, serviceTradeID: String, linkedAccountID: String, name: String, color: String,
-    logoURL: String
+    logoURL: String, service: Service
   ) {
     self.init(
       std.string(assetKind), std.string(serviceAccountID), std.string(serviceAssetID),
       std.string(symbol), amount, std.string(serviceTradeID), std.string(linkedAccountID),
-      std.string(name), std.string(color), std.string(logoURL))
+      std.string(name), std.string(color), std.string(logoURL), service)
   }
 
   public var assetKind: String {
@@ -134,6 +134,17 @@ extension MarketTradeAsset {
     @inline(__always)
     set {
       self.__logoURL = std.string(newValue)
+    }
+  }
+
+  public var service: Service {
+    @inline(__always)
+    get {
+      return self.__service
+    }
+    @inline(__always)
+    set {
+      self.__service = newValue
     }
   }
 }

@@ -82,6 +82,7 @@ export type MarketTradeAsset = {
   name: string;
   color: string;
   logoURL: string;
+  service: Service;
 };
 
 type Coordinates = {
@@ -99,6 +100,7 @@ export type TransportAsset = {
   serviceAssetID: string;
   name: string;
   description: string;
+  // FIXME: use URL type for url fields
   imageURL: string;
   originCoordinates: Coordinates;
   originAddress: Address;
@@ -106,6 +108,7 @@ export type TransportAsset = {
   destinationAddress: Address;
   seats: number;
   linkedAccountID: string;
+  service: Service;
 };
 
 export type OtherAsset = {
@@ -125,9 +128,9 @@ export type TradeAsset = {
 };
 
 type MerchantLocation = {
-  countryCode?: string;
-  countrySubdivisionCode?: string;
-  localityName?: string;
+  countryCode: string;
+  countrySubdivisionCode: string;
+  localityName: string;
 };
 
 export type MerchantCounterparty = {
@@ -168,6 +171,7 @@ export type Trade = {
 export type TradeQuery = {
   linkedAccountIDs?: string;
   dateTimeSpan?: string;
+  // FIXME: define enum here rather than in JS wrapper layer
   gainedAssetKind?: string; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
   lostAssetKind?: string; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
   counterpartyKind?: string; // "merchant" | "user" | "service"
@@ -313,15 +317,15 @@ export type PresentationStyle = "sheet" | "fullScreen";
 export type State = "active" | "inactive";
 
 export type Details = {
-  username: string | undefined;
+  username?: string;
   legalName: string;
-  accountOpened: string | undefined;
+  accountOpened?: string;
 };
 
 export type LinkedAccount = {
   serviceUserID: string;
   state: State;
-  details: Details | undefined;
+  details?: Details;
   linkedAccountID: string;
   service: Service;
 };

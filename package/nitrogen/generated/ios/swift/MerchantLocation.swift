@@ -16,97 +16,40 @@ extension MerchantLocation {
   /**
    * Create a new instance of `MerchantLocation`.
    */
-  public init(countryCode: String?, countrySubdivisionCode: String?, localityName: String?) {
-    self.init(
-      { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = countryCode {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }(),
-      { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = countrySubdivisionCode {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }(),
-      { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = localityName {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }())
+  public init(countryCode: String, countrySubdivisionCode: String, localityName: String) {
+    self.init(std.string(countryCode), std.string(countrySubdivisionCode), std.string(localityName))
   }
 
-  public var countryCode: String? {
+  public var countryCode: String {
     @inline(__always)
     get {
-      return { () -> String? in
-        if let __unwrapped = self.__countryCode.value {
-          return String(__unwrapped)
-        } else {
-          return nil
-        }
-      }()
+      return String(self.__countryCode)
     }
     @inline(__always)
     set {
-      self.__countryCode = { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }()
+      self.__countryCode = std.string(newValue)
     }
   }
 
-  public var countrySubdivisionCode: String? {
+  public var countrySubdivisionCode: String {
     @inline(__always)
     get {
-      return { () -> String? in
-        if let __unwrapped = self.__countrySubdivisionCode.value {
-          return String(__unwrapped)
-        } else {
-          return nil
-        }
-      }()
+      return String(self.__countrySubdivisionCode)
     }
     @inline(__always)
     set {
-      self.__countrySubdivisionCode = { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }()
+      self.__countrySubdivisionCode = std.string(newValue)
     }
   }
 
-  public var localityName: String? {
+  public var localityName: String {
     @inline(__always)
     get {
-      return { () -> String? in
-        if let __unwrapped = self.__localityName.value {
-          return String(__unwrapped)
-        } else {
-          return nil
-        }
-      }()
+      return String(self.__localityName)
     }
     @inline(__always)
     set {
-      self.__localityName = { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }()
+      self.__localityName = std.string(newValue)
     }
   }
 }

@@ -20,12 +20,13 @@ extension TransportAsset {
     assetKind: String, serviceTradeID: String, serviceAssetID: String, name: String,
     description: String, imageURL: String, originCoordinates: Coordinates, originAddress: Address,
     destinationCoordinates: Coordinates, destinationAddress: Address, seats: Double,
-    linkedAccountID: String
+    linkedAccountID: String, service: Service
   ) {
     self.init(
       std.string(assetKind), std.string(serviceTradeID), std.string(serviceAssetID),
       std.string(name), std.string(description), std.string(imageURL), originCoordinates,
-      originAddress, destinationCoordinates, destinationAddress, seats, std.string(linkedAccountID))
+      originAddress, destinationCoordinates, destinationAddress, seats, std.string(linkedAccountID),
+      service)
   }
 
   public var assetKind: String {
@@ -157,6 +158,17 @@ extension TransportAsset {
     @inline(__always)
     set {
       self.__linkedAccountID = std.string(newValue)
+    }
+  }
+
+  public var service: Service {
+    @inline(__always)
+    get {
+      return self.__service
+    }
+    @inline(__always)
+    set {
+      self.__service = newValue
     }
   }
 }

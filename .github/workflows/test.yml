@@ -20,13 +20,12 @@ jobs:
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Cache Bun dependencies
-        uses: actions/cache@v4
+      - name: Cache dependencies
+        uses: actions/cache@v3
         with:
           path: ~/.bun/install/cache
-          key: bun-${{ runner.os }}-${{ hashFiles('bun.lockb') }}
-          restore-keys: |
-            bun-${{ runner.os }}-
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: ${{ runner.os }}-bun-
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -76,19 +75,19 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            example/ios/Pods
-            ~/.cocoapods/cache
-          key: pods-${{ runner.os }}-${{ hashFiles('example/ios/Podfile.lock') }}
+            ~/.cocoapods
+            Pods
+          key: cocoapods-${{ hashFiles('Podfile.lock') }}
           restore-keys: |
-            pods-${{ runner.os }}-
+            cocoapods-
 
       - name: Cache Xcode DerivedData
         uses: actions/cache@v4
         with:
           path: ~/Library/Developer/Xcode/DerivedData
-          key: derived-${{ runner.os }}-${{ hashFiles('example/ios/Podfile.lock') }}
+          key: derived-${{ hashFiles('Podfile.lock', '**/*.xcodeproj/project.pbxproj') }}
           restore-keys: |
-            derived-${{ runner.os }}-
+            derived-
 
       - name: Pods
         working-directory: example
@@ -96,5 +95,5 @@ jobs:
 
       - name: Xcode-build
         working-directory: example
-        run: bun run ios
+        run: bun run build
         timeout-minutes: 20

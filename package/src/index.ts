@@ -119,7 +119,7 @@ export class CandleClient {
     query: AssetAccountQuery = {}
   ): Promise<AssetAccount[]> {
     const accounts = await this.candle.getAssetAccounts(query);
-    return accounts.map(this.convertToAssetAccount);
+    return accounts.map((account) => this.convertToAssetAccount(account));
   }
 
   public async getTrades(
@@ -142,8 +142,8 @@ export class CandleClient {
       dateTime,
       state,
       counterparty: this.convertToCounterparty(counterparty),
-      lost: this.convertTradeAsset(lost)!,
-      gained: this.convertTradeAsset(gained)!,
+      lost: this.convertTradeAsset(lost),
+      gained: this.convertTradeAsset(gained),
     }));
   }
 
@@ -158,8 +158,8 @@ export class CandleClient {
       | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest);
   }): Promise<
     {
-      gained?: TradeAsset;
-      lost?: TradeAsset;
+      gained: TradeAsset;
+      lost: TradeAsset;
     }[]
   > {
     let gainedRequest: TradeAssetQuoteRequest;
@@ -193,63 +193,28 @@ export class CandleClient {
     });
   }
 
-  private convertTradeAsset(
-    tradeAsset: InternalTradeAsset
-  ): TradeAsset | undefined {
+  private convertTradeAsset(tradeAsset: InternalTradeAsset): TradeAsset {
     if (tradeAsset.fiatAsset !== undefined) {
       return {
+        ...tradeAsset.fiatAsset,
         assetKind: "fiat",
-        amount: tradeAsset.fiatAsset.amount,
-        currencyCode: tradeAsset.fiatAsset.currencyCode,
-        linkedAccountID: tradeAsset.fiatAsset.linkedAccountID,
-        serviceAccountID: tradeAsset.fiatAsset.serviceAccountID,
-        service: tradeAsset.fiatAsset.service,
-        serviceTradeID: tradeAsset.fiatAsset.serviceTradeID,
       };
     } else if (tradeAsset.marketTradeAsset !== undefined) {
       return {
+        ...tradeAsset.marketTradeAsset,
         assetKind: tradeAsset.marketTradeAsset.assetKind as "stock" | "crypto",
-        amount: tradeAsset.marketTradeAsset.amount,
-        symbol: tradeAsset.marketTradeAsset.symbol,
-        color: tradeAsset.marketTradeAsset.color,
-        linkedAccountID: tradeAsset.marketTradeAsset.linkedAccountID,
-        serviceAccountID: tradeAsset.marketTradeAsset.serviceAccountID,
-        logoURL: tradeAsset.marketTradeAsset.logoURL,
-        name: tradeAsset.marketTradeAsset.name,
-        serviceAssetID: tradeAsset.marketTradeAsset.serviceAssetID,
-        serviceTradeID: tradeAsset.marketTradeAsset.serviceTradeID,
       };
     } else if (tradeAsset.transportAsset !== undefined) {
       return {
+        ...tradeAsset.transportAsset,
         assetKind: "transport",
-        description: tradeAsset.transportAsset.description,
-        imageURL: tradeAsset.transportAsset.imageURL,
-        name: tradeAsset.transportAsset.name,
-        originAddress: {
-          value: tradeAsset.transportAsset.originAddress.value,
-        },
-        destinationAddress: {
-          value: tradeAsset.transportAsset.destinationAddress.value,
-        },
-        originCoordinates: {
-          latitude: tradeAsset.transportAsset.originCoordinates.latitude,
-          longitude: tradeAsset.transportAsset.originCoordinates.longitude,
-        },
-        destinationCoordinates: {
-          latitude: tradeAsset.transportAsset.destinationCoordinates.latitude,
-          longitude: tradeAsset.transportAsset.destinationCoordinates.longitude,
-        },
-        seats: tradeAsset.transportAsset.seats,
-        linkedAccountID: tradeAsset.transportAsset.linkedAccountID,
-        serviceAssetID: tradeAsset.transportAsset.serviceAssetID,
-        serviceTradeID: tradeAsset.transportAsset.serviceTradeID,
       };
     } else if (tradeAsset.otherAsset !== undefined) {
       return { assetKind: "other" };
     } else if (tradeAsset.nothingAsset !== undefined) {
       return { assetKind: "nothing" };
     } else {
-      return undefined;
+      throw new Error("Internal Candle Error: corrupted trade asset.");
     }
   }
 
@@ -258,22 +223,18 @@ export class CandleClient {
   ): Counterparty {
     if (counterparty.merchantCounterparty !== undefined) {
       return {
+        ...counterparty.merchantCounterparty,
         kind: "merchant",
-        name: counterparty.merchantCounterparty.name,
-        logoURL: counterparty.merchantCounterparty.logoURL,
-        location: counterparty.merchantCounterparty.location,
       };
     } else if (counterparty.userCounterparty !== undefined) {
       return {
+        ...counterparty.userCounterparty,
         kind: "user",
-        avatarURL: counterparty.userCounterparty.avatarURL,
-        legalName: counterparty.userCounterparty.legalName,
-        username: counterparty.userCounterparty.username,
       };
     } else if (counterparty.serviceCounterparty !== undefined) {
       return {
+        ...counterparty.serviceCounterparty,
         kind: "service",
-        service: counterparty.serviceCounterparty.service,
       };
     } else {
       throw new Error("Unknown counterparty kind");
@@ -281,41 +242,34 @@ export class CandleClient {
   }
 
   private convertToAssetAccount(account: NitroAssetAccount): AssetAccount {
-    if (account.details.fiatAccountDetails !== undefined) {
-      const d = account.details.fiatAccountDetails;
+    const { legalAccountKind, nickname } = account;
+    const { fiatAccountDetails, marketAccountDetails } = account.details;
+
+    if (fiatAccountDetails !== undefined) {
       return {
-        legalAccountKind: account.legalAccountKind,
-        nickname: account.nickname,
+        legalAccountKind,
+        nickname,
         details: {
+          ...fiatAccountDetails,
           assetKind: "fiat",
-          serviceAccountID: d.serviceAccountID,
-          currencyCode: d.currencyCode,
-          balance: d.balance,
-          linkedAccountID: d.linkedAccountID,
-          service: d.service,
-          ach: d.ach,
-          wire: d.wire,
         },
       };
-    } else if (account.details.marketAccountDetails !== undefined) {
-      const d = account.details.marketAccountDetails;
+    } else if (marketAccountDetails !== undefined) {
       return {
-        legalAccountKind: account.legalAccountKind,
-        nickname: account.nickname,
+        legalAccountKind,
+        nickname,
         details: {
-          assetKind: d.assetKind as "stock" | "crypto",
-          serviceAccountID: d.serviceAccountID,
-          linkedAccountID: d.linkedAccountID,
-          service: d.service,
+          ...marketAccountDetails,
+          assetKind: marketAccountDetails.assetKind as "stock" | "crypto",
         },
       };
     } else {
-      throw new Error("Unknown asset account kind");
+      throw new Error("Internal Candle Error: corrupted asset account.");
     }
   }
 }
 
-export type TradeAsset =
+type TradeAsset =
   | ({
       assetKind: "nothing";
     } & NothingAsset)
@@ -343,7 +297,7 @@ type TradeQueryAssetKind =
   | "other"
   | "nothing";
 
-export type AssetAccount = {
+type AssetAccount = {
   legalAccountKind: LegalAccountKind;
   nickname: string;
   details:
@@ -365,4 +319,4 @@ export type AssetAccount = {
       };
 };
 
-export type { LinkedAccount, AppUser };
+export type { LinkedAccount, AppUser, Service, TradeState, TradeAsset };

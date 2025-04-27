@@ -1,3 +1,4 @@
+
 import Candle
 import Combine
 import Foundation
@@ -105,26 +106,25 @@ final class HybridRNCandle: HybridRNCandleSpec {
       let accounts = try await self.viewModel.candleClient.getAssetAccounts(
         query: .init(
           linkedAccountIDs: query.linkedAccountIDs,
-          assetKind: .init(rawValue: query.assetKind?.stringValue ?? "")
+          assetKind: query.assetKind?.asCandleModel
         )
       )
       return accounts.map { model in
         let legalAccountKind = LegalAccountKind(fromString: model.legalAccountKind.rawValue)!
         switch model.details {
         case .FiatAccountDetails(let fiatDetails):
-          var ach: ACHDetails?
-          if let achDetails = fiatDetails.ach {
-            ach = ACHDetails(
-              accountNumber: achDetails.accountNumber,
-              routingNumber: achDetails.routingNumber,
-              accountKind: .init(fromString: achDetails.accountKind.rawValue)!
+          let ach = fiatDetails.ach.map { details in
+            ACHDetails(
+              accountNumber: details.accountNumber,
+              routingNumber: details.routingNumber,
+              accountKind: .init(fromString: details.accountKind.rawValue)!
             )
           }
-          var wire: WireDetails?
-          if let wireDetails = fiatDetails.wire {
-            wire = .init(
-              accountNumber: wireDetails.accountNumber,
-              routingNumber: wireDetails.routingNumber
+
+          let wire = fiatDetails.wire.map { details in
+            WireDetails(
+              accountNumber: details.accountNumber,
+              routingNumber: details.routingNumber
             )
           }
           return AssetAccount(
@@ -203,7 +203,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
   }
 
   public func submitTrade(serviceTradeID: String) throws -> Promise<TradeResult> {
-    fatalError()
+    throw RNClientError.badInitialization(message: "Not implemented.")
   }
 
   public func deleteUser() throws -> Promise<Void> {
@@ -227,7 +227,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
       let result = try await self.viewModel.candleClient.executeTool(
         tool: RNToolCall(name: tool.name, arguments: tool.arguments)
       )
-      return try result.encodeToJSONString
+      return try result.encodedToJSONString
     }
   }
 
@@ -287,7 +287,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
 }
 
 extension Encodable {
-  var encodeToJSONString: String {
+  var encodedToJSONString: String {
     get throws {
       let data = try JSONEncoder().encode(self)
       if let string = String(data: data, encoding: .utf8) {
@@ -406,7 +406,8 @@ extension Models.TradeAsset {
           linkedAccountID: marketAsset.linkedAccountID,
           name: marketAsset.name,
           color: marketAsset.color,
-          logoURL: marketAsset.logoURL
+          logoURL: marketAsset.logoURL,
+          service: marketAsset.service.toService
         ),
         transportAsset: nil,
         otherAsset: nil,
@@ -432,9 +433,10 @@ extension Models.TradeAsset {
             latitude: transportAsset.destinationCoordinates.latitude,
             longitude: transportAsset.destinationCoordinates.longitude
           ),
-          destinationAddress: .init(value: transportAsset.originAddress.value),
+          destinationAddress: .init(value: transportAsset.destinationAddress.value),
           seats: transportAsset.seats,
-          linkedAccountID: transportAsset.linkedAccountID
+          linkedAccountID: transportAsset.linkedAccountID,
+          service: transportAsset.service.toService
         ),
         otherAsset: nil,
         nothingAsset: nil
@@ -500,7 +502,7 @@ extension TradeQuoteRequest {
         )
       } else {
         throw RNClientError.badInitialization(
-          message: "Unsuppoted TradeQuoteRequest: \(String(describing: self))")
+          message: "Internal Candle Error: corrupted trade quote request.")
       }
     }
   }
@@ -524,5 +526,18 @@ extension Coordinates {
 extension Models.Service {
   var toService: Service {
     Service(fromString: rawValue)!
+  }
+}
+
+extension AssetAccountKind {
+    var asCandleModel: Models.GetAssetAccounts.Input.Query.AssetKindPayload {
+      switch self {
+      case .fiat:
+          return .fiat
+      case .stock:
+          return .stock
+      case .crypto:
+          return .crypto
+      }
   }
 }
