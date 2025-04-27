@@ -70,8 +70,30 @@ export class CandleClient {
     );
   }
 
-  public async getLinkedAccounts(): Promise<LinkedAccount[]> {
-    return this.candle.getLinkedAccounts();
+  public async getLinkedAccounts(): Promise<
+    (
+      | (LinkedAccount & { state: "active" })
+      | ({ state: "inactive" } & Pick<
+          LinkedAccount,
+          "linkedAccountID" | "service"
+        >)
+    )[]
+  > {
+    const accounts = await this.candle.getLinkedAccounts();
+    return accounts.map((account) => {
+      if (account.state === "active") {
+        return {
+          ...account,
+          state: "active",
+        };
+      } else {
+        return {
+          state: "inactive",
+          linkedAccountID: account.linkedAccountID,
+          service: account.service,
+        };
+      }
+    });
   }
 
   public async unlinkAccount(linkedAccountID: string): Promise<void> {
