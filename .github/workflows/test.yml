@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Install swift-format
+        run: brew install swift-format
+
       - name: Generate Nitro types
         run: bun run specs
 
