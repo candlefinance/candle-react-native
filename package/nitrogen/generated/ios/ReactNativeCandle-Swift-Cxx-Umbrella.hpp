@@ -32,6 +32,8 @@ namespace margelo::nitro::rncandle { struct AssetAccount; }
 namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
+// Forward declaration of `ExecuteTradeRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ExecuteTradeRequest; }
 // Forward declaration of `FiatAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct FiatAccountDetails; }
 // Forward declaration of `FiatAssetQuoteRequest` to properly resolve imports.
@@ -109,6 +111,7 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "AssetAccountQuery.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
+#include "ExecuteTradeRequest.hpp"
 #include "FiatAccountDetails.hpp"
 #include "FiatAsset.hpp"
 #include "FiatAssetQuoteRequest.hpp"

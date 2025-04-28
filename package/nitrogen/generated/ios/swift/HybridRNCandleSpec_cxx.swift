@@ -296,11 +296,11 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func submitTrade(serviceTradeID: std.string)
+  public final func executeTrade(request: ExecuteTradeRequest)
     -> bridge.Result_std__shared_ptr_Promise_Trade___
   {
     do {
-      let __result = try self.__implementation.submitTrade(serviceTradeID: String(serviceTradeID))
+      let __result = try self.__implementation.executeTrade(request: request)
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_Trade__ in
         let __promise = bridge.create_std__shared_ptr_Promise_Trade__()
         let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_Trade__(__promise)
