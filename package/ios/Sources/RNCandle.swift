@@ -303,23 +303,25 @@ extension Candle.Models.LinkedAccount {
     switch details {
     case .ActiveLinkedAccountDetails(let details):
       return LinkedAccount(
+        linkedAccountID: linkedAccountID,
+        service: service,
         serviceUserID: serviceUserID,
-        state: .active,
         details: .init(
-          username: details.username,
-          legalName: details.legalName,
-          accountOpened: details.accountOpened
-        ),
-        linkedAccountID: linkedAccountID,
-        service: service
+          activeLinkedAccountDetails: .init(
+            state: details.state.rawValue,
+            accountOpened: details.accountOpened,
+            username: details.username,
+            emailAddress: details.emailAddress,
+            legalName: details.legalName), inactiveLinkedAccountDetails: nil)
       )
-    case .InactiveLinkedAccountDetails:
+    case .InactiveLinkedAccountDetails(let details):
       return LinkedAccount(
-        serviceUserID: serviceUserID,
-        state: .inactive,
-        details: nil,
         linkedAccountID: linkedAccountID,
-        service: service
+        service: service,
+        serviceUserID: serviceUserID,
+        details: .init(
+          activeLinkedAccountDetails: nil,
+          inactiveLinkedAccountDetails: .init(state: details.state.rawValue))
       )
     }
   }
