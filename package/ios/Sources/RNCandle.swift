@@ -179,11 +179,9 @@ final class HybridRNCandle: HybridRNCandleSpec {
         query: .init(
           linkedAccountIDs: query.linkedAccountIDs,
           dateTimeSpan: query.dateTimeSpan,
-          gainedAssetKind: .init(
-            rawValue: query.gainedAssetKind ?? ""),
-          lostAssetKind: .init(rawValue: query.lostAssetKind ?? ""),
-          counterpartyKind: .init(
-            rawValue: query.counterpartyKind ?? "")
+          gainedAssetKind: query.toGainedAssetKind,
+          lostAssetKind: query.toLostAssetKind,
+          counterpartyKind: query.toCounterpartyKindPayload
         ))
       return trades.map { trade in
         return Trade(
@@ -961,5 +959,33 @@ extension Models.Trade.StatePayload {
     case .inProgress:
       return .inprogress
     }
+  }
+}
+
+extension TradeQuery {
+
+  var toGainedAssetKind:
+    Candle.Operations.GetLinkedAccountsTrades.Input.Query.GainedAssetKindPayload?
+  {
+    if let gainedAssetKind {
+      return .init(rawValue: gainedAssetKind)
+    }
+    return nil
+  }
+
+  var toLostAssetKind: Candle.Operations.GetLinkedAccountsTrades.Input.Query.LostAssetKindPayload? {
+    if let lostAssetKind {
+      return .init(rawValue: lostAssetKind)
+    }
+    return nil
+  }
+
+  var toCounterpartyKindPayload:
+    Candle.Operations.GetLinkedAccountsTrades.Input.Query.CounterpartyKindPayload?
+  {
+    if let counterpartyKind {
+      return .init(rawValue: counterpartyKind)
+    }
+    return nil
   }
 }
