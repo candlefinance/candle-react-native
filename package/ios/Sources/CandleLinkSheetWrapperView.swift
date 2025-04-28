@@ -19,7 +19,7 @@ struct CandleLinkSheetWrapper: View {
         Spacer()
           .candleLinkSheet(
             isPresented: $viewModel.showSheet,
-            service: .init(rawValue: service.stringValue)!,
+            service: service.toService,
             customerName: viewModel.customerName,
             cornerRadius: viewModel.cornerRadius,
             showDynamicLoading: viewModel.showDynamicLoading,
@@ -35,7 +35,7 @@ struct CandleLinkSheetWrapper: View {
             isPresented: $viewModel.showSheet,
             customerName: viewModel.customerName,
             cornerRadius: viewModel.cornerRadius,
-            services: services.map(\.stringValue).compactMap(Models.Service.init(rawValue:)),
+            services: services.map(\.toService),
             showDynamicLoading: viewModel.showDynamicLoading,
             presentationStyle: viewModel.toCandlePresentationStyle,
             presentationBackground: viewModel.toCandlePresentationBackground
