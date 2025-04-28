@@ -1,4 +1,3 @@
-
 import Candle
 import Combine
 import Foundation
@@ -202,7 +201,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  public func submitTrade(serviceTradeID: String) throws -> Promise<TradeResult> {
+  public func submitTrade(serviceTradeID: String) throws -> Promise<Trade> {
     throw RNClientError.badInitialization(message: "Not implemented.")
   }
 
@@ -530,14 +529,14 @@ extension Models.Service {
 }
 
 extension AssetAccountKind {
-    var asCandleModel: Models.GetAssetAccounts.Input.Query.AssetKindPayload {
-      switch self {
-      case .fiat:
-          return .fiat
-      case .stock:
-          return .stock
-      case .crypto:
-          return .crypto
-      }
+  var asCandleModel: Models.GetAssetAccounts.Input.Query.AssetKindPayload {
+    switch self {
+    case .fiat:
+      return .fiat
+    case .stock:
+      return .stock
+    case .crypto:
+      return .crypto
+    }
   }
 }

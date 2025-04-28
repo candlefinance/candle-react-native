@@ -82,8 +82,6 @@ namespace margelo::nitro::rncandle { struct TradeQuery; }
 namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
-// Forward declaration of `TradeResult` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct TradeResult; }
 // Forward declaration of `TradeState` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class TradeState; }
 // Forward declaration of `Trade` to properly resolve imports.
@@ -135,7 +133,6 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "TradeQuery.hpp"
 #include "TradeQuote.hpp"
 #include "TradeQuoteRequest.hpp"
-#include "TradeResult.hpp"
 #include "TradeState.hpp"
 #include "TransportAsset.hpp"
 #include "TransportAssetQuoteRequest.hpp"
