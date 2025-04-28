@@ -8,37 +8,139 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `ACHAccountKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class ACHAccountKind; }
+// Forward declaration of `ACHDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ACHDetails; }
+// Forward declaration of `ActiveLinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ActiveLinkedAccountDetails; }
+// Forward declaration of `Address` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Address; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `AppUser` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AppUser; }
-// Forward declaration of `Details` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct Details; }
+// Forward declaration of `AssetAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountDetails; }
+// Forward declaration of `AssetAccountKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
+// Forward declaration of `AssetAccountQuery` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountQuery; }
+// Forward declaration of `AssetAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccount; }
+// Forward declaration of `Coordinates` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Coordinates; }
+// Forward declaration of `Counterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Counterparty; }
+// Forward declaration of `FiatAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAccountDetails; }
+// Forward declaration of `FiatAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAssetQuoteRequest; }
+// Forward declaration of `FiatAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAsset; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
 namespace margelo::nitro::rncandle { class HybridRNCandleSpec; }
+// Forward declaration of `InactiveLinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
+// Forward declaration of `LegalAccountKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
+// Forward declaration of `LinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccountDetails; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
+// Forward declaration of `MarketAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketAccountDetails; }
+// Forward declaration of `MarketAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
+// Forward declaration of `MarketTradeAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketTradeAsset; }
+// Forward declaration of `MerchantCounterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MerchantCounterparty; }
+// Forward declaration of `MerchantLocation` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MerchantLocation; }
+// Forward declaration of `NothingAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
+// Forward declaration of `NothingAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct NothingAsset; }
+// Forward declaration of `OtherAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct OtherAsset; }
 // Forward declaration of `PresentationBackground` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class PresentationBackground; }
 // Forward declaration of `PresentationStyle` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class PresentationStyle; }
+// Forward declaration of `ServiceCounterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
-// Forward declaration of `State` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class State; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
+// Forward declaration of `TradeAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeAssetQuoteRequest; }
+// Forward declaration of `TradeAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeAsset; }
+// Forward declaration of `TradeQuery` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuery; }
+// Forward declaration of `TradeQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
+// Forward declaration of `TradeQuote` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuote; }
+// Forward declaration of `TradeState` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class TradeState; }
+// Forward declaration of `Trade` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Trade; }
+// Forward declaration of `TransportAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
+// Forward declaration of `TransportAsset` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TransportAsset; }
+// Forward declaration of `UserCounterparty` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct UserCounterparty; }
+// Forward declaration of `WireDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct WireDetails; }
 
 // Include C++ defined types
+#include "ACHAccountKind.hpp"
+#include "ACHDetails.hpp"
+#include "ActiveLinkedAccountDetails.hpp"
+#include "Address.hpp"
 #include "AppUser.hpp"
-#include "Details.hpp"
+#include "AssetAccount.hpp"
+#include "AssetAccountDetails.hpp"
+#include "AssetAccountKind.hpp"
+#include "AssetAccountQuery.hpp"
+#include "Coordinates.hpp"
+#include "Counterparty.hpp"
+#include "FiatAccountDetails.hpp"
+#include "FiatAsset.hpp"
+#include "FiatAssetQuoteRequest.hpp"
 #include "HybridRNCandleSpec.hpp"
+#include "InactiveLinkedAccountDetails.hpp"
+#include "LegalAccountKind.hpp"
 #include "LinkedAccount.hpp"
+#include "LinkedAccountDetails.hpp"
+#include "MarketAccountDetails.hpp"
+#include "MarketAssetQuoteRequest.hpp"
+#include "MarketTradeAsset.hpp"
+#include "MerchantCounterparty.hpp"
+#include "MerchantLocation.hpp"
+#include "NothingAsset.hpp"
+#include "NothingAssetQuoteRequest.hpp"
+#include "OtherAsset.hpp"
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
 #include "Service.hpp"
-#include "State.hpp"
+#include "ServiceCounterparty.hpp"
 #include "ToolCall.hpp"
+#include "Trade.hpp"
+#include "TradeAsset.hpp"
+#include "TradeAssetQuoteRequest.hpp"
+#include "TradeQuery.hpp"
+#include "TradeQuote.hpp"
+#include "TradeQuoteRequest.hpp"
+#include "TradeState.hpp"
+#include "TransportAsset.hpp"
+#include "TransportAssetQuoteRequest.hpp"
+#include "UserCounterparty.hpp"
+#include "WireDetails.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>

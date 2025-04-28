@@ -1,17 +1,23 @@
 import { useMemo, useState } from "react";
-import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  StyleSheet,
+  View,
+} from "react-native";
 import { CandleClient } from "react-native-candle";
-import { MMKV } from "react-native-mmkv";
+// import { MMKV } from "react-native-mmkv";
 
-const storage = new MMKV();
-const isFirstLaunch = storage.getBoolean("isFirstLaunch");
-if (isFirstLaunch === undefined) {
-  console.log("First launch");
-  storage.set("isFirstLaunch", true);
-} else {
-  console.log("Not first launch");
-  storage.set("isFirstLaunch", false);
-}
+// const storage = new MMKV();
+// const isFirstLaunch = storage.getBoolean("isFirstLaunch");
+// if (isFirstLaunch === undefined) {
+//   console.log("First launch");
+//   storage.set("isFirstLaunch", true);
+// } else {
+//   console.log("Not first launch");
+//   storage.set("isFirstLaunch", false);
+// }
 
 export default function TabOneScreen() {
   const candleClient = useMemo(() => {
@@ -97,16 +103,28 @@ export default function TabOneScreen() {
           candleClient
             .getLinkedAccounts()
             .then((accounts) => {
-              if (accounts.length > 0) {
-                console.log("Linked accounts:", accounts[0].details);
-              } else {
-                console.log("Linked accounts:", accounts);
-              }
+              accounts.forEach((account) => {
+                switch (account.state) {
+                  case "active":
+                    console.log(
+                      `${account.service} is active`,
+                      JSON.stringify(account, null, 2)
+                    );
+                    break;
+                  case "inactive":
+                    console.log(
+                      `${account.service} is inactive`,
+                      JSON.stringify(account, null, 2)
+                    );
+                    break;
+                }
+              });
               setIsLoading(false);
             })
             .catch((error) => {
               setIsLoading(false);
               console.error("Error fetching linked accounts:", error);
+              Alert.alert("Error", `${error}`);
             });
         }}
       />

@@ -23,6 +23,18 @@ namespace margelo::nitro::rncandle { enum class PresentationStyle; }
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `AppUser` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AppUser; }
+// Forward declaration of `AssetAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccount; }
+// Forward declaration of `AssetAccountQuery` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountQuery; }
+// Forward declaration of `Trade` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct Trade; }
+// Forward declaration of `TradeQuery` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuery; }
+// Forward declaration of `TradeQuote` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuote; }
+// Forward declaration of `TradeQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `ToolCall` to properly resolve imports.
@@ -38,6 +50,12 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "LinkedAccount.hpp"
 #include "AppUser.hpp"
 #include <NitroModules/Promise.hpp>
+#include "AssetAccount.hpp"
+#include "AssetAccountQuery.hpp"
+#include "Trade.hpp"
+#include "TradeQuery.hpp"
+#include "TradeQuote.hpp"
+#include "TradeQuoteRequest.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include "ToolCall.hpp"
 
@@ -76,9 +94,10 @@ namespace margelo::nitro::rncandle {
       virtual void initialize(const AppUser& appUser) = 0;
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<void>> unlinkAccount(const std::string& linkedAccountID) = 0;
-      virtual std::shared_ptr<Promise<std::string>> getAssetAccounts() = 0;
-      virtual std::shared_ptr<Promise<std::string>> getTrades(const std::optional<std::string>& span) = 0;
-      virtual std::shared_ptr<Promise<std::string>> getTradeQuotes(const std::optional<std::string>& span) = 0;
+      virtual std::shared_ptr<Promise<std::vector<AssetAccount>>> getAssetAccounts(const AssetAccountQuery& query) = 0;
+      virtual std::shared_ptr<Promise<std::vector<Trade>>> getTrades(const TradeQuery& query) = 0;
+      virtual std::shared_ptr<Promise<std::vector<TradeQuote>>> getTradeQuotes(const TradeQuoteRequest& request) = 0;
+      virtual std::shared_ptr<Promise<Trade>> submitTrade(const std::string& serviceTradeID) = 0;
       virtual std::shared_ptr<Promise<void>> deleteUser() = 0;
       virtual std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> getAvailableTools() = 0;
       virtual std::shared_ptr<Promise<std::string>> executeTool(const ToolCall& tool) = 0;
