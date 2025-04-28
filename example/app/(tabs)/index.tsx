@@ -10,7 +10,7 @@ import { CandleClient } from "react-native-candle";
 
 export default function TabOneScreen() {
   const candleClient = useMemo(() => {
-    return new CandleClient({ appKey: "", appSecret: "" });
+    return new CandleClient({ appKey: "", appSecret: "", appUserID: "" });
   }, []);
 
   const [isLoading, setIsLoading] = useState(false);

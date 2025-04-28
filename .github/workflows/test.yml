@@ -39,6 +39,9 @@ jobs:
       - name: Install swift-format
         run: brew install swift-format
 
+      - name: Print env info
+        run: npx expo-env-info
+
       - name: Generate Nitro types
         run: bun run specs
 
