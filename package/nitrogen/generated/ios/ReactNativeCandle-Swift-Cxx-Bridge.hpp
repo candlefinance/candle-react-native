@@ -12,6 +12,8 @@
 namespace margelo::nitro::rncandle { enum class ACHAccountKind; }
 // Forward declaration of `ACHDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ACHDetails; }
+// Forward declaration of `ActiveLinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ActiveLinkedAccountDetails; }
 // Forward declaration of `Address` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Address; }
 // Forward declaration of `AnyMap` to properly resolve imports.
@@ -26,8 +28,6 @@ namespace margelo::nitro::rncandle { struct AssetAccount; }
 namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
-// Forward declaration of `Details` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct Details; }
 // Forward declaration of `FiatAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct FiatAccountDetails; }
 // Forward declaration of `FiatAssetQuoteRequest` to properly resolve imports.
@@ -36,8 +36,12 @@ namespace margelo::nitro::rncandle { struct FiatAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct FiatAsset; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
 namespace margelo::nitro::rncandle { class HybridRNCandleSpec; }
+// Forward declaration of `InactiveLinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
 // Forward declaration of `LegalAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
+// Forward declaration of `LinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccountDetails; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `MarketAccountDetails` to properly resolve imports.
@@ -60,8 +64,6 @@ namespace margelo::nitro::rncandle { struct OtherAsset; }
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
-// Forward declaration of `State` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class State; }
 // Forward declaration of `TradeAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeAsset; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
@@ -86,19 +88,21 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 // Include C++ defined types
 #include "ACHAccountKind.hpp"
 #include "ACHDetails.hpp"
+#include "ActiveLinkedAccountDetails.hpp"
 #include "Address.hpp"
 #include "AssetAccount.hpp"
 #include "AssetAccountDetails.hpp"
 #include "AssetAccountKind.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
-#include "Details.hpp"
 #include "FiatAccountDetails.hpp"
 #include "FiatAsset.hpp"
 #include "FiatAssetQuoteRequest.hpp"
 #include "HybridRNCandleSpec.hpp"
+#include "InactiveLinkedAccountDetails.hpp"
 #include "LegalAccountKind.hpp"
 #include "LinkedAccount.hpp"
+#include "LinkedAccountDetails.hpp"
 #include "MarketAccountDetails.hpp"
 #include "MarketAssetQuoteRequest.hpp"
 #include "MarketTradeAsset.hpp"
@@ -109,7 +113,6 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "OtherAsset.hpp"
 #include "Service.hpp"
 #include "ServiceCounterparty.hpp"
-#include "State.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
 #include "TradeQuote.hpp"
@@ -164,13 +167,22 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return std::optional<std::string>(value);
   }
   
-  // pragma MARK: std::optional<Details>
+  // pragma MARK: std::optional<ActiveLinkedAccountDetails>
   /**
-   * Specialized version of `std::optional<Details>`.
+   * Specialized version of `std::optional<ActiveLinkedAccountDetails>`.
    */
-  using std__optional_Details_ = std::optional<Details>;
-  inline std::optional<Details> create_std__optional_Details_(const Details& value) {
-    return std::optional<Details>(value);
+  using std__optional_ActiveLinkedAccountDetails_ = std::optional<ActiveLinkedAccountDetails>;
+  inline std::optional<ActiveLinkedAccountDetails> create_std__optional_ActiveLinkedAccountDetails_(const ActiveLinkedAccountDetails& value) {
+    return std::optional<ActiveLinkedAccountDetails>(value);
+  }
+  
+  // pragma MARK: std::optional<InactiveLinkedAccountDetails>
+  /**
+   * Specialized version of `std::optional<InactiveLinkedAccountDetails>`.
+   */
+  using std__optional_InactiveLinkedAccountDetails_ = std::optional<InactiveLinkedAccountDetails>;
+  inline std::optional<InactiveLinkedAccountDetails> create_std__optional_InactiveLinkedAccountDetails_(const InactiveLinkedAccountDetails& value) {
+    return std::optional<InactiveLinkedAccountDetails>(value);
   }
   
   // pragma MARK: std::function<void(const LinkedAccount& /* account */)>

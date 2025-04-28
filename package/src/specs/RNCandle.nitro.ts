@@ -310,18 +310,28 @@ export type PresentationStyle = "sheet" | "fullScreen";
 
 export type State = "active" | "inactive";
 
-export type Details = {
-  username?: string;
-  legalName: string;
+export type ActiveLinkedAccountDetails = {
+  state: string; // "active"
   accountOpened?: string;
+  username?: string;
+  emailAddress?: string;
+  legalName?: string;
+};
+
+export type InactiveLinkedAccountDetails = {
+  state: string; // "inactive"
+};
+
+export type LinkedAccountDetails = {
+  activeLinkedAccountDetails?: ActiveLinkedAccountDetails;
+  inactiveLinkedAccountDetails?: InactiveLinkedAccountDetails;
 };
 
 export type LinkedAccount = {
-  serviceUserID: string;
-  state: State;
-  details?: Details;
   linkedAccountID: string;
   service: Service;
+  serviceUserID: string;
+  details: LinkedAccountDetails;
 };
 
 export type ToolCall = {

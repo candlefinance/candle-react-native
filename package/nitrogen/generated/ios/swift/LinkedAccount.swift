@@ -17,63 +17,9 @@ extension LinkedAccount {
    * Create a new instance of `LinkedAccount`.
    */
   public init(
-    serviceUserID: String, state: State, details: Details?, linkedAccountID: String,
-    service: Service
+    linkedAccountID: String, service: Service, serviceUserID: String, details: LinkedAccountDetails
   ) {
-    self.init(
-      std.string(serviceUserID), state,
-      { () -> bridge.std__optional_Details_ in
-        if let __unwrappedValue = details {
-          return bridge.create_std__optional_Details_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }(), std.string(linkedAccountID), service)
-  }
-
-  public var serviceUserID: String {
-    @inline(__always)
-    get {
-      return String(self.__serviceUserID)
-    }
-    @inline(__always)
-    set {
-      self.__serviceUserID = std.string(newValue)
-    }
-  }
-
-  public var state: State {
-    @inline(__always)
-    get {
-      return self.__state
-    }
-    @inline(__always)
-    set {
-      self.__state = newValue
-    }
-  }
-
-  public var details: Details? {
-    @inline(__always)
-    get {
-      return { () -> Details? in
-        if let __unwrapped = self.__details.value {
-          return __unwrapped
-        } else {
-          return nil
-        }
-      }()
-    }
-    @inline(__always)
-    set {
-      self.__details = { () -> bridge.std__optional_Details_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_Details_(__unwrappedValue)
-        } else {
-          return .init()
-        }
-      }()
-    }
+    self.init(std.string(linkedAccountID), service, std.string(serviceUserID), details)
   }
 
   public var linkedAccountID: String {
@@ -95,6 +41,28 @@ extension LinkedAccount {
     @inline(__always)
     set {
       self.__service = newValue
+    }
+  }
+
+  public var serviceUserID: String {
+    @inline(__always)
+    get {
+      return String(self.__serviceUserID)
+    }
+    @inline(__always)
+    set {
+      self.__serviceUserID = std.string(newValue)
+    }
+  }
+
+  public var details: LinkedAccountDetails {
+    @inline(__always)
+    get {
+      return self.__details
+    }
+    @inline(__always)
+    set {
+      self.__details = newValue
     }
   }
 }

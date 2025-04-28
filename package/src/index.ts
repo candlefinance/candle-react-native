@@ -28,6 +28,7 @@ import type {
   UserCounterparty,
   ServiceCounterparty,
   Counterparty as InternalCounterparty,
+  ActiveLinkedAccountDetails,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -72,26 +73,34 @@ export class CandleClient {
 
   public async getLinkedAccounts(): Promise<
     (
-      | (LinkedAccount & { state: "active" })
-      | ({ state: "inactive" } & Pick<
-          LinkedAccount,
-          "linkedAccountID" | "service"
-        >)
+      | (LinkedAccount & {
+          details: { state: "active" } & ActiveLinkedAccountDetails;
+        })
+      | (LinkedAccount & {
+          details: { state: "inactive" };
+        })
     )[]
   > {
     const accounts = await this.candle.getLinkedAccounts();
     return accounts.map((account) => {
-      if (account.state === "active") {
+      if (account.details.activeLinkedAccountDetails !== undefined) {
         return {
           ...account,
-          state: "active",
+          details: {
+            ...account.details.activeLinkedAccountDetails,
+            state: "active",
+          },
+        };
+      } else if (account.details.inactiveLinkedAccountDetails !== undefined) {
+        return {
+          ...account,
+          details: {
+            ...account.details.inactiveLinkedAccountDetails,
+            state: "inactive",
+          },
         };
       } else {
-        return {
-          state: "inactive",
-          linkedAccountID: account.linkedAccountID,
-          service: account.service,
-        };
+        throw new Error("Internal Candle Error: corrupted linked account.");
       }
     });
   }
