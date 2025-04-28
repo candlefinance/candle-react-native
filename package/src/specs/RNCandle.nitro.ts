@@ -315,7 +315,7 @@ export type ActiveLinkedAccountDetails = {
   accountOpened?: string;
   username?: string;
   emailAddress?: string;
-  legalName?: string;
+  legalName: string;
 };
 
 export type InactiveLinkedAccountDetails = {

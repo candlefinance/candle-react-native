@@ -34,11 +34,11 @@ namespace margelo::nitro::rncandle {
     std::optional<std::string> accountOpened     SWIFT_PRIVATE;
     std::optional<std::string> username     SWIFT_PRIVATE;
     std::optional<std::string> emailAddress     SWIFT_PRIVATE;
-    std::optional<std::string> legalName     SWIFT_PRIVATE;
+    std::string legalName     SWIFT_PRIVATE;
 
   public:
     ActiveLinkedAccountDetails() = default;
-    explicit ActiveLinkedAccountDetails(std::string state, std::optional<std::string> accountOpened, std::optional<std::string> username, std::optional<std::string> emailAddress, std::optional<std::string> legalName): state(state), accountOpened(accountOpened), username(username), emailAddress(emailAddress), legalName(legalName) {}
+    explicit ActiveLinkedAccountDetails(std::string state, std::optional<std::string> accountOpened, std::optional<std::string> username, std::optional<std::string> emailAddress, std::string legalName): state(state), accountOpened(accountOpened), username(username), emailAddress(emailAddress), legalName(legalName) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -57,7 +57,7 @@ namespace margelo::nitro {
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "accountOpened")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "username")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "emailAddress")),
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "legalName"))
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "legalName"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const ActiveLinkedAccountDetails& arg) {
@@ -66,7 +66,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "accountOpened", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.accountOpened));
       obj.setProperty(runtime, "username", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.username));
       obj.setProperty(runtime, "emailAddress", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.emailAddress));
-      obj.setProperty(runtime, "legalName", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.legalName));
+      obj.setProperty(runtime, "legalName", JSIConverter<std::string>::toJSI(runtime, arg.legalName));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -78,7 +78,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "accountOpened"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "username"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "emailAddress"))) return false;
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "legalName"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "legalName"))) return false;
       return true;
     }
   };

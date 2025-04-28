@@ -18,7 +18,7 @@ extension ActiveLinkedAccountDetails {
    */
   public init(
     state: String, accountOpened: String?, username: String?, emailAddress: String?,
-    legalName: String?
+    legalName: String
   ) {
     self.init(
       std.string(state),
@@ -42,14 +42,7 @@ extension ActiveLinkedAccountDetails {
         } else {
           return .init()
         }
-      }(),
-      { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = legalName {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }())
+      }(), std.string(legalName))
   }
 
   public var state: String {
@@ -132,26 +125,14 @@ extension ActiveLinkedAccountDetails {
     }
   }
 
-  public var legalName: String? {
+  public var legalName: String {
     @inline(__always)
     get {
-      return { () -> String? in
-        if let __unwrapped = self.__legalName.value {
-          return String(__unwrapped)
-        } else {
-          return nil
-        }
-      }()
+      return String(self.__legalName)
     }
     @inline(__always)
     set {
-      self.__legalName = { () -> bridge.std__optional_std__string_ in
-        if let __unwrappedValue = newValue {
-          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
-        } else {
-          return .init()
-        }
-      }()
+      self.__legalName = std.string(newValue)
     }
   }
 }
