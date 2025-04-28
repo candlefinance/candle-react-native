@@ -1,16 +1,31 @@
-import { useState } from "react";
-import { ActivityIndicator, Button, StyleSheet, View } from "react-native";
+import { useMemo, useState } from "react";
 import {
-  deleteUser,
-  unlinkAccount,
-  executeTool,
-  getAvailableTools,
-  getLinkedAccounts,
-  presentCandleLinkSheet,
-} from "react-native-candle";
+  ActivityIndicator,
+  Alert,
+  Button,
+  StyleSheet,
+  View,
+} from "react-native";
+import { CandleClient } from "react-native-candle";
+// import { MMKV } from "react-native-mmkv";
+
+// const storage = new MMKV();
+// const isFirstLaunch = storage.getBoolean("isFirstLaunch");
+// if (isFirstLaunch === undefined) {
+//   console.log("First launch");
+//   storage.set("isFirstLaunch", true);
+// } else {
+//   console.log("Not first launch");
+//   storage.set("isFirstLaunch", false);
+// }
 
 export default function TabOneScreen() {
+  const candleClient = useMemo(() => {
+    return new CandleClient({ appKey: "", appSecret: "" });
+  }, []);
+
   const [isLoading, setIsLoading] = useState(false);
+
   return (
     <View style={[styles.container]}>
       <ActivityIndicator animating={isLoading} />
@@ -18,7 +33,8 @@ export default function TabOneScreen() {
         title="Unlink Account"
         onPress={() => {
           setIsLoading(true);
-          unlinkAccount("linkedAccountID") // Replace with actual linked account ID
+          candleClient
+            .unlinkAccount("linkedAccountID") // Replace with actual linked account ID
             .then(() => {
               console.log("User unlinked successfully.");
               setIsLoading(false);
@@ -33,7 +49,8 @@ export default function TabOneScreen() {
         title="Delete User"
         onPress={() => {
           setIsLoading(true);
-          deleteUser()
+          candleClient
+            .deleteUser()
             .then(() => {
               console.log("User deleted successfully.");
               setIsLoading(false);
@@ -48,7 +65,8 @@ export default function TabOneScreen() {
         title="Get Available Tools"
         onPress={() => {
           setIsLoading(true);
-          getAvailableTools()
+          candleClient
+            .getAvailableTools()
             .then((tools) => {
               console.log("Available tools:", tools);
               setIsLoading(false);
@@ -63,7 +81,11 @@ export default function TabOneScreen() {
         title="Execute Tool"
         onPress={() => {
           setIsLoading(true);
-          executeTool({ arguments: "", name: "get_linked_accounts" })
+          candleClient
+            .executeTool({
+              arguments: "{}",
+              name: "get_linked_accounts",
+            })
             .then((result) => {
               console.log("Tool executed successfully:", result);
               setIsLoading(false);
@@ -78,25 +100,45 @@ export default function TabOneScreen() {
         title="Get Linked Accounts"
         onPress={() => {
           setIsLoading(true);
-          getLinkedAccounts()
+          candleClient
+            .getLinkedAccounts()
             .then((accounts) => {
-              console.log("Linked accounts:", accounts[0].details);
+              accounts.forEach((account) => {
+                switch (account.state) {
+                  case "active":
+                    console.log(
+                      `${account.service} is active`,
+                      JSON.stringify(account, null, 2)
+                    );
+                    break;
+                  case "inactive":
+                    console.log(
+                      `${account.service} is inactive`,
+                      JSON.stringify(account, null, 2)
+                    );
+                    break;
+                }
+              });
               setIsLoading(false);
             })
             .catch((error) => {
+              setIsLoading(false);
               console.error("Error fetching linked accounts:", error);
+              Alert.alert("Error", `${error}`);
             });
         }}
       />
       <Button
         title="Show Candle Sheet"
         onPress={() => {
-          presentCandleLinkSheet({
+          candleClient.presentCandleLinkSheet({
+            services: ["venmo"], // optional, defaults to all supported
             onSuccess: (linkedAccount) => {
               console.log("Account selected:", linkedAccount);
             },
             customerName: "Akme Inc.",
             presentationStyle: "fullScreen",
+            presentationBackground: "blur",
           });
         }}
       />
@@ -107,7 +149,6 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

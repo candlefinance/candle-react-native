@@ -20,12 +20,23 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Candle Finance CI"
+          git config --global user.email "contact@trycandle.com"
+
+      - name: Configure npm auth
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
       - name: Install dependencies
-        run: npx bun install
+        run: bun install
 
       - name: Release
         working-directory: .
-        run: npx bun release-it --non-interactive
+        run: bun release-it --non-interactive
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 

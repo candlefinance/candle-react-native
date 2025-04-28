@@ -1,0 +1,74 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}
+
+jobs:
+  test:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ~16.2
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Candle Finance CI"
+          git config --global user.email "contact@trycandle.com"
+
+      - name: Configure npm auth
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Install swift-format
+        run: brew install swift-format
+
+      - name: Generate Nitro types
+        run: bun run specs
+
+      - name: Fail if diffs
+        run: |
+          #!/bin/bash
+          set -e
+          set -x
+
+          # Check for untracked, modified, or deleted files
+          if [[ -n $(git status --porcelain=v1 . | grep -E "^\?\?|^ M|^ D") ]]; then
+              # Fetch remote changes if any
+              git fetch
+
+              # Printing all of our tags seems to take some time...
+              sleep 2
+
+              echo "Found uncommitted changes, if that was intentional please commit them to your branch"
+              git status
+              git diff
+              exit 1
+          else
+              exit 0
+          fi
+
+      - name: Pods
+        working-directory: example
+        run: bun run prebuild --clean
+
+      - name: Xcode-build
+        working-directory: example
+        run: bun run build
+        timeout-minutes: 20

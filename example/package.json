@@ -1,25 +1,26 @@
 {
   "name": "example",
   "main": "expo-router/entry",
-  "version": "0.1.5",
+  "version": "0.1.18",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "prebuild": "expo prebuild",
+    "build": "npx react-native build-ios",
     "pod": "pod install --project-directory=ios"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/native": "^7.0.14",
-    "expo": "^52.0.43",
+    "expo": "~52.0.46",
     "expo-build-properties": "~0.13.2",
     "expo-crypto": "~14.0.2",
     "expo-font": "~13.0.4",
     "expo-linking": "~7.0.5",
     "expo-router": "~4.0.20",
-    "expo-splash-screen": "~0.29.22",
+    "expo-splash-screen": "~0.29.24",
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.9",
     "expo-web-browser": "~14.0.2",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
+    "@react-native-community/cli": "^18.0.0",
     "@types/react": "~18.3.12"
   },
   "release-it": {

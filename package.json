@@ -1,6 +1,6 @@
 {
   "name": "react-native-candle",
-  "version": "0.1.5",
+  "version": "0.1.18",
   "description": "Candle SDK for React Native",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
@@ -12,7 +12,7 @@
     "postinstall": "tsc -p ./package --noEmit || exit 0;",
     "typescript": "bun tsc -p ./package --noEmit",
     "clean": "rm -rf package/tsconfig.tsbuildinfo package/node_modules package/lib",
-    "specs": "bun --cwd ./package specs",
+    "specs": "bun --cwd ./package specs && git apply ios-version.patch && swift-format format -ir .",
     "specs:pod": "bun --cwd ./package specs && cd example/ios && pod install && cd ../../",
     "build": "bun --cwd package build",
     "release": "release-it"
@@ -78,7 +78,8 @@
     "git": {
       "commitMessage": "chore: release ${version}",
       "tagName": "v${version}",
-      "requireCleanWorkingDir": false
+      "requireCleanWorkingDir": false,
+      "push": false
     },
     "plugins": {
       "@release-it/bumper": {

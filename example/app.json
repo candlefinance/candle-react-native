@@ -17,8 +17,6 @@
       "supportsTablet": true,
       "bundleIdentifier": "fi.candle.example",
       "infoPlist": {
-        "CandleAppKey": "key-f38v2kcxqiuld64g58acupqs",
-        "CandleAppSecret": "sec-8YN5H7GzS2HEIPiLdtYP0JpCI9QMAfIRUTmXaZNWFL8=",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
@@ -42,7 +40,7 @@
         {
           "ios": {
             "deploymentTarget": "17.0",
-            "useFrameworks": "dynamic"
+            "newArchEnabled": true
           }
         }
       ]
