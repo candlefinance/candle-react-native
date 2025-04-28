@@ -29,6 +29,8 @@ import type {
   ServiceCounterparty,
   Counterparty as InternalCounterparty,
   ActiveLinkedAccountDetails,
+  ExecuteTradeRequest,
+  Trade as InternalTrade,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -117,6 +119,17 @@ export class CandleClient {
     return this.candle.getAvailableTools();
   }
 
+  public async executeTrade(request: ExecuteTradeRequest): Promise<Trade> {
+    const result = await this.candle.executeTrade(request);
+    return {
+      dateTime: result.dateTime,
+      state: result.state,
+      counterparty: this.convertToCounterparty(result.counterparty),
+      lost: this.convertTradeAsset(result.lost),
+      gained: this.convertTradeAsset(result.gained),
+    };
+  }
+
   public async executeTool(tool: {
     name: string;
     arguments: string;
@@ -137,15 +150,7 @@ export class CandleClient {
       lostAssetKind?: TradeQueryAssetKind;
       counterpartyKind?: "merchant" | "user" | "service";
     } & TradeQuery = {}
-  ): Promise<
-    {
-      dateTime: string;
-      state: TradeState;
-      counterparty: Counterparty;
-      lost: TradeAsset;
-      gained: TradeAsset;
-    }[]
-  > {
+  ): Promise<Trade[]> {
     const trades = await this.candle.getTrades(query);
     return trades.map(({ dateTime, counterparty, gained, lost, state }) => ({
       dateTime,
@@ -328,4 +333,12 @@ type AssetAccount = {
       };
 };
 
-export type { LinkedAccount, AppUser, Service, TradeState, TradeAsset };
+type Trade = {
+  dateTime: string;
+  state: TradeState;
+  counterparty: Counterparty;
+  lost: TradeAsset;
+  gained: TradeAsset;
+};
+
+export type { LinkedAccount, AppUser, Service, TradeState, TradeAsset, Trade };
