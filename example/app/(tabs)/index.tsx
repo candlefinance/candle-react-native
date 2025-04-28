@@ -7,17 +7,6 @@ import {
   View,
 } from "react-native";
 import { CandleClient } from "react-native-candle";
-// import { MMKV } from "react-native-mmkv";
-
-// const storage = new MMKV();
-// const isFirstLaunch = storage.getBoolean("isFirstLaunch");
-// if (isFirstLaunch === undefined) {
-//   console.log("First launch");
-//   storage.set("isFirstLaunch", true);
-// } else {
-//   console.log("Not first launch");
-//   storage.set("isFirstLaunch", false);
-// }
 
 export default function TabOneScreen() {
   const candleClient = useMemo(() => {
@@ -104,7 +93,7 @@ export default function TabOneScreen() {
             .getLinkedAccounts()
             .then((accounts) => {
               accounts.forEach((account) => {
-                switch (account.state) {
+                switch (account.details.state) {
                   case "active":
                     console.log(
                       `${account.service} is active`,
