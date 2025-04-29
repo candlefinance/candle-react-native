@@ -30,7 +30,6 @@ import type {
   Counterparty as InternalCounterparty,
   ActiveLinkedAccountDetails,
   ExecuteTradeRequest,
-  Trade as InternalTrade,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
