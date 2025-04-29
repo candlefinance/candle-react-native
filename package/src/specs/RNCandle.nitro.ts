@@ -218,6 +218,11 @@ export type TradeQuoteRequest = {
   gained: TradeAssetQuoteRequest;
 };
 
+export type ExecuteTradeRequest = {
+  linkedAccountID: string;
+  context: string;
+};
+
 export type TradeQuote = {
   lost: TradeAsset;
   gained: TradeAsset;
@@ -356,7 +361,7 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccount[]>;
   getTrades(query: TradeQuery): Promise<Trade[]>;
   getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuote[]>;
-  submitTrade(serviceTradeID: string): Promise<Trade>;
+  executeTrade(request: ExecuteTradeRequest): Promise<Trade>;
   deleteUser(): Promise<void>;
   // FIXME: The return type should be a more specific type based on the actual tool calls available.
   getAvailableTools(): Promise<Array<AnyMap>>;
