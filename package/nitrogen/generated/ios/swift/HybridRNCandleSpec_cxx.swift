@@ -202,7 +202,7 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func unlinkAccount(ref: DeleteLinkedAccountRef)
+  public final func unlinkAccount(ref: LinkedAccountRef)
     -> bridge.Result_std__shared_ptr_Promise_void___
   {
     do {

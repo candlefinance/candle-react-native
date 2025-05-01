@@ -30,8 +30,6 @@ namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
 namespace margelo::nitro::rncandle { struct AppUser; }
 // Forward declaration of `LinkedAccountRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountRef; }
-// Forward declaration of `DeleteLinkedAccountRef` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct DeleteLinkedAccountRef; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
 // Forward declaration of `LegalAccountKind` to properly resolve imports.
@@ -135,7 +133,6 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "AppUser.hpp"
 #include <NitroModules/Promise.hpp>
 #include "LinkedAccountRef.hpp"
-#include "DeleteLinkedAccountRef.hpp"
 #include "AssetAccount.hpp"
 #include "LegalAccountKind.hpp"
 #include "AssetAccountDetails.hpp"
@@ -248,7 +245,7 @@ namespace margelo::nitro::rncandle {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<void>> unlinkAccount(const DeleteLinkedAccountRef& ref) override {
+    inline std::shared_ptr<Promise<void>> unlinkAccount(const LinkedAccountRef& ref) override {
       auto __result = _swiftPart.unlinkAccount(ref);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());

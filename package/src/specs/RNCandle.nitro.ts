@@ -393,10 +393,6 @@ export type TradeRef = {
   gained: TradeAssetRef;
 };
 
-export type DeleteLinkedAccountRef = {
-  linkedAccountID: string;
-};
-
 export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   candleLinkSheet(
     isPresented: boolean,
@@ -411,7 +407,7 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   initialize(appUser: AppUser): void;
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount>;
-  unlinkAccount(ref: DeleteLinkedAccountRef): Promise<void>;
+  unlinkAccount(ref: LinkedAccountRef): Promise<void>;
   getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccount[]>;
   getAssetAccount(ref: AssetAccountRef): Promise<AssetAccount>;
   getTrades(query: TradeQuery): Promise<Trade[]>;

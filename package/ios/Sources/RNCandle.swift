@@ -93,7 +93,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
 
   // MARK: - Public
 
-  public func unlinkAccount(ref: DeleteLinkedAccountRef) throws -> Promise<Void> {
+  public func unlinkAccount(ref: LinkedAccountRef) throws -> Promise<Void> {
     .async {
       try await self.viewModel.candleClient.unlinkAccount(
         path: .init(linkedAccountID: ref.linkedAccountID))
@@ -1039,31 +1039,35 @@ extension TradeAssetRef {
       if let fiatAssetRef {
         return .FiatAssetRef(
           .init(
-            assetKind: .init(rawValue: fiatAssetRef.assetKind)!,
+            assetKind: .fiat,
             serviceTradeID: fiatAssetRef.serviceTradeID,
             linkedAccountID: fiatAssetRef.linkedAccountID
           )
         )
       } else if let nothingAssetRef {
-        return .NothingAsset(.init(assetKind: .init(rawValue: nothingAssetRef.assetKind)!))
+        return .NothingAsset(.init(assetKind: .nothing))
       } else if let marketTradeAssetRef {
+        guard
+          let assetKind = Models.MarketAssetRef.AssetKindPayload.init(
+            rawValue: marketTradeAssetRef.assetKind)
+        else {
+          throw RNClientError.badEncoding
+        }
         return .MarketAssetRef(
           .init(
-            assetKind: .init(rawValue: marketTradeAssetRef.assetKind)!,
+            assetKind: assetKind,
             serviceTradeID: marketTradeAssetRef.serviceTradeID,
             linkedAccountID: marketTradeAssetRef.linkedAccountID
           )
         )
       } else if let otherAssetRef {
         return .OtherAsset(
-          .init(
-            assetKind: .init(rawValue: otherAssetRef.assetKind)!)
+          .init(assetKind: .other)
         )
       } else if let transportAssetRef {
         return .TransportAssetRef(
           .init(
-            assetKind: .init(
-              rawValue: transportAssetRef.assetKind)!,
+            assetKind: .transport,
             serviceTradeID: transportAssetRef.serviceTradeID,
             linkedAccountID: transportAssetRef.linkedAccountID
           )

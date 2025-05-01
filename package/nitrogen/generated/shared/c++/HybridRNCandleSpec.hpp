@@ -25,8 +25,6 @@ namespace margelo::nitro::rncandle { struct LinkedAccount; }
 namespace margelo::nitro::rncandle { struct AppUser; }
 // Forward declaration of `LinkedAccountRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountRef; }
-// Forward declaration of `DeleteLinkedAccountRef` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct DeleteLinkedAccountRef; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
 // Forward declaration of `AssetAccountQuery` to properly resolve imports.
@@ -61,7 +59,6 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "AppUser.hpp"
 #include <NitroModules/Promise.hpp>
 #include "LinkedAccountRef.hpp"
-#include "DeleteLinkedAccountRef.hpp"
 #include "AssetAccount.hpp"
 #include "AssetAccountQuery.hpp"
 #include "AssetAccountRef.hpp"
@@ -109,7 +106,7 @@ namespace margelo::nitro::rncandle {
       virtual void initialize(const AppUser& appUser) = 0;
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<LinkedAccount>> getLinkedAccount(const LinkedAccountRef& ref) = 0;
-      virtual std::shared_ptr<Promise<void>> unlinkAccount(const DeleteLinkedAccountRef& ref) = 0;
+      virtual std::shared_ptr<Promise<void>> unlinkAccount(const LinkedAccountRef& ref) = 0;
       virtual std::shared_ptr<Promise<std::vector<AssetAccount>>> getAssetAccounts(const AssetAccountQuery& query) = 0;
       virtual std::shared_ptr<Promise<AssetAccount>> getAssetAccount(const AssetAccountRef& ref) = 0;
       virtual std::shared_ptr<Promise<std::vector<Trade>>> getTrades(const TradeQuery& query) = 0;

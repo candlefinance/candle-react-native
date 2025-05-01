@@ -32,7 +32,6 @@ import type {
   ExecuteTradeRequest,
   AssetAccountRef,
   LinkedAccountRef,
-  DeleteLinkedAccountRef,
   NothingAssetRef,
   TransportAssetRef,
   OtherAssetRef,
@@ -119,7 +118,7 @@ export class CandleClient {
     return this.candle.getLinkedAccount(ref);
   }
 
-  public async unlinkAccount(path: DeleteLinkedAccountRef): Promise<void> {
+  public async unlinkAccount(path: LinkedAccountRef): Promise<void> {
     await this.candle.unlinkAccount(path);
   }
 
@@ -427,6 +426,8 @@ type TradeAssetRef =
   | ({ assetKind: "stock" | "crypto" } & MarketTradeAssetRef);
 
 export type {
+  LinkedAccountRef,
+  AssetAccountRef,
   TradeAssetRef,
   LinkedAccount,
   AppUser,

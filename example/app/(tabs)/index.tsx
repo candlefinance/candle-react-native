@@ -25,7 +25,7 @@ export default function TabOneScreen() {
           candleClient
             .unlinkAccount({
               linkedAccountID: "linkedAccountID", // Replace with actual linked account ID
-            }) // Replace with actual linked account ID
+            })
             .then(() => {
               console.log("User unlinked successfully.");
               setIsLoading(false);
