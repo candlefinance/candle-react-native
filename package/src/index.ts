@@ -17,7 +17,7 @@ import type {
   Service,
   TradeAsset as InternalTradeAsset,
   TradeAssetQuoteRequest,
-  TradeQuery,
+  TradeQuery as InternalTradeQuery,
   TransportAsset,
   TransportAssetQuoteRequest,
   LegalAccountKind,
@@ -30,6 +30,10 @@ import type {
   Counterparty as InternalCounterparty,
   ActiveLinkedAccountDetails,
   ExecuteTradeRequest,
+  TradeRef,
+  AssetAccountRef,
+  LinkedAccountRef,
+  DeleteLinkedAccountRef,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -106,8 +110,12 @@ export class CandleClient {
     });
   }
 
-  public async unlinkAccount(linkedAccountID: string): Promise<void> {
-    await this.candle.unlinkAccount(linkedAccountID);
+  public async getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount> {
+    return this.candle.getLinkedAccount(ref);
+  }
+
+  public async unlinkAccount(path: DeleteLinkedAccountRef): Promise<void> {
+    await this.candle.unlinkAccount(path);
   }
 
   public async deleteUser(): Promise<void> {
@@ -143,13 +151,12 @@ export class CandleClient {
     return accounts.map((account) => this.convertToAssetAccount(account));
   }
 
-  public async getTrades(
-    query: {
-      gainedAssetKind?: TradeQueryAssetKind;
-      lostAssetKind?: TradeQueryAssetKind;
-      counterpartyKind?: "merchant" | "user" | "service";
-    } & TradeQuery = {}
-  ): Promise<Trade[]> {
+  public async getAssetAccount(ref: AssetAccountRef): Promise<AssetAccount> {
+    const account = await this.candle.getAssetAccount(ref);
+    return this.convertToAssetAccount(account);
+  }
+
+  public async getTrades(query: TradeQuery = {}): Promise<Trade[]> {
     const trades = await this.candle.getTrades(query);
     return trades.map(({ dateTime, counterparty, gained, lost, state }) => ({
       dateTime,
@@ -158,6 +165,17 @@ export class CandleClient {
       lost: this.convertTradeAsset(lost),
       gained: this.convertTradeAsset(gained),
     }));
+  }
+
+  public async getTrade(ref: TradeRef): Promise<Trade> {
+    const trade = await this.candle.getTrade(ref);
+    return {
+      dateTime: trade.dateTime,
+      state: trade.state,
+      counterparty: this.convertToCounterparty(trade.counterparty),
+      lost: this.convertTradeAsset(trade.lost),
+      gained: this.convertTradeAsset(trade.gained),
+    };
   }
 
   public async getTradeQuotes(request: {
@@ -302,6 +320,12 @@ type Counterparty =
       kind: "service";
     } & ServiceCounterparty);
 
+type TradeQuery = {
+  gainedAssetKind?: TradeQueryAssetKind;
+  lostAssetKind?: TradeQueryAssetKind;
+  counterpartyKind?: "merchant" | "user" | "service";
+} & InternalTradeQuery;
+
 type TradeQueryAssetKind =
   | "fiat"
   | "stock"
@@ -340,4 +364,14 @@ type Trade = {
   gained: TradeAsset;
 };
 
-export type { LinkedAccount, AppUser, Service, TradeState, TradeAsset, Trade };
+export type {
+  LinkedAccount,
+  AppUser,
+  Service,
+  TradeState,
+  TradeAsset,
+  Trade,
+  TradeQuery,
+  Counterparty,
+  AssetAccount,
+};

@@ -131,6 +131,15 @@ export default function TabOneScreen() {
           });
         }}
       />
+      <Button
+        title="Show Candle Sheet"
+        onPress={async () => {
+          // const result = await candleClient.executeTrade({
+          //   context: context,
+          //   linkedAccountID: "linkedAccountID", // Replace with actual linked account ID
+          // });
+        }}
+      />
     </View>
   );
 }

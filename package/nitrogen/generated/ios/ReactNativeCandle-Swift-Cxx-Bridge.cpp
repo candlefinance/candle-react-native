@@ -53,6 +53,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
+  // pragma MARK: std::function<void(const AssetAccount& /* result */)>
+  Func_void_AssetAccount create_Func_void_AssetAccount(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_AssetAccount::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const AssetAccount& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
   // pragma MARK: std::function<void(const std::vector<Trade>& /* result */)>
   Func_void_std__vector_Trade_ create_Func_void_std__vector_Trade_(void* _Nonnull swiftClosureWrapper) {
     auto swiftClosure = ReactNativeCandle::Func_void_std__vector_Trade_::fromUnsafe(swiftClosureWrapper);
@@ -61,18 +69,18 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
-  // pragma MARK: std::function<void(const std::vector<TradeQuote>& /* result */)>
-  Func_void_std__vector_TradeQuote_ create_Func_void_std__vector_TradeQuote_(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_TradeQuote_::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<TradeQuote>& result) mutable -> void {
-      swiftClosure.call(result);
-    };
-  }
-  
   // pragma MARK: std::function<void(const Trade& /* result */)>
   Func_void_Trade create_Func_void_Trade(void* _Nonnull swiftClosureWrapper) {
     auto swiftClosure = ReactNativeCandle::Func_void_Trade::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const Trade& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::vector<TradeQuote>& /* result */)>
+  Func_void_std__vector_TradeQuote_ create_Func_void_std__vector_TradeQuote_(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_TradeQuote_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::vector<TradeQuote>& result) mutable -> void {
       swiftClosure.call(result);
     };
   }

@@ -344,6 +344,59 @@ export type ToolCall = {
   arguments: string;
 };
 
+export type LinkedAccountRef = {
+  linkedAccountID: string;
+};
+
+export type AssetAccountRef = {
+  linkedAccountID: string;
+  assetKind: string; // "fiat" | "stock" | "crypto"
+  serviceAccountID: string;
+};
+
+export type FiatAssetRef = {
+  assetKind: string; // fiat
+  serviceTradeID?: string;
+  linkedAccountID: string;
+};
+
+export type MarketTradeAssetRef = {
+  assetKind: string; // "stock" | "crypto"
+  serviceTradeID: string;
+  linkedAccountID: string;
+};
+
+export type TransportAssetRef = {
+  assetKind: string; // "transport"
+  serviceTradeID: string;
+  linkedAccountID: string;
+};
+
+export type OtherAssetRef = {
+  assetKind: string; // "other"
+};
+
+export type NothingAssetRef = {
+  assetKind: string; // "nothing"
+};
+
+export type TradeAssetRef = {
+  fiatAssetRef?: FiatAssetRef;
+  marketTradeAssetRef?: MarketTradeAssetRef;
+  transportAssetRef?: TransportAssetRef;
+  otherAssetRef?: OtherAssetRef;
+  nothingAssetRef?: NothingAssetRef;
+};
+
+export type TradeRef = {
+  lost: TradeAssetRef;
+  gained: TradeAssetRef;
+};
+
+export type DeleteLinkedAccountRef = {
+  linkedAccountID: string;
+};
+
 export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   candleLinkSheet(
     isPresented: boolean,
@@ -357,9 +410,12 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   ): void;
   initialize(appUser: AppUser): void;
   getLinkedAccounts(): Promise<LinkedAccount[]>;
-  unlinkAccount(linkedAccountID: string): Promise<void>;
+  getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount>;
+  unlinkAccount(ref: DeleteLinkedAccountRef): Promise<void>;
   getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccount[]>;
+  getAssetAccount(ref: AssetAccountRef): Promise<AssetAccount>;
   getTrades(query: TradeQuery): Promise<Trade[]>;
+  getTrade(ref: TradeRef): Promise<Trade>;
   getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuote[]>;
   executeTrade(request: ExecuteTradeRequest): Promise<Trade>;
   deleteUser(): Promise<void>;

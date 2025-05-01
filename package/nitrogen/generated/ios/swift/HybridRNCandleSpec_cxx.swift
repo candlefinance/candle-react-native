@@ -181,12 +181,32 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func unlinkAccount(linkedAccountID: std.string)
+  public final func getLinkedAccount(ref: LinkedAccountRef)
+    -> bridge.Result_std__shared_ptr_Promise_LinkedAccount___
+  {
+    do {
+      let __result = try self.__implementation.getLinkedAccount(ref: ref)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_LinkedAccount__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_LinkedAccount__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_LinkedAccount__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_LinkedAccount___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_LinkedAccount___(__exceptionPtr)
+    }
+  }
+
+  @inline(__always)
+  public final func unlinkAccount(ref: DeleteLinkedAccountRef)
     -> bridge.Result_std__shared_ptr_Promise_void___
   {
     do {
-      let __result = try self.__implementation.unlinkAccount(
-        linkedAccountID: String(linkedAccountID))
+      let __result = try self.__implementation.unlinkAccount(ref: ref)
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
         let __promise = bridge.create_std__shared_ptr_Promise_void__()
         let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
@@ -235,6 +255,27 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
+  public final func getAssetAccount(ref: AssetAccountRef)
+    -> bridge.Result_std__shared_ptr_Promise_AssetAccount___
+  {
+    do {
+      let __result = try self.__implementation.getAssetAccount(ref: ref)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_AssetAccount__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_AssetAccount__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_AssetAccount__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_AssetAccount___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_AssetAccount___(__exceptionPtr)
+    }
+  }
+
+  @inline(__always)
   public final func getTrades(query: TradeQuery)
     -> bridge.Result_std__shared_ptr_Promise_std__vector_Trade____
   {
@@ -261,6 +302,25 @@ public class HybridRNCandleSpec_cxx {
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
       return bridge.create_Result_std__shared_ptr_Promise_std__vector_Trade____(__exceptionPtr)
+    }
+  }
+
+  @inline(__always)
+  public final func getTrade(ref: TradeRef) -> bridge.Result_std__shared_ptr_Promise_Trade___ {
+    do {
+      let __result = try self.__implementation.getTrade(ref: ref)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_Trade__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_Trade__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_Trade__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_Trade___(__resultCpp)
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_std__shared_ptr_Promise_Trade___(__exceptionPtr)
     }
   }
 
