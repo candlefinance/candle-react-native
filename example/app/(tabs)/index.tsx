@@ -23,7 +23,9 @@ export default function TabOneScreen() {
         onPress={() => {
           setIsLoading(true);
           candleClient
-            .unlinkAccount("linkedAccountID") // Replace with actual linked account ID
+            .unlinkAccount({
+              linkedAccountID: "linkedAccountID", // Replace with actual linked account ID
+            }) // Replace with actual linked account ID
             .then(() => {
               console.log("User unlinked successfully.");
               setIsLoading(false);
@@ -129,15 +131,6 @@ export default function TabOneScreen() {
             presentationStyle: "fullScreen",
             presentationBackground: "blur",
           });
-        }}
-      />
-      <Button
-        title="Show Candle Sheet"
-        onPress={async () => {
-          // const result = await candleClient.executeTrade({
-          //   context: context,
-          //   linkedAccountID: "linkedAccountID", // Replace with actual linked account ID
-          // });
         }}
       />
     </View>

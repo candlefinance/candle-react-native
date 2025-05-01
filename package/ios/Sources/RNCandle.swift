@@ -1049,8 +1049,7 @@ extension TradeAssetRef {
       } else if let marketTradeAssetRef {
         return .MarketAssetRef(
           .init(
-            assetKind: .init(
-              rawValue: marketTradeAssetRef.assetKind)!,
+            assetKind: .init(rawValue: marketTradeAssetRef.assetKind)!,
             serviceTradeID: marketTradeAssetRef.serviceTradeID,
             linkedAccountID: marketTradeAssetRef.linkedAccountID
           )

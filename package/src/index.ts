@@ -1,7 +1,7 @@
 import { NitroModules } from "react-native-nitro-modules";
 import type {
   AppUser,
-  AssetAccount as NitroAssetAccount,
+  AssetAccount as InternalAssetAccount,
   AssetAccountQuery,
   FiatAsset,
   FiatAssetQuoteRequest,
@@ -327,7 +327,7 @@ export class CandleClient {
     }
   }
 
-  private convertToAssetAccount(account: NitroAssetAccount): AssetAccount {
+  private convertToAssetAccount(account: InternalAssetAccount): AssetAccount {
     const { legalAccountKind, nickname } = account;
     const { fiatAccountDetails, marketAccountDetails } = account.details;
 
