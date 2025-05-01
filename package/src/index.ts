@@ -30,10 +30,15 @@ import type {
   Counterparty as InternalCounterparty,
   ActiveLinkedAccountDetails,
   ExecuteTradeRequest,
-  TradeRef,
   AssetAccountRef,
   LinkedAccountRef,
   DeleteLinkedAccountRef,
+  NothingAssetRef,
+  TransportAssetRef,
+  OtherAssetRef,
+  FiatAssetRef,
+  MarketTradeAssetRef,
+  TradeAssetRef as InternalTradeAssetRef,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -167,8 +172,14 @@ export class CandleClient {
     }));
   }
 
-  public async getTrade(ref: TradeRef): Promise<Trade> {
-    const trade = await this.candle.getTrade(ref);
+  public async getTrade(input: {
+    lost: TradeAssetRef;
+    gained: TradeAssetRef;
+  }): Promise<Trade> {
+    const trade = await this.candle.getTrade({
+      lost: this.convertTradeAssetRef(input.lost),
+      gained: this.convertTradeAssetRef(input.gained),
+    });
     return {
       dateTime: trade.dateTime,
       state: trade.state,
@@ -222,6 +233,50 @@ export class CandleClient {
         lost: this.convertTradeAsset(quote.lost),
       };
     });
+  }
+
+  private convertTradeAssetRef(
+    tradeAssetRef: TradeAssetRef
+  ): InternalTradeAssetRef {
+    switch (tradeAssetRef.assetKind) {
+      case "fiat":
+        return {
+          fiatAssetRef: {
+            assetKind: "fiat",
+            linkedAccountID: tradeAssetRef.linkedAccountID,
+            serviceTradeID: tradeAssetRef.serviceTradeID,
+          },
+        };
+      case "stock":
+      case "crypto":
+        return {
+          marketTradeAssetRef: {
+            assetKind: tradeAssetRef.assetKind,
+            linkedAccountID: tradeAssetRef.linkedAccountID,
+            serviceTradeID: tradeAssetRef.serviceTradeID,
+          },
+        };
+      case "transport":
+        return {
+          transportAssetRef: {
+            assetKind: "transport",
+            linkedAccountID: tradeAssetRef.linkedAccountID,
+            serviceTradeID: tradeAssetRef.serviceTradeID,
+          },
+        };
+      case "other":
+        return {
+          otherAssetRef: {
+            assetKind: "other",
+          },
+        };
+      case "nothing":
+        return {
+          nothingAssetRef: {
+            assetKind: "nothing",
+          },
+        };
+    }
   }
 
   private convertTradeAsset(tradeAsset: InternalTradeAsset): TradeAsset {
@@ -364,7 +419,15 @@ type Trade = {
   gained: TradeAsset;
 };
 
+type TradeAssetRef =
+  | ({ assetKind: "transport" } & TransportAssetRef)
+  | ({ assetKind: "nothing" } & NothingAssetRef)
+  | ({ assetKind: "other" } & OtherAssetRef)
+  | ({ assetKind: "fiat" } & FiatAssetRef)
+  | ({ assetKind: "stock" | "crypto" } & MarketTradeAssetRef);
+
 export type {
+  TradeAssetRef,
   LinkedAccount,
   AppUser,
   Service,
