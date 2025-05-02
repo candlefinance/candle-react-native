@@ -17,9 +17,12 @@ namespace margelo::nitro::rncandle {
       prototype.registerHybridMethod("candleLinkSheet", &HybridRNCandleSpec::candleLinkSheet);
       prototype.registerHybridMethod("initialize", &HybridRNCandleSpec::initialize);
       prototype.registerHybridMethod("getLinkedAccounts", &HybridRNCandleSpec::getLinkedAccounts);
+      prototype.registerHybridMethod("getLinkedAccount", &HybridRNCandleSpec::getLinkedAccount);
       prototype.registerHybridMethod("unlinkAccount", &HybridRNCandleSpec::unlinkAccount);
       prototype.registerHybridMethod("getAssetAccounts", &HybridRNCandleSpec::getAssetAccounts);
+      prototype.registerHybridMethod("getAssetAccount", &HybridRNCandleSpec::getAssetAccount);
       prototype.registerHybridMethod("getTrades", &HybridRNCandleSpec::getTrades);
+      prototype.registerHybridMethod("getTrade", &HybridRNCandleSpec::getTrade);
       prototype.registerHybridMethod("getTradeQuotes", &HybridRNCandleSpec::getTradeQuotes);
       prototype.registerHybridMethod("executeTrade", &HybridRNCandleSpec::executeTrade);
       prototype.registerHybridMethod("deleteUser", &HybridRNCandleSpec::deleteUser);

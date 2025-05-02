@@ -93,10 +93,10 @@ final class HybridRNCandle: HybridRNCandleSpec {
 
   // MARK: - Public
 
-  public func unlinkAccount(linkedAccountID: String) throws -> Promise<Void> {
+  public func unlinkAccount(ref: LinkedAccountRef) throws -> Promise<Void> {
     .async {
       try await self.viewModel.candleClient.unlinkAccount(
-        linkedAccountID: linkedAccountID)
+        path: .init(linkedAccountID: ref.linkedAccountID))
     }
   }
 
@@ -105,6 +105,14 @@ final class HybridRNCandle: HybridRNCandleSpec {
       let accounts = try await self.viewModel.candleClient
         .getLinkedAccounts()
       return accounts.map(\.toLinkedAccount)
+    }
+  }
+
+  public func getLinkedAccount(ref: LinkedAccountRef) throws -> Promise<LinkedAccount> {
+    .async {
+      let account = try await self.viewModel.candleClient.getLinkedAccount(
+        ref: .init(linkedAccountID: ref.linkedAccountID))
+      return account.toLinkedAccount
     }
   }
 
@@ -119,57 +127,38 @@ final class HybridRNCandle: HybridRNCandleSpec {
             assetKind: query.assetKind?.asCandleModel
           )
         )
-      return accounts.map { model in
-        let legalAccountKind = model.legalAccountKind.toRNModel
-        switch model.details {
-        case .FiatAccountDetails(let fiatDetails):
-          let ach = fiatDetails.ach.map { details in
-            ACHDetails(
-              accountNumber: details.accountNumber,
-              routingNumber: details.routingNumber,
-              accountKind: details.accountKind.toRNModel
-            )
-          }
+      return accounts.map(\.toRNModel)
+    }
+  }
 
-          let wire = fiatDetails.wire.map { details in
-            WireDetails(
-              accountNumber: details.accountNumber,
-              routingNumber: details.routingNumber
-            )
-          }
-          return AssetAccount(
-            legalAccountKind: legalAccountKind,
-            nickname: model.nickname,
-            details: .init(
-              fiatAccountDetails: .init(
-                assetKind: fiatDetails.assetKind.rawValue,
-                serviceAccountID: fiatDetails.serviceAccountID,
-                currencyCode: fiatDetails.currencyCode,
-                balance: fiatDetails.balance,
-                ach: ach,
-                wire: wire,
-                linkedAccountID: fiatDetails.linkedAccountID,
-                service: fiatDetails.service.toService),
-              marketAccountDetails: nil
-            )
-          )
-        case .MarketAccountDetails(let marketDetails):
-          return AssetAccount(
-            legalAccountKind: legalAccountKind,
-            nickname: model.nickname,
-            details: .init(
-              fiatAccountDetails: nil,
-              marketAccountDetails: .init(
-                assetKind: marketDetails.assetKind.rawValue,
-                serviceAccountID: marketDetails
-                  .serviceAccountID,
-                linkedAccountID: marketDetails.linkedAccountID,
-                service: marketDetails.service.toService
-              )
-            )
-          )
-        }
-      }
+  public func getAssetAccount(ref: AssetAccountRef) throws -> Promise<AssetAccount> {
+    .async {
+      let account = try await self.viewModel.candleClient.getAssetAccount(
+        ref: .init(
+          linkedAccountID: ref.linkedAccountID,
+          assetKind: .init(rawValue: ref.assetKind)!,
+          serviceAccountID: ref.serviceAccountID
+        )
+      )
+      return account.toRNModel
+    }
+  }
+
+  public func getTrade(ref: TradeRef) throws -> Promise<Trade> {
+    .async {
+      let trade = try await self.viewModel.candleClient.getTrade(
+        ref: .init(
+          lost: try ref.lost.toTradeAssetRef,
+          gained: try ref.gained.toTradeAssetRef
+        )
+      )
+      return Trade(
+        dateTime: trade.dateTime,
+        state: trade.state.toRNModel,
+        counterparty: trade.toCounterparty,
+        lost: trade.lost.toAsset,
+        gained: trade.gained.toAsset
+      )
     }
   }
 
@@ -186,7 +175,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
       return trades.map { trade in
         return Trade(
           dateTime: trade.dateTime,
-          state: TradeState(fromString: trade.state.rawValue)!,
+          state: trade.state.toRNModel,
           counterparty: trade.toCounterparty,
           lost: trade.lost.toAsset,
           gained: trade.gained.toAsset
@@ -987,5 +976,105 @@ extension TradeQuery {
       return .init(rawValue: counterpartyKind)
     }
     return nil
+  }
+}
+
+extension Models.AssetAccount {
+  var toRNModel: AssetAccount {
+    let legalAccountKind = legalAccountKind.toRNModel
+    switch details {
+    case .FiatAccountDetails(let fiatDetails):
+      let ach = fiatDetails.ach.map { details in
+        ACHDetails(
+          accountNumber: details.accountNumber,
+          routingNumber: details.routingNumber,
+          accountKind: details.accountKind.toRNModel
+        )
+      }
+
+      let wire = fiatDetails.wire.map { details in
+        WireDetails(
+          accountNumber: details.accountNumber,
+          routingNumber: details.routingNumber
+        )
+      }
+      return AssetAccount(
+        legalAccountKind: legalAccountKind,
+        nickname: nickname,
+        details: .init(
+          fiatAccountDetails: .init(
+            assetKind: fiatDetails.assetKind.rawValue,
+            serviceAccountID: fiatDetails.serviceAccountID,
+            currencyCode: fiatDetails.currencyCode,
+            balance: fiatDetails.balance,
+            ach: ach,
+            wire: wire,
+            linkedAccountID: fiatDetails.linkedAccountID,
+            service: fiatDetails.service.toService),
+          marketAccountDetails: nil
+        )
+      )
+    case .MarketAccountDetails(let marketDetails):
+      return AssetAccount(
+        legalAccountKind: legalAccountKind,
+        nickname: nickname,
+        details: .init(
+          fiatAccountDetails: nil,
+          marketAccountDetails: .init(
+            assetKind: marketDetails.assetKind.rawValue,
+            serviceAccountID: marketDetails
+              .serviceAccountID,
+            linkedAccountID: marketDetails.linkedAccountID,
+            service: marketDetails.service.toService
+          )
+        )
+      )
+    }
+  }
+}
+
+extension TradeAssetRef {
+  var toTradeAssetRef: Models.TradeAssetRef {
+    get throws {
+      if let fiatAssetRef {
+        return .FiatAssetRef(
+          .init(
+            assetKind: .fiat,
+            serviceTradeID: fiatAssetRef.serviceTradeID,
+            linkedAccountID: fiatAssetRef.linkedAccountID
+          )
+        )
+      } else if let nothingAssetRef {
+        return .NothingAsset(.init(assetKind: .nothing))
+      } else if let marketTradeAssetRef {
+        guard
+          let assetKind = Models.MarketAssetRef.AssetKindPayload.init(
+            rawValue: marketTradeAssetRef.assetKind)
+        else {
+          throw RNClientError.badEncoding
+        }
+        return .MarketAssetRef(
+          .init(
+            assetKind: assetKind,
+            serviceTradeID: marketTradeAssetRef.serviceTradeID,
+            linkedAccountID: marketTradeAssetRef.linkedAccountID
+          )
+        )
+      } else if let otherAssetRef {
+        return .OtherAsset(
+          .init(assetKind: .other)
+        )
+      } else if let transportAssetRef {
+        return .TransportAssetRef(
+          .init(
+            assetKind: .transport,
+            serviceTradeID: transportAssetRef.serviceTradeID,
+            linkedAccountID: transportAssetRef.linkedAccountID
+          )
+        )
+      } else {
+        throw RNClientError.badEncoding
+      }
+    }
   }
 }

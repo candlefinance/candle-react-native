@@ -28,6 +28,8 @@ namespace margelo::nitro::rncandle { struct ActiveLinkedAccountDetails; }
 namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
 // Forward declaration of `AppUser` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AppUser; }
+// Forward declaration of `LinkedAccountRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccountRef; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
 // Forward declaration of `LegalAccountKind` to properly resolve imports.
@@ -48,6 +50,8 @@ namespace margelo::nitro::rncandle { struct MarketAccountDetails; }
 namespace margelo::nitro::rncandle { struct AssetAccountQuery; }
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
+// Forward declaration of `AssetAccountRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountRef; }
 // Forward declaration of `Trade` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Trade; }
 // Forward declaration of `TradeState` to properly resolve imports.
@@ -80,6 +84,20 @@ namespace margelo::nitro::rncandle { struct OtherAsset; }
 namespace margelo::nitro::rncandle { struct NothingAsset; }
 // Forward declaration of `TradeQuery` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuery; }
+// Forward declaration of `TradeRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeRef; }
+// Forward declaration of `TradeAssetRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeAssetRef; }
+// Forward declaration of `FiatAssetRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAssetRef; }
+// Forward declaration of `MarketTradeAssetRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketTradeAssetRef; }
+// Forward declaration of `TransportAssetRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TransportAssetRef; }
+// Forward declaration of `OtherAssetRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct OtherAssetRef; }
+// Forward declaration of `NothingAssetRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct NothingAssetRef; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
 // Forward declaration of `TradeQuoteRequest` to properly resolve imports.
@@ -114,6 +132,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "InactiveLinkedAccountDetails.hpp"
 #include "AppUser.hpp"
 #include <NitroModules/Promise.hpp>
+#include "LinkedAccountRef.hpp"
 #include "AssetAccount.hpp"
 #include "LegalAccountKind.hpp"
 #include "AssetAccountDetails.hpp"
@@ -124,6 +143,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "MarketAccountDetails.hpp"
 #include "AssetAccountQuery.hpp"
 #include "AssetAccountKind.hpp"
+#include "AssetAccountRef.hpp"
 #include "Trade.hpp"
 #include "TradeState.hpp"
 #include "Counterparty.hpp"
@@ -140,6 +160,13 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "OtherAsset.hpp"
 #include "NothingAsset.hpp"
 #include "TradeQuery.hpp"
+#include "TradeRef.hpp"
+#include "TradeAssetRef.hpp"
+#include "FiatAssetRef.hpp"
+#include "MarketTradeAssetRef.hpp"
+#include "TransportAssetRef.hpp"
+#include "OtherAssetRef.hpp"
+#include "NothingAssetRef.hpp"
 #include "TradeQuote.hpp"
 #include "TradeQuoteRequest.hpp"
 #include "TradeAssetQuoteRequest.hpp"
@@ -210,8 +237,16 @@ namespace margelo::nitro::rncandle {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<void>> unlinkAccount(const std::string& linkedAccountID) override {
-      auto __result = _swiftPart.unlinkAccount(linkedAccountID);
+    inline std::shared_ptr<Promise<LinkedAccount>> getLinkedAccount(const LinkedAccountRef& ref) override {
+      auto __result = _swiftPart.getLinkedAccount(ref);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<void>> unlinkAccount(const LinkedAccountRef& ref) override {
+      auto __result = _swiftPart.unlinkAccount(ref);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
@@ -226,8 +261,24 @@ namespace margelo::nitro::rncandle {
       auto __value = std::move(__result.value());
       return __value;
     }
+    inline std::shared_ptr<Promise<AssetAccount>> getAssetAccount(const AssetAccountRef& ref) override {
+      auto __result = _swiftPart.getAssetAccount(ref);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
     inline std::shared_ptr<Promise<std::vector<Trade>>> getTrades(const TradeQuery& query) override {
       auto __result = _swiftPart.getTrades(query);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<Trade>> getTrade(const TradeRef& ref) override {
+      auto __result = _swiftPart.getTrade(ref);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
