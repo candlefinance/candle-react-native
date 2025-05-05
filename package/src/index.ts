@@ -38,7 +38,6 @@ import type {
   FiatAssetRef,
   MarketTradeAssetRef,
   TradeAssetRef as InternalTradeAssetRef,
-  TradeExecutionResult,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
