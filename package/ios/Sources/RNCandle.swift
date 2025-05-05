@@ -121,7 +121,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
         )
       }
       rootHostingVC.embedOnTop(hostingVC)
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
         wrapperView.viewModel.tradeQuote = tradeQuote.toCandleModel
       }
       wrapperView.viewModel.$tradeQuote

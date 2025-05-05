@@ -9,7 +9,9 @@ import {
 import { CandleClient, TradeQuote } from "react-native-candle";
 
 export default function TabOneScreen() {
-  const [tradeQuote, setTradeQuote] = useState<TradeQuote | undefined>();
+  const [tradeQuote, setTradeQuote] = useState<TradeQuote | undefined>(
+    undefined
+  );
   const candleClient = useMemo(() => {
     return new CandleClient({
       appKey: "",
