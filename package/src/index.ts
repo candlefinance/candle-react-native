@@ -51,16 +51,38 @@ export class CandleClient {
     this.candle.initialize(appUser);
   }
 
-  public presentTradeExecutionSheet(
-    tradeQuote: TradeQuote,
-    presentationBackground: PresentationBackground = "default",
-    completion: (result: TradeExecutionResult) => void = () => {}
-  ): void {
-    const quote = this.convertTradeQuote(tradeQuote);
+  public presentTradeExecutionSheet(input: {
+    tradeQuote: TradeQuote;
+    presentationBackground?: PresentationBackground;
+    completion?: (
+      result: ({ kind: "success" } & Trade) | { kind: "failure"; error: string }
+    ) => void;
+  }): void {
+    const quote = this.convertTradeQuote(input.tradeQuote);
     this.candle.candleTradeExecutionSheet(
       quote,
-      presentationBackground,
-      completion
+      input.presentationBackground ?? "default",
+      (result) => {
+        if (input.completion === undefined) {
+          return;
+        }
+        if (result.trade !== undefined) {
+          input.completion({
+            kind: "success",
+            ...result.trade,
+            counterparty: this.convertToCounterparty(result.trade.counterparty),
+            lost: this.convertTradeAsset(result.trade.lost),
+            gained: this.convertTradeAsset(result.trade.gained),
+          });
+        } else {
+          if (result.error === undefined) {
+            throw new Error(
+              "Internal Candle Error: corrupted trade execution result."
+            );
+          }
+          input.completion({ kind: "failure", error: result.error });
+        }
+      }
     );
   }
 

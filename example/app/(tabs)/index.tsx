@@ -6,9 +6,10 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { CandleClient } from "react-native-candle";
+import { CandleClient, TradeQuote } from "react-native-candle";
 
 export default function TabOneScreen() {
+  const [tradeQuote, setTradeQuote] = useState<TradeQuote | undefined>();
   const candleClient = useMemo(() => {
     return new CandleClient({
       appKey: "",
@@ -97,7 +98,6 @@ export default function TabOneScreen() {
           candleClient
             .getLinkedAccounts()
             .then((accounts) => {
-              console.log("Linked accounts:", accounts);
               accounts.forEach((account) => {
                 switch (account.details.state) {
                   case "active":
@@ -138,20 +138,27 @@ export default function TabOneScreen() {
         }}
       />
       <Button
-        title="Show Quote Sheet"
+        title="Show Trade Execution Sheet"
         onPress={() => {
-          setIsLoading(true);
-          candleClient.presentTradeExecutionSheet(
-            {
-              context: "",
-              gained: { assetKind: "nothing" },
-              lost: { assetKind: "nothing" },
+          if (!tradeQuote) {
+            Alert.alert("Error", "Trade quote is not set.");
+            return;
+          }
+          candleClient.presentTradeExecutionSheet({
+            tradeQuote,
+            presentationBackground: "blur",
+            completion: (result) => {
+              switch (result.kind) {
+                case "success":
+                  console.log("Trade executed successfully:", result);
+                  break;
+                case "failure":
+                  console.error("Error executing trade:", result);
+                  Alert.alert("Error", result.error);
+                  break;
+              }
             },
-            "default",
-            (result) => {
-              console.log("Trade execution result:", result);
-            }
-          );
+          });
         }}
       />
     </View>
