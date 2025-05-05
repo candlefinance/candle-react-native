@@ -226,6 +226,7 @@ export type ExecuteTradeRequest = {
 export type TradeQuote = {
   lost: TradeAsset;
   gained: TradeAsset;
+  context: string;
 };
 
 export type Service =
@@ -393,6 +394,11 @@ export type TradeRef = {
   gained: TradeAssetRef;
 };
 
+export type TradeExecutionResult = {
+  trade?: Trade;
+  error?: string;
+};
+
 export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   candleLinkSheet(
     isPresented: boolean,
@@ -404,6 +410,11 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
     presentationStyle: PresentationStyle,
     onSuccess: (account: LinkedAccount) => void
   ): void;
+  candleTradeExecutionSheet(
+    tradeQuote: TradeQuote,
+    presentationBackground: PresentationBackground,
+    completion: (result: TradeExecutionResult) => void
+  ): void;
   initialize(appUser: AppUser): void;
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount>;
@@ -413,7 +424,6 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   getTrades(query: TradeQuery): Promise<Trade[]>;
   getTrade(ref: TradeRef): Promise<Trade>;
   getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuote[]>;
-  executeTrade(request: ExecuteTradeRequest): Promise<Trade>;
   deleteUser(): Promise<void>;
   // FIXME: The return type should be a more specific type based on the actual tool calls available.
   getAvailableTools(): Promise<Array<AnyMap>>;

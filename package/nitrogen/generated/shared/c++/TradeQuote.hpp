@@ -22,6 +22,7 @@
 namespace margelo::nitro::rncandle { struct TradeAsset; }
 
 #include "TradeAsset.hpp"
+#include <string>
 
 namespace margelo::nitro::rncandle {
 
@@ -32,10 +33,11 @@ namespace margelo::nitro::rncandle {
   public:
     TradeAsset lost     SWIFT_PRIVATE;
     TradeAsset gained     SWIFT_PRIVATE;
+    std::string context     SWIFT_PRIVATE;
 
   public:
     TradeQuote() = default;
-    explicit TradeQuote(TradeAsset lost, TradeAsset gained): lost(lost), gained(gained) {}
+    explicit TradeQuote(TradeAsset lost, TradeAsset gained, std::string context): lost(lost), gained(gained), context(context) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -51,13 +53,15 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return TradeQuote(
         JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
-        JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "gained"))
+        JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "gained")),
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "context"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeQuote& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "lost", JSIConverter<TradeAsset>::toJSI(runtime, arg.lost));
       obj.setProperty(runtime, "gained", JSIConverter<TradeAsset>::toJSI(runtime, arg.gained));
+      obj.setProperty(runtime, "context", JSIConverter<std::string>::toJSI(runtime, arg.context));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -67,6 +71,7 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
       if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "context"))) return false;
       return true;
     }
   };

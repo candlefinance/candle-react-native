@@ -138,6 +138,29 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
+  public final func candleTradeExecutionSheet(
+    tradeQuote: TradeQuote, presentationBackground: Int32,
+    completion: bridge.Func_void_TradeExecutionResult
+  ) -> bridge.Result_void_ {
+    do {
+      try self.__implementation.candleTradeExecutionSheet(
+        tradeQuote: tradeQuote,
+        presentationBackground: margelo.nitro.rncandle.PresentationBackground(
+          rawValue: presentationBackground)!,
+        completion: { () -> (TradeExecutionResult) -> Void in
+          let __wrappedFunction = bridge.wrap_Func_void_TradeExecutionResult(completion)
+          return { (__result: TradeExecutionResult) -> Void in
+            __wrappedFunction.call(__result)
+          }
+        }())
+      return bridge.create_Result_void_()
+    } catch (let __error) {
+      let __exceptionPtr = __error.toCpp()
+      return bridge.create_Result_void_(__exceptionPtr)
+    }
+  }
+
+  @inline(__always)
   public final func initialize(appUser: AppUser) -> bridge.Result_void_ {
     do {
       try self.__implementation.initialize(appUser: appUser)
@@ -352,27 +375,6 @@ public class HybridRNCandleSpec_cxx {
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
       return bridge.create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(__exceptionPtr)
-    }
-  }
-
-  @inline(__always)
-  public final func executeTrade(request: ExecuteTradeRequest)
-    -> bridge.Result_std__shared_ptr_Promise_Trade___
-  {
-    do {
-      let __result = try self.__implementation.executeTrade(request: request)
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_Trade__ in
-        let __promise = bridge.create_std__shared_ptr_Promise_Trade__()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_Trade__(__promise)
-        __result
-          .then({ __result in __promiseHolder.resolve(__result) })
-          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
-        return __promise
-      }()
-      return bridge.create_Result_std__shared_ptr_Promise_Trade___(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_Trade___(__exceptionPtr)
     }
   }
 

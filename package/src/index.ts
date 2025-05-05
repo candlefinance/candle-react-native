@@ -18,6 +18,7 @@ import type {
   TradeAsset as InternalTradeAsset,
   TradeAssetQuoteRequest,
   TradeQuery as InternalTradeQuery,
+  TradeQuote as InternalTradeQuote,
   TransportAsset,
   TransportAssetQuoteRequest,
   LegalAccountKind,
@@ -29,7 +30,6 @@ import type {
   ServiceCounterparty,
   Counterparty as InternalCounterparty,
   ActiveLinkedAccountDetails,
-  ExecuteTradeRequest,
   AssetAccountRef,
   LinkedAccountRef,
   NothingAssetRef,
@@ -38,6 +38,7 @@ import type {
   FiatAssetRef,
   MarketTradeAssetRef,
   TradeAssetRef as InternalTradeAssetRef,
+  TradeExecutionResult,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -48,6 +49,19 @@ export class CandleClient {
       NitroModules.createHybridObject<RNCandle>("RNCandle");
     this.candle = CandleHybridObject;
     this.candle.initialize(appUser);
+  }
+
+  public presentTradeExecutionSheet(
+    tradeQuote: TradeQuote,
+    presentationBackground: PresentationBackground = "default",
+    completion: (result: TradeExecutionResult) => void = () => {}
+  ): void {
+    const quote = this.convertTradeQuote(tradeQuote);
+    this.candle.candleTradeExecutionSheet(
+      quote,
+      presentationBackground,
+      completion
+    );
   }
 
   public presentCandleLinkSheet({
@@ -130,17 +144,6 @@ export class CandleClient {
     return this.candle.getAvailableTools();
   }
 
-  public async executeTrade(request: ExecuteTradeRequest): Promise<Trade> {
-    const result = await this.candle.executeTrade(request);
-    return {
-      dateTime: result.dateTime,
-      state: result.state,
-      counterparty: this.convertToCounterparty(result.counterparty),
-      lost: this.convertTradeAsset(result.lost),
-      gained: this.convertTradeAsset(result.gained),
-    };
-  }
-
   public async executeTool(tool: {
     name: string;
     arguments: string;
@@ -197,12 +200,7 @@ export class CandleClient {
       | ({ assetKind: "transport" } & TransportAssetQuoteRequest)
       | ({ assetKind: "fiat" } & FiatAssetQuoteRequest)
       | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest);
-  }): Promise<
-    {
-      gained: TradeAsset;
-      lost: TradeAsset;
-    }[]
-  > {
+  }): Promise<TradeQuote[]> {
     let gainedRequest: TradeAssetQuoteRequest;
 
     switch (request.gained.assetKind) {
@@ -230,6 +228,7 @@ export class CandleClient {
       return {
         gained: this.convertTradeAsset(quote.gained),
         lost: this.convertTradeAsset(quote.lost),
+        context: quote.context,
       };
     });
   }
@@ -276,6 +275,36 @@ export class CandleClient {
           },
         };
     }
+  }
+
+  private toInternalTradeAsset(asset: TradeAsset): InternalTradeAsset {
+    switch (asset.assetKind) {
+      case "fiat":
+        return { fiatAsset: asset };
+      case "stock":
+      case "crypto":
+        return {
+          marketTradeAsset: {
+            ...asset,
+            assetKind: asset.assetKind as "stock" | "crypto",
+          },
+        };
+      case "transport":
+        return { transportAsset: asset };
+      case "other":
+        return { otherAsset: asset };
+      case "nothing":
+        return { nothingAsset: asset };
+    }
+  }
+
+  private convertTradeQuote(tradeQuote: TradeQuote): InternalTradeQuote {
+    const { context, gained, lost } = tradeQuote;
+    return {
+      context,
+      gained: this.toInternalTradeAsset(gained),
+      lost: this.toInternalTradeAsset(lost),
+    };
   }
 
   private convertTradeAsset(tradeAsset: InternalTradeAsset): TradeAsset {
@@ -380,6 +409,12 @@ type TradeQuery = {
   counterpartyKind?: "merchant" | "user" | "service";
 } & InternalTradeQuery;
 
+type TradeQuote = {
+  gained: TradeAsset;
+  lost: TradeAsset;
+  context: string;
+};
+
 type TradeQueryAssetKind =
   | "fiat"
   | "stock"
@@ -438,4 +473,5 @@ export type {
   TradeQuery,
   Counterparty,
   AssetAccount,
+  TradeQuote,
 };

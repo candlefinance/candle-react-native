@@ -10,7 +10,10 @@ import { CandleClient } from "react-native-candle";
 
 export default function TabOneScreen() {
   const candleClient = useMemo(() => {
-    return new CandleClient({ appKey: "", appSecret: "" });
+    return new CandleClient({
+      appKey: "",
+      appSecret: "",
+    });
   }, []);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -94,6 +97,7 @@ export default function TabOneScreen() {
           candleClient
             .getLinkedAccounts()
             .then((accounts) => {
+              console.log("Linked accounts:", accounts);
               accounts.forEach((account) => {
                 switch (account.details.state) {
                   case "active":
@@ -131,6 +135,23 @@ export default function TabOneScreen() {
             presentationStyle: "fullScreen",
             presentationBackground: "blur",
           });
+        }}
+      />
+      <Button
+        title="Show Quote Sheet"
+        onPress={() => {
+          setIsLoading(true);
+          candleClient.presentTradeExecutionSheet(
+            {
+              context: "",
+              gained: { assetKind: "nothing" },
+              lost: { assetKind: "nothing" },
+            },
+            "default",
+            (result) => {
+              console.log("Trade execution result:", result);
+            }
+          );
         }}
       />
     </View>

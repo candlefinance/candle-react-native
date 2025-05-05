@@ -91,6 +91,74 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
+  public func candleTradeExecutionSheet(
+    tradeQuote: TradeQuote,
+    presentationBackground: PresentationBackground,
+    completion: @escaping (TradeExecutionResult) -> Void
+  ) throws {
+    Task { @MainActor in
+      guard let candleClient = rootVC?.rootView.candleClient else {
+        throw RNClientError.badInitialization(
+          message:
+            "\(#function) \(#line): Candle client was not initialized."
+        )
+      }
+      let wrapperView = CandleTradeExecutionSheetWrapper(
+        candleClient: candleClient,
+        viewModel: .init(tradeQuote: nil),
+        presentationBackground: presentationBackground
+      )
+
+      let hostingVC = UIHostingController(rootView: wrapperView)
+      hostingVC.view.backgroundColor = .clear
+      guard
+        let rootHostingVC = UIApplication.keyWindow?
+          .rootViewController
+      else {
+        throw RNClientError.badInitialization(
+          message:
+            "\(#function) \(#line): Candle client was not initialized."
+        )
+      }
+      rootHostingVC.embedOnTop(hostingVC)
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        wrapperView.viewModel.tradeQuote = tradeQuote.toCandleModel
+      }
+      wrapperView.viewModel.$tradeQuote
+        .dropFirst()
+        .receive(on: RunLoop.main)
+        .sink { [weak hostingVC] trade in
+          if trade == nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+              hostingVC?.willMove(toParent: nil)
+              hostingVC?.view.removeFromSuperview()
+              hostingVC?.removeFromParent()
+            }
+          }
+        }
+        .store(in: &cancellables)
+
+      wrapperView.viewModel.$tradeResult
+        .receive(on: RunLoop.main)
+        .sink { result in
+          switch result {
+          case .success(let trade):
+            completion(
+              .init(
+                trade: trade.toTrade,
+                error: nil
+              )
+            )
+          case .failure(let error):
+            completion(.init(trade: nil, error: "We encountered an error: \(error)"))
+          case .none:
+            break
+          }
+        }
+        .store(in: &cancellables)
+    }
+  }
+
   // MARK: - Public
 
   public func unlinkAccount(ref: LinkedAccountRef) throws -> Promise<Void> {
@@ -152,13 +220,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
           gained: try ref.gained.toTradeAssetRef
         )
       )
-      return Trade(
-        dateTime: trade.dateTime,
-        state: trade.state.toRNModel,
-        counterparty: trade.toCounterparty,
-        lost: trade.lost.toAsset,
-        gained: trade.gained.toAsset
-      )
+      return trade.toTrade
     }
   }
 
@@ -172,15 +234,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
           lostAssetKind: query.toLostAssetKind,
           counterpartyKind: query.toCounterpartyKindPayload
         ))
-      return trades.map { trade in
-        return Trade(
-          dateTime: trade.dateTime,
-          state: trade.state.toRNModel,
-          counterparty: trade.toCounterparty,
-          lost: trade.lost.toAsset,
-          gained: trade.gained.toAsset
-        )
-      }
+      return trades.map(\.toTrade)
     }
   }
 
@@ -198,28 +252,10 @@ final class HybridRNCandle: HybridRNCandleSpec {
       return accounts.map { account in
         TradeQuote(
           lost: account.lost.toAsset,
-          gained: account.gained.toAsset
+          gained: account.gained.toAsset,
+          context: account.context
         )
       }
-    }
-  }
-
-  public func executeTrade(request: ExecuteTradeRequest) throws -> Promise<
-    Trade
-  > {
-    .async {
-      let trade = try await self.viewModel.candleClient.executeTrade(
-        context: .init(
-          linkedAccountID: request.linkedAccountID,
-          context: request.context)
-      )
-      return Trade(
-        dateTime: trade.dateTime,
-        state: trade.state.toRNModel,
-        counterparty: trade.toCounterparty,
-        lost: trade.lost.toAsset,
-        gained: trade.gained.toAsset
-      )
     }
   }
 
@@ -486,6 +522,18 @@ extension Models.TradeAsset {
         nothingAsset: .init(assetKind: nothingAsset.assetKind.rawValue)
       )
     }
+  }
+}
+
+extension Models.Trade {
+  var toTrade: Trade {
+    .init(
+      dateTime: dateTime,
+      state: state.toRNModel,
+      counterparty: toCounterparty,
+      lost: lost.toAsset,
+      gained: gained.toAsset
+    )
   }
 }
 
@@ -1076,5 +1124,77 @@ extension TradeAssetRef {
         throw RNClientError.badEncoding
       }
     }
+  }
+}
+
+extension TradeAsset {
+  var toCandleModel: Models.TradeAsset {
+    if let fiat = fiatAsset {
+      return .FiatAsset(
+        .init(
+          assetKind: .fiat,
+          serviceTradeID: fiat.serviceTradeID,
+          serviceAccountID: fiat.serviceAccountID,
+          currencyCode: fiat.currencyCode,
+          amount: fiat.amount,
+          linkedAccountID: fiat.linkedAccountID,
+          service: fiat.service.toService
+        )
+      )
+    } else if let market = marketTradeAsset {
+      return .MarketTradeAsset(
+        .init(
+          assetKind: .init(rawValue: market.assetKind) ?? .stock,
+          serviceAccountID: market.serviceAccountID,
+          serviceAssetID: market.serviceAssetID,
+          symbol: market.symbol,
+          amount: market.amount,
+          serviceTradeID: market.serviceTradeID,
+          linkedAccountID: market.linkedAccountID,
+          service: market.service.toService,
+          name: market.name,
+          color: market.color,
+          logoURL: market.logoURL
+        )
+      )
+    } else if let transport = transportAsset {
+      return .TransportAsset(
+        .init(
+          assetKind: .transport,
+          serviceTradeID: transport.serviceTradeID,
+          serviceAssetID: transport.serviceAssetID,
+          name: transport.name,
+          description: transport.description,
+          imageURL: transport.imageURL,
+          originCoordinates: .init(
+            latitude: transport.originCoordinates.latitude,
+            longitude: transport.originCoordinates.longitude
+          ),
+          originAddress: .init(value: transport.originAddress.value),
+          destinationCoordinates: .init(
+            latitude: transport.destinationCoordinates.latitude,
+            longitude: transport.destinationCoordinates.longitude
+          ),
+          destinationAddress: .init(value: transport.destinationAddress.value),
+          seats: transport.seats,
+          linkedAccountID: transport.linkedAccountID,
+          service: transport.service.toService
+        )
+      )
+    } else if otherAsset != nil {
+      return .OtherAsset(.init(assetKind: .other))
+    } else {
+      return .NothingAsset(.init(assetKind: .nothing))
+    }
+  }
+}
+
+extension TradeQuote {
+  var toCandleModel: Models.TradeQuote {
+    .init(
+      lost: lost.toCandleModel,
+      gained: gained.toCandleModel,
+      context: context
+    )
   }
 }

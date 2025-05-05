@@ -21,6 +21,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
+  // pragma MARK: std::function<void(const TradeExecutionResult& /* result */)>
+  Func_void_TradeExecutionResult create_Func_void_TradeExecutionResult(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_TradeExecutionResult::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const TradeExecutionResult& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
   // pragma MARK: std::function<void(const std::vector<LinkedAccount>& /* result */)>
   Func_void_std__vector_LinkedAccount_ create_Func_void_std__vector_LinkedAccount_(void* _Nonnull swiftClosureWrapper) {
     auto swiftClosure = ReactNativeCandle::Func_void_std__vector_LinkedAccount_::fromUnsafe(swiftClosureWrapper);

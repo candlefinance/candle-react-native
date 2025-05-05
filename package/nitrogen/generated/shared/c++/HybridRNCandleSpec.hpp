@@ -21,6 +21,10 @@ namespace margelo::nitro::rncandle { enum class PresentationBackground; }
 namespace margelo::nitro::rncandle { enum class PresentationStyle; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
+// Forward declaration of `TradeQuote` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuote; }
+// Forward declaration of `TradeExecutionResult` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeExecutionResult; }
 // Forward declaration of `AppUser` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AppUser; }
 // Forward declaration of `LinkedAccountRef` to properly resolve imports.
@@ -37,12 +41,8 @@ namespace margelo::nitro::rncandle { struct Trade; }
 namespace margelo::nitro::rncandle { struct TradeQuery; }
 // Forward declaration of `TradeRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeRef; }
-// Forward declaration of `TradeQuote` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct TradeQuote; }
 // Forward declaration of `TradeQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
-// Forward declaration of `ExecuteTradeRequest` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct ExecuteTradeRequest; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
 // Forward declaration of `ToolCall` to properly resolve imports.
@@ -56,6 +56,8 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "PresentationStyle.hpp"
 #include <functional>
 #include "LinkedAccount.hpp"
+#include "TradeQuote.hpp"
+#include "TradeExecutionResult.hpp"
 #include "AppUser.hpp"
 #include <NitroModules/Promise.hpp>
 #include "LinkedAccountRef.hpp"
@@ -65,9 +67,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "Trade.hpp"
 #include "TradeQuery.hpp"
 #include "TradeRef.hpp"
-#include "TradeQuote.hpp"
 #include "TradeQuoteRequest.hpp"
-#include "ExecuteTradeRequest.hpp"
 #include <NitroModules/AnyMap.hpp>
 #include "ToolCall.hpp"
 
@@ -103,6 +103,7 @@ namespace margelo::nitro::rncandle {
     public:
       // Methods
       virtual void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const LinkedAccount& /* account */)>& onSuccess) = 0;
+      virtual void candleTradeExecutionSheet(const TradeQuote& tradeQuote, PresentationBackground presentationBackground, const std::function<void(const TradeExecutionResult& /* result */)>& completion) = 0;
       virtual void initialize(const AppUser& appUser) = 0;
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<LinkedAccount>> getLinkedAccount(const LinkedAccountRef& ref) = 0;
@@ -112,7 +113,6 @@ namespace margelo::nitro::rncandle {
       virtual std::shared_ptr<Promise<std::vector<Trade>>> getTrades(const TradeQuery& query) = 0;
       virtual std::shared_ptr<Promise<Trade>> getTrade(const TradeRef& ref) = 0;
       virtual std::shared_ptr<Promise<std::vector<TradeQuote>>> getTradeQuotes(const TradeQuoteRequest& request) = 0;
-      virtual std::shared_ptr<Promise<Trade>> executeTrade(const ExecuteTradeRequest& request) = 0;
       virtual std::shared_ptr<Promise<void>> deleteUser() = 0;
       virtual std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> getAvailableTools() = 0;
       virtual std::shared_ptr<Promise<std::string>> executeTool(const ToolCall& tool) = 0;
