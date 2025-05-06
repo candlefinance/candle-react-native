@@ -307,7 +307,7 @@ export class CandleClient {
         return {
           marketTradeAsset: {
             ...asset,
-            assetKind: asset.assetKind as "stock" | "crypto",
+            assetKind: asset.assetKind,
           },
         };
       case "transport":
@@ -335,9 +335,12 @@ export class CandleClient {
         assetKind: "fiat",
       };
     } else if (tradeAsset.marketTradeAsset !== undefined) {
+      this.assertMarketAssetKind(tradeAsset.marketTradeAsset.assetKind);
       return {
         ...tradeAsset.marketTradeAsset,
-        assetKind: tradeAsset.marketTradeAsset.assetKind as "stock" | "crypto",
+        assetKind: this.assertMarketAssetKind(
+          tradeAsset.marketTradeAsset.assetKind
+        ),
       };
     } else if (tradeAsset.transportAsset !== undefined) {
       return {
@@ -376,6 +379,14 @@ export class CandleClient {
     }
   }
 
+  private assertMarketAssetKind(kind: string): "stock" | "crypto" {
+    if (kind !== "stock" && kind !== "crypto") {
+      throw new Error("Internal Candle Error: corrupted market account.");
+    } else {
+      return kind;
+    }
+  }
+
   private convertToAssetAccount(account: InternalAssetAccount): AssetAccount {
     const { legalAccountKind, nickname } = account;
     const { fiatAccountDetails, marketAccountDetails } = account.details;
@@ -395,7 +406,7 @@ export class CandleClient {
         nickname,
         details: {
           ...marketAccountDetails,
-          assetKind: marketAccountDetails.assetKind as "stock" | "crypto",
+          assetKind: this.assertMarketAssetKind(marketAccountDetails.assetKind),
         },
       };
     } else {

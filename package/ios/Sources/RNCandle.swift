@@ -97,14 +97,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
     completion: @escaping (TradeExecutionResult) -> Void
   ) throws {
     Task { @MainActor in
-      guard let candleClient = rootVC?.rootView.candleClient else {
-        throw RNClientError.badInitialization(
-          message:
-            "\(#function) \(#line): Candle client was not initialized."
-        )
-      }
       let wrapperView = CandleTradeExecutionSheetWrapper(
-        candleClient: candleClient,
+        candleClient: try viewModel.candleClient,
         viewModel: .init(tradeQuote: nil),
         presentationBackground: presentationBackground
       )
@@ -121,8 +115,9 @@ final class HybridRNCandle: HybridRNCandleSpec {
         )
       }
       rootHostingVC.embedOnTop(hostingVC)
+      let tradeQuote = try tradeQuote.toCandleModel
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-        wrapperView.viewModel.tradeQuote = tradeQuote.toCandleModel
+        wrapperView.viewModel.tradeQuote = tradeQuote
       }
       wrapperView.viewModel.$tradeQuote
         .dropFirst()
@@ -553,11 +548,15 @@ extension TradeQuoteRequest {
       } else if let marketAssetQuoteRequest = gained
         .marketAssetQuoteRequest
       {
+        guard
+          let assetKind = Models.MarketAssetQuoteRequest.AssetKindPayload(
+            rawValue: marketAssetQuoteRequest.assetKind)
+        else {
+          throw RNClientError.badEncoding
+        }
         return Models.TradeAssetQuoteRequest.MarketAssetQuoteRequest(
           .init(
-            assetKind: .init(
-              rawValue: marketAssetQuoteRequest.assetKind)
-              ?? .stock,
+            assetKind: assetKind,
             serviceAccountID: marketAssetQuoteRequest
               .serviceAccountID,
             serviceAssetID: marketAssetQuoteRequest.serviceAssetID,
@@ -1129,72 +1128,80 @@ extension TradeAssetRef {
 
 extension TradeAsset {
   var toCandleModel: Models.TradeAsset {
-    if let fiat = fiatAsset {
-      return .FiatAsset(
-        .init(
-          assetKind: .fiat,
-          serviceTradeID: fiat.serviceTradeID,
-          serviceAccountID: fiat.serviceAccountID,
-          currencyCode: fiat.currencyCode,
-          amount: fiat.amount,
-          linkedAccountID: fiat.linkedAccountID,
-          service: fiat.service.toService
+    get throws {
+      if let fiat = fiatAsset {
+        return .FiatAsset(
+          .init(
+            assetKind: .fiat,
+            serviceTradeID: fiat.serviceTradeID,
+            serviceAccountID: fiat.serviceAccountID,
+            currencyCode: fiat.currencyCode,
+            amount: fiat.amount,
+            linkedAccountID: fiat.linkedAccountID,
+            service: fiat.service.toService
+          )
         )
-      )
-    } else if let market = marketTradeAsset {
-      return .MarketTradeAsset(
-        .init(
-          assetKind: .init(rawValue: market.assetKind) ?? .stock,
-          serviceAccountID: market.serviceAccountID,
-          serviceAssetID: market.serviceAssetID,
-          symbol: market.symbol,
-          amount: market.amount,
-          serviceTradeID: market.serviceTradeID,
-          linkedAccountID: market.linkedAccountID,
-          service: market.service.toService,
-          name: market.name,
-          color: market.color,
-          logoURL: market.logoURL
+      } else if let market = marketTradeAsset {
+        guard let assetKind = Models.MarketTradeAsset.AssetKindPayload(rawValue: market.assetKind)
+        else {
+          throw RNClientError.badEncoding
+        }
+        return .MarketTradeAsset(
+          .init(
+            assetKind: assetKind,
+            serviceAccountID: market.serviceAccountID,
+            serviceAssetID: market.serviceAssetID,
+            symbol: market.symbol,
+            amount: market.amount,
+            serviceTradeID: market.serviceTradeID,
+            linkedAccountID: market.linkedAccountID,
+            service: market.service.toService,
+            name: market.name,
+            color: market.color,
+            logoURL: market.logoURL
+          )
         )
-      )
-    } else if let transport = transportAsset {
-      return .TransportAsset(
-        .init(
-          assetKind: .transport,
-          serviceTradeID: transport.serviceTradeID,
-          serviceAssetID: transport.serviceAssetID,
-          name: transport.name,
-          description: transport.description,
-          imageURL: transport.imageURL,
-          originCoordinates: .init(
-            latitude: transport.originCoordinates.latitude,
-            longitude: transport.originCoordinates.longitude
-          ),
-          originAddress: .init(value: transport.originAddress.value),
-          destinationCoordinates: .init(
-            latitude: transport.destinationCoordinates.latitude,
-            longitude: transport.destinationCoordinates.longitude
-          ),
-          destinationAddress: .init(value: transport.destinationAddress.value),
-          seats: transport.seats,
-          linkedAccountID: transport.linkedAccountID,
-          service: transport.service.toService
+      } else if let transport = transportAsset {
+        return .TransportAsset(
+          .init(
+            assetKind: .transport,
+            serviceTradeID: transport.serviceTradeID,
+            serviceAssetID: transport.serviceAssetID,
+            name: transport.name,
+            description: transport.description,
+            imageURL: transport.imageURL,
+            originCoordinates: .init(
+              latitude: transport.originCoordinates.latitude,
+              longitude: transport.originCoordinates.longitude
+            ),
+            originAddress: .init(value: transport.originAddress.value),
+            destinationCoordinates: .init(
+              latitude: transport.destinationCoordinates.latitude,
+              longitude: transport.destinationCoordinates.longitude
+            ),
+            destinationAddress: .init(value: transport.destinationAddress.value),
+            seats: transport.seats,
+            linkedAccountID: transport.linkedAccountID,
+            service: transport.service.toService
+          )
         )
-      )
-    } else if otherAsset != nil {
-      return .OtherAsset(.init(assetKind: .other))
-    } else {
-      return .NothingAsset(.init(assetKind: .nothing))
+      } else if otherAsset != nil {
+        return .OtherAsset(.init(assetKind: .other))
+      } else {
+        return .NothingAsset(.init(assetKind: .nothing))
+      }
     }
   }
 }
 
 extension TradeQuote {
   var toCandleModel: Models.TradeQuote {
-    .init(
-      lost: lost.toCandleModel,
-      gained: gained.toCandleModel,
-      context: context
-    )
+    get throws {
+      .init(
+        lost: try lost.toCandleModel,
+        gained: try gained.toCandleModel,
+        context: context
+      )
+    }
   }
 }
