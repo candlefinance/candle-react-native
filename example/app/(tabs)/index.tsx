@@ -6,11 +6,17 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { CandleClient } from "react-native-candle";
+import { CandleClient, TradeQuote } from "react-native-candle";
 
 export default function TabOneScreen() {
+  const [tradeQuote, setTradeQuote] = useState<TradeQuote | undefined>(
+    undefined
+  );
   const candleClient = useMemo(() => {
-    return new CandleClient({ appKey: "", appSecret: "" });
+    return new CandleClient({
+      appKey: "",
+      appSecret: "",
+    });
   }, []);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -130,6 +136,30 @@ export default function TabOneScreen() {
             customerName: "Akme Inc.",
             presentationStyle: "fullScreen",
             presentationBackground: "blur",
+          });
+        }}
+      />
+      <Button
+        title="Show Trade Execution Sheet"
+        onPress={() => {
+          if (!tradeQuote) {
+            Alert.alert("Error", "Trade quote is not set.");
+            return;
+          }
+          candleClient.presentTradeExecutionSheet({
+            tradeQuote,
+            presentationBackground: "blur",
+            completion: (result) => {
+              switch (result.kind) {
+                case "success":
+                  console.log("Trade executed successfully:", result);
+                  break;
+                case "failure":
+                  console.error("Error executing trade:", result);
+                  Alert.alert("Error", result.error);
+                  break;
+              }
+            },
           });
         }}
       />

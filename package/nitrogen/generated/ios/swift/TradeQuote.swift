@@ -16,8 +16,8 @@ extension TradeQuote {
   /**
    * Create a new instance of `TradeQuote`.
    */
-  public init(lost: TradeAsset, gained: TradeAsset) {
-    self.init(lost, gained)
+  public init(lost: TradeAsset, gained: TradeAsset, context: String) {
+    self.init(lost, gained, std.string(context))
   }
 
   public var lost: TradeAsset {
@@ -39,6 +39,17 @@ extension TradeQuote {
     @inline(__always)
     set {
       self.__gained = newValue
+    }
+  }
+
+  public var context: String {
+    @inline(__always)
+    get {
+      return String(self.__context)
+    }
+    @inline(__always)
+    set {
+      self.__context = std.string(newValue)
     }
   }
 }

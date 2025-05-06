@@ -18,6 +18,9 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
     showDynamicLoading: Bool, presentationBackground: PresentationBackground,
     presentationStyle: PresentationStyle, onSuccess: @escaping (_ account: LinkedAccount) -> Void)
     throws
+  func candleTradeExecutionSheet(
+    tradeQuote: TradeQuote, presentationBackground: PresentationBackground,
+    completion: @escaping (_ result: TradeExecutionResult) -> Void) throws
   func initialize(appUser: AppUser) throws
   func getLinkedAccounts() throws -> Promise<[LinkedAccount]>
   func getLinkedAccount(ref: LinkedAccountRef) throws -> Promise<LinkedAccount>
@@ -27,7 +30,6 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
   func getTrades(query: TradeQuery) throws -> Promise<[Trade]>
   func getTrade(ref: TradeRef) throws -> Promise<Trade>
   func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<[TradeQuote]>
-  func executeTrade(request: ExecuteTradeRequest) throws -> Promise<Trade>
   func deleteUser() throws -> Promise<Void>
   func getAvailableTools() throws -> Promise<[AnyMapHolder]>
   func executeTool(tool: ToolCall) throws -> Promise<String>

@@ -15,6 +15,7 @@ namespace margelo::nitro::rncandle {
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
       prototype.registerHybridMethod("candleLinkSheet", &HybridRNCandleSpec::candleLinkSheet);
+      prototype.registerHybridMethod("candleTradeExecutionSheet", &HybridRNCandleSpec::candleTradeExecutionSheet);
       prototype.registerHybridMethod("initialize", &HybridRNCandleSpec::initialize);
       prototype.registerHybridMethod("getLinkedAccounts", &HybridRNCandleSpec::getLinkedAccounts);
       prototype.registerHybridMethod("getLinkedAccount", &HybridRNCandleSpec::getLinkedAccount);
@@ -24,7 +25,6 @@ namespace margelo::nitro::rncandle {
       prototype.registerHybridMethod("getTrades", &HybridRNCandleSpec::getTrades);
       prototype.registerHybridMethod("getTrade", &HybridRNCandleSpec::getTrade);
       prototype.registerHybridMethod("getTradeQuotes", &HybridRNCandleSpec::getTradeQuotes);
-      prototype.registerHybridMethod("executeTrade", &HybridRNCandleSpec::executeTrade);
       prototype.registerHybridMethod("deleteUser", &HybridRNCandleSpec::deleteUser);
       prototype.registerHybridMethod("getAvailableTools", &HybridRNCandleSpec::getAvailableTools);
       prototype.registerHybridMethod("executeTool", &HybridRNCandleSpec::executeTool);

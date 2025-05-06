@@ -74,6 +74,8 @@ namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 namespace margelo::nitro::rncandle { enum class Service; }
 // Forward declaration of `TradeAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeAsset; }
+// Forward declaration of `TradeExecutionResult` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeExecutionResult; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
 // Forward declaration of `TradeState` to properly resolve imports.
@@ -129,6 +131,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "ServiceCounterparty.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
+#include "TradeExecutionResult.hpp"
 #include "TradeQuote.hpp"
 #include "TradeState.hpp"
 #include "TransportAsset.hpp"
@@ -220,6 +223,118 @@ namespace margelo::nitro::rncandle::bridge::swift {
   Func_void_LinkedAccount create_Func_void_LinkedAccount(void* _Nonnull swiftClosureWrapper);
   inline Func_void_LinkedAccount_Wrapper wrap_Func_void_LinkedAccount(Func_void_LinkedAccount value) {
     return Func_void_LinkedAccount_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::optional<FiatAsset>
+  /**
+   * Specialized version of `std::optional<FiatAsset>`.
+   */
+  using std__optional_FiatAsset_ = std::optional<FiatAsset>;
+  inline std::optional<FiatAsset> create_std__optional_FiatAsset_(const FiatAsset& value) {
+    return std::optional<FiatAsset>(value);
+  }
+  
+  // pragma MARK: std::optional<MarketTradeAsset>
+  /**
+   * Specialized version of `std::optional<MarketTradeAsset>`.
+   */
+  using std__optional_MarketTradeAsset_ = std::optional<MarketTradeAsset>;
+  inline std::optional<MarketTradeAsset> create_std__optional_MarketTradeAsset_(const MarketTradeAsset& value) {
+    return std::optional<MarketTradeAsset>(value);
+  }
+  
+  // pragma MARK: std::optional<TransportAsset>
+  /**
+   * Specialized version of `std::optional<TransportAsset>`.
+   */
+  using std__optional_TransportAsset_ = std::optional<TransportAsset>;
+  inline std::optional<TransportAsset> create_std__optional_TransportAsset_(const TransportAsset& value) {
+    return std::optional<TransportAsset>(value);
+  }
+  
+  // pragma MARK: std::optional<OtherAsset>
+  /**
+   * Specialized version of `std::optional<OtherAsset>`.
+   */
+  using std__optional_OtherAsset_ = std::optional<OtherAsset>;
+  inline std::optional<OtherAsset> create_std__optional_OtherAsset_(const OtherAsset& value) {
+    return std::optional<OtherAsset>(value);
+  }
+  
+  // pragma MARK: std::optional<NothingAsset>
+  /**
+   * Specialized version of `std::optional<NothingAsset>`.
+   */
+  using std__optional_NothingAsset_ = std::optional<NothingAsset>;
+  inline std::optional<NothingAsset> create_std__optional_NothingAsset_(const NothingAsset& value) {
+    return std::optional<NothingAsset>(value);
+  }
+  
+  // pragma MARK: std::optional<MerchantLocation>
+  /**
+   * Specialized version of `std::optional<MerchantLocation>`.
+   */
+  using std__optional_MerchantLocation_ = std::optional<MerchantLocation>;
+  inline std::optional<MerchantLocation> create_std__optional_MerchantLocation_(const MerchantLocation& value) {
+    return std::optional<MerchantLocation>(value);
+  }
+  
+  // pragma MARK: std::optional<MerchantCounterparty>
+  /**
+   * Specialized version of `std::optional<MerchantCounterparty>`.
+   */
+  using std__optional_MerchantCounterparty_ = std::optional<MerchantCounterparty>;
+  inline std::optional<MerchantCounterparty> create_std__optional_MerchantCounterparty_(const MerchantCounterparty& value) {
+    return std::optional<MerchantCounterparty>(value);
+  }
+  
+  // pragma MARK: std::optional<UserCounterparty>
+  /**
+   * Specialized version of `std::optional<UserCounterparty>`.
+   */
+  using std__optional_UserCounterparty_ = std::optional<UserCounterparty>;
+  inline std::optional<UserCounterparty> create_std__optional_UserCounterparty_(const UserCounterparty& value) {
+    return std::optional<UserCounterparty>(value);
+  }
+  
+  // pragma MARK: std::optional<ServiceCounterparty>
+  /**
+   * Specialized version of `std::optional<ServiceCounterparty>`.
+   */
+  using std__optional_ServiceCounterparty_ = std::optional<ServiceCounterparty>;
+  inline std::optional<ServiceCounterparty> create_std__optional_ServiceCounterparty_(const ServiceCounterparty& value) {
+    return std::optional<ServiceCounterparty>(value);
+  }
+  
+  // pragma MARK: std::optional<Trade>
+  /**
+   * Specialized version of `std::optional<Trade>`.
+   */
+  using std__optional_Trade_ = std::optional<Trade>;
+  inline std::optional<Trade> create_std__optional_Trade_(const Trade& value) {
+    return std::optional<Trade>(value);
+  }
+  
+  // pragma MARK: std::function<void(const TradeExecutionResult& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const TradeExecutionResult&)>`.
+   */
+  using Func_void_TradeExecutionResult = std::function<void(const TradeExecutionResult& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const TradeExecutionResult& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_TradeExecutionResult_Wrapper final {
+  public:
+    explicit Func_void_TradeExecutionResult_Wrapper(std::function<void(const TradeExecutionResult& /* result */)>&& func): _function(std::make_shared<std::function<void(const TradeExecutionResult& /* result */)>>(std::move(func))) {}
+    inline void call(TradeExecutionResult result) const {
+      _function->operator()(result);
+    }
+  private:
+    std::shared_ptr<std::function<void(const TradeExecutionResult& /* result */)>> _function;
+  };
+  Func_void_TradeExecutionResult create_Func_void_TradeExecutionResult(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_TradeExecutionResult_Wrapper wrap_Func_void_TradeExecutionResult(Func_void_TradeExecutionResult value) {
+    return Func_void_TradeExecutionResult_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::vector<LinkedAccount>
@@ -466,87 +581,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
   Func_void_AssetAccount create_Func_void_AssetAccount(void* _Nonnull swiftClosureWrapper);
   inline Func_void_AssetAccount_Wrapper wrap_Func_void_AssetAccount(Func_void_AssetAccount value) {
     return Func_void_AssetAccount_Wrapper(std::move(value));
-  }
-  
-  // pragma MARK: std::optional<MerchantLocation>
-  /**
-   * Specialized version of `std::optional<MerchantLocation>`.
-   */
-  using std__optional_MerchantLocation_ = std::optional<MerchantLocation>;
-  inline std::optional<MerchantLocation> create_std__optional_MerchantLocation_(const MerchantLocation& value) {
-    return std::optional<MerchantLocation>(value);
-  }
-  
-  // pragma MARK: std::optional<MerchantCounterparty>
-  /**
-   * Specialized version of `std::optional<MerchantCounterparty>`.
-   */
-  using std__optional_MerchantCounterparty_ = std::optional<MerchantCounterparty>;
-  inline std::optional<MerchantCounterparty> create_std__optional_MerchantCounterparty_(const MerchantCounterparty& value) {
-    return std::optional<MerchantCounterparty>(value);
-  }
-  
-  // pragma MARK: std::optional<UserCounterparty>
-  /**
-   * Specialized version of `std::optional<UserCounterparty>`.
-   */
-  using std__optional_UserCounterparty_ = std::optional<UserCounterparty>;
-  inline std::optional<UserCounterparty> create_std__optional_UserCounterparty_(const UserCounterparty& value) {
-    return std::optional<UserCounterparty>(value);
-  }
-  
-  // pragma MARK: std::optional<ServiceCounterparty>
-  /**
-   * Specialized version of `std::optional<ServiceCounterparty>`.
-   */
-  using std__optional_ServiceCounterparty_ = std::optional<ServiceCounterparty>;
-  inline std::optional<ServiceCounterparty> create_std__optional_ServiceCounterparty_(const ServiceCounterparty& value) {
-    return std::optional<ServiceCounterparty>(value);
-  }
-  
-  // pragma MARK: std::optional<FiatAsset>
-  /**
-   * Specialized version of `std::optional<FiatAsset>`.
-   */
-  using std__optional_FiatAsset_ = std::optional<FiatAsset>;
-  inline std::optional<FiatAsset> create_std__optional_FiatAsset_(const FiatAsset& value) {
-    return std::optional<FiatAsset>(value);
-  }
-  
-  // pragma MARK: std::optional<MarketTradeAsset>
-  /**
-   * Specialized version of `std::optional<MarketTradeAsset>`.
-   */
-  using std__optional_MarketTradeAsset_ = std::optional<MarketTradeAsset>;
-  inline std::optional<MarketTradeAsset> create_std__optional_MarketTradeAsset_(const MarketTradeAsset& value) {
-    return std::optional<MarketTradeAsset>(value);
-  }
-  
-  // pragma MARK: std::optional<TransportAsset>
-  /**
-   * Specialized version of `std::optional<TransportAsset>`.
-   */
-  using std__optional_TransportAsset_ = std::optional<TransportAsset>;
-  inline std::optional<TransportAsset> create_std__optional_TransportAsset_(const TransportAsset& value) {
-    return std::optional<TransportAsset>(value);
-  }
-  
-  // pragma MARK: std::optional<OtherAsset>
-  /**
-   * Specialized version of `std::optional<OtherAsset>`.
-   */
-  using std__optional_OtherAsset_ = std::optional<OtherAsset>;
-  inline std::optional<OtherAsset> create_std__optional_OtherAsset_(const OtherAsset& value) {
-    return std::optional<OtherAsset>(value);
-  }
-  
-  // pragma MARK: std::optional<NothingAsset>
-  /**
-   * Specialized version of `std::optional<NothingAsset>`.
-   */
-  using std__optional_NothingAsset_ = std::optional<NothingAsset>;
-  inline std::optional<NothingAsset> create_std__optional_NothingAsset_(const NothingAsset& value) {
-    return std::optional<NothingAsset>(value);
   }
   
   // pragma MARK: std::vector<Trade>

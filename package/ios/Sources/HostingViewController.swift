@@ -8,6 +8,13 @@ extension UIViewController {
     child.view.pinEdges(to: view)
     child.didMove(toParent: self)
   }
+
+  func embedOnTop(_ child: UIViewController) {
+    addChild(child)
+    view.insertSubview(child.view, aboveSubview: view)
+    child.view.pinEdges(to: view)
+    child.didMove(toParent: self)
+  }
 }
 
 extension UIView {
