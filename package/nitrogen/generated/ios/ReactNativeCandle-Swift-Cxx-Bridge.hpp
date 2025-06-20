@@ -88,6 +88,8 @@ namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct TransportAssetRef; }
 // Forward declaration of `TransportAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TransportAsset; }
+// Forward declaration of `UnavailableLinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct UnavailableLinkedAccountDetails; }
 // Forward declaration of `UserCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct UserCounterparty; }
 // Forward declaration of `WireDetails` to properly resolve imports.
@@ -137,6 +139,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "TransportAsset.hpp"
 #include "TransportAssetQuoteRequest.hpp"
 #include "TransportAssetRef.hpp"
+#include "UnavailableLinkedAccountDetails.hpp"
 #include "UserCounterparty.hpp"
 #include "WireDetails.hpp"
 #include <NitroModules/AnyMap.hpp>
@@ -201,6 +204,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
   using std__optional_InactiveLinkedAccountDetails_ = std::optional<InactiveLinkedAccountDetails>;
   inline std::optional<InactiveLinkedAccountDetails> create_std__optional_InactiveLinkedAccountDetails_(const InactiveLinkedAccountDetails& value) {
     return std::optional<InactiveLinkedAccountDetails>(value);
+  }
+  
+  // pragma MARK: std::optional<UnavailableLinkedAccountDetails>
+  /**
+   * Specialized version of `std::optional<UnavailableLinkedAccountDetails>`.
+   */
+  using std__optional_UnavailableLinkedAccountDetails_ = std::optional<UnavailableLinkedAccountDetails>;
+  inline std::optional<UnavailableLinkedAccountDetails> create_std__optional_UnavailableLinkedAccountDetails_(const UnavailableLinkedAccountDetails& value) {
+    return std::optional<UnavailableLinkedAccountDetails>(value);
   }
   
   // pragma MARK: std::function<void(const LinkedAccount& /* account */)>

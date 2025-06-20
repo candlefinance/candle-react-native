@@ -328,9 +328,14 @@ export type InactiveLinkedAccountDetails = {
   state: string; // "inactive"
 };
 
+export type UnavailableLinkedAccountDetails = {
+  state: string; // "unavailable"
+};
+
 export type LinkedAccountDetails = {
   activeLinkedAccountDetails?: ActiveLinkedAccountDetails;
   inactiveLinkedAccountDetails?: InactiveLinkedAccountDetails;
+  unavailableLinkedAccountDetails?: UnavailableLinkedAccountDetails;
 };
 
 export type LinkedAccount = {

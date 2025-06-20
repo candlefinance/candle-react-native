@@ -26,6 +26,8 @@ namespace margelo::nitro::rncandle { struct LinkedAccountDetails; }
 namespace margelo::nitro::rncandle { struct ActiveLinkedAccountDetails; }
 // Forward declaration of `InactiveLinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
+// Forward declaration of `UnavailableLinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct UnavailableLinkedAccountDetails; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
 // Forward declaration of `TradeAsset` to properly resolve imports.
@@ -130,6 +132,7 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "LinkedAccountDetails.hpp"
 #include "ActiveLinkedAccountDetails.hpp"
 #include "InactiveLinkedAccountDetails.hpp"
+#include "UnavailableLinkedAccountDetails.hpp"
 #include "TradeQuote.hpp"
 #include "TradeAsset.hpp"
 #include "FiatAsset.hpp"

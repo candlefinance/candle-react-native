@@ -121,7 +121,7 @@ export class CandleClient {
           details: { state: "active" } & ActiveLinkedAccountDetails;
         })
       | (LinkedAccount & {
-          details: { state: "inactive" };
+          details: { state: "inactive" | "unavailable" };
         })
     )[]
   > {
@@ -141,6 +141,16 @@ export class CandleClient {
           details: {
             ...account.details.inactiveLinkedAccountDetails,
             state: "inactive",
+          },
+        };
+      } else if (
+        account.details.unavailableLinkedAccountDetails !== undefined
+      ) {
+        return {
+          ...account,
+          details: {
+            ...account.details.unavailableLinkedAccountDetails,
+            state: "unavailable",
           },
         };
       } else {
