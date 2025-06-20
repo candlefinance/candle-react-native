@@ -18,7 +18,8 @@ extension LinkedAccountDetails {
    */
   public init(
     activeLinkedAccountDetails: ActiveLinkedAccountDetails?,
-    inactiveLinkedAccountDetails: InactiveLinkedAccountDetails?
+    inactiveLinkedAccountDetails: InactiveLinkedAccountDetails?,
+    unavailableLinkedAccountDetails: UnavailableLinkedAccountDetails?
   ) {
     self.init(
       { () -> bridge.std__optional_ActiveLinkedAccountDetails_ in
@@ -31,6 +32,13 @@ extension LinkedAccountDetails {
       { () -> bridge.std__optional_InactiveLinkedAccountDetails_ in
         if let __unwrappedValue = inactiveLinkedAccountDetails {
           return bridge.create_std__optional_InactiveLinkedAccountDetails_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }(),
+      { () -> bridge.std__optional_UnavailableLinkedAccountDetails_ in
+        if let __unwrappedValue = unavailableLinkedAccountDetails {
+          return bridge.create_std__optional_UnavailableLinkedAccountDetails_(__unwrappedValue)
         } else {
           return .init()
         }
@@ -78,6 +86,30 @@ extension LinkedAccountDetails {
         () -> bridge.std__optional_InactiveLinkedAccountDetails_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_InactiveLinkedAccountDetails_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+
+  public var unavailableLinkedAccountDetails: UnavailableLinkedAccountDetails? {
+    @inline(__always)
+    get {
+      return { () -> UnavailableLinkedAccountDetails? in
+        if let __unwrapped = self.__unavailableLinkedAccountDetails.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__unavailableLinkedAccountDetails = {
+        () -> bridge.std__optional_UnavailableLinkedAccountDetails_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_UnavailableLinkedAccountDetails_(__unwrappedValue)
         } else {
           return .init()
         }

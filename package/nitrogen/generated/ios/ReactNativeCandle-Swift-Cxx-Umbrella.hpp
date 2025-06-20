@@ -112,6 +112,8 @@ namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct TransportAssetRef; }
 // Forward declaration of `TransportAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TransportAsset; }
+// Forward declaration of `UnavailableLinkedAccountDetails` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct UnavailableLinkedAccountDetails; }
 // Forward declaration of `UserCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct UserCounterparty; }
 // Forward declaration of `WireDetails` to properly resolve imports.
@@ -169,6 +171,7 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "TransportAsset.hpp"
 #include "TransportAssetQuoteRequest.hpp"
 #include "TransportAssetRef.hpp"
+#include "UnavailableLinkedAccountDetails.hpp"
 #include "UserCounterparty.hpp"
 #include "WireDetails.hpp"
 #include <NitroModules/AnyMap.hpp>

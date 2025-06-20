@@ -364,18 +364,37 @@ extension Candle.Models.LinkedAccount {
             username: details.username,
             emailAddress: details.emailAddress,
             legalName: details.legalName),
-          inactiveLinkedAccountDetails: nil)
+          inactiveLinkedAccountDetails: nil,
+          unavailableLinkedAccountDetails: nil
+        )
       )
     case .InactiveLinkedAccountDetails(let details):
-      return LinkedAccount(
-        linkedAccountID: linkedAccountID,
-        service: service,
-        serviceUserID: serviceUserID,
-        details: .init(
-          activeLinkedAccountDetails: nil,
-          inactiveLinkedAccountDetails: .init(
-            state: details.state.rawValue))
-      )
+      switch details.state {
+      case .inactive:
+        return LinkedAccount(
+          linkedAccountID: linkedAccountID,
+          service: service,
+          serviceUserID: serviceUserID,
+          details: .init(
+            activeLinkedAccountDetails: nil,
+            inactiveLinkedAccountDetails: .init(
+              state: details.state.rawValue
+            ),
+            unavailableLinkedAccountDetails: nil
+          )
+        )
+      case .unavailable:
+        return LinkedAccount(
+          linkedAccountID: linkedAccountID,
+          service: service,
+          serviceUserID: serviceUserID,
+          details: .init(
+            activeLinkedAccountDetails: nil,
+            inactiveLinkedAccountDetails: nil,
+            unavailableLinkedAccountDetails: .init(state: details.state.rawValue)
+          )
+        )
+      }
     }
   }
 }

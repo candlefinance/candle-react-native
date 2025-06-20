@@ -114,6 +114,12 @@ export default function TabOneScreen() {
                       JSON.stringify(account, null, 2)
                     );
                     break;
+                  case "unavailable":
+                    console.log(
+                      `${account.service} is unavailable`,
+                      JSON.stringify(account, null, 2)
+                    );
+                    break;
                 }
               });
               setIsLoading(false);
