@@ -180,7 +180,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
   }
 
   public func getAssetAccounts(query: AssetAccountQuery) throws -> Promise<
-    [AssetAccount]
+    AssetAccountsResponse
   > {
     .async {
       let accounts = try await self.viewModel.candleClient
@@ -190,7 +190,10 @@ final class HybridRNCandle: HybridRNCandleSpec {
             assetKind: query.assetKind?.asCandleModel
           )
         )
-      return accounts.assetAccounts.map(\.toRNModel)
+      return AssetAccountsResponse(
+        linkedAccounts: accounts.linkedAccounts.map(\.toRNModel),
+        assetAccounts: accounts.assetAccounts.map(\.toRNModel)
+      )
     }
   }
 
@@ -219,7 +222,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  public func getTrades(query: TradeQuery) throws -> Promise<[Trade]> {
+  public func getTrades(query: TradeQuery) throws -> Promise<TradesResponse> {
     .async {
       let trades = try await self.viewModel.candleClient.getTrades(
         query: .init(
@@ -229,12 +232,16 @@ final class HybridRNCandle: HybridRNCandleSpec {
           lostAssetKind: query.toLostAssetKind,
           counterpartyKind: query.toCounterpartyKindPayload
         ))
-      return trades.trades.map(\.toTrade)
+      return TradesResponse(
+        linkedAccounts:
+          trades.linkedAccounts.map(\.toRNModel),
+        trades: trades.trades.map(\.toTrade)
+      )
     }
   }
 
   public func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<
-    [TradeQuote]
+    TradeQuotesResponse
   > {
     .async {
       let accounts = try await self.viewModel.candleClient.getTradeQuotes(
@@ -244,13 +251,18 @@ final class HybridRNCandle: HybridRNCandleSpec {
             gained: try request.toGained
           )
       )
-      return accounts.tradeQuotes.map { account in
-        TradeQuote(
-          lost: account.lost.toAsset,
-          gained: account.gained.toAsset,
-          context: account.context
-        )
-      }
+      return TradeQuotesResponse.init(
+        linkedAccounts: accounts.linkedAccounts.map(\.toRNModel),
+        tradeQuotes:
+          accounts.tradeQuotes.map { account in
+            TradeQuote(
+              lost: account.lost.toAsset,
+              gained: account.gained.toAsset,
+              context: account.context,
+              expirationDateTime: account.expirationDateTime
+            )
+          }
+      )
     }
   }
 
@@ -513,6 +525,8 @@ extension Models.TradeAsset {
           destinationAddress: .init(
             value: transportAsset.destinationAddress.value),
           seats: transportAsset.seats,
+          departureDateTime: transportAsset.departureDateTime,
+          arrivalDateTime: transportAsset.arrivalDateTime,
           linkedAccountID: transportAsset.linkedAccountID,
           service: transportAsset.service.toService
         ),
@@ -1200,8 +1214,8 @@ extension TradeAsset {
             ),
             destinationAddress: .init(value: transport.destinationAddress.value),
             seats: transport.seats,
-            departureDateTime: "",
-            arrivalDateTime: "",
+            departureDateTime: transport.departureDateTime,
+            arrivalDateTime: transport.arrivalDateTime,
             linkedAccountID: transport.linkedAccountID,
             service: transport.service.toService,
           )
@@ -1222,8 +1236,29 @@ extension TradeQuote {
         lost: try lost.toCandleModel,
         gained: try gained.toCandleModel,
         context: context,
-        expirationDateTime: ""
+        expirationDateTime: expirationDateTime
       )
     }
+  }
+}
+
+extension Components.Schemas.LinkedAccountStatusRef.StatePayload {
+  var toStatePayload: StatePayload {
+    switch self {
+    case .active: return .active
+    case .inactive: return .inactive
+    case .unavailable: return .unavailable
+    }
+  }
+}
+
+extension Models.LinkedAccountStatusRef {
+  var toRNModel: LinkedAccountStatusRef {
+    .init(
+      linkedAccountID: linkedAccountID,
+      service: service.toService,
+      serviceUserID: serviceUserID,
+      state: state.toStatePayload
+    )
   }
 }
