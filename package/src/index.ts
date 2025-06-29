@@ -38,6 +38,7 @@ import type {
   FiatAssetRef,
   MarketTradeAssetRef,
   TradeAssetRef as InternalTradeAssetRef,
+  LinkedAccountStatusRef,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -182,11 +183,17 @@ export class CandleClient {
     return this.candle.executeTool(tool);
   }
 
-  public async getAssetAccounts(
-    query: AssetAccountQuery = {}
-  ): Promise<AssetAccount[]> {
+  public async getAssetAccounts(query: AssetAccountQuery = {}): Promise<{
+    assetAccounts: AssetAccount[];
+    linkedAccounts: LinkedAccountStatusRef[];
+  }> {
     const accounts = await this.candle.getAssetAccounts(query);
-    return accounts.map((account) => this.convertToAssetAccount(account));
+    return {
+      assetAccounts: accounts.assetAccounts.map((account) =>
+        this.convertToAssetAccount(account)
+      ),
+      linkedAccounts: accounts.linkedAccounts,
+    };
   }
 
   public async getAssetAccount(ref: AssetAccountRef): Promise<AssetAccount> {
@@ -194,15 +201,23 @@ export class CandleClient {
     return this.convertToAssetAccount(account);
   }
 
-  public async getTrades(query: TradeQuery = {}): Promise<Trade[]> {
+  public async getTrades(query: TradeQuery = {}): Promise<{
+    trades: Trade[];
+    linkedAccounts: LinkedAccountStatusRef[];
+  }> {
     const trades = await this.candle.getTrades(query);
-    return trades.map(({ dateTime, counterparty, gained, lost, state }) => ({
-      dateTime,
-      state,
-      counterparty: this.convertToCounterparty(counterparty),
-      lost: this.convertTradeAsset(lost),
-      gained: this.convertTradeAsset(gained),
-    }));
+    return {
+      trades: trades.trades.map(
+        ({ dateTime, counterparty, gained, lost, state }) => ({
+          dateTime,
+          state,
+          counterparty: this.convertToCounterparty(counterparty),
+          lost: this.convertTradeAsset(lost),
+          gained: this.convertTradeAsset(gained),
+        })
+      ),
+      linkedAccounts: trades.linkedAccounts,
+    };
   }
 
   public async getTrade(input: {
@@ -231,7 +246,10 @@ export class CandleClient {
       | ({ assetKind: "transport" } & TransportAssetQuoteRequest)
       | ({ assetKind: "fiat" } & FiatAssetQuoteRequest)
       | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest);
-  }): Promise<TradeQuote[]> {
+  }): Promise<{
+    tradeQuotes: TradeQuote[];
+    linkedAccounts: LinkedAccountStatusRef[];
+  }> {
     let gainedRequest: TradeAssetQuoteRequest;
 
     switch (request.gained.assetKind) {
@@ -255,13 +273,17 @@ export class CandleClient {
       gained: gainedRequest,
     });
 
-    return quotes.map((quote) => {
-      return {
-        gained: this.convertTradeAsset(quote.gained),
-        lost: this.convertTradeAsset(quote.lost),
-        context: quote.context,
-      };
-    });
+    return {
+      tradeQuotes: quotes.tradeQuotes.map((quote) => {
+        return {
+          gained: this.convertTradeAsset(quote.gained),
+          lost: this.convertTradeAsset(quote.lost),
+          context: quote.context,
+          expirationDateTime: quote.expirationDateTime,
+        };
+      }),
+      linkedAccounts: quotes.linkedAccounts,
+    };
   }
 
   private convertTradeAssetRef(
@@ -335,6 +357,7 @@ export class CandleClient {
       context,
       gained: this.toInternalTradeAsset(gained),
       lost: this.toInternalTradeAsset(lost),
+      expirationDateTime: tradeQuote.expirationDateTime,
     };
   }
 
@@ -455,6 +478,7 @@ type TradeQuote = {
   gained: TradeAsset;
   lost: TradeAsset;
   context: string;
+  expirationDateTime: string;
 };
 
 type TradeQueryAssetKind =

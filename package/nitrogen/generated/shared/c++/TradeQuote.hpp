@@ -34,10 +34,11 @@ namespace margelo::nitro::rncandle {
     TradeAsset lost     SWIFT_PRIVATE;
     TradeAsset gained     SWIFT_PRIVATE;
     std::string context     SWIFT_PRIVATE;
+    std::string expirationDateTime     SWIFT_PRIVATE;
 
   public:
     TradeQuote() = default;
-    explicit TradeQuote(TradeAsset lost, TradeAsset gained, std::string context): lost(lost), gained(gained), context(context) {}
+    explicit TradeQuote(TradeAsset lost, TradeAsset gained, std::string context, std::string expirationDateTime): lost(lost), gained(gained), context(context), expirationDateTime(expirationDateTime) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -54,7 +55,8 @@ namespace margelo::nitro {
       return TradeQuote(
         JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
         JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "gained")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "context"))
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "context")),
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "expirationDateTime"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeQuote& arg) {
@@ -62,6 +64,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "lost", JSIConverter<TradeAsset>::toJSI(runtime, arg.lost));
       obj.setProperty(runtime, "gained", JSIConverter<TradeAsset>::toJSI(runtime, arg.gained));
       obj.setProperty(runtime, "context", JSIConverter<std::string>::toJSI(runtime, arg.context));
+      obj.setProperty(runtime, "expirationDateTime", JSIConverter<std::string>::toJSI(runtime, arg.expirationDateTime));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -72,6 +75,7 @@ namespace margelo::nitro {
       if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
       if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "context"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "expirationDateTime"))) return false;
       return true;
     }
   };

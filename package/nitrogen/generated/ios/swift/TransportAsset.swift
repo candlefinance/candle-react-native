@@ -20,12 +20,13 @@ extension TransportAsset {
     assetKind: String, serviceTradeID: String, serviceAssetID: String, name: String,
     description: String, imageURL: String, originCoordinates: Coordinates, originAddress: Address,
     destinationCoordinates: Coordinates, destinationAddress: Address, seats: Double,
-    linkedAccountID: String, service: Service
+    departureDateTime: String, arrivalDateTime: String, linkedAccountID: String, service: Service
   ) {
     self.init(
       std.string(assetKind), std.string(serviceTradeID), std.string(serviceAssetID),
       std.string(name), std.string(description), std.string(imageURL), originCoordinates,
-      originAddress, destinationCoordinates, destinationAddress, seats, std.string(linkedAccountID),
+      originAddress, destinationCoordinates, destinationAddress, seats,
+      std.string(departureDateTime), std.string(arrivalDateTime), std.string(linkedAccountID),
       service)
   }
 
@@ -147,6 +148,28 @@ extension TransportAsset {
     @inline(__always)
     set {
       self.__seats = newValue
+    }
+  }
+
+  public var departureDateTime: String {
+    @inline(__always)
+    get {
+      return String(self.__departureDateTime)
+    }
+    @inline(__always)
+    set {
+      self.__departureDateTime = std.string(newValue)
+    }
+  }
+
+  public var arrivalDateTime: String {
+    @inline(__always)
+    get {
+      return String(self.__arrivalDateTime)
+    }
+    @inline(__always)
+    set {
+      self.__arrivalDateTime = std.string(newValue)
     }
   }
 

@@ -107,6 +107,8 @@ export type TransportAsset = {
   destinationCoordinates: Coordinates;
   destinationAddress: Address;
   seats: number;
+  departureDateTime: string;
+  arrivalDateTime: string;
   linkedAccountID: string;
   service: Service;
 };
@@ -227,6 +229,7 @@ export type TradeQuote = {
   lost: TradeAsset;
   gained: TradeAsset;
   context: string;
+  expirationDateTime: string;
 };
 
 export type Service =
@@ -404,6 +407,30 @@ export type TradeExecutionResult = {
   error?: string;
 };
 
+export type StatePayload = "active" | "inactive" | "unavailable";
+
+export type LinkedAccountStatusRef = {
+  linkedAccountID: string;
+  service: Service;
+  serviceUserID: string;
+  state: StatePayload;
+};
+
+export type AssetAccountsResponse = {
+  linkedAccounts: LinkedAccountStatusRef[];
+  assetAccounts: AssetAccount[];
+};
+
+export type TradesResponse = {
+  linkedAccounts: LinkedAccountStatusRef[];
+  trades: Trade[];
+};
+
+export type TradeQuotesResponse = {
+  linkedAccounts: LinkedAccountStatusRef[];
+  tradeQuotes: TradeQuote[];
+};
+
 export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   candleLinkSheet(
     isPresented: boolean,
@@ -424,11 +451,11 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount>;
   unlinkAccount(ref: LinkedAccountRef): Promise<void>;
-  getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccount[]>;
+  getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccountsResponse>;
   getAssetAccount(ref: AssetAccountRef): Promise<AssetAccount>;
-  getTrades(query: TradeQuery): Promise<Trade[]>;
+  getTrades(query: TradeQuery): Promise<TradesResponse>;
   getTrade(ref: TradeRef): Promise<Trade>;
-  getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuote[]>;
+  getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuotesResponse>;
   deleteUser(): Promise<void>;
   // FIXME: The return type should be a more specific type based on the actual tool calls available.
   getAvailableTools(): Promise<Array<AnyMap>>;
