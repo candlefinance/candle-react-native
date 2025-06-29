@@ -128,8 +128,5 @@
     "@biomejs/biome",
     "nitro-codegen",
     "react-native-nitro-modules"
-  ],
-  "patchedDependencies": {
-    "expo-modules-core@2.2.3": "patches/expo-modules-core@2.2.3.patch"
-  }
+  ]
 }
