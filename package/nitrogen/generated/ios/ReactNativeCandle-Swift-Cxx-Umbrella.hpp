@@ -30,6 +30,8 @@ namespace margelo::nitro::rncandle { struct AssetAccountQuery; }
 namespace margelo::nitro::rncandle { struct AssetAccountRef; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
+// Forward declaration of `AssetAccountsResponse` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountsResponse; }
 // Forward declaration of `Coordinates` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `Counterparty` to properly resolve imports.
@@ -52,6 +54,8 @@ namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
 namespace margelo::nitro::rncandle { struct LinkedAccountDetails; }
 // Forward declaration of `LinkedAccountRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountRef; }
+// Forward declaration of `LinkedAccountStatusRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccountStatusRef; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `MarketAccountDetails` to properly resolve imports.
@@ -84,6 +88,8 @@ namespace margelo::nitro::rncandle { enum class PresentationStyle; }
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
+// Forward declaration of `StatePayload` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class StatePayload; }
 // Forward declaration of `ToolCall` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ToolCall; }
 // Forward declaration of `TradeAssetQuoteRequest` to properly resolve imports.
@@ -100,12 +106,16 @@ namespace margelo::nitro::rncandle { struct TradeQuery; }
 namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
+// Forward declaration of `TradeQuotesResponse` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuotesResponse; }
 // Forward declaration of `TradeRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeRef; }
 // Forward declaration of `TradeState` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class TradeState; }
 // Forward declaration of `Trade` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Trade; }
+// Forward declaration of `TradesResponse` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradesResponse; }
 // Forward declaration of `TransportAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 // Forward declaration of `TransportAssetRef` to properly resolve imports.
@@ -130,6 +140,7 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "AssetAccountKind.hpp"
 #include "AssetAccountQuery.hpp"
 #include "AssetAccountRef.hpp"
+#include "AssetAccountsResponse.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
 #include "FiatAccountDetails.hpp"
@@ -142,6 +153,7 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "LinkedAccount.hpp"
 #include "LinkedAccountDetails.hpp"
 #include "LinkedAccountRef.hpp"
+#include "LinkedAccountStatusRef.hpp"
 #include "MarketAccountDetails.hpp"
 #include "MarketAssetQuoteRequest.hpp"
 #include "MarketTradeAsset.hpp"
@@ -157,6 +169,7 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "PresentationStyle.hpp"
 #include "Service.hpp"
 #include "ServiceCounterparty.hpp"
+#include "StatePayload.hpp"
 #include "ToolCall.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
@@ -166,8 +179,10 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "TradeQuery.hpp"
 #include "TradeQuote.hpp"
 #include "TradeQuoteRequest.hpp"
+#include "TradeQuotesResponse.hpp"
 #include "TradeRef.hpp"
 #include "TradeState.hpp"
+#include "TradesResponse.hpp"
 #include "TransportAsset.hpp"
 #include "TransportAssetQuoteRequest.hpp"
 #include "TransportAssetRef.hpp"

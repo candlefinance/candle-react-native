@@ -247,33 +247,22 @@ public class HybridRNCandleSpec_cxx {
 
   @inline(__always)
   public final func getAssetAccounts(query: AssetAccountQuery)
-    -> bridge.Result_std__shared_ptr_Promise_std__vector_AssetAccount____
+    -> bridge.Result_std__shared_ptr_Promise_AssetAccountsResponse___
   {
     do {
       let __result = try self.__implementation.getAssetAccounts(query: query)
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__vector_AssetAccount___ in
-        let __promise = bridge.create_std__shared_ptr_Promise_std__vector_AssetAccount___()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__vector_AssetAccount___(
-          __promise)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_AssetAccountsResponse__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_AssetAccountsResponse__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_AssetAccountsResponse__(__promise)
         __result
-          .then({ __result in
-            __promiseHolder.resolve(
-              { () -> bridge.std__vector_AssetAccount_ in
-                var __vector = bridge.create_std__vector_AssetAccount_(__result.count)
-                for __item in __result {
-                  __vector.push_back(__item)
-                }
-                return __vector
-              }())
-          })
+          .then({ __result in __promiseHolder.resolve(__result) })
           .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
         return __promise
       }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_AssetAccount____(__resultCpp)
+      return bridge.create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_AssetAccount____(
-        __exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(__exceptionPtr)
     }
   }
 
@@ -300,31 +289,22 @@ public class HybridRNCandleSpec_cxx {
 
   @inline(__always)
   public final func getTrades(query: TradeQuery)
-    -> bridge.Result_std__shared_ptr_Promise_std__vector_Trade____
+    -> bridge.Result_std__shared_ptr_Promise_TradesResponse___
   {
     do {
       let __result = try self.__implementation.getTrades(query: query)
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__vector_Trade___ in
-        let __promise = bridge.create_std__shared_ptr_Promise_std__vector_Trade___()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__vector_Trade___(__promise)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_TradesResponse__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_TradesResponse__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_TradesResponse__(__promise)
         __result
-          .then({ __result in
-            __promiseHolder.resolve(
-              { () -> bridge.std__vector_Trade_ in
-                var __vector = bridge.create_std__vector_Trade_(__result.count)
-                for __item in __result {
-                  __vector.push_back(__item)
-                }
-                return __vector
-              }())
-          })
+          .then({ __result in __promiseHolder.resolve(__result) })
           .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
         return __promise
       }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_Trade____(__resultCpp)
+      return bridge.create_Result_std__shared_ptr_Promise_TradesResponse___(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_Trade____(__exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_TradesResponse___(__exceptionPtr)
     }
   }
 
@@ -349,32 +329,22 @@ public class HybridRNCandleSpec_cxx {
 
   @inline(__always)
   public final func getTradeQuotes(request: TradeQuoteRequest)
-    -> bridge.Result_std__shared_ptr_Promise_std__vector_TradeQuote____
+    -> bridge.Result_std__shared_ptr_Promise_TradeQuotesResponse___
   {
     do {
       let __result = try self.__implementation.getTradeQuotes(request: request)
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__vector_TradeQuote___ in
-        let __promise = bridge.create_std__shared_ptr_Promise_std__vector_TradeQuote___()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__vector_TradeQuote___(
-          __promise)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_TradeQuotesResponse__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_TradeQuotesResponse__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_TradeQuotesResponse__(__promise)
         __result
-          .then({ __result in
-            __promiseHolder.resolve(
-              { () -> bridge.std__vector_TradeQuote_ in
-                var __vector = bridge.create_std__vector_TradeQuote_(__result.count)
-                for __item in __result {
-                  __vector.push_back(__item)
-                }
-                return __vector
-              }())
-          })
+          .then({ __result in __promiseHolder.resolve(__result) })
           .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
         return __promise
       }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(__resultCpp)
+      return bridge.create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(__exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(__exceptionPtr)
     }
   }
 

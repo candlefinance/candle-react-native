@@ -190,7 +190,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
             assetKind: query.assetKind?.asCandleModel
           )
         )
-		return accounts.assetAccounts.map(\.toRNModel)
+      return accounts.assetAccounts.map(\.toRNModel)
     }
   }
 
@@ -229,7 +229,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
           lostAssetKind: query.toLostAssetKind,
           counterpartyKind: query.toCounterpartyKindPayload
         ))
-		return trades.trades.map(\.toTrade)
+      return trades.trades.map(\.toTrade)
     }
   }
 
@@ -244,7 +244,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
             gained: try request.toGained
           )
       )
-		return accounts.tradeQuotes.map { account in
+      return accounts.tradeQuotes.map { account in
         TradeQuote(
           lost: account.lost.toAsset,
           gained: account.gained.toAsset,
@@ -1200,8 +1200,10 @@ extension TradeAsset {
             ),
             destinationAddress: .init(value: transport.destinationAddress.value),
             seats: transport.seats,
+            departureDateTime: "",
+            arrivalDateTime: "",
             linkedAccountID: transport.linkedAccountID,
-            service: transport.service.toService
+            service: transport.service.toService,
           )
         )
       } else if otherAsset != nil {
@@ -1219,7 +1221,8 @@ extension TradeQuote {
       .init(
         lost: try lost.toCandleModel,
         gained: try gained.toCandleModel,
-        context: context
+        context: context,
+        expirationDateTime: ""
       )
     }
   }

@@ -53,10 +53,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
-  // pragma MARK: std::function<void(const std::vector<AssetAccount>& /* result */)>
-  Func_void_std__vector_AssetAccount_ create_Func_void_std__vector_AssetAccount_(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_AssetAccount_::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<AssetAccount>& result) mutable -> void {
+  // pragma MARK: std::function<void(const AssetAccountsResponse& /* result */)>
+  Func_void_AssetAccountsResponse create_Func_void_AssetAccountsResponse(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_AssetAccountsResponse::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const AssetAccountsResponse& result) mutable -> void {
       swiftClosure.call(result);
     };
   }
@@ -69,10 +69,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
-  // pragma MARK: std::function<void(const std::vector<Trade>& /* result */)>
-  Func_void_std__vector_Trade_ create_Func_void_std__vector_Trade_(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_Trade_::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<Trade>& result) mutable -> void {
+  // pragma MARK: std::function<void(const TradesResponse& /* result */)>
+  Func_void_TradesResponse create_Func_void_TradesResponse(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_TradesResponse::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const TradesResponse& result) mutable -> void {
       swiftClosure.call(result);
     };
   }
@@ -85,10 +85,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
-  // pragma MARK: std::function<void(const std::vector<TradeQuote>& /* result */)>
-  Func_void_std__vector_TradeQuote_ create_Func_void_std__vector_TradeQuote_(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_TradeQuote_::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<TradeQuote>& result) mutable -> void {
+  // pragma MARK: std::function<void(const TradeQuotesResponse& /* result */)>
+  Func_void_TradeQuotesResponse create_Func_void_TradeQuotesResponse(void* _Nonnull swiftClosureWrapper) {
+    auto swiftClosure = ReactNativeCandle::Func_void_TradeQuotesResponse::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const TradeQuotesResponse& result) mutable -> void {
       swiftClosure.call(result);
     };
   }
