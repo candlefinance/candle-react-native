@@ -11,7 +11,7 @@ jobs:
   test:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    runs-on: macos-latest
+    runs-on: macos-15
 
     steps:
       - name: Checkout repo
@@ -23,7 +23,7 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: latest-stable
+          xcode-version: ~16.4
 
       - name: Configure Git user
         run: |
