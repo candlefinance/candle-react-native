@@ -48,12 +48,14 @@ namespace margelo::nitro::rncandle {
     Coordinates destinationCoordinates     SWIFT_PRIVATE;
     Address destinationAddress     SWIFT_PRIVATE;
     double seats     SWIFT_PRIVATE;
+    std::string departureDateTime     SWIFT_PRIVATE;
+    std::string arrivalDateTime     SWIFT_PRIVATE;
     std::string linkedAccountID     SWIFT_PRIVATE;
     Service service     SWIFT_PRIVATE;
 
   public:
     TransportAsset() = default;
-    explicit TransportAsset(std::string assetKind, std::string serviceTradeID, std::string serviceAssetID, std::string name, std::string description, std::string imageURL, Coordinates originCoordinates, Address originAddress, Coordinates destinationCoordinates, Address destinationAddress, double seats, std::string linkedAccountID, Service service): assetKind(assetKind), serviceTradeID(serviceTradeID), serviceAssetID(serviceAssetID), name(name), description(description), imageURL(imageURL), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats), linkedAccountID(linkedAccountID), service(service) {}
+    explicit TransportAsset(std::string assetKind, std::string serviceTradeID, std::string serviceAssetID, std::string name, std::string description, std::string imageURL, Coordinates originCoordinates, Address originAddress, Coordinates destinationCoordinates, Address destinationAddress, double seats, std::string departureDateTime, std::string arrivalDateTime, std::string linkedAccountID, Service service): assetKind(assetKind), serviceTradeID(serviceTradeID), serviceAssetID(serviceAssetID), name(name), description(description), imageURL(imageURL), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats), departureDateTime(departureDateTime), arrivalDateTime(arrivalDateTime), linkedAccountID(linkedAccountID), service(service) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -79,6 +81,8 @@ namespace margelo::nitro {
         JSIConverter<Coordinates>::fromJSI(runtime, obj.getProperty(runtime, "destinationCoordinates")),
         JSIConverter<Address>::fromJSI(runtime, obj.getProperty(runtime, "destinationAddress")),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "seats")),
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "departureDateTime")),
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "arrivalDateTime")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
         JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
@@ -96,6 +100,8 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "destinationCoordinates", JSIConverter<Coordinates>::toJSI(runtime, arg.destinationCoordinates));
       obj.setProperty(runtime, "destinationAddress", JSIConverter<Address>::toJSI(runtime, arg.destinationAddress));
       obj.setProperty(runtime, "seats", JSIConverter<double>::toJSI(runtime, arg.seats));
+      obj.setProperty(runtime, "departureDateTime", JSIConverter<std::string>::toJSI(runtime, arg.departureDateTime));
+      obj.setProperty(runtime, "arrivalDateTime", JSIConverter<std::string>::toJSI(runtime, arg.arrivalDateTime));
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
       obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
       return obj;
@@ -116,6 +122,8 @@ namespace margelo::nitro {
       if (!JSIConverter<Coordinates>::canConvert(runtime, obj.getProperty(runtime, "destinationCoordinates"))) return false;
       if (!JSIConverter<Address>::canConvert(runtime, obj.getProperty(runtime, "destinationAddress"))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, "seats"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "departureDateTime"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "arrivalDateTime"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
       if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;

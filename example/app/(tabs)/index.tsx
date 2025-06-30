@@ -132,6 +132,38 @@ export default function TabOneScreen() {
         }}
       />
       <Button
+        title="Get Trade Quotes"
+        onPress={() => {
+          setIsLoading(true);
+          candleClient
+            .getTradeQuotes({
+              gained: {
+                assetKind: "transport",
+                originCoordinates: {
+                  latitude: 40.7265,
+                  longitude: -73.9814,
+                },
+                destinationCoordinates: {
+                  latitude: 40.7128,
+                  longitude: -74.006,
+                },
+              },
+            })
+            .then((quote) => {
+              console.log("Trade quotes:", quote.linkedAccounts);
+              quote.tradeQuotes.forEach((quotes) => {
+                console.log("Trade quote:", quotes);
+              });
+              setIsLoading(false);
+            })
+            .catch((error) => {
+              setIsLoading(false);
+              console.error("Error fetching trade quotes:", error);
+              Alert.alert("Error", `${error}`);
+            });
+        }}
+      />
+      <Button
         title="Show Candle Sheet"
         onPress={() => {
           candleClient.presentCandleLinkSheet({

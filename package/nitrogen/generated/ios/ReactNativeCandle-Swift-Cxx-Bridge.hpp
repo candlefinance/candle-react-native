@@ -24,6 +24,8 @@ namespace margelo::nitro::rncandle { struct AssetAccountDetails; }
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
+// Forward declaration of `AssetAccountsResponse` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountsResponse; }
 // Forward declaration of `Coordinates` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `Counterparty` to properly resolve imports.
@@ -44,6 +46,8 @@ namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
 namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
 // Forward declaration of `LinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountDetails; }
+// Forward declaration of `LinkedAccountStatusRef` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct LinkedAccountStatusRef; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `MarketAccountDetails` to properly resolve imports.
@@ -72,16 +76,22 @@ namespace margelo::nitro::rncandle { struct OtherAsset; }
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
+// Forward declaration of `StatePayload` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class StatePayload; }
 // Forward declaration of `TradeAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeAsset; }
 // Forward declaration of `TradeExecutionResult` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeExecutionResult; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
+// Forward declaration of `TradeQuotesResponse` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuotesResponse; }
 // Forward declaration of `TradeState` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class TradeState; }
 // Forward declaration of `Trade` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Trade; }
+// Forward declaration of `TradesResponse` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradesResponse; }
 // Forward declaration of `TransportAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 // Forward declaration of `TransportAssetRef` to properly resolve imports.
@@ -107,6 +117,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "AssetAccount.hpp"
 #include "AssetAccountDetails.hpp"
 #include "AssetAccountKind.hpp"
+#include "AssetAccountsResponse.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
 #include "FiatAccountDetails.hpp"
@@ -118,6 +129,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "LegalAccountKind.hpp"
 #include "LinkedAccount.hpp"
 #include "LinkedAccountDetails.hpp"
+#include "LinkedAccountStatusRef.hpp"
 #include "MarketAccountDetails.hpp"
 #include "MarketAssetQuoteRequest.hpp"
 #include "MarketTradeAsset.hpp"
@@ -131,11 +143,14 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "OtherAssetRef.hpp"
 #include "Service.hpp"
 #include "ServiceCounterparty.hpp"
+#include "StatePayload.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
 #include "TradeExecutionResult.hpp"
 #include "TradeQuote.hpp"
+#include "TradeQuotesResponse.hpp"
 #include "TradeState.hpp"
+#include "TradesResponse.hpp"
 #include "TransportAsset.hpp"
 #include "TransportAssetQuoteRequest.hpp"
 #include "TransportAssetRef.hpp"
@@ -462,6 +477,17 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Func_void_Wrapper(std::move(value));
   }
   
+  // pragma MARK: std::vector<LinkedAccountStatusRef>
+  /**
+   * Specialized version of `std::vector<LinkedAccountStatusRef>`.
+   */
+  using std__vector_LinkedAccountStatusRef_ = std::vector<LinkedAccountStatusRef>;
+  inline std::vector<LinkedAccountStatusRef> create_std__vector_LinkedAccountStatusRef_(size_t size) {
+    std::vector<LinkedAccountStatusRef> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
   // pragma MARK: std::optional<double>
   /**
    * Specialized version of `std::optional<double>`.
@@ -518,38 +544,38 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return vector;
   }
   
-  // pragma MARK: std::shared_ptr<Promise<std::vector<AssetAccount>>>
+  // pragma MARK: std::shared_ptr<Promise<AssetAccountsResponse>>
   /**
-   * Specialized version of `std::shared_ptr<Promise<std::vector<AssetAccount>>>`.
+   * Specialized version of `std::shared_ptr<Promise<AssetAccountsResponse>>`.
    */
-  using std__shared_ptr_Promise_std__vector_AssetAccount___ = std::shared_ptr<Promise<std::vector<AssetAccount>>>;
-  inline std::shared_ptr<Promise<std::vector<AssetAccount>>> create_std__shared_ptr_Promise_std__vector_AssetAccount___() {
-    return Promise<std::vector<AssetAccount>>::create();
+  using std__shared_ptr_Promise_AssetAccountsResponse__ = std::shared_ptr<Promise<AssetAccountsResponse>>;
+  inline std::shared_ptr<Promise<AssetAccountsResponse>> create_std__shared_ptr_Promise_AssetAccountsResponse__() {
+    return Promise<AssetAccountsResponse>::create();
   }
-  inline PromiseHolder<std::vector<AssetAccount>> wrap_std__shared_ptr_Promise_std__vector_AssetAccount___(std::shared_ptr<Promise<std::vector<AssetAccount>>> promise) {
-    return PromiseHolder<std::vector<AssetAccount>>(std::move(promise));
+  inline PromiseHolder<AssetAccountsResponse> wrap_std__shared_ptr_Promise_AssetAccountsResponse__(std::shared_ptr<Promise<AssetAccountsResponse>> promise) {
+    return PromiseHolder<AssetAccountsResponse>(std::move(promise));
   }
   
-  // pragma MARK: std::function<void(const std::vector<AssetAccount>& /* result */)>
+  // pragma MARK: std::function<void(const AssetAccountsResponse& /* result */)>
   /**
-   * Specialized version of `std::function<void(const std::vector<AssetAccount>&)>`.
+   * Specialized version of `std::function<void(const AssetAccountsResponse&)>`.
    */
-  using Func_void_std__vector_AssetAccount_ = std::function<void(const std::vector<AssetAccount>& /* result */)>;
+  using Func_void_AssetAccountsResponse = std::function<void(const AssetAccountsResponse& /* result */)>;
   /**
-   * Wrapper class for a `std::function<void(const std::vector<AssetAccount>& / * result * /)>`, this can be used from Swift.
+   * Wrapper class for a `std::function<void(const AssetAccountsResponse& / * result * /)>`, this can be used from Swift.
    */
-  class Func_void_std__vector_AssetAccount__Wrapper final {
+  class Func_void_AssetAccountsResponse_Wrapper final {
   public:
-    explicit Func_void_std__vector_AssetAccount__Wrapper(std::function<void(const std::vector<AssetAccount>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<AssetAccount>& /* result */)>>(std::move(func))) {}
-    inline void call(std::vector<AssetAccount> result) const {
+    explicit Func_void_AssetAccountsResponse_Wrapper(std::function<void(const AssetAccountsResponse& /* result */)>&& func): _function(std::make_shared<std::function<void(const AssetAccountsResponse& /* result */)>>(std::move(func))) {}
+    inline void call(AssetAccountsResponse result) const {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const std::vector<AssetAccount>& /* result */)>> _function;
+    std::shared_ptr<std::function<void(const AssetAccountsResponse& /* result */)>> _function;
   };
-  Func_void_std__vector_AssetAccount_ create_Func_void_std__vector_AssetAccount_(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__vector_AssetAccount__Wrapper wrap_Func_void_std__vector_AssetAccount_(Func_void_std__vector_AssetAccount_ value) {
-    return Func_void_std__vector_AssetAccount__Wrapper(std::move(value));
+  Func_void_AssetAccountsResponse create_Func_void_AssetAccountsResponse(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_AssetAccountsResponse_Wrapper wrap_Func_void_AssetAccountsResponse(Func_void_AssetAccountsResponse value) {
+    return Func_void_AssetAccountsResponse_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::optional<AssetAccountKind>
@@ -606,38 +632,38 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return vector;
   }
   
-  // pragma MARK: std::shared_ptr<Promise<std::vector<Trade>>>
+  // pragma MARK: std::shared_ptr<Promise<TradesResponse>>
   /**
-   * Specialized version of `std::shared_ptr<Promise<std::vector<Trade>>>`.
+   * Specialized version of `std::shared_ptr<Promise<TradesResponse>>`.
    */
-  using std__shared_ptr_Promise_std__vector_Trade___ = std::shared_ptr<Promise<std::vector<Trade>>>;
-  inline std::shared_ptr<Promise<std::vector<Trade>>> create_std__shared_ptr_Promise_std__vector_Trade___() {
-    return Promise<std::vector<Trade>>::create();
+  using std__shared_ptr_Promise_TradesResponse__ = std::shared_ptr<Promise<TradesResponse>>;
+  inline std::shared_ptr<Promise<TradesResponse>> create_std__shared_ptr_Promise_TradesResponse__() {
+    return Promise<TradesResponse>::create();
   }
-  inline PromiseHolder<std::vector<Trade>> wrap_std__shared_ptr_Promise_std__vector_Trade___(std::shared_ptr<Promise<std::vector<Trade>>> promise) {
-    return PromiseHolder<std::vector<Trade>>(std::move(promise));
+  inline PromiseHolder<TradesResponse> wrap_std__shared_ptr_Promise_TradesResponse__(std::shared_ptr<Promise<TradesResponse>> promise) {
+    return PromiseHolder<TradesResponse>(std::move(promise));
   }
   
-  // pragma MARK: std::function<void(const std::vector<Trade>& /* result */)>
+  // pragma MARK: std::function<void(const TradesResponse& /* result */)>
   /**
-   * Specialized version of `std::function<void(const std::vector<Trade>&)>`.
+   * Specialized version of `std::function<void(const TradesResponse&)>`.
    */
-  using Func_void_std__vector_Trade_ = std::function<void(const std::vector<Trade>& /* result */)>;
+  using Func_void_TradesResponse = std::function<void(const TradesResponse& /* result */)>;
   /**
-   * Wrapper class for a `std::function<void(const std::vector<Trade>& / * result * /)>`, this can be used from Swift.
+   * Wrapper class for a `std::function<void(const TradesResponse& / * result * /)>`, this can be used from Swift.
    */
-  class Func_void_std__vector_Trade__Wrapper final {
+  class Func_void_TradesResponse_Wrapper final {
   public:
-    explicit Func_void_std__vector_Trade__Wrapper(std::function<void(const std::vector<Trade>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<Trade>& /* result */)>>(std::move(func))) {}
-    inline void call(std::vector<Trade> result) const {
+    explicit Func_void_TradesResponse_Wrapper(std::function<void(const TradesResponse& /* result */)>&& func): _function(std::make_shared<std::function<void(const TradesResponse& /* result */)>>(std::move(func))) {}
+    inline void call(TradesResponse result) const {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const std::vector<Trade>& /* result */)>> _function;
+    std::shared_ptr<std::function<void(const TradesResponse& /* result */)>> _function;
   };
-  Func_void_std__vector_Trade_ create_Func_void_std__vector_Trade_(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__vector_Trade__Wrapper wrap_Func_void_std__vector_Trade_(Func_void_std__vector_Trade_ value) {
-    return Func_void_std__vector_Trade__Wrapper(std::move(value));
+  Func_void_TradesResponse create_Func_void_TradesResponse(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_TradesResponse_Wrapper wrap_Func_void_TradesResponse(Func_void_TradesResponse value) {
+    return Func_void_TradesResponse_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::shared_ptr<Promise<Trade>>
@@ -730,38 +756,38 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return vector;
   }
   
-  // pragma MARK: std::shared_ptr<Promise<std::vector<TradeQuote>>>
+  // pragma MARK: std::shared_ptr<Promise<TradeQuotesResponse>>
   /**
-   * Specialized version of `std::shared_ptr<Promise<std::vector<TradeQuote>>>`.
+   * Specialized version of `std::shared_ptr<Promise<TradeQuotesResponse>>`.
    */
-  using std__shared_ptr_Promise_std__vector_TradeQuote___ = std::shared_ptr<Promise<std::vector<TradeQuote>>>;
-  inline std::shared_ptr<Promise<std::vector<TradeQuote>>> create_std__shared_ptr_Promise_std__vector_TradeQuote___() {
-    return Promise<std::vector<TradeQuote>>::create();
+  using std__shared_ptr_Promise_TradeQuotesResponse__ = std::shared_ptr<Promise<TradeQuotesResponse>>;
+  inline std::shared_ptr<Promise<TradeQuotesResponse>> create_std__shared_ptr_Promise_TradeQuotesResponse__() {
+    return Promise<TradeQuotesResponse>::create();
   }
-  inline PromiseHolder<std::vector<TradeQuote>> wrap_std__shared_ptr_Promise_std__vector_TradeQuote___(std::shared_ptr<Promise<std::vector<TradeQuote>>> promise) {
-    return PromiseHolder<std::vector<TradeQuote>>(std::move(promise));
+  inline PromiseHolder<TradeQuotesResponse> wrap_std__shared_ptr_Promise_TradeQuotesResponse__(std::shared_ptr<Promise<TradeQuotesResponse>> promise) {
+    return PromiseHolder<TradeQuotesResponse>(std::move(promise));
   }
   
-  // pragma MARK: std::function<void(const std::vector<TradeQuote>& /* result */)>
+  // pragma MARK: std::function<void(const TradeQuotesResponse& /* result */)>
   /**
-   * Specialized version of `std::function<void(const std::vector<TradeQuote>&)>`.
+   * Specialized version of `std::function<void(const TradeQuotesResponse&)>`.
    */
-  using Func_void_std__vector_TradeQuote_ = std::function<void(const std::vector<TradeQuote>& /* result */)>;
+  using Func_void_TradeQuotesResponse = std::function<void(const TradeQuotesResponse& /* result */)>;
   /**
-   * Wrapper class for a `std::function<void(const std::vector<TradeQuote>& / * result * /)>`, this can be used from Swift.
+   * Wrapper class for a `std::function<void(const TradeQuotesResponse& / * result * /)>`, this can be used from Swift.
    */
-  class Func_void_std__vector_TradeQuote__Wrapper final {
+  class Func_void_TradeQuotesResponse_Wrapper final {
   public:
-    explicit Func_void_std__vector_TradeQuote__Wrapper(std::function<void(const std::vector<TradeQuote>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<TradeQuote>& /* result */)>>(std::move(func))) {}
-    inline void call(std::vector<TradeQuote> result) const {
+    explicit Func_void_TradeQuotesResponse_Wrapper(std::function<void(const TradeQuotesResponse& /* result */)>&& func): _function(std::make_shared<std::function<void(const TradeQuotesResponse& /* result */)>>(std::move(func))) {}
+    inline void call(TradeQuotesResponse result) const {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const std::vector<TradeQuote>& /* result */)>> _function;
+    std::shared_ptr<std::function<void(const TradeQuotesResponse& /* result */)>> _function;
   };
-  Func_void_std__vector_TradeQuote_ create_Func_void_std__vector_TradeQuote_(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__vector_TradeQuote__Wrapper wrap_Func_void_std__vector_TradeQuote_(Func_void_std__vector_TradeQuote_ value) {
-    return Func_void_std__vector_TradeQuote__Wrapper(std::move(value));
+  Func_void_TradeQuotesResponse create_Func_void_TradeQuotesResponse(void* _Nonnull swiftClosureWrapper);
+  inline Func_void_TradeQuotesResponse_Wrapper wrap_Func_void_TradeQuotesResponse(Func_void_TradeQuotesResponse value) {
+    return Func_void_TradeQuotesResponse_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::optional<FiatAssetQuoteRequest>
@@ -945,13 +971,13 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Result<std::shared_ptr<Promise<void>>>::withError(error);
   }
   
-  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<AssetAccount>>>>
-  using Result_std__shared_ptr_Promise_std__vector_AssetAccount____ = Result<std::shared_ptr<Promise<std::vector<AssetAccount>>>>;
-  inline Result_std__shared_ptr_Promise_std__vector_AssetAccount____ create_Result_std__shared_ptr_Promise_std__vector_AssetAccount____(const std::shared_ptr<Promise<std::vector<AssetAccount>>>& value) {
-    return Result<std::shared_ptr<Promise<std::vector<AssetAccount>>>>::withValue(value);
+  // pragma MARK: Result<std::shared_ptr<Promise<AssetAccountsResponse>>>
+  using Result_std__shared_ptr_Promise_AssetAccountsResponse___ = Result<std::shared_ptr<Promise<AssetAccountsResponse>>>;
+  inline Result_std__shared_ptr_Promise_AssetAccountsResponse___ create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(const std::shared_ptr<Promise<AssetAccountsResponse>>& value) {
+    return Result<std::shared_ptr<Promise<AssetAccountsResponse>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_std__vector_AssetAccount____ create_Result_std__shared_ptr_Promise_std__vector_AssetAccount____(const std::exception_ptr& error) {
-    return Result<std::shared_ptr<Promise<std::vector<AssetAccount>>>>::withError(error);
+  inline Result_std__shared_ptr_Promise_AssetAccountsResponse___ create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(const std::exception_ptr& error) {
+    return Result<std::shared_ptr<Promise<AssetAccountsResponse>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<AssetAccount>>>
@@ -963,13 +989,13 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Result<std::shared_ptr<Promise<AssetAccount>>>::withError(error);
   }
   
-  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<Trade>>>>
-  using Result_std__shared_ptr_Promise_std__vector_Trade____ = Result<std::shared_ptr<Promise<std::vector<Trade>>>>;
-  inline Result_std__shared_ptr_Promise_std__vector_Trade____ create_Result_std__shared_ptr_Promise_std__vector_Trade____(const std::shared_ptr<Promise<std::vector<Trade>>>& value) {
-    return Result<std::shared_ptr<Promise<std::vector<Trade>>>>::withValue(value);
+  // pragma MARK: Result<std::shared_ptr<Promise<TradesResponse>>>
+  using Result_std__shared_ptr_Promise_TradesResponse___ = Result<std::shared_ptr<Promise<TradesResponse>>>;
+  inline Result_std__shared_ptr_Promise_TradesResponse___ create_Result_std__shared_ptr_Promise_TradesResponse___(const std::shared_ptr<Promise<TradesResponse>>& value) {
+    return Result<std::shared_ptr<Promise<TradesResponse>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_std__vector_Trade____ create_Result_std__shared_ptr_Promise_std__vector_Trade____(const std::exception_ptr& error) {
-    return Result<std::shared_ptr<Promise<std::vector<Trade>>>>::withError(error);
+  inline Result_std__shared_ptr_Promise_TradesResponse___ create_Result_std__shared_ptr_Promise_TradesResponse___(const std::exception_ptr& error) {
+    return Result<std::shared_ptr<Promise<TradesResponse>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<Trade>>>
@@ -981,13 +1007,13 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return Result<std::shared_ptr<Promise<Trade>>>::withError(error);
   }
   
-  // pragma MARK: Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>
-  using Result_std__shared_ptr_Promise_std__vector_TradeQuote____ = Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>;
-  inline Result_std__shared_ptr_Promise_std__vector_TradeQuote____ create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(const std::shared_ptr<Promise<std::vector<TradeQuote>>>& value) {
-    return Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>::withValue(value);
+  // pragma MARK: Result<std::shared_ptr<Promise<TradeQuotesResponse>>>
+  using Result_std__shared_ptr_Promise_TradeQuotesResponse___ = Result<std::shared_ptr<Promise<TradeQuotesResponse>>>;
+  inline Result_std__shared_ptr_Promise_TradeQuotesResponse___ create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(const std::shared_ptr<Promise<TradeQuotesResponse>>& value) {
+    return Result<std::shared_ptr<Promise<TradeQuotesResponse>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_std__vector_TradeQuote____ create_Result_std__shared_ptr_Promise_std__vector_TradeQuote____(const std::exception_ptr& error) {
-    return Result<std::shared_ptr<Promise<std::vector<TradeQuote>>>>::withError(error);
+  inline Result_std__shared_ptr_Promise_TradeQuotesResponse___ create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(const std::exception_ptr& error) {
+    return Result<std::shared_ptr<Promise<TradeQuotesResponse>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>>>
