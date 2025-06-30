@@ -187,12 +187,13 @@ export class CandleClient {
     assetAccounts: AssetAccount[];
     linkedAccounts: LinkedAccountStatusRef[];
   }> {
-    const accounts = await this.candle.getAssetAccounts(query);
+    const { assetAccounts, linkedAccounts } =
+      await this.candle.getAssetAccounts(query);
     return {
-      assetAccounts: accounts.assetAccounts.map((account) =>
+      assetAccounts: assetAccounts.map((account) =>
         this.convertToAssetAccount(account)
       ),
-      linkedAccounts: accounts.linkedAccounts,
+      linkedAccounts,
     };
   }
 
@@ -205,18 +206,16 @@ export class CandleClient {
     trades: Trade[];
     linkedAccounts: LinkedAccountStatusRef[];
   }> {
-    const trades = await this.candle.getTrades(query);
+    const { trades, linkedAccounts } = await this.candle.getTrades(query);
     return {
-      trades: trades.trades.map(
-        ({ dateTime, counterparty, gained, lost, state }) => ({
-          dateTime,
-          state,
-          counterparty: this.convertToCounterparty(counterparty),
-          lost: this.convertTradeAsset(lost),
-          gained: this.convertTradeAsset(gained),
-        })
-      ),
-      linkedAccounts: trades.linkedAccounts,
+      trades: trades.map(({ dateTime, counterparty, gained, lost, state }) => ({
+        dateTime,
+        state,
+        counterparty: this.convertToCounterparty(counterparty),
+        lost: this.convertTradeAsset(lost),
+        gained: this.convertTradeAsset(gained),
+      })),
+      linkedAccounts,
     };
   }
 
@@ -268,13 +267,13 @@ export class CandleClient {
         break;
     }
 
-    const quotes = await this.candle.getTradeQuotes({
+    const { linkedAccounts, tradeQuotes } = await this.candle.getTradeQuotes({
       linkedAccountIDs: request.linkedAccountIDs,
       gained: gainedRequest,
     });
 
     return {
-      tradeQuotes: quotes.tradeQuotes.map((quote) => {
+      tradeQuotes: tradeQuotes.map((quote) => {
         return {
           gained: this.convertTradeAsset(quote.gained),
           lost: this.convertTradeAsset(quote.lost),
@@ -282,7 +281,7 @@ export class CandleClient {
           expirationDateTime: quote.expirationDateTime,
         };
       }),
-      linkedAccounts: quotes.linkedAccounts,
+      linkedAccounts,
     };
   }
 

@@ -140,7 +140,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
           case .success(let trade):
             completion(
               .init(
-                trade: trade.toTrade,
+                trade: trade.toRNModel,
                 error: nil
               )
             )
@@ -214,11 +214,11 @@ final class HybridRNCandle: HybridRNCandleSpec {
     .async {
       let trade = try await self.viewModel.candleClient.getTrade(
         ref: .init(
-          lost: try ref.lost.toTradeAssetRef,
-          gained: try ref.gained.toTradeAssetRef
+          lost: try ref.lost.toRNModelAssetRef,
+          gained: try ref.gained.toRNModelAssetRef
         )
       )
-      return trade.toTrade
+      return trade.toRNModel
     }
   }
 
@@ -235,7 +235,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
       return TradesResponse(
         linkedAccounts:
           trades.linkedAccounts.map(\.toRNModel),
-        trades: trades.trades.map(\.toTrade)
+        trades: trades.trades.map(\.toRNModel)
       )
     }
   }
@@ -256,8 +256,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
         tradeQuotes:
           accounts.tradeQuotes.map { account in
             TradeQuote(
-              lost: account.lost.toAsset,
-              gained: account.gained.toAsset,
+              lost: account.lost.toRNModel,
+              gained: account.gained.toRNModel,
               context: account.context,
               expirationDateTime: account.expirationDateTime
             )
@@ -362,7 +362,7 @@ extension Encodable {
 
 extension Candle.Models.LinkedAccount {
   var toLinkedAccount: LinkedAccount {
-    let service: Service = self.service.toService
+    let service: Service = self.service.toRNModel
     switch details {
     case .ActiveLinkedAccountDetails(let details):
       return LinkedAccount(
@@ -442,7 +442,7 @@ extension Models.Trade {
         userCounterparty: nil,
         serviceCounterparty: .init(
           kind: service.kind.rawValue,
-          service: service.service.toService
+          service: service.service.toRNModel
         )
       )
     case .UserCounterparty(let user):
@@ -461,7 +461,7 @@ extension Models.Trade {
 }
 
 extension Models.TradeAsset {
-  var toAsset: TradeAsset {
+  var toRNModel: TradeAsset {
     switch self {
     case .FiatAsset(let fiatAsset):
       return .init(
@@ -472,7 +472,7 @@ extension Models.TradeAsset {
           currencyCode: fiatAsset.currencyCode,
           amount: fiatAsset.amount,
           linkedAccountID: fiatAsset.linkedAccountID,
-          service: fiatAsset.service.toService
+          service: fiatAsset.service.toRNModel
         ),
         marketTradeAsset: nil,
         transportAsset: nil,
@@ -493,7 +493,7 @@ extension Models.TradeAsset {
           name: marketAsset.name,
           color: marketAsset.color,
           logoURL: marketAsset.logoURL,
-          service: marketAsset.service.toService
+          service: marketAsset.service.toRNModel
         ),
         transportAsset: nil,
         otherAsset: nil,
@@ -528,7 +528,7 @@ extension Models.TradeAsset {
           departureDateTime: transportAsset.departureDateTime,
           arrivalDateTime: transportAsset.arrivalDateTime,
           linkedAccountID: transportAsset.linkedAccountID,
-          service: transportAsset.service.toService
+          service: transportAsset.service.toRNModel
         ),
         otherAsset: nil,
         nothingAsset: nil
@@ -554,13 +554,13 @@ extension Models.TradeAsset {
 }
 
 extension Models.Trade {
-  var toTrade: Trade {
+  var toRNModel: Trade {
     .init(
       dateTime: dateTime,
       state: state.toRNModel,
       counterparty: toCounterparty,
-      lost: lost.toAsset,
-      gained: gained.toAsset
+      lost: lost.toRNModel,
+      gained: gained.toRNModel
     )
   }
 }
@@ -646,7 +646,7 @@ extension Coordinates {
 }
 
 extension Service {
-  var toService: Models.Service {
+  var toRNModel: Models.Service {
     switch self {
     case .apple:
       return .apple
@@ -813,7 +813,7 @@ extension Service {
 }
 
 extension Models.Service {
-  var toService: Service {
+  var toRNModel: Service {
     switch self {
     case .apple:
       return .apple
@@ -1090,7 +1090,7 @@ extension Models.AssetAccount {
             ach: ach,
             wire: wire,
             linkedAccountID: fiatDetails.linkedAccountID,
-            service: fiatDetails.service.toService),
+            service: fiatDetails.service.toRNModel),
           marketAccountDetails: nil
         )
       )
@@ -1105,7 +1105,7 @@ extension Models.AssetAccount {
             serviceAccountID: marketDetails
               .serviceAccountID,
             linkedAccountID: marketDetails.linkedAccountID,
-            service: marketDetails.service.toService
+            service: marketDetails.service.toRNModel
           )
         )
       )
@@ -1114,7 +1114,7 @@ extension Models.AssetAccount {
 }
 
 extension TradeAssetRef {
-  var toTradeAssetRef: Models.TradeAssetRef {
+  var toRNModelAssetRef: Models.TradeAssetRef {
     get throws {
       if let fiatAssetRef {
         return .FiatAssetRef(
@@ -1171,7 +1171,7 @@ extension TradeAsset {
             currencyCode: fiat.currencyCode,
             amount: fiat.amount,
             linkedAccountID: fiat.linkedAccountID,
-            service: fiat.service.toService
+            service: fiat.service.toRNModel
           )
         )
       } else if let market = marketTradeAsset {
@@ -1188,7 +1188,7 @@ extension TradeAsset {
             amount: market.amount,
             serviceTradeID: market.serviceTradeID,
             linkedAccountID: market.linkedAccountID,
-            service: market.service.toService,
+            service: market.service.toRNModel,
             name: market.name,
             color: market.color,
             logoURL: market.logoURL
@@ -1217,7 +1217,7 @@ extension TradeAsset {
             departureDateTime: transport.departureDateTime,
             arrivalDateTime: transport.arrivalDateTime,
             linkedAccountID: transport.linkedAccountID,
-            service: transport.service.toService,
+            service: transport.service.toRNModel,
           )
         )
       } else if otherAsset != nil {
@@ -1243,7 +1243,7 @@ extension TradeQuote {
 }
 
 extension Components.Schemas.LinkedAccountStatusRef.StatePayload {
-  var toStatePayload: StatePayload {
+  var toRNModel: StatePayload {
     switch self {
     case .active: return .active
     case .inactive: return .inactive
@@ -1256,9 +1256,9 @@ extension Models.LinkedAccountStatusRef {
   var toRNModel: LinkedAccountStatusRef {
     .init(
       linkedAccountID: linkedAccountID,
-      service: service.toService,
+      service: service.toRNModel,
       serviceUserID: serviceUserID,
-      state: state.toStatePayload
+      state: state.toRNModel
     )
   }
 }
