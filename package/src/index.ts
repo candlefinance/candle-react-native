@@ -39,6 +39,8 @@ import type {
   MarketTradeAssetRef,
   TradeAssetRef as InternalTradeAssetRef,
   LinkedAccountStatusRef,
+  Coordinates,
+  Address,
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -539,4 +541,6 @@ export type {
   Counterparty,
   AssetAccount,
   TradeQuote,
+  Coordinates,
+  Address,
 };

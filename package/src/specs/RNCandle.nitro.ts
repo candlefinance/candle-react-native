@@ -85,12 +85,12 @@ export type MarketTradeAsset = {
   service: Service;
 };
 
-type Coordinates = {
+export type Coordinates = {
   latitude: number;
   longitude: number;
 };
 
-type Address = {
+export type Address = {
   value: string;
 };
 
