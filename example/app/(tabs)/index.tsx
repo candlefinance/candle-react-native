@@ -148,6 +148,9 @@ export default function TabOneScreen() {
                   longitude: -74.006,
                 },
               },
+              lost: {
+                assetKind: "fiat",
+              },
             })
             .then((quote) => {
               console.log("Trade quotes:", quote.linkedAccounts);

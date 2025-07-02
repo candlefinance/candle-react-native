@@ -218,6 +218,7 @@ export type TradeAssetQuoteRequest = {
 export type TradeQuoteRequest = {
   linkedAccountIDs?: string;
   gained: TradeAssetQuoteRequest;
+  lost: TradeAssetQuoteRequest;
 };
 
 export type ExecuteTradeRequest = {
@@ -225,9 +226,9 @@ export type ExecuteTradeRequest = {
   context: string;
 };
 
-export type TradeQuote = {
-  lost: TradeAsset;
-  gained: TradeAsset;
+export type TradeQuote<AssetKind extends 'nothing' | 'transport' | 'fiat' | 'stock' | 'crypto', GainedAssetKind extends AssetKind, LostAssetKind extends AssetKind> = {
+  lost: TradeAsset & { assetKind: LostAssetKind };
+  gained: TradeAsset & { assetKind: GainedAssetKind };
   context: string;
   expirationDateTime: string;
 };

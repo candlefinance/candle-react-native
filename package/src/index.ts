@@ -1,46 +1,44 @@
 import { NitroModules } from "react-native-nitro-modules";
 import type {
+  ACHDetails,
+  ActiveLinkedAccountDetails,
   AppUser,
-  AssetAccount as InternalAssetAccount,
   AssetAccountQuery,
+  AssetAccountRef,
   FiatAsset,
   FiatAssetQuoteRequest,
+  FiatAssetRef,
+  AssetAccount as InternalAssetAccount,
+  Counterparty as InternalCounterparty,
+  TradeAsset as InternalTradeAsset,
+  TradeAssetRef as InternalTradeAssetRef,
+  TradeQuery as InternalTradeQuery,
+  TradeQuote as InternalTradeQuote,
+  LegalAccountKind,
   LinkedAccount,
+  LinkedAccountRef,
+  LinkedAccountStatusRef,
   MarketAssetQuoteRequest,
   MarketTradeAsset,
+  MarketTradeAssetRef,
+  MerchantCounterparty,
   NothingAsset,
   NothingAssetQuoteRequest,
+  NothingAssetRef,
   OtherAsset,
+  OtherAssetRef,
   PresentationBackground,
   PresentationStyle,
   RNCandle,
   Service,
-  TradeAsset as InternalTradeAsset,
+  ServiceCounterparty,
   TradeAssetQuoteRequest,
-  TradeQuery as InternalTradeQuery,
-  TradeQuote as InternalTradeQuote,
+  TradeState,
   TransportAsset,
   TransportAssetQuoteRequest,
-  LegalAccountKind,
-  WireDetails,
-  ACHDetails,
-  TradeState,
-  MerchantCounterparty,
-  UserCounterparty,
-  ServiceCounterparty,
-  Counterparty as InternalCounterparty,
-  ActiveLinkedAccountDetails,
-  AssetAccountRef,
-  LinkedAccountRef,
-  NothingAssetRef,
   TransportAssetRef,
-  OtherAssetRef,
-  FiatAssetRef,
-  MarketTradeAssetRef,
-  TradeAssetRef as InternalTradeAssetRef,
-  LinkedAccountStatusRef,
-  Coordinates,
-  Address,
+  UserCounterparty,
+  WireDetails
 } from "./specs/RNCandle.nitro";
 
 export class CandleClient {
@@ -53,8 +51,8 @@ export class CandleClient {
     this.candle.initialize(appUser, accessGroup);
   }
 
-  public presentTradeExecutionSheet(input: {
-    tradeQuote: TradeQuote;
+  public presentTradeExecutionSheet<AssetKind extends 'nothing' | 'transport' | 'fiat' | 'stock' | 'crypto', GainedAssetKind extends AssetKind, LostAssetKind extends AssetKind>(input: {
+    tradeQuote: TradeQuote<AssetKind, GainedAssetKind, LostAssetKind>;
     presentationBackground?: PresentationBackground;
     completion?: (
       result: ({ kind: "success" } & Trade) | { kind: "failure"; error: string }
@@ -238,17 +236,12 @@ export class CandleClient {
     };
   }
 
-  public async getTradeQuotes(request: {
+  public async getTradeQuotes<AssetKind extends 'nothing' | 'transport' | 'fiat' | 'stock' | 'crypto', GainedAssetKind extends AssetKind, LostAssetKind extends AssetKind>(request: {
     linkedAccountIDs?: string;
-    gained:
-      | ({
-          assetKind: "nothing";
-        } & NothingAssetQuoteRequest)
-      | ({ assetKind: "transport" } & TransportAssetQuoteRequest)
-      | ({ assetKind: "fiat" } & FiatAssetQuoteRequest)
-      | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest);
+    gained: { assetKind: GainedAssetKind} & AssetQuoteRequest;
+    lost: { assetKind: LostAssetKind } & AssetQuoteRequest;
   }): Promise<{
-    tradeQuotes: TradeQuote[];
+    tradeQuotes: TradeQuote<AssetKind, GainedAssetKind, LostAssetKind>[];
     linkedAccounts: LinkedAccountStatusRef[];
   }> {
     let gainedRequest: TradeAssetQuoteRequest;
@@ -269,9 +262,28 @@ export class CandleClient {
         break;
     }
 
+    let lostRequest: TradeAssetQuoteRequest;
+
+    switch (request.lost.assetKind) {
+      case "fiat":
+        lostRequest = { fiatAssetQuoteRequest: request.lost };
+        break;
+      case "stock":
+      case "crypto":
+        lostRequest = { marketAssetQuoteRequest: request.lost };
+        break;
+      case "transport":
+        lostRequest = { transportAssetQuoteRequest: request.lost };
+        break;
+      case "nothing":
+        lostRequest = { nothingAssetQuoteRequest: request.lost };
+        break;
+    }
+
     const { linkedAccounts, tradeQuotes } = await this.candle.getTradeQuotes({
       linkedAccountIDs: request.linkedAccountIDs,
       gained: gainedRequest,
+      lost: lostRequest,
     });
 
     return {
@@ -352,7 +364,7 @@ export class CandleClient {
     }
   }
 
-  private convertTradeQuote(tradeQuote: TradeQuote): InternalTradeQuote {
+  private convertTradeQuote<AssetKind extends 'nothing' | 'transport' | 'fiat' | 'stock' | 'crypto', GainedAssetKind extends AssetKind, LostAssetKind extends AssetKind>(tradeQuote: TradeQuote<AssetKind, GainedAssetKind, LostAssetKind>): InternalTradeQuote<AssetKind, GainedAssetKind, LostAssetKind> {
     const { context, gained, lost } = tradeQuote;
     return {
       context,
@@ -449,6 +461,15 @@ export class CandleClient {
   }
 }
 
+type AssetQuoteRequest = 
+    | ({
+        assetKind: "nothing";
+      } & NothingAssetQuoteRequest)
+    | ({ assetKind: "transport" } & TransportAssetQuoteRequest)
+    | ({ assetKind: "fiat" } & FiatAssetQuoteRequest)
+    | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest)
+
+
 type TradeAsset =
   | ({
       assetKind: "nothing";
@@ -475,9 +496,9 @@ type TradeQuery = {
   counterpartyKind?: "merchant" | "user" | "service";
 } & InternalTradeQuery;
 
-type TradeQuote = {
-  gained: TradeAsset;
-  lost: TradeAsset;
+type TradeQuote<AssetKind extends 'nothing' | 'transport' | 'fiat' | 'stock' | 'crypto', GainedAssetKind extends AssetKind, LostAssetKind extends AssetKind> = {
+  gained: TradeAsset & { assetKind: GainedAssetKind };
+  lost: TradeAsset & { assetKind: LostAssetKind };
   context: string;
   expirationDateTime: string;
 };
@@ -528,19 +549,5 @@ type TradeAssetRef =
   | ({ assetKind: "stock" | "crypto" } & MarketTradeAssetRef);
 
 export type {
-  LinkedAccountRef,
-  AssetAccountRef,
-  TradeAssetRef,
-  LinkedAccount,
-  AppUser,
-  Service,
-  TradeState,
-  TradeAsset,
-  Trade,
-  TradeQuery,
-  Counterparty,
-  AssetAccount,
-  TradeQuote,
-  Coordinates,
-  Address,
+  AppUser, AssetAccount, AssetAccountRef, Counterparty, LinkedAccount, LinkedAccountRef, Service, Trade, TradeAsset, TradeAssetRef, TradeQuery, TradeQuote, TradeState
 };
