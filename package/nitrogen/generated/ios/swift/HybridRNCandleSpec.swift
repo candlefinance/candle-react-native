@@ -21,7 +21,7 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
   func candleTradeExecutionSheet(
     tradeQuote: TradeQuote, presentationBackground: PresentationBackground,
     completion: @escaping (_ result: TradeExecutionResult) -> Void) throws
-  func initialize(appUser: AppUser) throws
+  func initialize(appUser: AppUser, accessGroup: String?) throws
   func getLinkedAccounts() throws -> Promise<[LinkedAccount]>
   func getLinkedAccount(ref: LinkedAccountRef) throws -> Promise<LinkedAccount>
   func unlinkAccount(ref: LinkedAccountRef) throws -> Promise<Void>

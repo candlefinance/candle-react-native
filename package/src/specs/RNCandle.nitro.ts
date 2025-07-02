@@ -447,7 +447,7 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
     presentationBackground: PresentationBackground,
     completion: (result: TradeExecutionResult) => void
   ): void;
-  initialize(appUser: AppUser): void;
+  initialize(appUser: AppUser, accessGroup: string | undefined): void;
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount>;
   unlinkAccount(ref: LinkedAccountRef): Promise<void>;

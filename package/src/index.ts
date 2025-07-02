@@ -44,11 +44,11 @@ import type {
 export class CandleClient {
   private candle: RNCandle;
 
-  constructor(appUser: AppUser) {
+  constructor(appUser: AppUser, accessGroup: string | undefined = undefined) {
     const CandleHybridObject =
       NitroModules.createHybridObject<RNCandle>("RNCandle");
     this.candle = CandleHybridObject;
-    this.candle.initialize(appUser);
+    this.candle.initialize(appUser, accessGroup);
   }
 
   public presentTradeExecutionSheet(input: {
