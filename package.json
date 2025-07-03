@@ -59,8 +59,7 @@
     "@release-it/bumper": "^6.0.1",
     "@release-it/conventional-changelog": "^9.0.3",
     "release-it": "17.0.0",
-    "typescript": "^5.7.3",
-    "bun": "^1.2.17"
+    "typescript": "^5.7.3"
   },
   "release-it": {
     "npm": {
