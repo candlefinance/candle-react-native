@@ -187,21 +187,18 @@ export default function TabOneScreen() {
             Alert.alert("Error", "Trade quote is not set.");
             return;
           }
-          candleClient.presentTradeExecutionSheet({
-            tradeQuote,
-            presentationBackground: "blur",
-            completion: (result) => {
-              switch (result.kind) {
-                case "success":
-                  console.log("Trade executed successfully:", result);
-                  break;
-                case "failure":
-                  console.error("Error executing trade:", result);
-                  Alert.alert("Error", result.error);
-                  break;
-              }
-            },
-          });
+          candleClient
+            .executeTrade({
+              tradeQuote,
+              presentationBackground: "blur",
+            })
+            .then((resultTrade) => {
+              console.log("Trade executed successfully:", resultTrade);
+            })
+            .catch((error) => {
+              console.error("Error executing trade:", error);
+              Alert.alert("Error", `${error}`);
+            });
         }}
       />
     </View>

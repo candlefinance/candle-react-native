@@ -1,5 +1,7 @@
 import type { AnyMap, HybridObject } from "react-native-nitro-modules";
 
+export type AssetKind = "nothing" | "transport" | "fiat" | "stock" | "crypto";
+
 export type AppUser = {
   appKey: string;
   appSecret: string;
@@ -226,9 +228,9 @@ export type ExecuteTradeRequest = {
   context: string;
 };
 
-export type TradeQuote<AssetKind extends 'nothing' | 'transport' | 'fiat' | 'stock' | 'crypto', GainedAssetKind extends AssetKind, LostAssetKind extends AssetKind> = {
-  lost: TradeAsset & { assetKind: LostAssetKind };
-  gained: TradeAsset & { assetKind: GainedAssetKind };
+export type TradeQuote = {
+  lost: TradeAsset;
+  gained: TradeAsset;
   context: string;
   expirationDateTime: string;
 };
