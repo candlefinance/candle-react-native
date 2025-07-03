@@ -113,7 +113,7 @@ namespace margelo::nitro::rncandle {
       // Methods
       virtual void candleLinkSheet(bool isPresented, const std::optional<std::vector<Service>>& services, double cornerRadius, const std::optional<std::string>& customerName, bool showDynamicLoading, PresentationBackground presentationBackground, PresentationStyle presentationStyle, const std::function<void(const LinkedAccount& /* account */)>& onSuccess) = 0;
       virtual void candleTradeExecutionSheet(const TradeQuote& tradeQuote, PresentationBackground presentationBackground, const std::function<void(const TradeExecutionResult& /* result */)>& completion) = 0;
-      virtual void initialize(const AppUser& appUser) = 0;
+      virtual void initialize(const AppUser& appUser, const std::optional<std::string>& accessGroup) = 0;
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<LinkedAccount>> getLinkedAccount(const LinkedAccountRef& ref) = 0;
       virtual std::shared_ptr<Promise<void>> unlinkAccount(const LinkedAccountRef& ref) = 0;

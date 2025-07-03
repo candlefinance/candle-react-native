@@ -247,8 +247,8 @@ namespace margelo::nitro::rncandle {
         std::rethrow_exception(__result.error());
       }
     }
-    inline void initialize(const AppUser& appUser) override {
-      auto __result = _swiftPart.initialize(appUser);
+    inline void initialize(const AppUser& appUser, const std::optional<std::string>& accessGroup) override {
+      auto __result = _swiftPart.initialize(appUser, accessGroup);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

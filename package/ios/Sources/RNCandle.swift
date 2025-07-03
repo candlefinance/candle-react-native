@@ -29,12 +29,14 @@ final class HybridRNCandle: HybridRNCandleSpec {
 
   // MARK: - UI
 
-  public func initialize(appUser: AppUser) throws {
+  public func initialize(appUser: AppUser, accessGroup: String?) throws {
     Task { @MainActor in
       let wrapperView = CandleLinkSheetWrapper(
         appUser: .init(
           appKey: appUser.appKey, appSecret: appUser.appSecret,
-          appUserID: appUser.appUserID))
+          appUserID: appUser.appUserID),
+        accessGroup: accessGroup
+      )
       let hostingVC = UIHostingController(rootView: wrapperView)
       self.rootVC = hostingVC
       guard
@@ -1217,7 +1219,7 @@ extension TradeAsset {
             departureDateTime: transport.departureDateTime,
             arrivalDateTime: transport.arrivalDateTime,
             linkedAccountID: transport.linkedAccountID,
-            service: transport.service.toRNModel,
+            service: transport.service.toRNModel
           )
         )
       } else if otherAsset != nil {

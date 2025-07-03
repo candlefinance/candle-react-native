@@ -161,9 +161,19 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func initialize(appUser: AppUser) -> bridge.Result_void_ {
+  public final func initialize(appUser: AppUser, accessGroup: bridge.std__optional_std__string_)
+    -> bridge.Result_void_
+  {
     do {
-      try self.__implementation.initialize(appUser: appUser)
+      try self.__implementation.initialize(
+        appUser: appUser,
+        accessGroup: { () -> String? in
+          if let __unwrapped = accessGroup.value {
+            return String(__unwrapped)
+          } else {
+            return nil
+          }
+        }())
       return bridge.create_Result_void_()
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
