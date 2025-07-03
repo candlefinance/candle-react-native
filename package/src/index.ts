@@ -2,9 +2,11 @@ import { NitroModules } from "react-native-nitro-modules";
 import type {
   ACHDetails,
   ActiveLinkedAccountDetails,
+  Address,
   AppUser,
   AssetAccountQuery,
   AssetAccountRef,
+  Coordinates,
   FiatAsset,
   FiatAssetQuoteRequest,
   FiatAssetRef,
@@ -590,9 +592,11 @@ type TradeAssetRef =
   | ({ assetKind: "stock" | "crypto" } & MarketTradeAssetRef);
 
 export type {
+  Address,
   AppUser,
   AssetAccount,
   AssetAccountRef,
+  Coordinates,
   Counterparty,
   LinkedAccount,
   LinkedAccountRef,
