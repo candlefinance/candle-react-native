@@ -250,7 +250,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
         request:
           .init(
             linkedAccountIDs: request.linkedAccountIDs,
-            gained: try request.toGained
+            gained: try request.gained.toRNModel,
+            lost: try request.lost.toRNModel
           )
       )
       return TradeQuotesResponse.init(
@@ -567,69 +568,67 @@ extension Models.Trade {
   }
 }
 
-extension TradeQuoteRequest {
-  var toGained: Models.TradeAssetQuoteRequest {
-    get throws {
-      if let fiatAssetQuoteRequest = gained.fiatAssetQuoteRequest {
-        return Models.TradeAssetQuoteRequest.FiatAssetQuoteRequest(
-          .init(
-            assetKind: .fiat,
-            serviceAccountID: fiatAssetQuoteRequest
-              .serviceAccountID,
-            currencyCode: fiatAssetQuoteRequest.currencyCode,
-            amount: fiatAssetQuoteRequest.amount
-          )
-        )
-      } else if let marketAssetQuoteRequest = gained
-        .marketAssetQuoteRequest
-      {
-        guard
-          let assetKind = Models.MarketAssetQuoteRequest.AssetKindPayload(
-            rawValue: marketAssetQuoteRequest.assetKind)
-        else {
-          throw RNClientError.badEncoding
+extension TradeAssetQuoteRequest {
+    var toRNModel: Models.TradeAssetQuoteRequest {
+        get throws {
+            if let fiatAssetQuoteRequest {
+                return Models.TradeAssetQuoteRequest.FiatAssetQuoteRequest(
+                    .init(
+                        assetKind: .fiat,
+                        serviceAccountID: fiatAssetQuoteRequest
+                            .serviceAccountID,
+                        currencyCode: fiatAssetQuoteRequest.currencyCode,
+                        amount: fiatAssetQuoteRequest.amount
+                    )
+                )
+            } else if let marketAssetQuoteRequest
+            {
+                guard
+                    let assetKind = Models.MarketAssetQuoteRequest.AssetKindPayload(
+                        rawValue: marketAssetQuoteRequest.assetKind)
+                else {
+                    throw RNClientError.badEncoding
+                }
+                return Models.TradeAssetQuoteRequest.MarketAssetQuoteRequest(
+                    .init(
+                        assetKind: assetKind,
+                        serviceAccountID: marketAssetQuoteRequest
+                            .serviceAccountID,
+                        serviceAssetID: marketAssetQuoteRequest.serviceAssetID,
+                        symbol: marketAssetQuoteRequest.symbol,
+                        amount: marketAssetQuoteRequest.amount
+                    )
+                )
+            } else if nothingAssetQuoteRequest != nil {
+                return Models.TradeAssetQuoteRequest.NothingAssetQuoteRequest(
+                    .init(assetKind: .nothing)
+                )
+            } else if let transportAssetQuoteRequest
+            {
+                return Models.TradeAssetQuoteRequest.TransportAssetQuoteRequest(
+                    .init(
+                        assetKind: .transport,
+                        serviceAssetID: transportAssetQuoteRequest
+                            .serviceAssetID,
+                        originCoordinates: transportAssetQuoteRequest
+                            .originCoordinates?.toCoordinates,
+                        originAddress: transportAssetQuoteRequest.originAddress?
+                            .toAddress,
+                        destinationCoordinates: transportAssetQuoteRequest
+                            .destinationCoordinates?
+                            .toCoordinates,
+                        destinationAddress: transportAssetQuoteRequest
+                            .destinationAddress?.toAddress,
+                        seats: transportAssetQuoteRequest.seats
+                    )
+                )
+            } else {
+                throw RNClientError.badInitialization(
+                    message:
+                        "Internal Candle Error: corrupted trade quote request.")
+            }
         }
-        return Models.TradeAssetQuoteRequest.MarketAssetQuoteRequest(
-          .init(
-            assetKind: assetKind,
-            serviceAccountID: marketAssetQuoteRequest
-              .serviceAccountID,
-            serviceAssetID: marketAssetQuoteRequest.serviceAssetID,
-            symbol: marketAssetQuoteRequest.symbol,
-            amount: marketAssetQuoteRequest.amount
-          )
-        )
-      } else if gained.nothingAssetQuoteRequest != nil {
-        return Models.TradeAssetQuoteRequest.NothingAssetQuoteRequest(
-          .init(assetKind: .nothing)
-        )
-      } else if let transportAssetQuoteRequest = gained
-        .transportAssetQuoteRequest
-      {
-        return Models.TradeAssetQuoteRequest.TransportAssetQuoteRequest(
-          .init(
-            assetKind: .transport,
-            serviceAssetID: transportAssetQuoteRequest
-              .serviceAssetID,
-            originCoordinates: transportAssetQuoteRequest
-              .originCoordinates?.toCoordinates,
-            originAddress: transportAssetQuoteRequest.originAddress?
-              .toAddress,
-            destinationCoordinates: transportAssetQuoteRequest
-              .destinationCoordinates?
-              .toCoordinates,
-            destinationAddress: transportAssetQuoteRequest
-              .destinationAddress?.toAddress,
-            seats: transportAssetQuoteRequest.seats
-          )
-        )
-      } else {
-        throw RNClientError.badInitialization(
-          message:
-            "Internal Candle Error: corrupted trade quote request.")
-      }
     }
-  }
 }
 
 extension Address {
