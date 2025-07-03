@@ -1,7 +1,5 @@
 import type { AnyMap, HybridObject } from "react-native-nitro-modules";
 
-export type AssetKind = "nothing" | "transport" | "fiat" | "stock" | "crypto";
-
 export type AppUser = {
   appKey: string;
   appSecret: string;

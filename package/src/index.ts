@@ -5,7 +5,6 @@ import type {
   AppUser,
   AssetAccountQuery,
   AssetAccountRef,
-  AssetKind,
   FiatAsset,
   FiatAssetQuoteRequest,
   FiatAssetRef,
@@ -498,6 +497,8 @@ export class CandleClient {
     }
   }
 }
+
+type AssetKind = "nothing" | "transport" | "fiat" | "stock" | "crypto";
 
 type AssetQuoteRequest =
   | ({
