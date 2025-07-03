@@ -1219,7 +1219,7 @@ extension TradeAsset {
             departureDateTime: transport.departureDateTime,
             arrivalDateTime: transport.arrivalDateTime,
             linkedAccountID: transport.linkedAccountID,
-            service: transport.service.toRNModel,
+            service: transport.service.toRNModel
           )
         )
       } else if otherAsset != nil {

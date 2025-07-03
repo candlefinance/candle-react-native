@@ -46,7 +46,7 @@ import type {
 export class CandleClient {
   private candle: RNCandle;
 
-  constructor(appUser: AppUser, accessGroup: string | undefined = undefined) {
+  constructor(appUser: AppUser, accessGroup?: string) {
     const CandleHybridObject =
       NitroModules.createHybridObject<RNCandle>("RNCandle");
     this.candle = CandleHybridObject;

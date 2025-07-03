@@ -8,7 +8,7 @@ struct CandleLinkSheetWrapper: View {
 
   @ObservedObject var viewModel: CandleLinkViewModel
 
-  init(appUser: Candle.Models.AppUser, accessGroup: String? = nil) {
+  init(appUser: Candle.Models.AppUser, accessGroup: String?) {
     self.candleClient = CandleClient(appUser: appUser, accessGroup: accessGroup)
     self.viewModel = CandleLinkViewModel(candleClient: candleClient)
   }
