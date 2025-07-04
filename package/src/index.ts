@@ -596,6 +596,7 @@ export type {
   AppUser,
   AssetAccount,
   AssetAccountRef,
+  AssetKind,
   Coordinates,
   Counterparty,
   LinkedAccount,

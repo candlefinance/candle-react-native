@@ -6,12 +6,13 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { CandleClient, TradeQuote } from "react-native-candle";
+import { AssetKind, CandleClient, TradeQuote } from "react-native-candle";
 
 export default function TabOneScreen() {
-  const [tradeQuote, setTradeQuote] = useState<TradeQuote | undefined>(
-    undefined
-  );
+  const [tradeQuote, setTradeQuote] = useState<
+    TradeQuote<AssetKind, AssetKind> | undefined
+  >(undefined);
+
   const candleClient = useMemo(() => {
     return new CandleClient({
       appKey: "",
@@ -181,7 +182,7 @@ export default function TabOneScreen() {
         }}
       />
       <Button
-        title="Show Trade Execution Sheet"
+        title="Execute Trade"
         onPress={() => {
           if (!tradeQuote) {
             Alert.alert("Error", "Trade quote is not set.");
