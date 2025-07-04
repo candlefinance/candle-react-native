@@ -34,10 +34,11 @@ namespace margelo::nitro::rncandle {
   public:
     std::optional<std::string> linkedAccountIDs     SWIFT_PRIVATE;
     TradeAssetQuoteRequest gained     SWIFT_PRIVATE;
+    TradeAssetQuoteRequest lost     SWIFT_PRIVATE;
 
   public:
     TradeQuoteRequest() = default;
-    explicit TradeQuoteRequest(std::optional<std::string> linkedAccountIDs, TradeAssetQuoteRequest gained): linkedAccountIDs(linkedAccountIDs), gained(gained) {}
+    explicit TradeQuoteRequest(std::optional<std::string> linkedAccountIDs, TradeAssetQuoteRequest gained, TradeAssetQuoteRequest lost): linkedAccountIDs(linkedAccountIDs), gained(gained), lost(lost) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -53,13 +54,15 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return TradeQuoteRequest(
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountIDs")),
-        JSIConverter<TradeAssetQuoteRequest>::fromJSI(runtime, obj.getProperty(runtime, "gained"))
+        JSIConverter<TradeAssetQuoteRequest>::fromJSI(runtime, obj.getProperty(runtime, "gained")),
+        JSIConverter<TradeAssetQuoteRequest>::fromJSI(runtime, obj.getProperty(runtime, "lost"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeQuoteRequest& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "linkedAccountIDs", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.linkedAccountIDs));
       obj.setProperty(runtime, "gained", JSIConverter<TradeAssetQuoteRequest>::toJSI(runtime, arg.gained));
+      obj.setProperty(runtime, "lost", JSIConverter<TradeAssetQuoteRequest>::toJSI(runtime, arg.lost));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -69,6 +72,7 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountIDs"))) return false;
       if (!JSIConverter<TradeAssetQuoteRequest>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
+      if (!JSIConverter<TradeAssetQuoteRequest>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
       return true;
     }
   };

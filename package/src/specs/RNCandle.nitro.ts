@@ -218,6 +218,7 @@ export type TradeAssetQuoteRequest = {
 export type TradeQuoteRequest = {
   linkedAccountIDs?: string;
   gained: TradeAssetQuoteRequest;
+  lost: TradeAssetQuoteRequest;
 };
 
 export type ExecuteTradeRequest = {

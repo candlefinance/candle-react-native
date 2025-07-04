@@ -250,7 +250,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
         request:
           .init(
             linkedAccountIDs: request.linkedAccountIDs,
-            gained: try request.toGained
+            gained: try request.gained.toRNModel,
+            lost: try request.lost.toRNModel
           )
       )
       return TradeQuotesResponse.init(
@@ -567,10 +568,10 @@ extension Models.Trade {
   }
 }
 
-extension TradeQuoteRequest {
-  var toGained: Models.TradeAssetQuoteRequest {
+extension TradeAssetQuoteRequest {
+  var toRNModel: Models.TradeAssetQuoteRequest {
     get throws {
-      if let fiatAssetQuoteRequest = gained.fiatAssetQuoteRequest {
+      if let fiatAssetQuoteRequest {
         return Models.TradeAssetQuoteRequest.FiatAssetQuoteRequest(
           .init(
             assetKind: .fiat,
@@ -580,9 +581,7 @@ extension TradeQuoteRequest {
             amount: fiatAssetQuoteRequest.amount
           )
         )
-      } else if let marketAssetQuoteRequest = gained
-        .marketAssetQuoteRequest
-      {
+      } else if let marketAssetQuoteRequest {
         guard
           let assetKind = Models.MarketAssetQuoteRequest.AssetKindPayload(
             rawValue: marketAssetQuoteRequest.assetKind)
@@ -599,13 +598,11 @@ extension TradeQuoteRequest {
             amount: marketAssetQuoteRequest.amount
           )
         )
-      } else if gained.nothingAssetQuoteRequest != nil {
+      } else if nothingAssetQuoteRequest != nil {
         return Models.TradeAssetQuoteRequest.NothingAssetQuoteRequest(
           .init(assetKind: .nothing)
         )
-      } else if let transportAssetQuoteRequest = gained
-        .transportAssetQuoteRequest
-      {
+      } else if let transportAssetQuoteRequest {
         return Models.TradeAssetQuoteRequest.TransportAssetQuoteRequest(
           .init(
             assetKind: .transport,

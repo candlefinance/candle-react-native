@@ -16,7 +16,9 @@ extension TradeQuoteRequest {
   /**
    * Create a new instance of `TradeQuoteRequest`.
    */
-  public init(linkedAccountIDs: String?, gained: TradeAssetQuoteRequest) {
+  public init(
+    linkedAccountIDs: String?, gained: TradeAssetQuoteRequest, lost: TradeAssetQuoteRequest
+  ) {
     self.init(
       { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = linkedAccountIDs {
@@ -24,7 +26,7 @@ extension TradeQuoteRequest {
         } else {
           return .init()
         }
-      }(), gained)
+      }(), gained, lost)
   }
 
   public var linkedAccountIDs: String? {
@@ -58,6 +60,17 @@ extension TradeQuoteRequest {
     @inline(__always)
     set {
       self.__gained = newValue
+    }
+  }
+
+  public var lost: TradeAssetQuoteRequest {
+    @inline(__always)
+    get {
+      return self.__lost
+    }
+    @inline(__always)
+    set {
+      self.__lost = newValue
     }
   }
 }

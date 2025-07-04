@@ -6,12 +6,13 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { CandleClient, TradeQuote } from "react-native-candle";
+import { AssetKind, CandleClient, TradeQuote } from "react-native-candle";
 
 export default function TabOneScreen() {
-  const [tradeQuote, setTradeQuote] = useState<TradeQuote | undefined>(
-    undefined
-  );
+  const [tradeQuote, setTradeQuote] = useState<
+    TradeQuote<AssetKind, AssetKind> | undefined
+  >(undefined);
+
   const candleClient = useMemo(() => {
     return new CandleClient({
       appKey: "",
@@ -34,12 +35,11 @@ export default function TabOneScreen() {
             })
             .then(() => {
               console.log("User unlinked successfully.");
-              setIsLoading(false);
             })
             .catch((error) => {
               console.error("Error unlinking user:", error);
-              setIsLoading(false);
-            });
+            })
+            .finally(() => setIsLoading(false));
         }}
       />
       <Button
@@ -50,12 +50,11 @@ export default function TabOneScreen() {
             .deleteUser()
             .then(() => {
               console.log("User deleted successfully.");
-              setIsLoading(false);
             })
             .catch((error) => {
               console.error("Error deleting user:", error);
-              setIsLoading(false);
-            });
+            })
+            .finally(() => setIsLoading(false));
         }}
       />
       <Button
@@ -66,12 +65,11 @@ export default function TabOneScreen() {
             .getAvailableTools()
             .then((tools) => {
               console.log("Available tools:", tools);
-              setIsLoading(false);
             })
             .catch((error) => {
               console.error("Error fetching available tools:", error);
-              setIsLoading(false);
-            });
+            })
+            .finally(() => setIsLoading(false));
         }}
       />
       <Button
@@ -85,12 +83,11 @@ export default function TabOneScreen() {
             })
             .then((result) => {
               console.log("Tool executed successfully:", result);
-              setIsLoading(false);
             })
             .catch((error) => {
               console.error("Error executing tool:", error);
-              setIsLoading(false);
-            });
+            })
+            .finally(() => setIsLoading(false));
         }}
       />
       <Button
@@ -122,13 +119,12 @@ export default function TabOneScreen() {
                     break;
                 }
               });
-              setIsLoading(false);
             })
             .catch((error) => {
-              setIsLoading(false);
               console.error("Error fetching linked accounts:", error);
               Alert.alert("Error", `${error}`);
-            });
+            })
+            .finally(() => setIsLoading(false));
         }}
       />
       <Button
@@ -148,19 +144,31 @@ export default function TabOneScreen() {
                   longitude: -74.006,
                 },
               },
+              lost: {
+                assetKind: "fiat",
+              },
             })
-            .then((quote) => {
-              console.log("Trade quotes:", quote.linkedAccounts);
-              quote.tradeQuotes.forEach((quotes) => {
-                console.log("Trade quote:", quotes);
+            .then(({ linkedAccounts, tradeQuotes }) => {
+              console.log("Linked accounts:", linkedAccounts);
+              tradeQuotes.forEach((tradeQuote) => {
+                console.log("Trade quote:", tradeQuote);
               });
-              setIsLoading(false);
+              // The returned tradeQuote is automatically type-narrowed to the request asset kinds
+              const firstRide = tradeQuotes.find(
+                ({ gained }) => gained.seats >= 1
+              );
+              if (firstRide !== undefined) {
+                setTradeQuote(firstRide);
+                console.log(
+                  `Set ${firstRide.gained.name} quote as default for execution.`
+                );
+              }
             })
             .catch((error) => {
-              setIsLoading(false);
               console.error("Error fetching trade quotes:", error);
               Alert.alert("Error", `${error}`);
-            });
+            })
+            .finally(() => setIsLoading(false));
         }}
       />
       <Button
@@ -169,7 +177,7 @@ export default function TabOneScreen() {
           candleClient.presentCandleLinkSheet({
             services: ["venmo"], // optional, defaults to all supported
             onSuccess: (linkedAccount) => {
-              console.log("Account selected:", linkedAccount);
+              console.log("Account linked:", linkedAccount);
             },
             customerName: "Akme Inc.",
             presentationStyle: "fullScreen",
@@ -178,27 +186,27 @@ export default function TabOneScreen() {
         }}
       />
       <Button
-        title="Show Trade Execution Sheet"
+        title="Execute Trade"
         onPress={() => {
           if (!tradeQuote) {
             Alert.alert("Error", "Trade quote is not set.");
             return;
           }
-          candleClient.presentTradeExecutionSheet({
-            tradeQuote,
-            presentationBackground: "blur",
-            completion: (result) => {
-              switch (result.kind) {
-                case "success":
-                  console.log("Trade executed successfully:", result);
-                  break;
-                case "failure":
-                  console.error("Error executing trade:", result);
-                  Alert.alert("Error", result.error);
-                  break;
-              }
-            },
-          });
+          setIsLoading(true);
+          candleClient
+            .executeTrade({
+              tradeQuote,
+              presentationBackground: "blur",
+            })
+            .then((resultTrade) => {
+              setTradeQuote(undefined);
+              console.log("Trade executed successfully:", resultTrade);
+            })
+            .catch((error) => {
+              console.error("Error executing trade:", error);
+              Alert.alert("Error", `${error}`);
+            })
+            .finally(() => setIsLoading(false));
         }}
       />
     </View>
