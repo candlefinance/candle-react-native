@@ -1,0 +1,13 @@
+diff --git a/ios/Core/SharedObjects/SharedObject.swift b/ios/Core/SharedObjects/SharedObject.swift
+index 7595fe99739a90db8a36ce0167e3217bf6356bfc..1ff2bc379d74d93f7b05996991f31c8b654ef7b2 100644
+--- a/ios/Core/SharedObjects/SharedObject.swift
++++ b/ios/Core/SharedObjects/SharedObject.swift
+@@ -70,7 +70,7 @@ public extension SharedObject { // swiftlint:disable:this no_grouping_extension
+   /**
+    Schedules an event with the given name and arguments to be emitted to the associated JavaScript object.
+    */
+-  func emit<each A: AnyArgument>(event: String, arguments: repeat each A) {
++  public func emit<each A: AnyArgument>(event: String, arguments: repeat each A) {
+     guard let appContext, let runtime = try? appContext.runtime else {
+       log.warn("Trying to send event '\(event)' to \(type(of: self)), but the JS runtime has been lost")
+       return
