@@ -68,8 +68,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
           message: "Application root view was not initialized.")
       }
         
-      let parentVC: UIViewController =
-        rootViewController.presentedViewController ?? rootViewController
+      let parentVC = rootViewController.candleTopMost
       DispatchQueue.main.async { [weak self] in
         guard let self else {
           #if DEBUG
@@ -130,7 +129,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
             "\(#function) \(#line): Candle client was not initialized."
         )
       }
-      rootHostingVC.embedOnTop(hostingVC)
+      let parentVC = rootHostingVC.candleTopMost
+      parentVC.embedOnTop(hostingVC)
       let tradeQuote = try tradeQuote.toCandleModel
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
         wrapperView.viewModel.tradeQuote = tradeQuote
@@ -1273,5 +1273,15 @@ extension Models.LinkedAccountStatusRef {
       serviceUserID: serviceUserID,
       state: state.toRNModel
     )
+  }
+}
+
+private extension UIViewController {
+  var candleTopMost: UIViewController {
+    var top = self
+    while let presented = top.presentedViewController {
+      top = presented
+    }
+    return top
   }
 }
