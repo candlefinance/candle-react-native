@@ -43,10 +43,6 @@ export default function TabOneScreen() {
       <Button
         title="Execute Trade"
         onPress={() => {
-          // if (!tradeQuote) {
-          //   Alert.alert("Error", "Trade quote is not set.");
-          //   return;
-          // }
           setIsLoading(true);
           candleClient
             .executeTrade({

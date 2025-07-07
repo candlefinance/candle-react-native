@@ -67,7 +67,7 @@ final class HybridRNCandle: HybridRNCandleSpec {
         throw RNClientError.badInitialization(
           message: "Application root view was not initialized.")
       }
-        
+
       let parentVC = rootViewController.candleTopMost
       DispatchQueue.main.async { [weak self] in
         guard let self else {
@@ -1276,8 +1276,8 @@ extension Models.LinkedAccountStatusRef {
   }
 }
 
-private extension UIViewController {
-  var candleTopMost: UIViewController {
+extension UIViewController {
+  fileprivate var candleTopMost: UIViewController {
     var top = self
     while let presented = top.presentedViewController {
       top = presented
