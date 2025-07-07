@@ -39,14 +39,6 @@ final class HybridRNCandle: HybridRNCandleSpec {
       )
       let hostingVC = UIHostingController(rootView: wrapperView)
       self.rootVC = hostingVC
-      guard
-        let rootViewController = UIApplication.keyWindow?
-          .rootViewController
-      else {
-        throw RNClientError.badInitialization(
-          message: "Application root view was not initialized.")
-      }
-      rootViewController.embed(hostingVC)
     }
   }
 
@@ -68,7 +60,16 @@ final class HybridRNCandle: HybridRNCandleSpec {
       try viewModel.showDynamicLoading = showDynamicLoading
       try viewModel.presentationBackground = presentationBackground
       try viewModel.presentationStyle = presentationStyle
-      // FIXME: there's a glitch the first time it's presented unless you do this
+      guard
+        let rootViewController = UIApplication.keyWindow?
+          .rootViewController
+      else {
+        throw RNClientError.badInitialization(
+          message: "Application root view was not initialized.")
+      }
+        
+      let parentVC: UIViewController =
+        rootViewController.presentedViewController ?? rootViewController
       DispatchQueue.main.async { [weak self] in
         guard let self else {
           #if DEBUG
@@ -76,7 +77,11 @@ final class HybridRNCandle: HybridRNCandleSpec {
           #endif
           return
         }
+
         do {
+          if let rootVC = self.rootVC {
+            parentVC.embed(rootVC)
+          }
           try self.viewModel.showSheet = isPresented
         } catch {
           #if DEBUG
@@ -84,6 +89,15 @@ final class HybridRNCandle: HybridRNCandleSpec {
           #endif
         }
       }
+      try viewModel.$isPresented
+        .removeDuplicates()
+        .receive(on: RunLoop.main)
+        .sink(receiveValue: { [weak self] isPresented in
+          if let rootVC = self?.rootVC, !isPresented {
+            parentVC.removeEmbedded(rootVC)
+          }
+        })
+        .store(in: &cancellables)
       try viewModel.$linkedAccount
         .removeDuplicates()
         .compactMap(\.?.toLinkedAccount)

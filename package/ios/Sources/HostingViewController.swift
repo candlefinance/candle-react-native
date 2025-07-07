@@ -15,6 +15,12 @@ extension UIViewController {
     child.view.pinEdges(to: view)
     child.didMove(toParent: self)
   }
+
+  func removeEmbedded(_ child: UIViewController) {
+    child.willMove(toParent: nil)
+    child.view.removeFromSuperview()
+    child.removeFromParent()
+  }
 }
 
 extension UIView {
