@@ -1,7 +1,7 @@
 {
   "name": "example",
   "main": "expo-router/entry",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
