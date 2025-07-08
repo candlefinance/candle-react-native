@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { AssetKind, CandleClient, TradeQuote } from "react-native-candle";
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function TabOneScreen() {
   const [tradeQuote, setTradeQuote] = useState<
     TradeQuote<AssetKind, AssetKind> | undefined
@@ -20,11 +22,19 @@ export default function TabOneScreen() {
     });
   }, []);
 
+  const navigation = useNavigation<any>();
+
   const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={[styles.container]}>
       <ActivityIndicator animating={isLoading} />
+      <Button
+        title="Present Modal"
+        onPress={() => {
+          navigation.navigate("ScreenTwo");
+        }}
+      />
       <Button
         title="Unlink Account"
         onPress={() => {

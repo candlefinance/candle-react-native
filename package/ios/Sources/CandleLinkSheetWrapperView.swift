@@ -28,6 +28,11 @@ struct CandleLinkSheetWrapper: View {
           ) { newLinkedAccount in
             viewModel.linkedAccount = newLinkedAccount
           }
+          .onChange(of: viewModel.showSheet) { _, newValue in
+            Task { @MainActor in
+              viewModel.isPresented = newValue
+            }
+          }
           .environment(candleClient)
       } else {
         Spacer()

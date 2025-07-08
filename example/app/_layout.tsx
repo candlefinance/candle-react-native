@@ -1,23 +1,17 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
 import TabOneScreen from "./(tabs)";
+import ScreenTwo from "./(tabs)/modal";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const Stack = createNativeStackNavigator();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -25,7 +19,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -40,9 +33,20 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-  return <TabOneScreen />;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={TabOneScreen} />
+        <Stack.Screen
+          name="ScreenTwo"
+          component={ScreenTwo}
+          options={{
+            presentation: "modal",
+            headerShown: true,
+            title: "Unlink Account",
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
