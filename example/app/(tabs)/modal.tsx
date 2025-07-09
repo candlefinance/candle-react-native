@@ -44,25 +44,22 @@ export default function TabOneScreen() {
         title="Execute Trade"
         onPress={() => {
           setIsLoading(true);
-          candleClient
-            .executeTrade({
-              tradeQuote: {
-                context: "",
-                expirationDateTime: "",
-                gained: { assetKind: "nothing" },
-                lost: { assetKind: "nothing" },
-              },
-              presentationBackground: "blur",
-            })
-            .then((resultTrade) => {
-              setTradeQuote(undefined);
-              console.log("Trade executed successfully:", resultTrade);
-            })
-            .catch((error) => {
-              console.error("Error executing trade:", error);
-              Alert.alert("Error", `${error}`);
-            })
-            .finally(() => setIsLoading(false));
+          candleClient.presentCandleTradeExecutionSheet({
+            tradeQuote: {
+              context: "",
+              expirationDateTime: "",
+              gained: { assetKind: "nothing" },
+              lost: { assetKind: "nothing" },
+            },
+            presentationBackground: "blur",
+            completion: (result) => {
+              if (result.kind === "success") {
+                setTradeQuote(undefined);
+              } else {
+                Alert.alert("Error", `${result.error}`);
+              }
+            },
+          });
         }}
       />
     </View>
