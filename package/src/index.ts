@@ -35,7 +35,6 @@ import type {
   Service,
   ServiceCounterparty,
   TradeAssetQuoteRequest,
-  TradeExecutionResult,
   TradeState,
   TransportAsset,
   TransportAssetQuoteRequest,
@@ -582,14 +581,6 @@ type AssetAccount = {
         linkedAccountID: string;
         service: Service;
       };
-};
-
-type TradeResult<
-  GainedAssetKind extends AssetKind,
-  LostAssetKind extends AssetKind
-> = Trade & {
-  gained: { assetKind: GainedAssetKind };
-  lost: { assetKind: LostAssetKind };
 };
 
 type Trade = {
