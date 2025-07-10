@@ -203,20 +203,18 @@ export default function TabOneScreen() {
             return;
           }
           setIsLoading(true);
-          candleClient
-            .executeTrade({
-              tradeQuote,
-              presentationBackground: "blur",
-            })
-            .then((resultTrade) => {
-              setTradeQuote(undefined);
-              console.log("Trade executed successfully:", resultTrade);
-            })
-            .catch((error) => {
-              console.error("Error executing trade:", error);
-              Alert.alert("Error", `${error}`);
-            })
-            .finally(() => setIsLoading(false));
+          candleClient.presentCandleTradeExecutionSheet({
+            tradeQuote,
+            presentationBackground: "blur",
+            completion(result) {
+              if (result.kind === "success") {
+                setTradeQuote(undefined);
+                console.log("Trade executed successfully:", result);
+              } else {
+                Alert.alert("Error", `${result.error}`);
+              }
+            },
+          });
         }}
       />
     </View>

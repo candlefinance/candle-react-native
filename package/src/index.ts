@@ -35,7 +35,6 @@ import type {
   Service,
   ServiceCounterparty,
   TradeAssetQuoteRequest,
-  TradeExecutionResult,
   TradeState,
   TransportAsset,
   TransportAssetQuoteRequest,
@@ -54,48 +53,56 @@ export class CandleClient {
     this.candle.initialize(appUser, accessGroup);
   }
 
-  public async executeTrade<
+  public presentCandleTradeExecutionSheet<
     GainedAssetKind extends AssetKind,
     LostAssetKind extends AssetKind
   >(input: {
     tradeQuote: TradeQuote<GainedAssetKind, LostAssetKind>;
     presentationBackground?: PresentationBackground;
-  }): Promise<
-    Trade & {
-      gained: { assetKind: GainedAssetKind };
-      lost: { assetKind: LostAssetKind };
-    }
-  > {
+    completion?: (
+      result:
+        | (Trade & {
+            kind: "success";
+            gained: { assetKind: GainedAssetKind };
+            lost: { assetKind: LostAssetKind };
+          })
+        | { kind: "failure"; error: Error }
+    ) => void;
+  }): void {
     const quote = this.convertTradeQuote(input.tradeQuote);
-    const promise: Promise<TradeExecutionResult> = new Promise((callback) => {
-      this.candle.candleTradeExecutionSheet(
-        quote,
-        input.presentationBackground ?? "default",
-        callback
-      );
-    });
-    const result = await promise;
-    if (result.trade !== undefined) {
-      return {
-        ...result.trade,
-        counterparty: this.convertToCounterparty(result.trade.counterparty),
-        lost: this.assertTradeAsset({
-          tradeAsset: this.convertTradeAsset(result.trade.lost),
-          expectedAssetKind: input.tradeQuote.lost.assetKind,
-        }),
-        gained: this.assertTradeAsset({
-          tradeAsset: this.convertTradeAsset(result.trade.gained),
-          expectedAssetKind: input.tradeQuote.gained.assetKind,
-        }),
-      };
-    } else {
-      if (result.error === undefined) {
-        throw new Error(
-          "Internal Candle Error: corrupted trade execution result."
-        );
+    this.candle.candleTradeExecutionSheet(
+      quote,
+      input.presentationBackground ?? "default",
+      (result) => {
+        if (input.completion === undefined) {
+          return;
+        }
+        if (result.trade !== undefined) {
+          input.completion({
+            kind: "success",
+            ...result.trade,
+            counterparty: this.convertToCounterparty(result.trade.counterparty),
+            lost: this.assertTradeAsset({
+              tradeAsset: this.convertTradeAsset(result.trade.lost),
+              expectedAssetKind: input.tradeQuote.lost.assetKind,
+            }),
+            gained: this.assertTradeAsset({
+              tradeAsset: this.convertTradeAsset(result.trade.gained),
+              expectedAssetKind: input.tradeQuote.gained.assetKind,
+            }),
+          });
+        } else {
+          if (result.error === undefined) {
+            throw new Error(
+              "Internal Candle Error: corrupted trade execution result."
+            );
+          } else {
+            const error = new Error(result.error);
+            input.completion({ kind: "failure", error });
+          }
+        }
       }
-      throw result.error;
-    }
+    );
   }
 
   public presentCandleLinkSheet({
