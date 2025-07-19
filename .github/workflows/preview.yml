@@ -41,4 +41,4 @@ jobs:
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
         with:
-          command: eas update --input-dir=example --auto --message "Preview update for PR #${{ github.event.pull_request.number }}"
+          command: cd example && eas update --auto --message "Preview update for PR #${{ github.event.pull_request.number }}"
