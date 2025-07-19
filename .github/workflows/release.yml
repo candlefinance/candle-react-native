@@ -13,6 +13,9 @@ jobs:
   create_release:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CANDLE_APP_KEY: ${{ secrets.CANDLE_APP_KEY }}
+      CANDLE_APP_SECRET: ${{ secrets.CANDLE_APP_SECRET }}
+      EXPO_CLI_TOKEN: ${{ secrets.EXPO_CLI_TOKEN }}
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
 
@@ -39,6 +42,11 @@ jobs:
         run: bun release-it --non-interactive
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create .env in ./example
+        run: |
+          echo "CANDLE_APP_KEY=${{ secrets.CANDLE_APP_KEY }}" > example/.env
+          echo "CANDLE_APP_SECRET=${{ secrets.CANDLE_APP_SECRET }}" >> example/.env
 
       - name: Push version bump commit
         uses: CasperWA/push-protected@v2
