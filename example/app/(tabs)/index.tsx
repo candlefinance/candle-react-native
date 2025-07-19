@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -6,21 +6,16 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { AssetKind, CandleClient, TradeQuote } from "react-native-candle";
-
+import { AssetKind, TradeQuote } from "react-native-candle";
 import { useNavigation } from "@react-navigation/native";
+import { useCandleClient } from "../Context/candle-context";
 
 export default function TabOneScreen() {
   const [tradeQuote, setTradeQuote] = useState<
     TradeQuote<AssetKind, AssetKind> | undefined
   >(undefined);
 
-  const candleClient = useMemo(() => {
-    return new CandleClient({
-      appKey: "",
-      appSecret: "",
-    });
-  }, []);
+  const candleClient = useCandleClient();
 
   const navigation = useNavigation<any>();
 
