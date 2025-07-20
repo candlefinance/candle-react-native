@@ -1,19 +1,14 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import "react-native-reanimated";
-import TabOneScreen from "./(tabs)";
+import GetLinkedAccounts from "./(tabs)/get-linked-accounts";
 import GetTradeQuotesScreen from "./(tabs)/get-trade-quotes";
 import GetTradesScreen from "./(tabs)/get-trades";
 import GetAssetAccountsScreen from "./(tabs)/get-asset-accounts";
-import Modal from "./(tabs)/modal";
+import GetLinkedDetialScreen from "./(tabs)/get-linked-account-details";
 import { CandleClient } from "react-native-candle";
 import { CandleClientContext } from "./Context/candle-context";
-
-SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 
@@ -32,25 +27,6 @@ export default function RootLayout() {
     });
   }, []);
 
-  const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    ...FontAwesome.font,
-  });
-
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
     <CandleClientContext.Provider value={candleClient}>
       <NavigationContainer>
@@ -61,17 +37,25 @@ export default function RootLayout() {
               title: "Linked Accounts",
               headerLargeTitle: true,
             }}
-            name="Home"
-            component={TabOneScreen}
+            name="Get Linked Accounts Screen"
+            component={GetLinkedAccounts}
           />
           <Stack.Screen
-            name="Modal Screen"
-            component={Modal}
+            name="Get Linked Account Details Screen"
+            component={GetLinkedDetialScreen}
             options={{
-              headerLargeTitle: true,
+              presentation: "card",
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Get Linked Account Screen 2"
+            component={GetLinkedAccounts}
+            options={{
               presentation: "modal",
               headerShown: true,
-              title: "Modal",
+              headerLargeTitle: true,
+              title: "Test Modal",
             }}
           />
           <Stack.Screen

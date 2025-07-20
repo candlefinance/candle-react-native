@@ -9,18 +9,32 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { LinkedAccountDetails } from "react-native-candle";
-import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
+import { LinkedAccountDetail } from "react-native-candle";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useCandleClient } from "../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getLogo } from "../Utils";
 
-export default function TabOneScreen() {
+type TabParamList = {
+  "Get Linked Accounts Screen": {
+    shouldRefreshLinkedAccounts?: boolean;
+  };
+};
+
+type GetLinkedAccountsRouteProp = RouteProp<
+  TabParamList,
+  "Get Linked Accounts Screen"
+>;
+
+export default function GetLinkedAccountsScreen() {
+  const route = useRoute<GetLinkedAccountsRouteProp>();
   const candleClient = useCandleClient();
 
   const navigation = useNavigation<any>();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccountDetails[]>(
+  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccountDetail[]>(
     []
   );
 
@@ -28,6 +42,12 @@ export default function TabOneScreen() {
     if (linkedAccounts.length > 0) return;
     onRefresh();
   }, []);
+
+  useEffect(() => {
+    if (route.params?.shouldRefreshLinkedAccounts) {
+      onRefresh();
+    }
+  }, [route.params?.shouldRefreshLinkedAccounts]);
 
   const onRefresh = async () => {
     setIsLoading(true);
@@ -37,23 +57,6 @@ export default function TabOneScreen() {
     } catch (error) {
       console.error("Failed to fetch linked accounts:", error);
       Alert.alert("Error", "Failed to fetch linked accounts.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const unlink = async (accountId: string) => {
-    setIsLoading(true);
-    try {
-      await candleClient.unlinkAccount({
-        linkedAccountID: accountId,
-      });
-      setLinkedAccounts((prev) =>
-        prev.filter((account) => account.linkedAccountID !== accountId)
-      );
-    } catch (error) {
-      console.error("Failed to unlink account:", error);
-      Alert.alert("Error", "Failed to unlink account.");
     } finally {
       setIsLoading(false);
     }
@@ -78,45 +81,42 @@ export default function TabOneScreen() {
               padding: 20,
               alignItems: "center",
               flexDirection: "row",
-              gap: 10,
+              gap: 16,
               backgroundColor: "white",
             }}
             onTouchEnd={() => {
-              Alert.alert(
-                `Unlink Account`,
-                `Are you sure you want to unlink ${account.service}?`,
-                [
-                  {
-                    text: "Unlink",
-                    style: "destructive",
-                    onPress: () => {
-                      unlink(account.linkedAccountID);
-                    },
-                  },
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel",
-                  },
-                ]
-              );
+              navigation.navigate("Get Linked Account Details Screen", {
+                account: account,
+                onUnlinked: onRefresh,
+              });
             }}
             key={account.linkedAccountID}
           >
             <Image
               source={{
-                uri: `https://institution-logos.s3.us-east-1.amazonaws.com/${account.service}.png`,
+                uri: getLogo(account.service),
                 width: 50,
                 height: 50,
               }}
               style={{ width: 50, height: 50, borderRadius: 25 }}
             />
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <View style={{ flex: 1, gap: 4 }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                }}
+              >
                 {account.service}
               </Text>
-              <Text style={{ color: "gray" }}>{account.details.state}</Text>
+              <Text style={{ color: "gray" }}>
+                {account.details.state == "active"
+                  ? account.details.legalName
+                  : account.details.state}
+              </Text>
             </View>
+            <Feather name="chevron-right" size={24} color="gray" />
           </View>
         ))}
       </ScrollView>
@@ -125,12 +125,21 @@ export default function TabOneScreen() {
           style={styles.primaryButton}
           onPress={() => {
             candleClient.presentCandleLinkSheet({
-              services: ["lyft", "uber", "venmo", "cash_app", "robinhood"],
+              services: [
+                "lyft",
+                "uber",
+                "venmo",
+                "cash_app",
+                "robinhood",
+                "sandbox",
+              ],
               onSuccess: (linkedAccount) => {
                 onRefresh();
               },
               customerName: "Akme Inc.",
-              presentationStyle: "fullScreen",
+              presentationStyle: navigation.canGoBack()
+                ? "sheet"
+                : "fullScreen",
               presentationBackground: "blur",
             });
           }}
@@ -139,16 +148,18 @@ export default function TabOneScreen() {
             Link Account
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("Modal Screen");
-          }}
-        >
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-            Show Modal Link Sheet
-          </Text>
-        </TouchableOpacity>
+        {!navigation.canGoBack() && (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("Get Linked Account Screen 2");
+            }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              Show Modal Link Sheet
+            </Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -163,8 +174,8 @@ export default function TabOneScreen() {
                     setIsLoading(true);
                     try {
                       await candleClient.deleteUser();
-                      Alert.alert("User deleted successfully.");
                       setLinkedAccounts([]);
+                      Alert.alert("User deleted successfully.");
                     } catch (error) {
                       Alert.alert("Error", `Failed to delete user: ${error}`);
                     } finally {

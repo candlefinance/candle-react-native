@@ -135,7 +135,7 @@ export class CandleClient {
     );
   }
 
-  public async getLinkedAccounts(): Promise<LinkedAccountDetails[]> {
+  public async getLinkedAccounts(): Promise<LinkedAccountDetail[]> {
     const accounts = await this.candle.getLinkedAccounts();
     return accounts.map((account) => {
       if (account.details.activeLinkedAccountDetails !== undefined) {
@@ -589,7 +589,7 @@ type TradeAssetRef =
   | ({ assetKind: "fiat" } & FiatAssetRef)
   | ({ assetKind: "stock" | "crypto" } & MarketTradeAssetRef);
 
-type LinkedAccountDetails =
+type LinkedAccountDetail =
   | (LinkedAccount & {
       details: { state: "active" } & ActiveLinkedAccountDetails;
     })
@@ -607,7 +607,7 @@ export type {
   Coordinates,
   Counterparty,
   LinkedAccount,
-  LinkedAccountDetails,
+  LinkedAccountDetail,
   LinkedAccountRef,
   Service,
   Trade,
