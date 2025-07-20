@@ -180,7 +180,7 @@ export default function TabOneScreen() {
         title="Show Candle Sheet"
         onPress={() => {
           candleClient.presentCandleLinkSheet({
-            services: ["venmo"], // optional, defaults to all supported
+            services: ["lyft"], // optional, defaults to all supported
             onSuccess: (linkedAccount) => {
               console.log("Account linked:", linkedAccount);
             },

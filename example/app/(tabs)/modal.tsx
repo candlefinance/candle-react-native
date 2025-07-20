@@ -8,24 +8,19 @@ import {
   View,
 } from "react-native";
 import { AssetKind, CandleClient, TradeQuote } from "react-native-candle";
+import { useCandleClient } from "../Context/candle-context";
 
 export default function TabOneScreen() {
   const [tradeQuote, setTradeQuote] = useState<
     TradeQuote<AssetKind, AssetKind> | undefined
   >(undefined);
 
-  const candleClient = useMemo(() => {
-    return new CandleClient({
-      appKey: "",
-      appSecret: "",
-    });
-  }, []);
+  const candleClient = useCandleClient();
 
   const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={[styles.container]}>
-      <Text>Unlink Account</Text>
       <Button
         title="Show Candle Sheet"
         onPress={() => {

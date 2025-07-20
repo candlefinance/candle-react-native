@@ -28,6 +28,7 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.9",
     "react-native-candle": "*",
+    "react-native-error-boundary": "^2.0.0",
     "react-native-nitro-modules": "^0.25.2",
     "react-native-reanimated": "~3.16.1",
     "react-native-safe-area-context": "4.12.0",

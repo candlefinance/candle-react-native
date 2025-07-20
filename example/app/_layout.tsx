@@ -9,6 +9,7 @@ import TabOneScreen from "./(tabs)";
 import ScreenTwo from "./(tabs)/modal";
 import { CandleClient } from "react-native-candle";
 import { CandleClientContext } from "./Context/candle-context";
+import ErrorBoundary from "react-native-error-boundary";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,11 +17,11 @@ const Stack = createNativeStackNavigator();
 
 export default function RootLayout() {
   const candleClient = useMemo(() => {
-    const appKey = process.env.CANDLE_APP_KEY;
-    const appSecret = process.env.CANDLE_APP_SECRET;
+    const appKey = process.env.EXPO_PUBLIC_CANDLE_APP_KEY;
+    const appSecret = process.env.EXPO_PUBLIC_CANDLE_APP_SECRET;
     if (!appKey || !appSecret) {
       throw new Error(
-        "CANDLE_APP_KEY and CANDLE_APP_SECRET must be set in .env file"
+        "EXPO_PUBLIC_CANDLE_APP_KEY and EXPO_PUBLIC_CANDLE_APP_SECRET must be set in .env file"
       );
     }
     return new CandleClient({
@@ -59,7 +60,7 @@ export default function RootLayout() {
             options={{
               presentation: "modal",
               headerShown: true,
-              title: "Unlink Account",
+              title: "Modal",
             }}
           />
         </Stack.Navigator>
