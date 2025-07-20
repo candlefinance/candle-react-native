@@ -3,13 +3,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useMemo } from "react";
 import "react-native-reanimated";
 import GetLinkedAccounts from "./(tabs)/LinkedAccountsScreens/get-linked-accounts";
-import GetTradeQuotesScreen from "./(tabs)/TradeQuotesScreens/get-trade-quotes";
-import GetTradesScreen from "./(tabs)/TradesScreen/get-trades";
+import GetTradeQuotesScreen from "./(tabs)/TradeQuoteScreens/get-trade-quotes";
+import GetTradesScreen from "./(tabs)/TradeScreen/get-trades";
 import GetAssetAccountsScreen from "./(tabs)/AssetsScreens/get-asset-accounts";
 import GetLinkedAccountDetailsScreen from "./(tabs)/LinkedAccountsScreens/get-linked-account-details";
 import GetAssetAccountDetailsScreen from "./(tabs)/AssetsScreens/get-asset-accounts-details";
-import GetTradeQuotesDetailsScreen from "./(tabs)/TradeQuotesScreens/get-trade-quotes-details";
-import GetTradeDetailsScreen from "./(tabs)/TradesScreen/get-trades-details";
+import GetTradeQuotesDetailsScreen from "./(tabs)/TradeQuoteScreens/get-trade-quote-details";
+import GetTradeDetailsScreen from "./(tabs)/TradeScreen/get-trade-details";
 import { CandleClient } from "react-native-candle";
 import { CandleClientContext } from "./Context/candle-context";
 
@@ -117,64 +117,62 @@ export default function RootLayout() {
 
   return (
     <CandleClientContext.Provider value={candleClient}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            options={{
-              headerShown: true,
-              title: "Linked Accounts",
-              headerLargeTitle: true,
-            }}
-            name="Get Linked Accounts Screen"
-            component={GetLinkedAccounts}
-          />
-          <Stack.Screen
-            name="Get Linked Account Details Screen"
-            component={GetLinkedAccountDetailsScreen}
-            options={{
-              presentation: "card",
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="Get Linked Account Screen 2"
-            component={GetLinkedAccounts}
-            options={{
-              presentation: "modal",
-              headerShown: true,
-              headerLargeTitle: true,
-              title: "Test Modal",
-            }}
-          />
-          <Stack.Screen
-            name="Get Trade Quotes Screen"
-            component={TradeQuotesListStack}
-            options={{
-              presentation: "modal",
-              title: "Get Trade Quotes",
-              headerLargeTitle: true,
-            }}
-          />
-          <Stack.Screen
-            name="Get Trades Screen"
-            component={TradesListStack}
-            options={{
-              presentation: "modal",
-              headerLargeTitle: true,
-              title: "Get Trades",
-            }}
-          />
-          <Stack.Screen
-            name="Get Asset Accounts Screen"
-            component={AssetAccountsStack}
-            options={{
-              presentation: "modal",
-              headerLargeTitle: true,
-              title: "Get Asset Accounts",
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          options={{
+            headerShown: true,
+            title: "Linked Accounts",
+            headerLargeTitle: true,
+          }}
+          name="Get Linked Accounts Screen"
+          component={GetLinkedAccounts}
+        />
+        <Stack.Screen
+          name="Get Linked Account Details Screen"
+          component={GetLinkedAccountDetailsScreen}
+          options={{
+            presentation: "card",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="Get Linked Account Screen 2"
+          component={GetLinkedAccounts}
+          options={{
+            presentation: "modal",
+            headerShown: true,
+            headerLargeTitle: true,
+            title: "Test Modal",
+          }}
+        />
+        <Stack.Screen
+          name="Get Trade Quotes Screen"
+          component={TradeQuotesListStack}
+          options={{
+            presentation: "modal",
+            title: "Get Trade Quotes",
+            headerLargeTitle: true,
+          }}
+        />
+        <Stack.Screen
+          name="Get Trades Screen"
+          component={TradesListStack}
+          options={{
+            presentation: "modal",
+            headerLargeTitle: true,
+            title: "Get Trades",
+          }}
+        />
+        <Stack.Screen
+          name="Get Asset Accounts Screen"
+          component={AssetAccountsStack}
+          options={{
+            presentation: "modal",
+            headerLargeTitle: true,
+            title: "Get Asset Accounts",
+          }}
+        />
+      </Stack.Navigator>
     </CandleClientContext.Provider>
   );
 }

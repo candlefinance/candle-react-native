@@ -7,7 +7,7 @@ import { DetailScrollView } from "../SharedComponents/detail-scroll-view";
 import { useCandleClient } from "@/app/Context/candle-context";
 
 type TabParamList = {
-  GetTradeQuotesScreen: {
+  GetTradeQuoteDetailsScreen: {
     quote: {
       tradeQuotes: TradeQuote<"transport", "fiat">;
       linkedAccounts: LinkedAccountStatusRef;
@@ -15,13 +15,16 @@ type TabParamList = {
   };
 };
 
-type GetTradeQuotesRouteProp = RouteProp<TabParamList, "GetTradeQuotesScreen">;
+type GetTradeQuoteDetailsRouteProp = RouteProp<
+  TabParamList,
+  "GetTradeQuoteDetailsScreen"
+>;
 
-export default function GetTradeQuotesScreen() {
+export default function GetTradeQuoteDetailsScreen() {
   const candleClient = useCandleClient();
   const {
     params: { quote },
-  } = useRoute<GetTradeQuotesRouteProp>();
+  } = useRoute<GetTradeQuoteDetailsRouteProp>();
   const flattened = flattenObject(quote);
 
   return (
