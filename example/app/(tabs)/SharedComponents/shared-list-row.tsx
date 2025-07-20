@@ -31,6 +31,7 @@ export function SharedListRow({
           width: 50,
           height: 50,
         }}
+        resizeMode="contain"
         style={{ width: 50, height: 50, borderRadius: 25 }}
       />
       <View style={{ flex: 1, gap: 4 }}>

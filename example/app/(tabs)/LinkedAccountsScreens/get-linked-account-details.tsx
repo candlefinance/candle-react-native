@@ -59,7 +59,7 @@ export default function GetLinkedAccountDetailsScreen() {
       <DetailScrollView flattened={flattened} />
       <TouchableOpacity
         disabled={isLoading}
-        style={styles.primaryButton}
+        style={styles.button}
         onPress={() => {
           Alert.alert(
             `Unlink Account`,
@@ -83,7 +83,7 @@ export default function GetLinkedAccountDetailsScreen() {
       >
         <ActivityIndicator
           animating={isLoading}
-          color="white"
+          color="black"
           style={{
             position: "absolute",
             left: 16,
@@ -91,7 +91,7 @@ export default function GetLinkedAccountDetailsScreen() {
         />
         <Text
           style={{
-            color: "white",
+            color: "black",
             fontSize: 18,
             fontWeight: "bold",
             textTransform: "capitalize",
@@ -108,9 +108,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  primaryButton: {
-    padding: 14,
-    backgroundColor: "red",
+  button: {
+    padding: 12,
+    borderWidth: 2,
     marginHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",

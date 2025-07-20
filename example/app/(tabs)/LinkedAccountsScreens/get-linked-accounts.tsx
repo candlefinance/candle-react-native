@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   primaryButton: {
-    padding: 14,
+    padding: 12,
     backgroundColor: "red",
     marginHorizontal: 20,
     justifyContent: "center",
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
   },
   button: {
-    padding: 14,
+    padding: 12,
     borderWidth: 2,
     marginHorizontal: 20,
     justifyContent: "center",

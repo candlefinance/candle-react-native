@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   primaryButton: {
-    padding: 14,
+    padding: 12,
     backgroundColor: "red",
     marginHorizontal: 20,
     justifyContent: "center",

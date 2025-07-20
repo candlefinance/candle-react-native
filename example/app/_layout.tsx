@@ -8,6 +8,7 @@ import GetTradesScreen from "./(tabs)/TradesScreen/get-trades";
 import GetAssetAccountsScreen from "./(tabs)/AssetsScreens/get-asset-accounts";
 import GetLinkedAccountDetailsScreen from "./(tabs)/LinkedAccountsScreens/get-linked-account-details";
 import GetAssetAccountDetailsScreen from "./(tabs)/AssetsScreens/get-asset-accounts-details";
+import GetTradeQuotesDetailsScreen from "./(tabs)/TradeQuotesScreens/get-trade-quotes-details";
 import GetTradeDetailsScreen from "./(tabs)/TradesScreen/get-trades-details";
 import { CandleClient } from "react-native-candle";
 import { CandleClientContext } from "./Context/candle-context";
@@ -15,8 +16,36 @@ import { CandleClientContext } from "./Context/candle-context";
 const Stack = createNativeStackNavigator();
 const AssetStack = createNativeStackNavigator();
 const TradesStack = createNativeStackNavigator();
+const TradeQuotesStack = createNativeStackNavigator();
 
 export default function RootLayout() {
+  function TradeQuotesListStack() {
+    return (
+      <TradeQuotesStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <TradeQuotesStack.Screen
+          name="Get Trade Quotes Screen"
+          component={GetTradeQuotesScreen}
+          options={{
+            headerLargeTitle: true,
+            headerShown: true,
+            title: "Get Trade Quotes",
+          }}
+        />
+        <TradeQuotesStack.Screen
+          name="Get Trade Quotes Details Screen"
+          component={GetTradeQuotesDetailsScreen}
+          options={{
+            headerShown: true,
+            title: "Trade Quote Details",
+          }}
+        />
+      </TradeQuotesStack.Navigator>
+    );
+  }
   function TradesListStack() {
     return (
       <TradesStack.Navigator
@@ -119,12 +148,11 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="Get Trade Quotes Screen"
-            component={GetTradeQuotesScreen}
+            component={TradeQuotesListStack}
             options={{
-              headerLargeTitle: true,
               presentation: "modal",
-              headerShown: true,
               title: "Get Trade Quotes",
+              headerLargeTitle: true,
             }}
           />
           <Stack.Screen

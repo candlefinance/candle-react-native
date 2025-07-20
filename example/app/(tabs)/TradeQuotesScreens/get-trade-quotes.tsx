@@ -1,5 +1,4 @@
 import {
-  RefreshControl,
   StyleSheet,
   Text,
   View,
@@ -14,6 +13,8 @@ import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { LinkedAccountStatusRef, TradeQuote } from "react-native-candle";
+import { SharedListRow } from "../SharedComponents/shared-list-row";
+import { useNavigation } from "@react-navigation/native";
 
 export default function GetTradeQuotesScreen() {
   const [quotes, setQuotes] = useState<{
@@ -35,6 +36,7 @@ export default function GetTradeQuotesScreen() {
     longitude: "-73.9935",
   });
   const candleClient = useCandleClient();
+  const navigation = useNavigation<any>();
 
   const fetchTradeQuotes = async () => {
     try {
@@ -103,14 +105,7 @@ export default function GetTradeQuotesScreen() {
             />
           </View>
           <TouchableOpacity
-            style={{
-              backgroundColor: "#222",
-              borderRadius: 6,
-              alignItems: "center",
-              flexDirection: "row",
-              justifyContent: "center",
-              padding: 12,
-            }}
+            style={styles.primaryButton}
             onPress={() => {
               setIsLoading(true);
               fetchTradeQuotes().finally(() => setIsLoading(false));
@@ -131,48 +126,20 @@ export default function GetTradeQuotesScreen() {
           </TouchableOpacity>
         </View>
         {quotes?.tradeQuotes.map((quote, index) => (
-          <View
-            key={`quote-${index}`}
-            style={{
-              padding: 20,
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 10,
-              backgroundColor: "white",
-            }}
+          <SharedListRow
+            subtitle={quote.gained.name}
+            title={`$${quote.lost.amount.toFixed(2)}`}
+            uri={quote.gained.imageURL}
             onTouchEnd={() => {
-              candleClient.presentCandleTradeExecutionSheet({
-                tradeQuote: quote,
-                presentationBackground: "blur",
-                completion: (result) => {
-                  switch (result.kind) {
-                    case "success":
-                      break;
-                    case "failure":
-                      Alert.alert(
-                        "Trade execution failed",
-                        result.error.message
-                      );
-                      break;
-                  }
+              navigation.navigate("Get Trade Quotes Details Screen", {
+                quote: {
+                  tradeQuotes: quote,
+                  linkedAccounts: quotes.linkedAccounts[index],
                 },
               });
             }}
-          >
-            <Image
-              source={{ uri: quote.gained.imageURL }}
-              style={{ width: 50, height: 50, borderRadius: 25 }}
-              resizeMode="contain"
-            />
-            <View>
-              <Text>
-                {quote.gained.name} - ${quote.lost.amount.toFixed(2)}
-              </Text>
-              <Text style={{ color: "gray", flex: 1 }}>
-                {quote.gained.description}
-              </Text>
-            </View>
-          </View>
+            key={`quote-${index}`}
+          />
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -187,8 +154,15 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: "#ccc",
-    borderRadius: 6,
+    borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 8,
+  },
+  primaryButton: {
+    padding: 12,
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 28,
   },
 });
