@@ -4,6 +4,7 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
+  Text,
 } from "react-native";
 import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +12,7 @@ import { useEffect, useState } from "react";
 import { LinkedAccountStatusRef, Trade } from "react-native-candle";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 import { useNavigation } from "@react-navigation/native";
+import { getLogo } from "@/app/Utils";
 
 export default function GetTradesScreen() {
   const [trades, setTrades] = useState<{
@@ -53,6 +55,34 @@ export default function GetTradesScreen() {
         }
         contentInsetAdjustmentBehavior={"always"}
       >
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          {trades?.linkedAccounts == undefined ? "" : "Linked Accounts"}
+        </Text>
+        {trades?.linkedAccounts.map((account, index) => (
+          <SharedListRow
+            key={account.linkedAccountID}
+            title={account.service}
+            subtitle={account.state}
+            uri={getLogo(account.service)}
+          />
+        ))}
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          {trades?.linkedAccounts == undefined ? "" : "Trades"}
+        </Text>
         {trades?.trades.map((trade, index) => (
           <SharedListRow
             title={
@@ -61,7 +91,11 @@ export default function GetTradesScreen() {
                 : trade.state
             }
             subtitle={trade.dateTime}
-            uri={trade.lost.assetKind == "transport" ? trade.lost.imageURL : ""}
+            uri={
+              trade.counterparty.kind == "user"
+                ? trade.counterparty.avatarURL
+                : ""
+            }
             onTouchEnd={() => {
               navigation.navigate("Get Trade Detail Screen", {
                 trade,

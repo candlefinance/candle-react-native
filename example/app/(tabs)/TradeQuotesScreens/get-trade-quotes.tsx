@@ -4,7 +4,6 @@ import {
   View,
   ScrollView,
   Alert,
-  Image,
   TextInput,
   ActivityIndicator,
   TouchableOpacity,
@@ -15,6 +14,7 @@ import { useState } from "react";
 import { LinkedAccountStatusRef, TradeQuote } from "react-native-candle";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 import { useNavigation } from "@react-navigation/native";
+import { getLogo } from "@/app/Utils";
 
 export default function GetTradeQuotesScreen() {
   const [quotes, setQuotes] = useState<{
@@ -125,6 +125,34 @@ export default function GetTradeQuotesScreen() {
             </Text>
           </TouchableOpacity>
         </View>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          {quotes?.linkedAccounts == undefined ? "" : "Linked Accounts"}
+        </Text>
+        {quotes?.linkedAccounts.map((account, index) => (
+          <SharedListRow
+            key={account.linkedAccountID}
+            title={account.service}
+            subtitle={account.state}
+            uri={getLogo(account.service)}
+          />
+        ))}
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          {quotes?.linkedAccounts == undefined ? "" : "Trade Quotes"}
+        </Text>
         {quotes?.tradeQuotes.map((quote, index) => (
           <SharedListRow
             subtitle={quote.gained.name}

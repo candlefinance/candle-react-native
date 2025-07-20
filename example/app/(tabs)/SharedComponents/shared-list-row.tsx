@@ -7,7 +7,7 @@ export function SharedListRow({
   title,
   subtitle,
 }: {
-  onTouchEnd: () => void;
+  onTouchEnd?: () => void;
   uri: string;
   title: string;
   subtitle: string;
@@ -22,7 +22,7 @@ export function SharedListRow({
         backgroundColor: "white",
       }}
       onTouchEnd={() => {
-        onTouchEnd();
+        onTouchEnd?.();
       }}
     >
       <Image
@@ -46,7 +46,9 @@ export function SharedListRow({
         </Text>
         <Text style={{ color: "gray" }}>{subtitle}</Text>
       </View>
-      <Feather name="chevron-right" size={24} color="gray" />
+      {onTouchEnd !== undefined ? (
+        <Feather name="chevron-right" size={24} color="gray" />
+      ) : null}
     </View>
   );
 }

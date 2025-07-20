@@ -2,17 +2,14 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
-  View,
   ScrollView,
   Alert,
   ActivityIndicator,
-  Image,
 } from "react-native";
 import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { AssetAccount, LinkedAccountStatusRef } from "react-native-candle";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getLogo } from "../../Utils";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
@@ -29,7 +26,6 @@ export default function GetAssetAccountsScreen() {
   const fetchAssetAccounts = async () => {
     try {
       const accounts = await candleClient.getAssetAccounts();
-      console.log("Asset Accounts:", accounts);
       setAssetAccounts(accounts);
     } catch (error) {
       Alert.alert(`Failed to fetch asset accounts: ${error}`);
@@ -59,6 +55,34 @@ export default function GetAssetAccountsScreen() {
         }
         contentInsetAdjustmentBehavior={"always"}
       >
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          {assetAccounts?.linkedAccounts == undefined ? "" : "Linked Accounts"}
+        </Text>
+        {assetAccounts?.linkedAccounts.map((account, index) => (
+          <SharedListRow
+            key={account.linkedAccountID}
+            title={account.service}
+            subtitle={account.state}
+            uri={getLogo(account.service)}
+          />
+        ))}
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          {assetAccounts?.assetAccounts == undefined ? "" : "Asset Accounts"}
+        </Text>
         {assetAccounts?.assetAccounts.map((account) => (
           <SharedListRow
             title={account.nickname}
