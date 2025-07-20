@@ -135,16 +135,7 @@ export class CandleClient {
     );
   }
 
-  public async getLinkedAccounts(): Promise<
-    (
-      | (LinkedAccount & {
-          details: { state: "active" } & ActiveLinkedAccountDetails;
-        })
-      | (LinkedAccount & {
-          details: { state: "inactive" | "unavailable" };
-        })
-    )[]
-  > {
+  public async getLinkedAccounts(): Promise<LinkedAccountDetail[]> {
     const accounts = await this.candle.getLinkedAccounts();
     return accounts.map((account) => {
       if (account.details.activeLinkedAccountDetails !== undefined) {
@@ -598,7 +589,16 @@ type TradeAssetRef =
   | ({ assetKind: "fiat" } & FiatAssetRef)
   | ({ assetKind: "stock" | "crypto" } & MarketTradeAssetRef);
 
+type LinkedAccountDetail =
+  | (LinkedAccount & {
+      details: { state: "active" } & ActiveLinkedAccountDetails;
+    })
+  | (LinkedAccount & {
+      details: { state: "inactive" | "unavailable" };
+    });
+
 export type {
+  LinkedAccountStatusRef,
   Address,
   AppUser,
   AssetAccount,
@@ -607,6 +607,7 @@ export type {
   Coordinates,
   Counterparty,
   LinkedAccount,
+  LinkedAccountDetail,
   LinkedAccountRef,
   Service,
   Trade,
