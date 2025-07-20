@@ -1,62 +1,36 @@
-import { useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { AssetKind, CandleClient, TradeQuote } from "react-native-candle";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useCandleClient } from "../Context/candle-context";
 
 export default function TabOneScreen() {
-  const [tradeQuote, setTradeQuote] = useState<
-    TradeQuote<AssetKind, AssetKind> | undefined
-  >(undefined);
-
   const candleClient = useCandleClient();
-
-  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <View style={[styles.container]}>
-      <Button
-        title="Show Candle Sheet"
+      <TouchableOpacity
+        style={{
+          padding: 16,
+          backgroundColor: "red",
+          margin: 10,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 28,
+        }}
         onPress={() => {
           candleClient.presentCandleLinkSheet({
-            services: ["lyft"], // optional, defaults to all supported
+            services: ["lyft", "uber", "venmo", "cash_app", "robinhood"],
             onSuccess: (linkedAccount) => {
-              console.log("Account linked:", linkedAccount);
+              Alert.alert("Account linked:", linkedAccount.service);
             },
             customerName: "Akme Inc.",
             presentationStyle: "sheet",
-            presentationBackground: "default",
-          });
-        }}
-      />
-      <Button
-        title="Execute Trade"
-        onPress={() => {
-          setIsLoading(true);
-          candleClient.presentCandleTradeExecutionSheet({
-            tradeQuote: {
-              context: "",
-              expirationDateTime: "",
-              gained: { assetKind: "nothing" },
-              lost: { assetKind: "nothing" },
-            },
             presentationBackground: "blur",
-            completion: (result) => {
-              if (result.kind === "success") {
-                setTradeQuote(undefined);
-              } else {
-                Alert.alert("Error", `${result.error}`);
-              }
-            },
           });
         }}
-      />
+      >
+        <Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>
+          Link Account
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

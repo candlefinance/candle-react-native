@@ -6,10 +6,12 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useMemo } from "react";
 import "react-native-reanimated";
 import TabOneScreen from "./(tabs)";
-import ScreenTwo from "./(tabs)/modal";
+import GetTradeQuotesScreen from "./(tabs)/get-trade-quotes";
+import GetTradesScreen from "./(tabs)/get-trades";
+import GetAssetAccountsScreen from "./(tabs)/get-asset-accounts";
+import Modal from "./(tabs)/modal";
 import { CandleClient } from "react-native-candle";
 import { CandleClientContext } from "./Context/candle-context";
-import ErrorBoundary from "react-native-error-boundary";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -53,14 +55,53 @@ export default function RootLayout() {
     <CandleClientContext.Provider value={candleClient}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={TabOneScreen} />
           <Stack.Screen
-            name="ScreenTwo"
-            component={ScreenTwo}
             options={{
+              headerShown: true,
+              title: "Linked Accounts",
+              headerLargeTitle: true,
+            }}
+            name="Home"
+            component={TabOneScreen}
+          />
+          <Stack.Screen
+            name="Modal Screen"
+            component={Modal}
+            options={{
+              headerLargeTitle: true,
               presentation: "modal",
               headerShown: true,
               title: "Modal",
+            }}
+          />
+          <Stack.Screen
+            name="Get Trade Quotes Screen"
+            component={GetTradeQuotesScreen}
+            options={{
+              headerLargeTitle: true,
+              presentation: "modal",
+              headerShown: true,
+              title: "Get Trade Quotes",
+            }}
+          />
+          <Stack.Screen
+            name="Get Trades Screen"
+            component={GetTradesScreen}
+            options={{
+              headerLargeTitle: true,
+              presentation: "modal",
+              headerShown: true,
+              title: "Get Trades",
+            }}
+          />
+          <Stack.Screen
+            name="Get Asset Accounts Screen"
+            component={GetAssetAccountsScreen}
+            options={{
+              headerLargeTitle: true,
+              presentation: "modal",
+              headerShown: true,
+              title: "Get Asset Accounts",
             }}
           />
         </Stack.Navigator>
