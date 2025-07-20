@@ -6,13 +6,43 @@ import GetLinkedAccounts from "./(tabs)/get-linked-accounts";
 import GetTradeQuotesScreen from "./(tabs)/get-trade-quotes";
 import GetTradesScreen from "./(tabs)/get-trades";
 import GetAssetAccountsScreen from "./(tabs)/get-asset-accounts";
-import GetLinkedDetialScreen from "./(tabs)/get-linked-account-details";
+import GetLinkedAccountDetailsScreen from "./(tabs)/get-linked-account-details";
+import GetAssetAccountDetailsScreen from "./(tabs)/get-asset-accounts-details";
 import { CandleClient } from "react-native-candle";
 import { CandleClientContext } from "./Context/candle-context";
 
 const Stack = createNativeStackNavigator();
+const AssetStack = createNativeStackNavigator();
 
 export default function RootLayout() {
+  function AssetAccountsStack() {
+    return (
+      <AssetStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <AssetStack.Screen
+          name="Get Asset Accounts Screen"
+          component={GetAssetAccountsScreen}
+          options={{
+            headerLargeTitle: true,
+            headerShown: true,
+            title: "Get Asset Accounts",
+          }}
+        />
+        <AssetStack.Screen
+          name="Get Asset Accounts Details Screen"
+          component={GetAssetAccountDetailsScreen}
+          options={{
+            headerShown: true,
+            title: "Asset Account Details",
+          }}
+        />
+      </AssetStack.Navigator>
+    );
+  }
+
   const candleClient = useMemo(() => {
     const appKey = process.env.EXPO_PUBLIC_CANDLE_APP_KEY;
     const appSecret = process.env.EXPO_PUBLIC_CANDLE_APP_SECRET;
@@ -42,7 +72,7 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="Get Linked Account Details Screen"
-            component={GetLinkedDetialScreen}
+            component={GetLinkedAccountDetailsScreen}
             options={{
               presentation: "card",
               headerShown: true,
@@ -80,12 +110,11 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="Get Asset Accounts Screen"
-            component={GetAssetAccountsScreen}
+            component={AssetAccountsStack}
             options={{
-              headerLargeTitle: true,
               presentation: "modal",
-              headerShown: true,
-              title: "Get Asset Accounts",
+              headerLargeTitle: true,
+              title: "Get Trades",
             }}
           />
         </Stack.Navigator>

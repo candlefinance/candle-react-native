@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Alert,
-  Image,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -9,12 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { LinkedAccountDetail } from "react-native-candle";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useCandleClient } from "../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getLogo } from "../Utils";
+import { SharedListRow } from "./shared/shared-list-row";
 
 type TabParamList = {
   "Get Linked Accounts Screen": {
@@ -76,48 +75,22 @@ export default function GetLinkedAccountsScreen() {
         }
       >
         {linkedAccounts.map((account) => (
-          <View
-            style={{
-              padding: 20,
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 16,
-              backgroundColor: "white",
-            }}
+          <SharedListRow
+            key={account.linkedAccountID}
+            title={account.service}
+            subtitle={
+              account.details.state == "active"
+                ? account.details.legalName
+                : account.details.state
+            }
+            uri={getLogo(account.service)}
             onTouchEnd={() => {
               navigation.navigate("Get Linked Account Details Screen", {
                 account: account,
                 onUnlinked: onRefresh,
               });
             }}
-            key={account.linkedAccountID}
-          >
-            <Image
-              source={{
-                uri: getLogo(account.service),
-                width: 50,
-                height: 50,
-              }}
-              style={{ width: 50, height: 50, borderRadius: 25 }}
-            />
-            <View style={{ flex: 1, gap: 4 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
-                }}
-              >
-                {account.service}
-              </Text>
-              <Text style={{ color: "gray" }}>
-                {account.details.state == "active"
-                  ? account.details.legalName
-                  : account.details.state}
-              </Text>
-            </View>
-            <Feather name="chevron-right" size={24} color="gray" />
-          </View>
+          />
         ))}
       </ScrollView>
       <View style={{ gap: 10 }}>
