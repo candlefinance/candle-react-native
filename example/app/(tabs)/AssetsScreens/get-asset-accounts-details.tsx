@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AssetAccount, LinkedAccountStatusRef } from "react-native-candle";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { flattenObject } from "../Utils";
-import { DetailScrollView } from "./shared/detail-scroll-view";
+import { flattenObject } from "../../Utils";
+import { DetailScrollView } from "../SharedComponents/detail-scroll-view";
 
 type TabParamList = {
   GetAssetAccountDetailsScreen: {

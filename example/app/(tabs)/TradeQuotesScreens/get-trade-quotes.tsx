@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
-import { useCandleClient } from "../Context/candle-context";
+import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { LinkedAccountStatusRef, TradeQuote } from "react-native-candle";

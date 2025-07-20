@@ -1,57 +1,51 @@
 import {
   RefreshControl,
   StyleSheet,
-  Text,
-  View,
   ScrollView,
   Alert,
   ActivityIndicator,
-  Image,
 } from "react-native";
-import { useCandleClient } from "../Context/candle-context";
+import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
-import { AssetAccount, LinkedAccountStatusRef } from "react-native-candle";
-import { Feather } from "@expo/vector-icons";
+import { LinkedAccountStatusRef, Trade } from "react-native-candle";
+import { SharedListRow } from "../SharedComponents/shared-list-row";
 import { useNavigation } from "@react-navigation/native";
-import { getLogo } from "../Utils";
-import { SharedListRow } from "./shared/shared-list-row";
 
-export default function GetAssetAccountsScreen() {
-  const [assetAccounts, setAssetAccounts] = useState<{
-    assetAccounts: AssetAccount[];
+export default function GetTradesScreen() {
+  const [trades, setTrades] = useState<{
+    trades: Trade[];
     linkedAccounts: LinkedAccountStatusRef[];
   }>();
   const navigation = useNavigation<any>();
   const [isLoading, setIsLoading] = useState(true);
   const candleClient = useCandleClient();
 
-  const fetchAssetAccounts = async () => {
+  const fetchTrades = async () => {
     try {
-      const accounts = await candleClient.getAssetAccounts();
-      console.log("Asset Accounts:", accounts);
-      setAssetAccounts(accounts);
+      const accounts = await candleClient.getTrades();
+      setTrades(accounts);
     } catch (error) {
-      Alert.alert(`Failed to fetch asset accounts: ${error}`);
+      Alert.alert(`Failed to fetch trades: ${error}`);
     }
   };
 
   useEffect(() => {
-    if (assetAccounts) return;
-    fetchAssetAccounts().finally(() => {
+    if (trades) return;
+    fetchTrades().finally(() => {
       setIsLoading(false);
     });
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView edges={["bottom"]} style={[styles.container]}>
       <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
             onRefresh={() => {
               setIsLoading(true);
-              fetchAssetAccounts().finally(() => {
+              fetchTrades().finally(() => {
                 setIsLoading(false);
               });
             }}
@@ -59,17 +53,21 @@ export default function GetAssetAccountsScreen() {
         }
         contentInsetAdjustmentBehavior={"always"}
       >
-        {assetAccounts?.assetAccounts.map((account) => (
+        {trades?.trades.map((trade, index) => (
           <SharedListRow
-            title={account.nickname}
-            subtitle={account.legalAccountKind}
-            uri={getLogo(account.details.service)}
+            title={
+              trade.lost.assetKind == "transport"
+                ? trade.lost.name
+                : trade.state
+            }
+            subtitle={trade.dateTime}
+            uri={trade.lost.assetKind == "transport" ? trade.lost.imageURL : ""}
             onTouchEnd={() => {
-              navigation.navigate("Get Asset Accounts Details Screen", {
-                assetAccount: account,
+              navigation.navigate("Get Trade Detail Screen", {
+                trade,
               });
             }}
-            key={account.details.serviceAccountID}
+            key={`trade-${index}`}
           />
         ))}
         <ActivityIndicator

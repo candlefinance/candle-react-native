@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { LinkedAccountDetail } from "react-native-candle";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useCandleClient } from "../Context/candle-context";
+import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getLogo } from "../Utils";
-import { SharedListRow } from "./shared/shared-list-row";
+import { getLogo } from "../../Utils";
+import { SharedListRow } from "../SharedComponents/shared-list-row";
 
 type TabParamList = {
   "Get Linked Accounts Screen": {
