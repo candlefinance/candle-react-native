@@ -45,6 +45,12 @@
             "newArchEnabled": true
           }
         }
+      ],
+      [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
       ]
     ],
     "experiments": {
