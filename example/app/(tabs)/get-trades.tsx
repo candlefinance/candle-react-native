@@ -1,21 +1,23 @@
 import {
   RefreshControl,
   StyleSheet,
-  Text,
-  View,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useCandleClient } from "../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { LinkedAccountStatusRef, Trade } from "react-native-candle";
+import { SharedListRow } from "./shared/shared-list-row";
+import { useNavigation } from "@react-navigation/native";
 
 export default function GetTradesScreen() {
   const [trades, setTrades] = useState<{
     trades: Trade[];
     linkedAccounts: LinkedAccountStatusRef[];
   }>();
+  const navigation = useNavigation<any>();
   const [isLoading, setIsLoading] = useState(true);
   const candleClient = useCandleClient();
 
@@ -36,7 +38,7 @@ export default function GetTradesScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView edges={["bottom"]} style={[styles.container]}>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -52,21 +54,28 @@ export default function GetTradesScreen() {
         contentInsetAdjustmentBehavior={"always"}
       >
         {trades?.trades.map((trade, index) => (
-          <View
-            key={`trade-${index}`}
-            style={{
-              padding: 20,
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 10,
-              backgroundColor: "white",
+          <SharedListRow
+            title={
+              trade.lost.assetKind == "transport"
+                ? trade.lost.name
+                : trade.state
+            }
+            subtitle={trade.dateTime}
+            uri={trade.lost.assetKind == "transport" ? trade.lost.imageURL : ""}
+            onTouchEnd={() => {
+              navigation.navigate("Get Trade Detail Screen", {
+                trade,
+              });
             }}
-          >
-            <Text>
-              {trade.counterparty.kind} - {trade.dateTime} - {trade.state}
-            </Text>
-          </View>
+            key={`trade-${index}`}
+          />
         ))}
+        <ActivityIndicator
+          animating={isLoading}
+          size="large"
+          color="black"
+          style={{ marginTop: 20 }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

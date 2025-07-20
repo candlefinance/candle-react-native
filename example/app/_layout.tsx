@@ -8,13 +8,42 @@ import GetTradesScreen from "./(tabs)/get-trades";
 import GetAssetAccountsScreen from "./(tabs)/get-asset-accounts";
 import GetLinkedAccountDetailsScreen from "./(tabs)/get-linked-account-details";
 import GetAssetAccountDetailsScreen from "./(tabs)/get-asset-accounts-details";
+import GetTradeDetailsScreen from "./(tabs)/get-trades-details";
 import { CandleClient } from "react-native-candle";
 import { CandleClientContext } from "./Context/candle-context";
 
 const Stack = createNativeStackNavigator();
 const AssetStack = createNativeStackNavigator();
+const TradesStack = createNativeStackNavigator();
 
 export default function RootLayout() {
+  function TradesListStack() {
+    return (
+      <TradesStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <TradesStack.Screen
+          name="Get Trades Screen"
+          component={GetTradesScreen}
+          options={{
+            headerLargeTitle: true,
+            headerShown: true,
+            title: "Get Trades",
+          }}
+        />
+        <TradesStack.Screen
+          name="Get Trade Detail Screen"
+          component={GetTradeDetailsScreen}
+          options={{
+            headerShown: true,
+            title: "Get Trade Quotes",
+          }}
+        />
+      </TradesStack.Navigator>
+    );
+  }
   function AssetAccountsStack() {
     return (
       <AssetStack.Navigator
@@ -100,11 +129,10 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="Get Trades Screen"
-            component={GetTradesScreen}
+            component={TradesListStack}
             options={{
-              headerLargeTitle: true,
               presentation: "modal",
-              headerShown: true,
+              headerLargeTitle: true,
               title: "Get Trades",
             }}
           />
@@ -114,7 +142,7 @@ export default function RootLayout() {
             options={{
               presentation: "modal",
               headerLargeTitle: true,
-              title: "Get Trades",
+              title: "Get Asset Accounts",
             }}
           />
         </Stack.Navigator>
