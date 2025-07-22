@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 export function SharedListRow({
@@ -13,7 +13,7 @@ export function SharedListRow({
   subtitle: string;
 }) {
   return (
-    <View
+    <Pressable
       style={{
         padding: 20,
         alignItems: "center",
@@ -21,7 +21,7 @@ export function SharedListRow({
         gap: 16,
         backgroundColor: "white",
       }}
-      onTouchEnd={() => {
+      onPress={() => {
         onTouchEnd?.();
       }}
     >
@@ -49,6 +49,6 @@ export function SharedListRow({
       {onTouchEnd !== undefined ? (
         <Feather name="chevron-right" size={24} color="gray" />
       ) : null}
-    </View>
+    </Pressable>
   );
 }
