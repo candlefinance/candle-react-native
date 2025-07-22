@@ -39,7 +39,10 @@ export default function GetLinkedAccountsScreen() {
 
   useEffect(() => {
     if (linkedAccounts.length > 0) return;
-    onRefresh();
+    const timeoutId = setTimeout(() => {
+      onRefresh();
+    }, 1000);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
