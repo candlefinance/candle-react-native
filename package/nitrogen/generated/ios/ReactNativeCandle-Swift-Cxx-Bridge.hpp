@@ -18,8 +18,6 @@ namespace margelo::nitro::rncandle { struct ActiveLinkedAccountDetails; }
 namespace margelo::nitro::rncandle { struct Address; }
 // Forward declaration of `AnyMap` to properly resolve imports.
 namespace NitroModules { class AnyMap; }
-// Forward declaration of `AssetAccountDetails` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct AssetAccountDetails; }
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
@@ -30,28 +28,28 @@ namespace margelo::nitro::rncandle { struct AssetAccountsResponse; }
 namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
-// Forward declaration of `FiatAccountDetails` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct FiatAccountDetails; }
+// Forward declaration of `FiatAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAccount; }
 // Forward declaration of `FiatAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct FiatAssetQuoteRequest; }
 // Forward declaration of `FiatAssetRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct FiatAssetRef; }
 // Forward declaration of `FiatAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct FiatAsset; }
+// Forward declaration of `FiatMarketAccountKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class FiatMarketAccountKind; }
 // Forward declaration of `HybridRNCandleSpec` to properly resolve imports.
 namespace margelo::nitro::rncandle { class HybridRNCandleSpec; }
 // Forward declaration of `InactiveLinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
-// Forward declaration of `LegalAccountKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
 // Forward declaration of `LinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountDetails; }
 // Forward declaration of `LinkedAccountStatusRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountStatusRef; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
-// Forward declaration of `MarketAccountDetails` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct MarketAccountDetails; }
+// Forward declaration of `MarketAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketAccount; }
 // Forward declaration of `MarketAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 // Forward declaration of `MarketTradeAssetRef` to properly resolve imports.
@@ -92,6 +90,10 @@ namespace margelo::nitro::rncandle { enum class TradeState; }
 namespace margelo::nitro::rncandle { struct Trade; }
 // Forward declaration of `TradesResponse` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradesResponse; }
+// Forward declaration of `TransportAccountKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class TransportAccountKind; }
+// Forward declaration of `TransportAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TransportAccount; }
 // Forward declaration of `TransportAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 // Forward declaration of `TransportAssetRef` to properly resolve imports.
@@ -115,22 +117,21 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "ActiveLinkedAccountDetails.hpp"
 #include "Address.hpp"
 #include "AssetAccount.hpp"
-#include "AssetAccountDetails.hpp"
 #include "AssetAccountKind.hpp"
 #include "AssetAccountsResponse.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
-#include "FiatAccountDetails.hpp"
+#include "FiatAccount.hpp"
 #include "FiatAsset.hpp"
 #include "FiatAssetQuoteRequest.hpp"
 #include "FiatAssetRef.hpp"
+#include "FiatMarketAccountKind.hpp"
 #include "HybridRNCandleSpec.hpp"
 #include "InactiveLinkedAccountDetails.hpp"
-#include "LegalAccountKind.hpp"
 #include "LinkedAccount.hpp"
 #include "LinkedAccountDetails.hpp"
 #include "LinkedAccountStatusRef.hpp"
-#include "MarketAccountDetails.hpp"
+#include "MarketAccount.hpp"
 #include "MarketAssetQuoteRequest.hpp"
 #include "MarketTradeAsset.hpp"
 #include "MarketTradeAssetRef.hpp"
@@ -151,6 +152,8 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "TradeQuotesResponse.hpp"
 #include "TradeState.hpp"
 #include "TradesResponse.hpp"
+#include "TransportAccount.hpp"
+#include "TransportAccountKind.hpp"
 #include "TransportAsset.hpp"
 #include "TransportAssetQuoteRequest.hpp"
 #include "TransportAssetRef.hpp"
@@ -515,22 +518,31 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return std::optional<WireDetails>(value);
   }
   
-  // pragma MARK: std::optional<FiatAccountDetails>
+  // pragma MARK: std::optional<FiatAccount>
   /**
-   * Specialized version of `std::optional<FiatAccountDetails>`.
+   * Specialized version of `std::optional<FiatAccount>`.
    */
-  using std__optional_FiatAccountDetails_ = std::optional<FiatAccountDetails>;
-  inline std::optional<FiatAccountDetails> create_std__optional_FiatAccountDetails_(const FiatAccountDetails& value) {
-    return std::optional<FiatAccountDetails>(value);
+  using std__optional_FiatAccount_ = std::optional<FiatAccount>;
+  inline std::optional<FiatAccount> create_std__optional_FiatAccount_(const FiatAccount& value) {
+    return std::optional<FiatAccount>(value);
   }
   
-  // pragma MARK: std::optional<MarketAccountDetails>
+  // pragma MARK: std::optional<MarketAccount>
   /**
-   * Specialized version of `std::optional<MarketAccountDetails>`.
+   * Specialized version of `std::optional<MarketAccount>`.
    */
-  using std__optional_MarketAccountDetails_ = std::optional<MarketAccountDetails>;
-  inline std::optional<MarketAccountDetails> create_std__optional_MarketAccountDetails_(const MarketAccountDetails& value) {
-    return std::optional<MarketAccountDetails>(value);
+  using std__optional_MarketAccount_ = std::optional<MarketAccount>;
+  inline std::optional<MarketAccount> create_std__optional_MarketAccount_(const MarketAccount& value) {
+    return std::optional<MarketAccount>(value);
+  }
+  
+  // pragma MARK: std::optional<TransportAccount>
+  /**
+   * Specialized version of `std::optional<TransportAccount>`.
+   */
+  using std__optional_TransportAccount_ = std::optional<TransportAccount>;
+  inline std::optional<TransportAccount> create_std__optional_TransportAccount_(const TransportAccount& value) {
+    return std::optional<TransportAccount>(value);
   }
   
   // pragma MARK: std::vector<AssetAccount>

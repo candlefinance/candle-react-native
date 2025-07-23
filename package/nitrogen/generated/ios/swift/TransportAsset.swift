@@ -17,15 +17,16 @@ extension TransportAsset {
    * Create a new instance of `TransportAsset`.
    */
   public init(
-    assetKind: String, serviceTradeID: String, serviceAssetID: String, name: String,
-    description: String, imageURL: String, originCoordinates: Coordinates, originAddress: Address,
-    destinationCoordinates: Coordinates, destinationAddress: Address, seats: Double,
-    departureDateTime: String, arrivalDateTime: String, linkedAccountID: String, service: Service
+    assetKind: String, serviceTradeID: String, serviceAssetID: String, serviceAccountID: String,
+    name: String, description: String, imageURL: String, originCoordinates: Coordinates,
+    originAddress: Address, destinationCoordinates: Coordinates, destinationAddress: Address,
+    seats: Double, departureDateTime: String, arrivalDateTime: String, linkedAccountID: String,
+    service: Service
   ) {
     self.init(
       std.string(assetKind), std.string(serviceTradeID), std.string(serviceAssetID),
-      std.string(name), std.string(description), std.string(imageURL), originCoordinates,
-      originAddress, destinationCoordinates, destinationAddress, seats,
+      std.string(serviceAccountID), std.string(name), std.string(description), std.string(imageURL),
+      originCoordinates, originAddress, destinationCoordinates, destinationAddress, seats,
       std.string(departureDateTime), std.string(arrivalDateTime), std.string(linkedAccountID),
       service)
   }
@@ -60,6 +61,17 @@ extension TransportAsset {
     @inline(__always)
     set {
       self.__serviceAssetID = std.string(newValue)
+    }
+  }
+
+  public var serviceAccountID: String {
+    @inline(__always)
+    get {
+      return String(self.__serviceAccountID)
+    }
+    @inline(__always)
+    set {
+      self.__serviceAccountID = std.string(newValue)
     }
   }
 

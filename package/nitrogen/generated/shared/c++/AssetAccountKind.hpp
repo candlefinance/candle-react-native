@@ -32,6 +32,7 @@ namespace margelo::nitro::rncandle {
     FIAT      SWIFT_NAME(fiat) = 0,
     STOCK      SWIFT_NAME(stock) = 1,
     CRYPTO      SWIFT_NAME(crypto) = 2,
+    TANSPORT      SWIFT_NAME(tansport) = 3,
   } CLOSED_ENUM;
 
 } // namespace margelo::nitro::rncandle
@@ -49,6 +50,7 @@ namespace margelo::nitro {
         case hashString("fiat"): return AssetAccountKind::FIAT;
         case hashString("stock"): return AssetAccountKind::STOCK;
         case hashString("crypto"): return AssetAccountKind::CRYPTO;
+        case hashString("tansport"): return AssetAccountKind::TANSPORT;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum AssetAccountKind - invalid value!");
       }
@@ -58,6 +60,7 @@ namespace margelo::nitro {
         case AssetAccountKind::FIAT: return JSIConverter<std::string>::toJSI(runtime, "fiat");
         case AssetAccountKind::STOCK: return JSIConverter<std::string>::toJSI(runtime, "stock");
         case AssetAccountKind::CRYPTO: return JSIConverter<std::string>::toJSI(runtime, "crypto");
+        case AssetAccountKind::TANSPORT: return JSIConverter<std::string>::toJSI(runtime, "tansport");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert AssetAccountKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");
@@ -72,6 +75,7 @@ namespace margelo::nitro {
         case hashString("fiat"):
         case hashString("stock"):
         case hashString("crypto"):
+        case hashString("tansport"):
           return true;
         default:
           return false;

@@ -16,40 +16,99 @@ extension AssetAccount {
   /**
    * Create a new instance of `AssetAccount`.
    */
-  public init(legalAccountKind: LegalAccountKind, nickname: String, details: AssetAccountDetails) {
-    self.init(legalAccountKind, std.string(nickname), details)
+  public init(
+    fiatAccount: FiatAccount?, marketAccount: MarketAccount?, transportAccount: TransportAccount?
+  ) {
+    self.init(
+      { () -> bridge.std__optional_FiatAccount_ in
+        if let __unwrappedValue = fiatAccount {
+          return bridge.create_std__optional_FiatAccount_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }(),
+      { () -> bridge.std__optional_MarketAccount_ in
+        if let __unwrappedValue = marketAccount {
+          return bridge.create_std__optional_MarketAccount_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }(),
+      { () -> bridge.std__optional_TransportAccount_ in
+        if let __unwrappedValue = transportAccount {
+          return bridge.create_std__optional_TransportAccount_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }())
   }
 
-  public var legalAccountKind: LegalAccountKind {
+  public var fiatAccount: FiatAccount? {
     @inline(__always)
     get {
-      return self.__legalAccountKind
+      return { () -> FiatAccount? in
+        if let __unwrapped = self.__fiatAccount.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__legalAccountKind = newValue
+      self.__fiatAccount = { () -> bridge.std__optional_FiatAccount_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_FiatAccount_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 
-  public var nickname: String {
+  public var marketAccount: MarketAccount? {
     @inline(__always)
     get {
-      return String(self.__nickname)
+      return { () -> MarketAccount? in
+        if let __unwrapped = self.__marketAccount.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__nickname = std.string(newValue)
+      self.__marketAccount = { () -> bridge.std__optional_MarketAccount_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_MarketAccount_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 
-  public var details: AssetAccountDetails {
+  public var transportAccount: TransportAccount? {
     @inline(__always)
     get {
-      return self.__details
+      return { () -> TransportAccount? in
+        if let __unwrapped = self.__transportAccount.value {
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
     }
     @inline(__always)
     set {
-      self.__details = newValue
+      self.__transportAccount = { () -> bridge.std__optional_TransportAccount_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_TransportAccount_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }
