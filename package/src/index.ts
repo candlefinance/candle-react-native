@@ -10,13 +10,13 @@ import type {
   FiatAsset,
   FiatAssetQuoteRequest,
   FiatAssetRef,
+  FiatMarketAccountKind,
   AssetAccount as InternalAssetAccount,
   Counterparty as InternalCounterparty,
   TradeAsset as InternalTradeAsset,
   TradeAssetRef as InternalTradeAssetRef,
   TradeQuery as InternalTradeQuery,
   TradeQuote as InternalTradeQuote,
-  LegalAccountKind,
   LinkedAccount,
   LinkedAccountRef,
   LinkedAccountStatusRef,
@@ -36,6 +36,7 @@ import type {
   ServiceCounterparty,
   TradeAssetQuoteRequest,
   TradeState,
+  TransportAccountKind,
   TransportAsset,
   TransportAssetQuoteRequest,
   TransportAssetRef,
@@ -462,6 +463,14 @@ export class CandleClient {
     }
   }
 
+  private assertFiatAssetKind(kind: string): "fiat" {
+    if (kind !== "fiat") {
+      throw new Error("Internal Candle Error: corrupted market account.");
+    } else {
+      return kind;
+    }
+  }
+
   private assertMarketAssetKind(kind: string): "stock" | "crypto" {
     if (kind !== "stock" && kind !== "crypto") {
       throw new Error("Internal Candle Error: corrupted market account.");
@@ -470,27 +479,31 @@ export class CandleClient {
     }
   }
 
-  private convertToAssetAccount(account: InternalAssetAccount): AssetAccount {
-    const { legalAccountKind, nickname } = account;
-    const { fiatAccountDetails, marketAccountDetails } = account.details;
+  private assertTransportAssetKind(kind: string): "transport" {
+    if (kind !== "transport") {
+      throw new Error("Internal Candle Error: corrupted market account.");
+    } else {
+      return kind;
+    }
+  }
 
-    if (fiatAccountDetails !== undefined) {
+  private convertToAssetAccount(account: InternalAssetAccount): AssetAccount {
+    const { fiatAccount, marketAccount, transportAccount } = account;
+
+    if (fiatAccount !== undefined) {
       return {
-        legalAccountKind,
-        nickname,
-        details: {
-          ...fiatAccountDetails,
-          assetKind: "fiat",
-        },
+        ...fiatAccount,
+        assetKind: this.assertFiatAssetKind(fiatAccount.assetKind),
       };
-    } else if (marketAccountDetails !== undefined) {
+    } else if (marketAccount !== undefined) {
       return {
-        legalAccountKind,
-        nickname,
-        details: {
-          ...marketAccountDetails,
-          assetKind: this.assertMarketAssetKind(marketAccountDetails.assetKind),
-        },
+        ...marketAccount,
+        assetKind: this.assertMarketAssetKind(marketAccount.assetKind),
+      };
+    } else if (transportAccount !== undefined) {
+      return {
+        ...transportAccount,
+        assetKind: this.assertTransportAssetKind(transportAccount.assetKind),
       };
     } else {
       throw new Error("Internal Candle Error: corrupted asset account.");
@@ -553,26 +566,28 @@ type TradeQueryAssetKind =
   | "nothing";
 
 type AssetAccount = {
-  legalAccountKind: LegalAccountKind;
+  serviceAccountID: string;
   nickname: string;
-  details:
-    | {
-        assetKind: "fiat";
-        serviceAccountID: string;
-        currencyCode: string;
-        balance?: number;
-        linkedAccountID: string;
-        service: Service;
-        ach?: ACHDetails;
-        wire?: WireDetails;
-      }
-    | {
-        assetKind: "stock" | "crypto";
-        serviceAccountID: string;
-        linkedAccountID: string;
-        service: Service;
-      };
-};
+  linkedAccountID: string;
+  service: Service;
+} & (
+  | {
+      assetKind: "fiat";
+      accountKind: FiatMarketAccountKind;
+      currencyCode: string;
+      balance?: number;
+      ach?: ACHDetails;
+      wire?: WireDetails;
+    }
+  | {
+      assetKind: "stock" | "crypto";
+      accountKind: FiatMarketAccountKind;
+    }
+  | {
+      assetKind: "transport";
+      accountKind: TransportAccountKind;
+    }
+);
 
 type Trade = {
   dateTime: string;
@@ -598,7 +613,6 @@ type LinkedAccountDetail =
     });
 
 export type {
-  LinkedAccountStatusRef,
   Address,
   AppUser,
   AssetAccount,
@@ -609,6 +623,7 @@ export type {
   LinkedAccount,
   LinkedAccountDetail,
   LinkedAccountRef,
+  LinkedAccountStatusRef,
   Service,
   Trade,
   TradeAsset,

@@ -19,9 +19,20 @@ export type WireDetails = {
   routingNumber: string;
 };
 
-type FiatAccountDetails = {
+export type FiatMarketAccountKind =
+  | "individual"
+  | "joint"
+  | "traditionalIra"
+  | "rothIra"
+  | "business";
+
+export type TransportAccountKind = "individual" | "joint" | "business";
+
+type FiatAccount = {
   assetKind: string; // fiat
   serviceAccountID: string;
+  accountKind: FiatMarketAccountKind;
+  nickname: string;
   currencyCode: string;
   balance?: number;
   ach?: ACHDetails;
@@ -30,31 +41,31 @@ type FiatAccountDetails = {
   service: Service;
 };
 
-type MarketAccountDetails = {
+type MarketAccount = {
   assetKind: string; // "stock" | "crypto"
   serviceAccountID: string;
+  accountKind: FiatMarketAccountKind;
+  nickname: string;
   linkedAccountID: string;
   service: Service;
 };
 
-type AssetAccountDetails = {
-  fiatAccountDetails?: FiatAccountDetails;
-  marketAccountDetails?: MarketAccountDetails;
+type TransportAccount = {
+  assetKind: string; // "transport"
+  serviceAccountID: string;
+  accountKind: TransportAccountKind;
+  nickname: string;
+  linkedAccountID: string;
+  service: Service;
 };
-
-export type LegalAccountKind =
-  | "individual"
-  | "joint"
-  | "traditionalIra"
-  | "rothIra";
 
 export type AssetAccount = {
-  legalAccountKind: LegalAccountKind;
-  nickname: string;
-  details: AssetAccountDetails;
+  fiatAccount?: FiatAccount;
+  marketAccount?: MarketAccount;
+  transportAccount?: TransportAccount;
 };
 
-type AssetAccountKind = "fiat" | "stock" | "crypto";
+type AssetAccountKind = "fiat" | "stock" | "crypto" | "tansport";
 
 export type AssetAccountQuery = {
   linkedAccountIDs?: string;
@@ -98,6 +109,7 @@ export type TransportAsset = {
   assetKind: string; // "transport"
   serviceTradeID: string;
   serviceAssetID: string;
+  serviceAccountID: string;
   name: string;
   description: string;
   // FIXME: use URL type for url fields
