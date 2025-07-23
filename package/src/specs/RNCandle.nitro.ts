@@ -65,7 +65,7 @@ export type AssetAccount = {
   transportAccount?: TransportAccount;
 };
 
-type AssetAccountKind = "fiat" | "stock" | "crypto" | "tansport";
+type AssetAccountKind = "fiat" | "stock" | "crypto" | "transport";
 
 export type AssetAccountQuery = {
   linkedAccountIDs?: string;

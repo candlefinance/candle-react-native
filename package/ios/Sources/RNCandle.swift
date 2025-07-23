@@ -1030,7 +1030,7 @@ extension AssetAccountKind {
       return .stock
     case .crypto:
       return .crypto
-    case .tansport:
+    case .transport:
       return .transport
     }
   }
