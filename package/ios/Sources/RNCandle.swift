@@ -23,7 +23,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
         return viewModel
       }
       throw RNClientError.badInitialization(
-        message: "Failed to properly initialize the client.")
+        message: "Failed to properly initialize the client."
+      )
     }
   }
 
@@ -33,8 +34,10 @@ final class HybridRNCandle: HybridRNCandleSpec {
     Task { @MainActor in
       let wrapperView = CandleLinkSheetWrapper(
         appUser: .init(
-          appKey: appUser.appKey, appSecret: appUser.appSecret,
-          appUserID: appUser.appUserID),
+          appKey: appUser.appKey,
+          appSecret: appUser.appSecret,
+          appUserID: appUser.appUserID
+        ),
         accessGroup: accessGroup
       )
       let hostingVC = UIHostingController(rootView: wrapperView)
@@ -65,7 +68,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
           .rootViewController
       else {
         throw RNClientError.badInitialization(
-          message: "Application root view was not initialized.")
+          message: "Application root view was not initialized."
+        )
       }
 
       let parentVC = rootViewController.candleTopMost
@@ -161,7 +165,12 @@ final class HybridRNCandle: HybridRNCandleSpec {
               )
             )
           case .failure(let error):
-            completion(.init(trade: nil, error: "We encountered an error: \(error)"))
+            completion(
+              .init(
+                trade: nil,
+                error: "We encountered an error: \(error)"
+              )
+            )
           case .none:
             break
           }
@@ -175,7 +184,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
   public func unlinkAccount(ref: LinkedAccountRef) throws -> Promise<Void> {
     .async {
       try await self.viewModel.candleClient.unlinkAccount(
-        path: .init(linkedAccountID: ref.linkedAccountID))
+        path: .init(linkedAccountID: ref.linkedAccountID)
+      )
     }
   }
 
@@ -187,10 +197,14 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  public func getLinkedAccount(ref: LinkedAccountRef) throws -> Promise<LinkedAccount> {
+  public func getLinkedAccount(ref: LinkedAccountRef) throws -> Promise<
+    LinkedAccount
+  > {
     .async {
-      let account = try await self.viewModel.candleClient.getLinkedAccount(
-        ref: .init(linkedAccountID: ref.linkedAccountID))
+      let account = try await self.viewModel.candleClient
+        .getLinkedAccount(
+          ref: .init(linkedAccountID: ref.linkedAccountID)
+        )
       return account.toLinkedAccount
     }
   }
@@ -213,7 +227,9 @@ final class HybridRNCandle: HybridRNCandleSpec {
     }
   }
 
-  public func getAssetAccount(ref: AssetAccountRef) throws -> Promise<AssetAccount> {
+  public func getAssetAccount(ref: AssetAccountRef) throws -> Promise<
+    AssetAccount
+  > {
     .async {
       let account = try await self.viewModel.candleClient.getAssetAccount(
         ref: .init(
@@ -247,7 +263,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
           gainedAssetKind: query.toGainedAssetKind,
           lostAssetKind: query.toLostAssetKind,
           counterpartyKind: query.toCounterpartyKindPayload
-        ))
+        )
+      )
       return TradesResponse(
         linkedAccounts:
           trades.linkedAccounts.map(\.toRNModel),
@@ -293,7 +310,8 @@ final class HybridRNCandle: HybridRNCandleSpec {
     .async { [weak self] in
       guard let self else {
         throw RNClientError.badInitialization(
-          message: "Self was deinitialized \(#function).")
+          message: "Self was deinitialized \(#function)."
+        )
       }
       let result = try await self.viewModel.candleClient
         .getAvailableTools()
@@ -392,7 +410,8 @@ extension Candle.Models.LinkedAccount {
             accountOpened: details.accountOpened,
             username: details.username,
             emailAddress: details.emailAddress,
-            legalName: details.legalName),
+            legalName: details.legalName
+          ),
           inactiveLinkedAccountDetails: nil,
           unavailableLinkedAccountDetails: nil
         )
@@ -420,7 +439,9 @@ extension Candle.Models.LinkedAccount {
           details: .init(
             activeLinkedAccountDetails: nil,
             inactiveLinkedAccountDetails: nil,
-            unavailableLinkedAccountDetails: .init(state: details.state.rawValue)
+            unavailableLinkedAccountDetails: .init(
+              state: details.state.rawValue
+            )
           )
         )
       }
@@ -434,7 +455,8 @@ extension Models.MerchantCounterparty {
       return .init(
         countryCode: location.countryCode,
         countrySubdivisionCode: location.countrySubdivisionCode,
-        localityName: location.localityName)
+        localityName: location.localityName
+      )
     }
     return nil
   }
@@ -447,7 +469,8 @@ extension Models.Trade {
       return .init(
         merchantCounterparty: .init(
           kind: merchant.kind.rawValue,
-          name: merchant.name, logoURL: merchant.logoURL,
+          name: merchant.name,
+          logoURL: merchant.logoURL,
           location: merchant.toLocation
         ),
         userCounterparty: nil,
@@ -524,6 +547,7 @@ extension Models.TradeAsset {
           assetKind: transportAsset.assetKind.rawValue,
           serviceTradeID: transportAsset.serviceTradeID,
           serviceAssetID: transportAsset.serviceAssetID,
+          serviceAccountID: transportAsset.serviceAccountID,
           name: transportAsset.name,
           description: transportAsset.description,
           imageURL: transportAsset.imageURL,
@@ -532,7 +556,8 @@ extension Models.TradeAsset {
             longitude: transportAsset.originCoordinates.longitude
           ),
           originAddress: .init(
-            value: transportAsset.originAddress.value),
+            value: transportAsset.originAddress.value
+          ),
           destinationCoordinates: .init(
             latitude: transportAsset.destinationCoordinates
               .latitude,
@@ -540,7 +565,8 @@ extension Models.TradeAsset {
               .longitude
           ),
           destinationAddress: .init(
-            value: transportAsset.destinationAddress.value),
+            value: transportAsset.destinationAddress.value
+          ),
           seats: transportAsset.seats,
           departureDateTime: transportAsset.departureDateTime,
           arrivalDateTime: transportAsset.arrivalDateTime,
@@ -597,8 +623,10 @@ extension TradeAssetQuoteRequest {
         )
       } else if let marketAssetQuoteRequest {
         guard
-          let assetKind = Models.MarketAssetQuoteRequest.AssetKindPayload(
-            rawValue: marketAssetQuoteRequest.assetKind)
+          let assetKind = Models.MarketAssetQuoteRequest
+            .AssetKindPayload(
+              rawValue: marketAssetQuoteRequest.assetKind
+            )
         else {
           throw RNClientError.badEncoding
         }
@@ -637,7 +665,8 @@ extension TradeAssetQuoteRequest {
       } else {
         throw RNClientError.badInitialization(
           message:
-            "Internal Candle Error: corrupted trade quote request.")
+            "Internal Candle Error: corrupted trade quote request."
+        )
       }
     }
   }
@@ -1001,12 +1030,14 @@ extension AssetAccountKind {
       return .stock
     case .crypto:
       return .crypto
+    case .tansport:
+      return .transport
     }
   }
 }
 
-extension Candle.Components.Schemas.LegalAccountKind {
-  var toRNModel: LegalAccountKind {
+extension Candle.Components.Schemas.FiatMarketAccountKind {
+  var toRNModel: FiatMarketAccountKind {
     switch self {
     case .individual:
       return .individual
@@ -1016,6 +1047,21 @@ extension Candle.Components.Schemas.LegalAccountKind {
       return .rothira
     case .traditionalIra:
       return .traditionalira
+    case .business:
+      return .business
+    }
+  }
+}
+
+extension Candle.Components.Schemas.TransportAccountKind {
+  var toRNModel: TransportAccountKind {
+    switch self {
+    case .individual:
+      return .individual
+    case .joint:
+      return .joint
+    case .business:
+      return .business
     }
   }
 }
@@ -1047,7 +1093,8 @@ extension Models.Trade.StatePayload {
 extension TradeQuery {
 
   var toGainedAssetKind:
-    Candle.Operations.GetLinkedAccountsTrades.Input.Query.GainedAssetKindPayload?
+    Candle.Operations.GetLinkedAccountsTrades.Input.Query
+      .GainedAssetKindPayload?
   {
     if let gainedAssetKind {
       return .init(rawValue: gainedAssetKind)
@@ -1055,7 +1102,10 @@ extension TradeQuery {
     return nil
   }
 
-  var toLostAssetKind: Candle.Operations.GetLinkedAccountsTrades.Input.Query.LostAssetKindPayload? {
+  var toLostAssetKind:
+    Candle.Operations.GetLinkedAccountsTrades.Input.Query
+      .LostAssetKindPayload?
+  {
     if let lostAssetKind {
       return .init(rawValue: lostAssetKind)
     }
@@ -1063,7 +1113,8 @@ extension TradeQuery {
   }
 
   var toCounterpartyKindPayload:
-    Candle.Operations.GetLinkedAccountsTrades.Input.Query.CounterpartyKindPayload?
+    Candle.Operations.GetLinkedAccountsTrades.Input.Query
+      .CounterpartyKindPayload?
   {
     if let counterpartyKind {
       return .init(rawValue: counterpartyKind)
@@ -1074,9 +1125,8 @@ extension TradeQuery {
 
 extension Models.AssetAccount {
   var toRNModel: AssetAccount {
-    let legalAccountKind = legalAccountKind.toRNModel
-    switch details {
-    case .FiatAccountDetails(let fiatDetails):
+    switch self {
+    case .FiatAccount(let fiatDetails):
       let ach = fiatDetails.ach.map { details in
         ACHDetails(
           accountNumber: details.accountNumber,
@@ -1092,34 +1142,45 @@ extension Models.AssetAccount {
         )
       }
       return AssetAccount(
-        legalAccountKind: legalAccountKind,
-        nickname: nickname,
-        details: .init(
-          fiatAccountDetails: .init(
-            assetKind: fiatDetails.assetKind.rawValue,
-            serviceAccountID: fiatDetails.serviceAccountID,
-            currencyCode: fiatDetails.currencyCode,
-            balance: fiatDetails.balance,
-            ach: ach,
-            wire: wire,
-            linkedAccountID: fiatDetails.linkedAccountID,
-            service: fiatDetails.service.toRNModel),
-          marketAccountDetails: nil
-        )
+        fiatAccount: .init(
+          assetKind: fiatDetails.assetKind.rawValue,
+          serviceAccountID: fiatDetails.serviceAccountID,
+          accountKind: fiatDetails.accountKind.toRNModel,
+          nickname: nickname,
+          currencyCode: fiatDetails.currencyCode,
+          balance: fiatDetails.balance,
+          ach: ach,
+          wire: wire,
+          linkedAccountID: fiatDetails.linkedAccountID,
+          service: fiatDetails.service.toRNModel,
+        ),
+        marketAccount: nil,
+        transportAccount: nil
       )
-    case .MarketAccountDetails(let marketDetails):
+    case .MarketAccount(let marketDetails):
       return AssetAccount(
-        legalAccountKind: legalAccountKind,
-        nickname: nickname,
-        details: .init(
-          fiatAccountDetails: nil,
-          marketAccountDetails: .init(
-            assetKind: marketDetails.assetKind.rawValue,
-            serviceAccountID: marketDetails
-              .serviceAccountID,
-            linkedAccountID: marketDetails.linkedAccountID,
-            service: marketDetails.service.toRNModel
-          )
+        fiatAccount: nil,
+        marketAccount: .init(
+          assetKind: marketDetails.assetKind.rawValue,
+          serviceAccountID: marketDetails.serviceAccountID,
+          accountKind: marketDetails.accountKind.toRNModel,
+          nickname: nickname,
+          linkedAccountID: marketDetails.linkedAccountID,
+          service: marketDetails.service.toRNModel
+        ),
+        transportAccount: nil
+      )
+    case .TransportAccount(let transportDetails):
+      return AssetAccount(
+        fiatAccount: nil,
+        marketAccount: nil,
+        transportAccount: .init(
+          assetKind: transportDetails.assetKind.rawValue,
+          serviceAccountID: transportDetails.serviceAccountID,
+          accountKind: transportDetails.accountKind.toRNModel,
+          nickname: nickname,
+          linkedAccountID: transportDetails.linkedAccountID,
+          service: transportDetails.service.toRNModel
         )
       )
     }
@@ -1142,7 +1203,8 @@ extension TradeAssetRef {
       } else if let marketTradeAssetRef {
         guard
           let assetKind = Models.MarketAssetRef.AssetKindPayload.init(
-            rawValue: marketTradeAssetRef.assetKind)
+            rawValue: marketTradeAssetRef.assetKind
+          )
         else {
           throw RNClientError.badEncoding
         }
@@ -1188,7 +1250,10 @@ extension TradeAsset {
           )
         )
       } else if let market = marketTradeAsset {
-        guard let assetKind = Models.MarketTradeAsset.AssetKindPayload(rawValue: market.assetKind)
+        guard
+          let assetKind = Models.MarketTradeAsset.AssetKindPayload(
+            rawValue: market.assetKind
+          )
         else {
           throw RNClientError.badEncoding
         }
@@ -1213,6 +1278,7 @@ extension TradeAsset {
             assetKind: .transport,
             serviceTradeID: transport.serviceTradeID,
             serviceAssetID: transport.serviceAssetID,
+            serviceAccountID: transport.serviceAccountID,
             name: transport.name,
             description: transport.description,
             imageURL: transport.imageURL,
@@ -1220,12 +1286,17 @@ extension TradeAsset {
               latitude: transport.originCoordinates.latitude,
               longitude: transport.originCoordinates.longitude
             ),
-            originAddress: .init(value: transport.originAddress.value),
+            originAddress: .init(
+              value: transport.originAddress.value
+            ),
             destinationCoordinates: .init(
               latitude: transport.destinationCoordinates.latitude,
-              longitude: transport.destinationCoordinates.longitude
+              longitude: transport.destinationCoordinates
+                .longitude
             ),
-            destinationAddress: .init(value: transport.destinationAddress.value),
+            destinationAddress: .init(
+              value: transport.destinationAddress.value
+            ),
             seats: transport.seats,
             departureDateTime: transport.departureDateTime,
             arrivalDateTime: transport.arrivalDateTime,
