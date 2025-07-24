@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ADMIN_PAT }}
 
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
@@ -35,5 +37,3 @@ jobs:
       - name: Release
         working-directory: .
         run: bun release-it --non-interactive
-        env:
-          GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
