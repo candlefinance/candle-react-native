@@ -63,6 +63,9 @@
   },
   "release-it": {
     "npm": {
+      "versionArgs": [
+        "--allow-same-version"
+      ],
       "publish": false
     },
     "github": {
