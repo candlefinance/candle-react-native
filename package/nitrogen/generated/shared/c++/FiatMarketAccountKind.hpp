@@ -50,8 +50,8 @@ namespace margelo::nitro {
       switch (hashString(unionValue.c_str(), unionValue.size())) {
         case hashString("individual"): return FiatMarketAccountKind::INDIVIDUAL;
         case hashString("joint"): return FiatMarketAccountKind::JOINT;
-        case hashString("traditionalIra"): return FiatMarketAccountKind::TRADITIONALIRA;
-        case hashString("rothIra"): return FiatMarketAccountKind::ROTHIRA;
+        case hashString("traditionalIRA"): return FiatMarketAccountKind::TRADITIONALIRA;
+        case hashString("rothIRA"): return FiatMarketAccountKind::ROTHIRA;
         case hashString("business"): return FiatMarketAccountKind::BUSINESS;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum FiatMarketAccountKind - invalid value!");
@@ -61,8 +61,8 @@ namespace margelo::nitro {
       switch (arg) {
         case FiatMarketAccountKind::INDIVIDUAL: return JSIConverter<std::string>::toJSI(runtime, "individual");
         case FiatMarketAccountKind::JOINT: return JSIConverter<std::string>::toJSI(runtime, "joint");
-        case FiatMarketAccountKind::TRADITIONALIRA: return JSIConverter<std::string>::toJSI(runtime, "traditionalIra");
-        case FiatMarketAccountKind::ROTHIRA: return JSIConverter<std::string>::toJSI(runtime, "rothIra");
+        case FiatMarketAccountKind::TRADITIONALIRA: return JSIConverter<std::string>::toJSI(runtime, "traditionalIRA");
+        case FiatMarketAccountKind::ROTHIRA: return JSIConverter<std::string>::toJSI(runtime, "rothIRA");
         case FiatMarketAccountKind::BUSINESS: return JSIConverter<std::string>::toJSI(runtime, "business");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert FiatMarketAccountKind to JS - invalid value: "
@@ -77,8 +77,8 @@ namespace margelo::nitro {
       switch (hashString(unionValue.c_str(), unionValue.size())) {
         case hashString("individual"):
         case hashString("joint"):
-        case hashString("traditionalIra"):
-        case hashString("rothIra"):
+        case hashString("traditionalIRA"):
+        case hashString("rothIRA"):
         case hashString("business"):
           return true;
         default:

@@ -22,8 +22,8 @@ export type WireDetails = {
 export type FiatMarketAccountKind =
   | "individual"
   | "joint"
-  | "traditionalIra"
-  | "rothIra"
+  | "traditionalIRA"
+  | "rothIRA"
   | "business";
 
 export type TransportAccountKind = "individual" | "joint" | "business";

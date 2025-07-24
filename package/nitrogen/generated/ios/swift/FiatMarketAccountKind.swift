@@ -19,9 +19,9 @@ extension FiatMarketAccountKind {
       self = .individual
     case "joint":
       self = .joint
-    case "traditionalIra":
+    case "traditionalIRA":
       self = .traditionalira
-    case "rothIra":
+    case "rothIRA":
       self = .rothira
     case "business":
       self = .business
@@ -40,9 +40,9 @@ extension FiatMarketAccountKind {
     case .joint:
       return "joint"
     case .traditionalira:
-      return "traditionalIra"
+      return "traditionalIRA"
     case .rothira:
-      return "rothIra"
+      return "rothIRA"
     case .business:
       return "business"
     }

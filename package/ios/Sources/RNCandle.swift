@@ -1043,9 +1043,9 @@ extension Candle.Components.Schemas.FiatMarketAccountKind {
       return .individual
     case .joint:
       return .joint
-    case .rothIra:
+    case .rothIRA:
       return .rothira
-    case .traditionalIra:
+    case .traditionalIRA:
       return .traditionalira
     case .business:
       return .business
