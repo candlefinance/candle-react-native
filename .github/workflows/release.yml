@@ -14,8 +14,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     if: github.event.pull_request.merged == true
 
     steps:
