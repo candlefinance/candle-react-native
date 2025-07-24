@@ -37,3 +37,5 @@ jobs:
       - name: Release
         working-directory: .
         run: bun release-it --non-interactive
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
