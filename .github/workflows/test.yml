@@ -75,4 +75,4 @@ jobs:
       - name: Xcode-build
         working-directory: example
         run: bun run build
-        timeout-minutes: 30
+        timeout-minutes: 45
