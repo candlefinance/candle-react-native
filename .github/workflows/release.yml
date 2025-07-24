@@ -11,8 +11,6 @@ concurrency: ${{ github.workflow }}
 
 jobs:
   create_release:
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
 
@@ -38,11 +36,4 @@ jobs:
         working-directory: .
         run: bun release-it --non-interactive
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Push version bump commit
-        uses: CasperWA/push-protected@v2
-        with:
-          token: ${{ secrets.ADMIN_PAT }}
-          ref: ${{ github.base_ref }}
-          tags: true
+          GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
