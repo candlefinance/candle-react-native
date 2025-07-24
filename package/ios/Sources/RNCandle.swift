@@ -1043,9 +1043,9 @@ extension Candle.Components.Schemas.FiatMarketAccountKind {
       return .individual
     case .joint:
       return .joint
-    case .rothIRA:
+    case .rothIra:
       return .rothira
-    case .traditionalIRA:
+    case .traditionalIra:
       return .traditionalira
     case .business:
       return .business
@@ -1152,7 +1152,7 @@ extension Models.AssetAccount {
           ach: ach,
           wire: wire,
           linkedAccountID: fiatDetails.linkedAccountID,
-          service: fiatDetails.service.toRNModel,
+          service: fiatDetails.service.toRNModel
         ),
         marketAccount: nil,
         transportAccount: nil
