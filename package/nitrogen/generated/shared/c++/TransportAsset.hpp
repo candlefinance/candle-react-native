@@ -40,6 +40,7 @@ namespace margelo::nitro::rncandle {
     std::string assetKind     SWIFT_PRIVATE;
     std::string serviceTradeID     SWIFT_PRIVATE;
     std::string serviceAssetID     SWIFT_PRIVATE;
+    std::string serviceAccountID     SWIFT_PRIVATE;
     std::string name     SWIFT_PRIVATE;
     std::string description     SWIFT_PRIVATE;
     std::string imageURL     SWIFT_PRIVATE;
@@ -55,7 +56,7 @@ namespace margelo::nitro::rncandle {
 
   public:
     TransportAsset() = default;
-    explicit TransportAsset(std::string assetKind, std::string serviceTradeID, std::string serviceAssetID, std::string name, std::string description, std::string imageURL, Coordinates originCoordinates, Address originAddress, Coordinates destinationCoordinates, Address destinationAddress, double seats, std::string departureDateTime, std::string arrivalDateTime, std::string linkedAccountID, Service service): assetKind(assetKind), serviceTradeID(serviceTradeID), serviceAssetID(serviceAssetID), name(name), description(description), imageURL(imageURL), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats), departureDateTime(departureDateTime), arrivalDateTime(arrivalDateTime), linkedAccountID(linkedAccountID), service(service) {}
+    explicit TransportAsset(std::string assetKind, std::string serviceTradeID, std::string serviceAssetID, std::string serviceAccountID, std::string name, std::string description, std::string imageURL, Coordinates originCoordinates, Address originAddress, Coordinates destinationCoordinates, Address destinationAddress, double seats, std::string departureDateTime, std::string arrivalDateTime, std::string linkedAccountID, Service service): assetKind(assetKind), serviceTradeID(serviceTradeID), serviceAssetID(serviceAssetID), serviceAccountID(serviceAccountID), name(name), description(description), imageURL(imageURL), originCoordinates(originCoordinates), originAddress(originAddress), destinationCoordinates(destinationCoordinates), destinationAddress(destinationAddress), seats(seats), departureDateTime(departureDateTime), arrivalDateTime(arrivalDateTime), linkedAccountID(linkedAccountID), service(service) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -73,6 +74,7 @@ namespace margelo::nitro {
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceTradeID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAssetID")),
+        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "name")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "description")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "imageURL")),
@@ -92,6 +94,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceTradeID", JSIConverter<std::string>::toJSI(runtime, arg.serviceTradeID));
       obj.setProperty(runtime, "serviceAssetID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAssetID));
+      obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAccountID));
       obj.setProperty(runtime, "name", JSIConverter<std::string>::toJSI(runtime, arg.name));
       obj.setProperty(runtime, "description", JSIConverter<std::string>::toJSI(runtime, arg.description));
       obj.setProperty(runtime, "imageURL", JSIConverter<std::string>::toJSI(runtime, arg.imageURL));
@@ -114,6 +117,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceTradeID"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAssetID"))) return false;
+      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "name"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "description"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "imageURL"))) return false;

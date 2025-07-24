@@ -18,14 +18,17 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-// Forward declaration of `LegalAccountKind` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class LegalAccountKind; }
-// Forward declaration of `AssetAccountDetails` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct AssetAccountDetails; }
+// Forward declaration of `FiatAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct FiatAccount; }
+// Forward declaration of `MarketAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MarketAccount; }
+// Forward declaration of `TransportAccount` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TransportAccount; }
 
-#include "LegalAccountKind.hpp"
-#include <string>
-#include "AssetAccountDetails.hpp"
+#include <optional>
+#include "FiatAccount.hpp"
+#include "MarketAccount.hpp"
+#include "TransportAccount.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -34,13 +37,13 @@ namespace margelo::nitro::rncandle {
    */
   struct AssetAccount {
   public:
-    LegalAccountKind legalAccountKind     SWIFT_PRIVATE;
-    std::string nickname     SWIFT_PRIVATE;
-    AssetAccountDetails details     SWIFT_PRIVATE;
+    std::optional<FiatAccount> fiatAccount     SWIFT_PRIVATE;
+    std::optional<MarketAccount> marketAccount     SWIFT_PRIVATE;
+    std::optional<TransportAccount> transportAccount     SWIFT_PRIVATE;
 
   public:
     AssetAccount() = default;
-    explicit AssetAccount(LegalAccountKind legalAccountKind, std::string nickname, AssetAccountDetails details): legalAccountKind(legalAccountKind), nickname(nickname), details(details) {}
+    explicit AssetAccount(std::optional<FiatAccount> fiatAccount, std::optional<MarketAccount> marketAccount, std::optional<TransportAccount> transportAccount): fiatAccount(fiatAccount), marketAccount(marketAccount), transportAccount(transportAccount) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -55,16 +58,16 @@ namespace margelo::nitro {
     static inline AssetAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return AssetAccount(
-        JSIConverter<LegalAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "legalAccountKind")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "nickname")),
-        JSIConverter<AssetAccountDetails>::fromJSI(runtime, obj.getProperty(runtime, "details"))
+        JSIConverter<std::optional<FiatAccount>>::fromJSI(runtime, obj.getProperty(runtime, "fiatAccount")),
+        JSIConverter<std::optional<MarketAccount>>::fromJSI(runtime, obj.getProperty(runtime, "marketAccount")),
+        JSIConverter<std::optional<TransportAccount>>::fromJSI(runtime, obj.getProperty(runtime, "transportAccount"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const AssetAccount& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "legalAccountKind", JSIConverter<LegalAccountKind>::toJSI(runtime, arg.legalAccountKind));
-      obj.setProperty(runtime, "nickname", JSIConverter<std::string>::toJSI(runtime, arg.nickname));
-      obj.setProperty(runtime, "details", JSIConverter<AssetAccountDetails>::toJSI(runtime, arg.details));
+      obj.setProperty(runtime, "fiatAccount", JSIConverter<std::optional<FiatAccount>>::toJSI(runtime, arg.fiatAccount));
+      obj.setProperty(runtime, "marketAccount", JSIConverter<std::optional<MarketAccount>>::toJSI(runtime, arg.marketAccount));
+      obj.setProperty(runtime, "transportAccount", JSIConverter<std::optional<TransportAccount>>::toJSI(runtime, arg.transportAccount));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -72,9 +75,9 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<LegalAccountKind>::canConvert(runtime, obj.getProperty(runtime, "legalAccountKind"))) return false;
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "nickname"))) return false;
-      if (!JSIConverter<AssetAccountDetails>::canConvert(runtime, obj.getProperty(runtime, "details"))) return false;
+      if (!JSIConverter<std::optional<FiatAccount>>::canConvert(runtime, obj.getProperty(runtime, "fiatAccount"))) return false;
+      if (!JSIConverter<std::optional<MarketAccount>>::canConvert(runtime, obj.getProperty(runtime, "marketAccount"))) return false;
+      if (!JSIConverter<std::optional<TransportAccount>>::canConvert(runtime, obj.getProperty(runtime, "transportAccount"))) return false;
       return true;
     }
   };

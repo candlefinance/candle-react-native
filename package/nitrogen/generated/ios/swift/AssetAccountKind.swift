@@ -21,6 +21,8 @@ extension AssetAccountKind {
       self = .stock
     case "crypto":
       self = .crypto
+    case "transport":
+      self = .transport
     default:
       return nil
     }
@@ -37,6 +39,8 @@ extension AssetAccountKind {
       return "stock"
     case .crypto:
       return "crypto"
+    case .transport:
+      return "transport"
     }
   }
 }
