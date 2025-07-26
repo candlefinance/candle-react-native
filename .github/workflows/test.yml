@@ -68,6 +68,10 @@ jobs:
         working-directory: example
         run: npx tsc
 
+      - name: Build typescript in package dir
+        working-directory: package
+        run: npx tsc
+
       - name: Pods
         working-directory: example
         run: |
