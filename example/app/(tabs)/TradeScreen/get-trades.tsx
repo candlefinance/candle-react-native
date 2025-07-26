@@ -5,16 +5,26 @@ import {
   Alert,
   ActivityIndicator,
   Text,
+  Button,
+  Platform,
+  View,
 } from "react-native";
 import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
-import { LinkedAccountStatusRef, Trade } from "react-native-candle";
+import { useEffect, useRef, useState } from "react";
+import {
+  LinkedAccountStatusRef,
+  Trade,
+  useCandleClient,
+} from "react-native-candle";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 import { useNavigation } from "@react-navigation/native";
 import { getLogo } from "@/app/Utils";
+import { MenuView, MenuComponentRef } from "@react-native-menu/menu";
 
 export default function GetTradesScreen() {
+  const menuRef = useRef<MenuComponentRef>(null);
+
   const [trades, setTrades] = useState<{
     trades: Trade[];
     linkedAccounts: LinkedAccountStatusRef[];
@@ -31,6 +41,85 @@ export default function GetTradesScreen() {
       Alert.alert(`Failed to fetch trades: ${error}`);
     }
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <MenuView
+          ref={menuRef}
+          title="Menu Title"
+          onPressAction={({ nativeEvent }) => {
+            console.warn(JSON.stringify(nativeEvent));
+          }}
+          actions={[
+            {
+              id: "add",
+              title: "Add",
+              titleColor: "#2367A2",
+              image: Platform.select({
+                ios: "plus",
+                android: "ic_menu_add",
+              }),
+              imageColor: "#2367A2",
+              subactions: [
+                {
+                  id: "nested1",
+                  title: "Nested action",
+                  titleColor: "rgba(250,180,100,0.5)",
+                  subtitle: "State is mixed",
+                  image: Platform.select({
+                    ios: "heart.fill",
+                    android: "ic_menu_today",
+                  }),
+                  imageColor: "rgba(100,200,250,0.3)",
+                  state: "mixed",
+                },
+                {
+                  id: "nestedDestructive",
+                  title: "Destructive Action",
+                  attributes: {
+                    destructive: true,
+                  },
+                  image: Platform.select({
+                    ios: "trash",
+                    android: "ic_menu_delete",
+                  }),
+                },
+              ],
+            },
+            {
+              id: "share",
+              title: "Share Action",
+              titleColor: "#46F289",
+              subtitle: "Share action on SNS",
+              image: Platform.select({
+                ios: "square.and.arrow.up",
+                android: "ic_menu_share",
+              }),
+              imageColor: "#46F289",
+              state: "on",
+            },
+            {
+              id: "destructive",
+              title: "Destructive Action",
+              attributes: {
+                destructive: true,
+              },
+              image: Platform.select({
+                ios: "trash",
+                android: "ic_menu_delete",
+              }),
+            },
+          ]}
+          shouldOpenOnLongPress={false}
+        >
+          <View>
+            <Text>Test Menu</Text>
+          </View>
+        </MenuView>
+      ),
+    });
+  }, []);
 
   useEffect(() => {
     if (trades) return;
