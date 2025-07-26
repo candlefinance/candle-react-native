@@ -64,6 +64,10 @@ jobs:
               exit 0
           fi
 
+      - name: Build typescript in example app
+        working-directory: example
+        run: npx tsc
+
       - name: Pods
         working-directory: example
         run: |

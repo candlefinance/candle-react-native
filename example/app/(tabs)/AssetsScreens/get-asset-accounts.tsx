@@ -1,16 +1,16 @@
+import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
+  Alert,
   RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
-  ScrollView,
-  Alert,
-  ActivityIndicator,
 } from "react-native";
-import { useCandleClient } from "../../Context/candle-context";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
 import { AssetAccount, LinkedAccountStatusRef } from "react-native-candle";
-import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useCandleClient } from "../../Context/candle-context";
 import { getLogo } from "../../Utils";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 
@@ -86,14 +86,14 @@ export default function GetAssetAccountsScreen() {
         {assetAccounts?.assetAccounts.map((account) => (
           <SharedListRow
             title={account.nickname}
-            subtitle={account.legalAccountKind}
-            uri={getLogo(account.details.service)}
+            subtitle={account.accountKind}
+            uri={getLogo(account.service)}
             onTouchEnd={() => {
               navigation.navigate("Get Asset Accounts Details Screen", {
                 assetAccount: account,
               });
             }}
-            key={account.details.serviceAccountID}
+            key={account.serviceAccountID}
           />
         ))}
         <ActivityIndicator
