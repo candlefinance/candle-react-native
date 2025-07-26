@@ -1,13 +1,25 @@
 import { KV } from "@/app/Utils";
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
+import * as Clipboard from "expo-clipboard";
+import * as Haptics from "expo-haptics";
 
 export function DetailScrollView({ flattened }: { flattened: KV[] }) {
   return (
     <ScrollView>
       <View style={styles.section}>
         {flattened.map((kv) => (
-          <View key={kv.path} style={styles.accountRow}>
+          <View
+            key={kv.path}
+            style={styles.accountRow}
+            onTouchEnd={() => {
+              Clipboard.setStringAsync(kv.value).then(() => {
+                Haptics.notificationAsync(
+                  Haptics.NotificationFeedbackType.Success
+                );
+              });
+            }}
+          >
             <Text style={styles.kvKey}>{kv.path}</Text>
             <Text style={styles.kvValue}>{kv.value}</Text>
           </View>
