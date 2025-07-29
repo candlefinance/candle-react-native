@@ -14,7 +14,6 @@ const SUPPORTED_SPANS = [
   { id: "P1M", title: "1 Month" },
   { id: "P6M", title: "6 Months" },
   { id: "P1Y", title: "1 Year" },
-  { id: "none", title: "No Span" },
 ] as const;
 
 type SectionItem =
@@ -57,6 +56,11 @@ const FILTER_CONFIG = [
       value: k,
       label: k,
     })),
+  },
+  {
+    key: "linkedAccountIDs",
+    title: "Linked Accounts",
+    options: [],
   },
 ] as const;
 
