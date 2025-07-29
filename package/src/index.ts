@@ -631,4 +631,5 @@ export type {
   TradeQuery,
   TradeQuote,
   TradeState,
+  AssetAccountQuery,
 };

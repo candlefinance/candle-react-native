@@ -1,20 +1,20 @@
-import {
-  SectionList,
-  StyleSheet,
-  Alert,
-  Text,
-  View,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
-import { useCandleClient } from "../../Context/candle-context";
-import { useEffect, useRef, useState, useMemo } from "react";
-import { LinkedAccountStatusRef, Trade, TradeQuery } from "react-native-candle";
-import { SharedListRow } from "../SharedComponents/shared-list-row";
-import { useNavigation } from "@react-navigation/native";
 import { getLogo } from "@/app/Utils";
 import { Ionicons } from "@expo/vector-icons";
-import { MenuView, MenuComponentRef } from "@react-native-menu/menu";
+import { MenuComponentRef, MenuView } from "@react-native-menu/menu";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Alert,
+  NativeSyntheticEvent,
+  SectionList,
+  StyleSheet,
+  Text,
+  TextInputChangeEventData,
+  View,
+} from "react-native";
+import { LinkedAccountStatusRef, Trade, TradeQuery } from "react-native-candle";
+import { useCandleClient } from "../../Context/candle-context";
+import { SharedListRow } from "../SharedComponents/shared-list-row";
 import {
   assetDisplayName,
   counterpartyDisplayName,
@@ -92,7 +92,7 @@ export default function GetTradesScreen() {
             subactions: f.options.map((opt) => ({
               id: `${f.key}|${opt.value}`,
               title: opt.label,
-              state: (filters as any)[f.key] === opt.value ? "on" : "off",
+              state: filters[f.key] === opt.value ? "on" : "off",
             })),
           }))}
           shouldOpenOnLongPress={false}
