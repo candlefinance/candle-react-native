@@ -44,14 +44,7 @@ export default function GetTradesScreen() {
   const fetchTrades = async (filters: TradeQuery) => {
     try {
       setIsLoading(true);
-      const result = await candleClient.getTrades({
-        linkedAccountIDs: filters.linkedAccountIDs,
-        dateTimeSpan:
-          filters.dateTimeSpan === "none" ? undefined : filters.dateTimeSpan,
-        gainedAssetKind: filters.gainedAssetKind,
-        lostAssetKind: filters.lostAssetKind,
-        counterpartyKind: filters.counterpartyKind,
-      });
+      const result = await candleClient.getTrades(filters);
       setTrades(result);
     } catch (error) {
       Alert.alert(`Failed to fetch trades: ${error}`);
@@ -86,15 +79,34 @@ export default function GetTradesScreen() {
               };
             });
           }}
-          actions={FILTER_CONFIG.map((f) => ({
-            id: f.key,
-            title: f.title,
-            subactions: f.options.map((opt) => ({
-              id: `${f.key}|${opt.value}`,
-              title: opt.label,
-              state: filters[f.key] === opt.value ? "on" : "off",
-            })),
-          }))}
+          actions={FILTER_CONFIG.map((f) =>
+            f.key === "linkedAccountIDs"
+              ? {
+                  id: f.key,
+                  title: f.title,
+                  subactions:
+                    linkedAccounts.map((acc) => ({
+                      id: `linkedAccountIDs|${acc.linkedAccountID}`,
+                      title: acc.service,
+                      state: filters.linkedAccountIDs
+                        ? filters.linkedAccountIDs
+                            .split(",")
+                            .includes(acc.linkedAccountID)
+                          ? ("on" as const)
+                          : ("off" as const)
+                        : ("off" as const),
+                    })) ?? [],
+                }
+              : {
+                  id: f.key,
+                  title: f.title,
+                  subactions: f.options.map((opt) => ({
+                    id: `${f.key}|${opt.value}`,
+                    title: opt.label,
+                    state: filters[f.key] === opt.value ? "on" : "off",
+                  })),
+                }
+          )}
           shouldOpenOnLongPress={false}
         >
           <View>

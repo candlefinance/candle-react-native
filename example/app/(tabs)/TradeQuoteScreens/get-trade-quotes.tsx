@@ -35,6 +35,7 @@ export default function GetTradeQuotesScreen() {
     latitude: "40.7505",
     longitude: "-73.9935",
   });
+  const [serviceAccountID, setServiceAccountID] = useState("");
   const candleClient = useCandleClient();
   const navigation = useNavigation<any>();
 
@@ -43,6 +44,7 @@ export default function GetTradeQuotesScreen() {
       const accounts = await candleClient.getTradeQuotes({
         lost: {
           assetKind: "fiat",
+          serviceAccountID: serviceAccountID,
         },
         gained: {
           originCoordinates: {
@@ -102,6 +104,15 @@ export default function GetTradeQuotesScreen() {
               onChangeText={(text) =>
                 setDestination((prev) => ({ ...prev, longitude: text }))
               }
+            />
+          </View>
+          <Text style={{ fontWeight: "600" }}>Service Account ID</Text>
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Service Account ID"
+              value={serviceAccountID}
+              onChangeText={(text) => setServiceAccountID(text)}
             />
           </View>
           <TouchableOpacity
