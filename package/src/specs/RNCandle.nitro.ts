@@ -184,6 +184,7 @@ export type Trade = {
 
 export type TradeQuery = {
   linkedAccountIDs?: string;
+  // FIXME: To match the API this should be earliestDateTime
   dateTimeSpan?: string;
   // FIXME: define enum here rather than in JS wrapper layer
   gainedAssetKind?: string; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
@@ -214,6 +215,7 @@ export type TransportAssetQuoteRequest = {
   destinationCoordinates?: Coordinates;
   destinationAddress?: Address;
   seats?: number;
+  serviceAccountID?: string;
 };
 
 export type NothingAssetQuoteRequest = {
@@ -372,7 +374,7 @@ export type LinkedAccountRef = {
 
 export type AssetAccountRef = {
   linkedAccountID: string;
-  assetKind: string; // "fiat" | "stock" | "crypto"
+  assetKind: string; // "fiat" | "stock" | "crypto" | "transport"
   serviceAccountID: string;
 };
 
