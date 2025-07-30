@@ -659,7 +659,8 @@ extension TradeAssetQuoteRequest {
               .toCoordinates,
             destinationAddress: transportAssetQuoteRequest
               .destinationAddress?.toAddress,
-            seats: transportAssetQuoteRequest.seats
+            seats: transportAssetQuoteRequest.seats,
+            serviceAccountID: transportAssetQuoteRequest.serviceAccountID
           )
         )
       } else {

@@ -19,7 +19,7 @@ extension TransportAssetQuoteRequest {
   public init(
     assetKind: String, serviceAssetID: String?, originCoordinates: Coordinates?,
     originAddress: Address?, destinationCoordinates: Coordinates?, destinationAddress: Address?,
-    seats: Double?
+    seats: Double?, serviceAccountID: String?
   ) {
     self.init(
       std.string(assetKind),
@@ -61,6 +61,13 @@ extension TransportAssetQuoteRequest {
       { () -> bridge.std__optional_double_ in
         if let __unwrappedValue = seats {
           return bridge.create_std__optional_double_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }(),
+      { () -> bridge.std__optional_std__string_ in
+        if let __unwrappedValue = serviceAccountID {
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
@@ -203,6 +210,29 @@ extension TransportAssetQuoteRequest {
       self.__seats = { () -> bridge.std__optional_double_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_double_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+
+  public var serviceAccountID: String? {
+    @inline(__always)
+    get {
+      return { () -> String? in
+        if let __unwrapped = self.__serviceAccountID.value {
+          return String(__unwrapped)
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__serviceAccountID = { () -> bridge.std__optional_std__string_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
         } else {
           return .init()
         }
