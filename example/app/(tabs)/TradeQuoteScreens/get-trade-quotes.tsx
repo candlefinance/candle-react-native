@@ -7,201 +7,408 @@ import {
   TextInput,
   ActivityIndicator,
   TouchableOpacity,
+  SectionList,
 } from "react-native";
-import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
-import { LinkedAccountStatusRef, TradeQuote } from "react-native-candle";
-import { SharedListRow } from "../SharedComponents/shared-list-row";
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { MenuView } from "@react-native-menu/menu";
+
+import { useCandleClient } from "../../Context/candle-context";
+import {
+  AssetKind,
+  LinkedAccountDetail,
+  LinkedAccountStatusRef,
+  TradeQuoteQuery,
+  TradeQuote,
+} from "react-native-candle";
+
+import { SharedListRow } from "../SharedComponents/shared-list-row";
 import { getLogo } from "@/app/Utils";
 
-export default function GetTradeQuotesScreen() {
-  const [quotes, setQuotes] = useState<{
-    tradeQuotes: TradeQuote<"transport", "fiat">[];
-    linkedAccounts: LinkedAccountStatusRef[];
-  }>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [origin, setOrigin] = useState<{ latitude: string; longitude: string }>(
-    {
-      latitude: "40.7223",
-      longitude: "-73.9754",
-    }
-  );
-  const [destination, setDestination] = useState<{
-    latitude: string;
-    longitude: string;
-  }>({
-    latitude: "40.7505",
-    longitude: "-73.9935",
-  });
-  const [serviceAccountID, setServiceAccountID] = useState("");
-  const candleClient = useCandleClient();
-  const navigation = useNavigation<any>();
+type QuotePair = {
+  tradeQuote: TradeQuote<AssetKind, AssetKind>;
+  linkedAccount: LinkedAccountStatusRef;
+};
 
-  const fetchTradeQuotes = async () => {
-    try {
-      const accounts = await candleClient.getTradeQuotes({
-        lost: {
-          assetKind: "fiat",
-          serviceAccountID: serviceAccountID,
-        },
-        gained: {
-          originCoordinates: {
-            latitude: parseFloat(origin.latitude) || 0,
-            longitude: parseFloat(origin.longitude) || 0,
-          },
-          destinationCoordinates: {
-            latitude: parseFloat(destination.latitude) || 0,
-            longitude: parseFloat(destination.longitude) || 0,
-          },
+type Filters = {
+  gainedAssetKind?: AssetKind;
+  lostAssetKind?: AssetKind;
+  linkedAccountIDs?: string[];
+};
+
+const ASSET_KIND_OPTIONS: Array<{ label: string; value: AssetKind }> = [
+  { label: "Fiat", value: "fiat" },
+  { label: "Stock", value: "stock" },
+  { label: "Crypto", value: "crypto" },
+  { label: "Transport", value: "transport" },
+];
+
+export default function GetTradeQuotesScreen() {
+  const navigation = useNavigation<any>();
+  const candleClient = useCandleClient();
+
+  const [filters, setFilters] = useState<Filters>({});
+  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccountDetail[]>(
+    []
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [gainedInputs, setGainedInputs] = useState<string[]>([
+    "40.748237",
+    "-73.984753",
+    "40.750298",
+    "-73.993324",
+    "",
+  ]);
+  const [lostInputs, setLostInputs] = useState<string[]>(["", "", "", "", ""]);
+  const [quotes, setQuotes] = useState<QuotePair[]>([]);
+
+  const placeholderFor = (
+    kind: AssetKind | undefined,
+    index: number
+  ): string | undefined => {
+    if (!kind) return "Please Select Asset Kind";
+
+    if (kind === "fiat") {
+      return ["Currency Code", "Amount", "Service Account ID"][index];
+    }
+    if (kind === "stock" || kind === "crypto") {
+      return ["Symbol", "Amount", "Service Account ID"][index];
+    }
+    if (kind === "transport") {
+      return [
+        "Origin Latitude",
+        "Origin Longitude",
+        "Destination Latitude",
+        "Destination Longitude",
+        "Service Account ID",
+      ][index];
+    }
+    return undefined;
+  };
+
+  const buildQuoteRequest = (
+    kind: AssetKind | undefined,
+    inputs: string[]
+  ): TradeQuoteQuery => {
+    switch (kind) {
+      case "transport":
+        return {
           assetKind: "transport",
-        },
-      });
-      setQuotes(accounts);
-    } catch (error) {
-      Alert.alert(`Failed to fetch trades: ${error}`);
+          originCoordinates:
+            inputs[0] && inputs[1]
+              ? {
+                  latitude: parseFloat(inputs[0]),
+                  longitude: parseFloat(inputs[1]),
+                }
+              : undefined,
+          destinationCoordinates:
+            inputs[2] && inputs[3]
+              ? {
+                  latitude: parseFloat(inputs[2]),
+                  longitude: parseFloat(inputs[3]),
+                }
+              : undefined,
+          serviceAccountID: inputs[4] || undefined,
+        };
+      case "fiat":
+        return {
+          assetKind: "fiat",
+          currencyCode: inputs[0] || undefined,
+          amount: inputs[1] ? parseFloat(inputs[1]) : undefined,
+          serviceAccountID: inputs[2] || undefined,
+        };
+      case "stock":
+      case "crypto":
+        return {
+          assetKind: kind,
+          symbol: inputs[0] || undefined,
+          amount: inputs[1] ? parseFloat(inputs[1]) : undefined,
+          serviceAccountID: inputs[2] || undefined,
+        };
+      default:
+        return { assetKind: "nothing" };
     }
   };
 
+  /** Fetch user's linked accounts once on mount */
+  useEffect(() => {
+    (async () => {
+      try {
+        const accounts = await candleClient.getLinkedAccounts();
+        setLinkedAccounts(accounts);
+      } catch (e) {
+        console.error("Failed fetching linked accounts:", e);
+      }
+    })();
+  }, []);
+
+  /** Header menu configuration & callbacks */
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: isLoading ? "Loading..." : "Trade Quotes",
+      headerRight: () => (
+        <MenuView
+          title="Filters"
+          onPressAction={({ nativeEvent }) => {
+            const [key, value] = nativeEvent.event.split("|") as [
+              "gainedAssetKind" | "lostAssetKind" | "linkedAccountIDs",
+              string
+            ];
+
+            setFilters((prev) => {
+              if (key === "linkedAccountIDs") {
+                const current = prev.linkedAccountIDs ?? [];
+                const exists = current.includes(value);
+                return {
+                  ...prev,
+                  linkedAccountIDs: exists
+                    ? current.filter((v) => v !== value)
+                    : [...current, value],
+                };
+              }
+              return { ...prev, [key]: value as AssetKind };
+            });
+          }}
+          actions={[
+            {
+              id: "gainedAssetKind",
+              title: "Gained Asset Kind",
+              subactions: ASSET_KIND_OPTIONS.map((opt) => ({
+                id: `gainedAssetKind|${opt.value}`,
+                title: opt.label,
+                state: filters.gainedAssetKind === opt.value ? "on" : "off",
+              })),
+            },
+            {
+              id: "lostAssetKind",
+              title: "Lost Asset Kind",
+              subactions: ASSET_KIND_OPTIONS.map((opt) => ({
+                id: `lostAssetKind|${opt.value}`,
+                title: opt.label,
+                state: filters.lostAssetKind === opt.value ? "on" : "off",
+              })),
+            },
+            {
+              id: "linkedAccountIDs",
+              title: "Linked Accounts",
+              subactions: linkedAccounts.map((acc) => ({
+                id: `linkedAccountIDs|${acc.linkedAccountID}`,
+                title: acc.service,
+                state: (filters.linkedAccountIDs ?? []).includes(
+                  acc.linkedAccountID
+                )
+                  ? "on"
+                  : "off",
+              })),
+            },
+          ]}
+        >
+          <Ionicons
+            name="ellipsis-horizontal-circle-outline"
+            size={28}
+            color="black"
+          />
+        </MenuView>
+      ),
+    });
+  }, [filters, linkedAccounts, isLoading]);
+
+  /** Request trade quotes whenever filters change */
+  useEffect(() => {
+    const fetchTradeQuotes = async () => {
+      setIsLoading(true);
+      try {
+        const response = await candleClient.getTradeQuotes({
+          linkedAccountIDs:
+            filters.linkedAccountIDs?.length ?? 0
+              ? filters.linkedAccountIDs!.join(",")
+              : undefined,
+          gained: buildQuoteRequest(
+            filters.gainedAssetKind,
+            gainedInputs
+          ) as any,
+          lost: buildQuoteRequest(filters.lostAssetKind, lostInputs) as any,
+        });
+        const pairs: QuotePair[] = response.tradeQuotes.map((quote, idx) => ({
+          tradeQuote: quote,
+          linkedAccount: response.linkedAccounts[idx],
+        }));
+        setQuotes(pairs);
+      } catch (error) {
+        Alert.alert("Error", String(error));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    // Avoid firing before at least one asset kind is chosen
+    if (filters.gainedAssetKind || filters.lostAssetKind) {
+      fetchTradeQuotes();
+    }
+  }, [filters]);
+
+  /***************************************************************************
+   * RENDER
+   ***************************************************************************/
+
+  const renderSectionHeader = (title: string) => (
+    <Text style={styles.sectionHeader}>{title}</Text>
+  );
+
+  const linkedAccountSection = {
+    title: "Linked Accounts",
+    data: quotes.map((q) => q.linkedAccount),
+    renderItem: ({ item }: { item: LinkedAccountStatusRef }) => (
+      <SharedListRow
+        key={item.linkedAccountID}
+        title={item.service}
+        subtitle={item.state}
+        uri={getLogo(item.service)}
+      />
+    ),
+  };
+
+  const tradeQuoteSection = {
+    title: "Trade Quotes",
+    data: quotes.map((q) => q.tradeQuote),
+    renderItem: ({
+      item,
+      index,
+    }: {
+      item: TradeQuote<AssetKind, AssetKind>;
+      index: number;
+    }) => (
+      <SharedListRow
+        key={`quote-${index}`}
+        title={`$${item.lost.amount.toFixed(2)}`}
+        subtitle={item.gained.name}
+        uri={item.gained.imageURL}
+        onTouchEnd={() =>
+          navigation.navigate("Get Trade Quotes Details Screen", {
+            quote: {
+              tradeQuotes: item,
+              linkedAccounts: quotes[index].linkedAccount,
+            },
+          })
+        }
+      />
+    ),
+  };
+
   return (
-    <SafeAreaView style={[styles.container]}>
-      <ScrollView contentInsetAdjustmentBehavior={"always"}>
-        <View style={{ padding: 16, gap: 12 }}>
-          <Text style={{ fontWeight: "600" }}>Origin Coordinates</Text>
-          <View style={{ flexDirection: "row", gap: 8 }}>
-            <TextInput
-              style={styles.input}
-              placeholder="Latitude"
-              value={origin.latitude}
-              onChangeText={(text) =>
-                setOrigin((prev) => ({ ...prev, latitude: text }))
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Longitude"
-              value={origin.longitude}
-              onChangeText={(text) =>
-                setOrigin((prev) => ({ ...prev, longitude: text }))
-              }
-            />
-          </View>
-          <Text style={{ fontWeight: "600" }}>Destination Coordinates</Text>
-          <View style={{ flexDirection: "row", gap: 8 }}>
-            <TextInput
-              style={styles.input}
-              placeholder="Latitude"
-              value={destination.latitude}
-              onChangeText={(text) =>
-                setDestination((prev) => ({ ...prev, latitude: text }))
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Longitude"
-              value={destination.longitude}
-              onChangeText={(text) =>
-                setDestination((prev) => ({ ...prev, longitude: text }))
-              }
-            />
-          </View>
-          <Text style={{ fontWeight: "600" }}>Service Account ID</Text>
-          <View style={{ flexDirection: "row", gap: 8 }}>
-            <TextInput
-              style={styles.input}
-              placeholder="Service Account ID"
-              value={serviceAccountID}
-              onChangeText={(text) => setServiceAccountID(text)}
-            />
-          </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentInsetAdjustmentBehavior="always">
+        {/* INPUTS */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.sectionLabel}>GAINED:</Text>
+          {gainedInputs.map((value, idx) => {
+            const placeholder = placeholderFor(filters.gainedAssetKind, idx);
+            if (!placeholder) return null;
+            return (
+              <TextInput
+                key={`gained-${idx}`}
+                style={styles.textInput}
+                placeholder={placeholder}
+                value={value}
+                onChangeText={(text) =>
+                  setGainedInputs((prev) =>
+                    prev.map((v, i) => (i === idx ? text : v))
+                  )
+                }
+              />
+            );
+          })}
+
+          <Text style={[styles.sectionLabel, { marginTop: 20 }]}>LOST:</Text>
+          {lostInputs.map((value, idx) => {
+            const placeholder = placeholderFor(filters.lostAssetKind, idx);
+            if (!placeholder) return null;
+            return (
+              <TextInput
+                key={`lost-${idx}`}
+                style={styles.textInput}
+                placeholder={placeholder}
+                value={value}
+                onChangeText={(text) =>
+                  setLostInputs((prev) =>
+                    prev.map((v, i) => (i === idx ? text : v))
+                  )
+                }
+              />
+            );
+          })}
+
           <TouchableOpacity
             style={styles.primaryButton}
-            onPress={() => {
-              setIsLoading(true);
-              fetchTradeQuotes().finally(() => setIsLoading(false));
-            }}
+            onPress={() => setFilters((f) => ({ ...f }))}
             disabled={isLoading}
           >
             <ActivityIndicator
               animating={isLoading}
               color="white"
-              style={{
-                position: "absolute",
-                left: 16,
-              }}
+              style={styles.spinner}
             />
-            <Text style={{ color: "white", fontWeight: "600" }}>
-              Fetch Quotes
-            </Text>
+            <Text style={styles.primaryButtonText}>Fetch Quotes</Text>
           </TouchableOpacity>
         </View>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            paddingHorizontal: 20,
-            marginVertical: 20,
-          }}
-        >
-          {quotes?.linkedAccounts == undefined ? "" : "Linked Accounts"}
-        </Text>
-        {quotes?.linkedAccounts.map((account, index) => (
-          <SharedListRow
-            key={account.linkedAccountID}
-            title={account.service}
-            subtitle={account.state}
-            uri={getLogo(account.service)}
-          />
-        ))}
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            paddingHorizontal: 20,
-            marginVertical: 20,
-          }}
-        >
-          {quotes?.linkedAccounts == undefined ? "" : "Trade Quotes"}
-        </Text>
-        {quotes?.tradeQuotes.map((quote, index) => (
-          <SharedListRow
-            subtitle={quote.gained.name}
-            title={`$${quote.lost.amount.toFixed(2)}`}
-            uri={quote.gained.imageURL}
-            onTouchEnd={() => {
-              navigation.navigate("Get Trade Quotes Details Screen", {
-                quote: {
-                  tradeQuotes: quote,
-                  linkedAccounts: quotes.linkedAccounts[index],
-                },
-              });
-            }}
-            key={`quote-${index}`}
-          />
-        ))}
+
+        {/* LIST */}
+        <SectionList
+          sections={[linkedAccountSection, tradeQuoteSection]}
+          keyExtractor={(_, idx) => `${idx}`}
+          renderItem={({ section, item, index }) =>
+            section.renderItem({ item, index })
+          }
+          renderSectionHeader={({ section: { title } }) =>
+            renderSectionHeader(title)
+          }
+          stickySectionHeadersEnabled
+          ListEmptyComponent={
+            !isLoading ? (
+              <Text style={styles.emptyState}>No Trade Quotes</Text>
+            ) : null
+          }
+          refreshing={isLoading}
+          onRefresh={() => setFilters((f) => ({ ...f }))}
+          contentContainerStyle={{ paddingBottom: 40 }}
+        />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
+/**
+ * STYLES
+ */
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  input: {
-    flex: 1,
+  container: { flex: 1 },
+  inputContainer: { padding: 16, gap: 12 },
+  sectionLabel: { fontWeight: "600" },
+  textInput: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 8,
+    marginTop: 8,
   },
   primaryButton: {
+    marginTop: 16,
     padding: 12,
     backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 28,
   },
+  primaryButtonText: { color: "white", fontWeight: "600" },
+  spinner: { position: "absolute", left: 16 },
+  sectionHeader: {
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingHorizontal: 20,
+    marginVertical: 20,
+  },
+  emptyState: { textAlign: "center", marginTop: 40 },
 });

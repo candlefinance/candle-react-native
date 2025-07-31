@@ -250,11 +250,9 @@ export class CandleClient {
   public async getTradeQuotes<
     GainedAssetKind extends AssetKind,
     LostAssetKind extends AssetKind
-  >(request: {
-    linkedAccountIDs?: string;
-    gained: { assetKind: GainedAssetKind } & AssetQuoteRequest;
-    lost: { assetKind: LostAssetKind } & AssetQuoteRequest;
-  }): Promise<{
+  >(
+    request: TradeQuoteQuery<GainedAssetKind, LostAssetKind>
+  ): Promise<{
     tradeQuotes: TradeQuote<GainedAssetKind, LostAssetKind>[];
     linkedAccounts: LinkedAccountStatusRef[];
   }> {
@@ -612,7 +610,14 @@ type LinkedAccountDetail =
       details: { state: "inactive" | "unavailable" };
     });
 
+type TradeQuoteQuery<GainedAssetKind, LostAssetKind> = {
+  linkedAccountIDs?: string;
+  gained: { assetKind: GainedAssetKind } & AssetQuoteRequest;
+  lost: { assetKind: LostAssetKind } & AssetQuoteRequest;
+};
+
 export type {
+  TradeQuoteQuery,
   Address,
   AppUser,
   AssetAccount,
