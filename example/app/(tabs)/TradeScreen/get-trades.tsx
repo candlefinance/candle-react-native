@@ -21,6 +21,7 @@ import {
   FILTER_CONFIG,
   SectionItem,
 } from "./models";
+import { toggleLinkedAccountIDs } from "../AssetsScreens/models";
 
 export default function GetTradesScreen() {
   const menuRef = useRef<MenuComponentRef>(null);
@@ -72,12 +73,23 @@ export default function GetTradesScreen() {
               keyof TradeQuery,
               string
             ];
-            setFilters((prev) => {
-              return {
-                ...prev,
-                [key]: value,
-              };
-            });
+            switch (key) {
+              case "linkedAccountIDs":
+                setFilters((prev) => {
+                  return {
+                    ...prev,
+                    [key]: toggleLinkedAccountIDs(prev.linkedAccountIDs, value),
+                  };
+                });
+                break;
+              default:
+                setFilters((prev) => {
+                  return {
+                    ...prev,
+                    [key]: value,
+                  };
+                });
+            }
           }}
           actions={FILTER_CONFIG.map((f) =>
             f.key === "linkedAccountIDs"
