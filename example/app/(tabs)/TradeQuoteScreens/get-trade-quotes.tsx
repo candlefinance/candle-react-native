@@ -11,16 +11,16 @@ import {
 import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { LinkedAccountStatusRef, TradeQuote } from "react-native-candle";
+import { AssetKind, GetTradeQuotesResponse } from "react-native-candle";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 import { useNavigation } from "@react-navigation/native";
 import { getLogo } from "@/app/Utils";
 
 export default function GetTradeQuotesScreen() {
-  const [quotes, setQuotes] = useState<{
-    tradeQuotes: TradeQuote<"transport", "fiat">[];
-    linkedAccounts: LinkedAccountStatusRef[];
-  }>();
+  const candleClient = useCandleClient();
+  const navigation = useNavigation<any>();
+  const [quotes, setQuotes] =
+    useState<GetTradeQuotesResponse<AssetKind, AssetKind>>();
   const [isLoading, setIsLoading] = useState(false);
   const [origin, setOrigin] = useState<{ latitude: string; longitude: string }>(
     {
@@ -35,8 +35,7 @@ export default function GetTradeQuotesScreen() {
     latitude: "40.7505",
     longitude: "-73.9935",
   });
-  const candleClient = useCandleClient();
-  const navigation = useNavigation<any>();
+  const [serviceAccountID, setServiceAccountID] = useState("");
 
   const fetchTradeQuotes = async () => {
     try {
@@ -45,13 +44,14 @@ export default function GetTradeQuotesScreen() {
           assetKind: "fiat",
         },
         gained: {
+          serviceAccountID: serviceAccountID,
           originCoordinates: {
-            latitude: parseFloat(origin.latitude) || 0,
-            longitude: parseFloat(origin.longitude) || 0,
+            latitude: parseFloat(origin.latitude),
+            longitude: parseFloat(origin.longitude),
           },
           destinationCoordinates: {
-            latitude: parseFloat(destination.latitude) || 0,
-            longitude: parseFloat(destination.longitude) || 0,
+            latitude: parseFloat(destination.latitude),
+            longitude: parseFloat(destination.longitude),
           },
           assetKind: "transport",
         },
@@ -104,6 +104,15 @@ export default function GetTradeQuotesScreen() {
               }
             />
           </View>
+          <Text style={{ fontWeight: "600" }}>Service Account ID</Text>
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Service Account ID"
+              value={serviceAccountID}
+              onChangeText={(text) => setServiceAccountID(text)}
+            />
+          </View>
           <TouchableOpacity
             style={styles.primaryButton}
             onPress={() => {
@@ -121,7 +130,7 @@ export default function GetTradeQuotesScreen() {
               }}
             />
             <Text style={{ color: "white", fontWeight: "600" }}>
-              Fetch Quotes
+              {isLoading ? "Fetching Quotes" : "Fetch Quotes"}
             </Text>
           </TouchableOpacity>
         </View>
@@ -153,22 +162,25 @@ export default function GetTradeQuotesScreen() {
         >
           {quotes?.linkedAccounts == undefined ? "" : "Trade Quotes"}
         </Text>
-        {quotes?.tradeQuotes.map((quote, index) => (
-          <SharedListRow
-            subtitle={quote.gained.name}
-            title={`$${quote.lost.amount.toFixed(2)}`}
-            uri={quote.gained.imageURL}
-            onTouchEnd={() => {
-              navigation.navigate("Get Trade Quotes Details Screen", {
-                quote: {
-                  tradeQuotes: quote,
-                  linkedAccounts: quotes.linkedAccounts[index],
-                },
-              });
-            }}
-            key={`quote-${index}`}
-          />
-        ))}
+        {quotes?.tradeQuotes.map((quote, index) =>
+          quote.lost.assetKind === "fiat" &&
+          quote.gained.assetKind === "transport" ? (
+            <SharedListRow
+              subtitle={quote.gained.name}
+              title={`$${quote.lost.amount.toFixed(2)}`}
+              uri={quote.gained.imageURL}
+              onTouchEnd={() => {
+                navigation.navigate("Get Trade Quotes Details Screen", {
+                  quote: {
+                    tradeQuotes: quote,
+                    linkedAccounts: quotes.linkedAccounts[index],
+                  },
+                });
+              }}
+              key={`quote-${index}`}
+            />
+          ) : null
+        )}
       </ScrollView>
     </SafeAreaView>
   );
