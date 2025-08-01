@@ -5,9 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { Alert, SectionList, StyleSheet, Text, View } from "react-native";
 import {
-  AssetAccount,
   AssetAccountQuery,
-  LinkedAccountStatusRef,
+  GetAssetAccountsResponse,
 } from "react-native-candle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCandleClient } from "../../Context/candle-context";
@@ -20,15 +19,10 @@ export default function GetAssetAccountsScreen() {
   const candleClient = useCandleClient();
   const navigation = useNavigation<any>();
 
-  const [filters, setFilters] = useState<AssetAccountQuery>({
-    assetKind: undefined,
-    linkedAccountIDs: undefined,
-  });
+  const [filters, setFilters] = useState<AssetAccountQuery>({});
 
-  const [assetAccounts, setAssetAccounts] = useState<{
-    assetAccounts: AssetAccount[];
-    linkedAccounts: LinkedAccountStatusRef[];
-  }>();
+  const [assetAccounts, setAssetAccounts] =
+    useState<GetAssetAccountsResponse>();
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchAssetAccounts = async (queryFilters: AssetAccountQuery) => {

@@ -12,7 +12,7 @@ import {
   TextInputChangeEventData,
   View,
 } from "react-native";
-import { LinkedAccountStatusRef, Trade, TradeQuery } from "react-native-candle";
+import { GetTradesResponse, TradeQuery } from "react-native-candle";
 import { useCandleClient } from "../../Context/candle-context";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 import {
@@ -30,17 +30,11 @@ export default function GetTradesScreen() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [filters, setFilters] = useState<TradeQuery>({
-    dateTimeSpan: undefined,
-    lostAssetKind: undefined,
-    gainedAssetKind: undefined,
-    counterpartyKind: undefined,
-    linkedAccountIDs: undefined,
+  const [filters, setFilters] = useState<TradeQuery>({});
+  const [{ linkedAccounts, trades }, setTrades] = useState<GetTradesResponse>({
+    trades: [],
+    linkedAccounts: [],
   });
-  const [{ linkedAccounts, trades }, setTrades] = useState<{
-    trades: Trade[];
-    linkedAccounts: LinkedAccountStatusRef[];
-  }>({ trades: [], linkedAccounts: [] });
 
   const fetchTrades = async (filters: TradeQuery) => {
     try {
@@ -139,7 +133,6 @@ export default function GetTradesScreen() {
 
   const filteredTrades = useMemo(() => {
     if (searchText.length === 0) return trades;
-
     const q = searchText.toLowerCase();
     return trades.filter((t) => {
       const tokens = [

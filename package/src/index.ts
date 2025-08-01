@@ -194,10 +194,9 @@ export class CandleClient {
     return this.candle.executeTool(tool);
   }
 
-  public async getAssetAccounts(query: AssetAccountQuery = {}): Promise<{
-    assetAccounts: AssetAccount[];
-    linkedAccounts: LinkedAccountStatusRef[];
-  }> {
+  public async getAssetAccounts(
+    query: AssetAccountQuery = {}
+  ): Promise<GetAssetAccountsResponse> {
     const { assetAccounts, linkedAccounts } =
       await this.candle.getAssetAccounts(query);
     return {
@@ -213,10 +212,7 @@ export class CandleClient {
     return this.convertToAssetAccount(account);
   }
 
-  public async getTrades(query: TradeQuery = {}): Promise<{
-    trades: Trade[];
-    linkedAccounts: LinkedAccountStatusRef[];
-  }> {
+  public async getTrades(query: TradeQuery = {}): Promise<GetTradesResponse> {
     const { trades, linkedAccounts } = await this.candle.getTrades(query);
     return {
       trades: trades.map(({ dateTime, counterparty, gained, lost, state }) => ({
@@ -252,10 +248,7 @@ export class CandleClient {
     LostAssetKind extends AssetKind
   >(
     request: TradeQuoteQuery<GainedAssetKind, LostAssetKind>
-  ): Promise<{
-    tradeQuotes: TradeQuote<GainedAssetKind, LostAssetKind>[];
-    linkedAccounts: LinkedAccountStatusRef[];
-  }> {
+  ): Promise<GetTradeQuotesResponse<GainedAssetKind, LostAssetKind>> {
     let gainedRequest: TradeAssetQuoteRequest;
 
     switch (request.gained.assetKind) {
@@ -616,7 +609,28 @@ type TradeQuoteQuery<GainedAssetKind, LostAssetKind> = {
   lost: { assetKind: LostAssetKind } & AssetQuoteRequest;
 };
 
+type GetTradesResponse = {
+  trades: Trade[];
+  linkedAccounts: LinkedAccountStatusRef[];
+};
+
+type GetAssetAccountsResponse = {
+  assetAccounts: AssetAccount[];
+  linkedAccounts: LinkedAccountStatusRef[];
+};
+
+type GetTradeQuotesResponse<
+  GainedAssetKind extends AssetKind,
+  LostAssetKind extends AssetKind
+> = {
+  tradeQuotes: TradeQuote<GainedAssetKind, LostAssetKind>[];
+  linkedAccounts: LinkedAccountStatusRef[];
+};
+
 export type {
+  GetTradeQuotesResponse,
+  GetAssetAccountsResponse,
+  GetTradesResponse,
   TradeQuoteQuery,
   Address,
   AppUser,
