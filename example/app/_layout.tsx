@@ -101,8 +101,9 @@ export default function RootLayout() {
   }
 
   const candleClient = useMemo(() => {
-    const appKey = process.env.EXPO_PUBLIC_CANDLE_APP_KEY;
-    const appSecret = process.env.EXPO_PUBLIC_CANDLE_APP_SECRET;
+    const appKey = "key-ykhw691crgrtw2tx3dwuizey";
+    const appSecret = "sec-dSnRm6HsJmt/e/0ZnyqC/AxBayOZAYeWQLHsMZWfYfY=";
+    console.log("app", appKey, appSecret);
     if (!appKey || !appSecret) {
       throw new Error(
         "EXPO_PUBLIC_CANDLE_APP_KEY and EXPO_PUBLIC_CANDLE_APP_SECRET must be set in .env file"
