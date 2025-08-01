@@ -132,7 +132,6 @@ export default function GetTradeQuotesScreen() {
     }
   };
 
-  /** Fetch user's linked accounts once on mount */
   useEffect(() => {
     (async () => {
       try {
@@ -144,7 +143,6 @@ export default function GetTradeQuotesScreen() {
     })();
   }, []);
 
-  /** Header menu configuration & callbacks */
   useEffect(() => {
     navigation.setOptions({
       headerTitle: isLoading ? "Loading..." : "Trade Quotes",
@@ -215,7 +213,6 @@ export default function GetTradeQuotesScreen() {
     });
   }, [filters, linkedAccounts, isLoading]);
 
-  /** Request trade quotes whenever filters change */
   useEffect(() => {
     const fetchTradeQuotes = async () => {
       setIsLoading(true);
@@ -243,15 +240,10 @@ export default function GetTradeQuotesScreen() {
       }
     };
 
-    // Avoid firing before at least one asset kind is chosen
     if (filters.gainedAssetKind || filters.lostAssetKind) {
       fetchTradeQuotes();
     }
   }, [filters]);
-
-  /***************************************************************************
-   * RENDER
-   ***************************************************************************/
 
   const renderSectionHeader = (title: string) => (
     <Text style={styles.sectionHeader}>{title}</Text>
@@ -379,9 +371,6 @@ export default function GetTradeQuotesScreen() {
   );
 }
 
-/**
- * STYLES
- */
 const styles = StyleSheet.create({
   container: { flex: 1 },
   inputContainer: { padding: 16, gap: 12 },
