@@ -12,7 +12,7 @@ concurrency: ${{ github.workflow }}
 jobs:
   create_release:
     runs-on: macos-15
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout repo
@@ -68,11 +68,11 @@ jobs:
         run: bun run build
         timeout-minutes: 45
 
-      - name: Release
-        working-directory: .
-        run: bun release-it --non-interactive
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Release
+      #   working-directory: .
+      #   run: bun release-it --non-interactive
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload app to TestFlight
         uses: apple-actions/upload-testflight-build@v3
