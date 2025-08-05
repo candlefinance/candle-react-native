@@ -39,6 +39,14 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Cache Cocoapods
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('example/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
       - name: Pods
         working-directory: example
         run: |
