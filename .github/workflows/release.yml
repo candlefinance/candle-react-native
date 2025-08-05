@@ -11,7 +11,7 @@ concurrency: ${{ github.workflow }}
 
 jobs:
   create_release:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     if: github.event.pull_request.merged == true
 
     steps:
@@ -23,6 +23,11 @@ jobs:
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
 
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 16.2
+
       - name: Configure Git user
         run: |
           git config --global user.name "Candle Finance CI"
@@ -33,6 +38,19 @@ jobs:
 
       - name: Install dependencies
         run: bun install
+
+      - name: Pods
+        working-directory: example
+        run: |
+          bun run prebuild --clean
+          # pod install is run as part of expo prebuild but the exit code appear to be swallowed so running it again in case it failed
+          cd ios
+          pod install
+
+      - name: Xcode-build
+        working-directory: example
+        run: bun run build
+        timeout-minutes: 45
 
       - name: Release
         working-directory: .
