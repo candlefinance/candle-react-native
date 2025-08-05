@@ -73,7 +73,7 @@ jobs:
       - name: Xcode-build
         working-directory: example
         # potentially need to set: mode, scheme, destination, buildfolder, target, development team
-        run: bun run build --mode Release --scheme CandleReactNative --buildFolder ./ios/.build --target CandleReactNative
+        run: bun run build --mode Release --scheme CandleReactNative --buildFolder ./ios/.build --target CandleReactNative --development-team FW8BZ57ZU9
         timeout-minutes: 45
 
       # - name: Release
