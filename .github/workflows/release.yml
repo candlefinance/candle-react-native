@@ -76,31 +76,36 @@ jobs:
       #   run: bun run build --mode Release --scheme CandleReactNative --buildFolder ./ios/.build --target CandleReactNative --development-team FW8BZ57ZU9
       #   timeout-minutes: 45
 
-      - name: Build Release .xcarchive
-        working-directory: example
-        run: |
-          xcodebuild \
-            -workspace ios/CandleReactNative.xcworkspace \
-            -scheme CandleReactNative \
-            -configuration Release \
-            -sdk iphoneos \
-            -archivePath ios/build/CandleReactNative.xcarchive \
-            clean archive \
-            DEVELOPMENT_TEAM=FW8BZ57ZU9
-        timeout-minutes: 45
+      # - name: Build Release .xcarchive
+      #   working-directory: example
+      #   run: |
+      #     xcodebuild \
+      #       -workspace ios/CandleReactNative.xcworkspace \
+      #       -scheme CandleReactNative \
+      #       -configuration Release \
+      #       -sdk iphoneos \
+      #       -archivePath ios/build/CandleReactNative.xcarchive \
+      #       clean archive \
+      #       DEVELOPMENT_TEAM=FW8BZ57ZU9
+      #   timeout-minutes: 45
 
-      - name: Export .ipa
-        run: |
-          xcodebuild -exportArchive \
-            -archivePath ios/build/CandleReactNative.xcarchive \
-            -exportPath ios/build/exported \
-            -exportOptionsPlist exportOptions.plist
+      # - name: Export .ipa
+      #   run: |
+      #     xcodebuild -exportArchive \
+      #       -archivePath ios/build/CandleReactNative.xcarchive \
+      #       -exportPath ios/build/exported \
+      #       -exportOptionsPlist exportOptions.plist
 
       # - name: Release
       #   working-directory: .
       #   run: bun release-it --non-interactive
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Xcode-build
+        working-directory: example
+        run: bun ios
+        timeout-minutes: 45
 
       - name: Upload app to TestFlight
         uses: apple-actions/upload-testflight-build@v3
