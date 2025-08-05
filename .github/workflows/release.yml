@@ -2,8 +2,8 @@ name: Release
 
 on:
   pull_request:
-    types:
-      - closed
+    # types:
+    #   - closed
     branches:
       - main
 
@@ -64,7 +64,8 @@ jobs:
 
       - name: Xcode-build
         working-directory: example
-        run: bun run build --Release
+        # need to set: mode, scheme, destination, buildfolder, target, development team
+        run: bun run build
         timeout-minutes: 45
 
       - name: Release
@@ -80,5 +81,3 @@ jobs:
           issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
           api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
-
-          # mode, scheme, destination, buildfolder, target, development team
