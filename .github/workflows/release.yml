@@ -47,9 +47,24 @@ jobs:
           cd ios
           pod install
 
+      - name: Import Codesign Certs
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APPSTORE_CERTIFICATES_FILE_BASE64 }}
+          p12-password: ${{ secrets.APPSTORE_CERTIFICATES_PASSWORD }}
+
+      - name: Download Provisioning Profiles
+        uses: apple-actions/download-provisioning-profiles@v4
+        with:
+          bundle-id: "com.trycandle.candle"
+          profile-type: "IOS_APP_STORE"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
       - name: Xcode-build
         working-directory: example
-        run: bun run build
+        run: bun run build --Release
         timeout-minutes: 45
 
       - name: Release
@@ -57,3 +72,13 @@ jobs:
         run: bun release-it --non-interactive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload app to TestFlight
+        uses: apple-actions/upload-testflight-build@v3
+        with:
+          app-path: "sdk-swift-example-app/.build/Artifacts/BasicExample.ipa"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+          # mode, scheme, destination, buildfolder, target, development team
