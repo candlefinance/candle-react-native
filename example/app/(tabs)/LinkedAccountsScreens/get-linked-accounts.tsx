@@ -28,9 +28,8 @@ type GetLinkedAccountsRouteProp = RouteProp<
 
 export default function GetLinkedAccountsScreen() {
   const route = useRoute<GetLinkedAccountsRouteProp>();
-  const candleClient = useCandleClient();
-
   const navigation = useNavigation<any>();
+  const candleClient = useCandleClient();
 
   const [isLoading, setIsLoading] = useState(false);
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccountDetail[]>(
@@ -39,7 +38,11 @@ export default function GetLinkedAccountsScreen() {
 
   useEffect(() => {
     if (linkedAccounts.length > 0) return;
-    onRefresh();
+    // Adds delay else the loading indicator doesn't show
+    const timeoutId = setTimeout(() => {
+      onRefresh();
+    }, 300);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
