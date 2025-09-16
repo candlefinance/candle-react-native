@@ -62,8 +62,6 @@ namespace margelo::nitro::rncandle { struct MerchantLocation; }
 namespace margelo::nitro::rncandle { struct UserCounterparty; }
 // Forward declaration of `ServiceCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
-// Forward declaration of `AppUser` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct AppUser; }
 // Forward declaration of `LinkedAccountRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountRef; }
 // Forward declaration of `AssetAccountsResponse` to properly resolve imports.
@@ -128,10 +126,6 @@ namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 // Forward declaration of `NothingAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
-// Forward declaration of `AnyMap` to properly resolve imports.
-namespace NitroModules { class AnyMap; }
-// Forward declaration of `ToolCall` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct ToolCall; }
 
 #include <optional>
 #include <vector>
@@ -162,7 +156,6 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "MerchantLocation.hpp"
 #include "UserCounterparty.hpp"
 #include "ServiceCounterparty.hpp"
-#include "AppUser.hpp"
 #include <NitroModules/Promise.hpp>
 #include "LinkedAccountRef.hpp"
 #include "AssetAccountsResponse.hpp"
@@ -196,8 +189,6 @@ namespace margelo::nitro::rncandle { struct ToolCall; }
 #include "MarketAssetQuoteRequest.hpp"
 #include "TransportAssetQuoteRequest.hpp"
 #include "NothingAssetQuoteRequest.hpp"
-#include <NitroModules/AnyMap.hpp>
-#include "ToolCall.hpp"
 
 #include "ReactNativeCandle-Swift-Cxx-Umbrella.hpp"
 
@@ -250,8 +241,8 @@ namespace margelo::nitro::rncandle {
         std::rethrow_exception(__result.error());
       }
     }
-    inline void initialize(const AppUser& appUser, const std::optional<std::string>& accessGroup) override {
-      auto __result = _swiftPart.initialize(appUser, accessGroup);
+    inline void initialize(const std::string& appKey, const std::string& appSecret, const std::optional<std::string>& accessGroup) override {
+      auto __result = _swiftPart.initialize(appKey, appSecret, accessGroup);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
@@ -320,24 +311,16 @@ namespace margelo::nitro::rncandle {
       auto __value = std::move(__result.value());
       return __value;
     }
+    inline std::shared_ptr<Promise<void>> createUser(const std::string& appUserID) override {
+      auto __result = _swiftPart.createUser(appUserID);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
     inline std::shared_ptr<Promise<void>> deleteUser() override {
       auto __result = _swiftPart.deleteUser();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline std::shared_ptr<Promise<std::vector<std::shared_ptr<AnyMap>>>> getAvailableTools() override {
-      auto __result = _swiftPart.getAvailableTools();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline std::shared_ptr<Promise<std::string>> executeTool(const ToolCall& tool) override {
-      auto __result = _swiftPart.executeTool(tool);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

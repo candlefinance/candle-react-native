@@ -16,10 +16,6 @@ namespace margelo::nitro::rncandle { struct ACHDetails; }
 namespace margelo::nitro::rncandle { struct ActiveLinkedAccountDetails; }
 // Forward declaration of `Address` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Address; }
-// Forward declaration of `AnyMap` to properly resolve imports.
-namespace NitroModules { class AnyMap; }
-// Forward declaration of `AppUser` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct AppUser; }
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 // Forward declaration of `AssetAccountQuery` to properly resolve imports.
@@ -88,8 +84,6 @@ namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 namespace margelo::nitro::rncandle { enum class Service; }
 // Forward declaration of `StatePayload` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class StatePayload; }
-// Forward declaration of `ToolCall` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct ToolCall; }
 // Forward declaration of `TradeAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeAssetQuoteRequest; }
 // Forward declaration of `TradeAssetRef` to properly resolve imports.
@@ -136,7 +130,6 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "ACHDetails.hpp"
 #include "ActiveLinkedAccountDetails.hpp"
 #include "Address.hpp"
-#include "AppUser.hpp"
 #include "AssetAccount.hpp"
 #include "AssetAccountKind.hpp"
 #include "AssetAccountQuery.hpp"
@@ -171,7 +164,6 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "Service.hpp"
 #include "ServiceCounterparty.hpp"
 #include "StatePayload.hpp"
-#include "ToolCall.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
 #include "TradeAssetQuoteRequest.hpp"
@@ -192,7 +184,6 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "UnavailableLinkedAccountDetails.hpp"
 #include "UserCounterparty.hpp"
 #include "WireDetails.hpp"
-#include <NitroModules/AnyMap.hpp>
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
 #include <exception>

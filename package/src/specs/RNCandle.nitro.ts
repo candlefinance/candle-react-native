@@ -1,4 +1,4 @@
-import type { AnyMap, HybridObject } from "react-native-nitro-modules";
+import type { HybridObject } from "react-native-nitro-modules";
 
 export type AppUser = {
   appKey: string;
@@ -462,7 +462,13 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
     presentationBackground: PresentationBackground,
     completion: (result: TradeExecutionResult) => void
   ): void;
-  initialize(appUser: AppUser, accessGroup: string | undefined): void;
+
+  initialize(
+    appKey: string,
+    appSecret: string,
+    accessGroup: string | undefined
+  ): void;
+
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount>;
   unlinkAccount(ref: LinkedAccountRef): Promise<void>;
@@ -471,8 +477,7 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   getTrades(query: TradeQuery): Promise<TradesResponse>;
   getTrade(ref: TradeRef): Promise<Trade>;
   getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuotesResponse>;
+
+  createUser(appUserID: string): Promise<void>;
   deleteUser(): Promise<void>;
-  // FIXME: The return type should be a more specific type based on the actual tool calls available.
-  getAvailableTools(): Promise<Array<AnyMap>>;
-  executeTool(tool: ToolCall): Promise<string>;
 }

@@ -161,12 +161,12 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func initialize(appUser: AppUser, accessGroup: bridge.std__optional_std__string_)
-    -> bridge.Result_void_
-  {
+  public final func initialize(
+    appKey: std.string, appSecret: std.string, accessGroup: bridge.std__optional_std__string_
+  ) -> bridge.Result_void_ {
     do {
       try self.__implementation.initialize(
-        appUser: appUser,
+        appKey: String(appKey), appSecret: String(appSecret),
         accessGroup: { () -> String? in
           if let __unwrapped = accessGroup.value {
             return String(__unwrapped)
@@ -359,9 +359,11 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func deleteUser() -> bridge.Result_std__shared_ptr_Promise_void___ {
+  public final func createUser(appUserID: std.string)
+    -> bridge.Result_std__shared_ptr_Promise_void___
+  {
     do {
-      let __result = try self.__implementation.deleteUser()
+      let __result = try self.__implementation.createUser(appUserID: String(appUserID))
       let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
         let __promise = bridge.create_std__shared_ptr_Promise_void__()
         let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
@@ -378,58 +380,21 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func getAvailableTools()
-    -> bridge.Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____
-  {
+  public final func deleteUser() -> bridge.Result_std__shared_ptr_Promise_void___ {
     do {
-      let __result = try self.__implementation.getAvailableTools()
-      let __resultCpp = {
-        () -> bridge.std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____ in
-        let __promise =
-          bridge.create_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____()
-        let __promiseHolder =
-          bridge.wrap_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap____(__promise)
+      let __result = try self.__implementation.deleteUser()
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_void__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_void__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_void__(__promise)
         __result
-          .then({ __result in
-            __promiseHolder.resolve(
-              { () -> bridge.std__vector_std__shared_ptr_AnyMap__ in
-                var __vector = bridge.create_std__vector_std__shared_ptr_AnyMap__(__result.count)
-                for __item in __result {
-                  __vector.push_back(__item.cppPart)
-                }
-                return __vector
-              }())
-          })
+          .then({ __result in __promiseHolder.resolve() })
           .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
         return __promise
       }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(
-        __resultCpp)
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__vector_std__shared_ptr_AnyMap_____(
-        __exceptionPtr)
-    }
-  }
-
-  @inline(__always)
-  public final func executeTool(tool: ToolCall)
-    -> bridge.Result_std__shared_ptr_Promise_std__string___
-  {
-    do {
-      let __result = try self.__implementation.executeTool(tool: tool)
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__string__ in
-        let __promise = bridge.create_std__shared_ptr_Promise_std__string__()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__string__(__promise)
-        __result
-          .then({ __result in __promiseHolder.resolve(std.string(__result)) })
-          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
-        return __promise
-      }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__string___(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__string___(__exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_void___(__exceptionPtr)
     }
   }
 }

@@ -44,17 +44,30 @@ import type {
   WireDetails,
 } from "./specs/RNCandle.nitro";
 
-export class CandleClient {
-  private candle: RNCandle;
-
-  constructor(appUser: AppUser, accessGroup?: string) {
-    const CandleHybridObject =
-      NitroModules.createHybridObject<RNCandle>("RNCandle");
-    this.candle = CandleHybridObject;
-    this.candle.initialize(appUser, accessGroup);
+let _candle: RNCandle | undefined;
+const getCandle = (): RNCandle => {
+  if (_candle === undefined) {
+    throw Error(
+      `Candle has not been initialized. In your app's launch handler (e.g. in index.ts before AppRegistry.registerComponent), call \`candle.initialize({ appKey: ..., appSecret: ... })\``
+    );
   }
+  return _candle;
+};
 
-  public presentCandleTradeExecutionSheet<
+export const candle = {
+  initialize: (input: {
+    appKey: string;
+    appSecret: string;
+    accessGroup?: string;
+  }): void => {
+    if (_candle === undefined) {
+      _candle = NitroModules.createHybridObject<RNCandle>("RNCandle");
+    }
+
+    _candle.initialize(input.appKey, input.appSecret, input.accessGroup);
+  },
+
+  presentCandleTradeExecutionSheet: <
     GainedAssetKind extends AssetKind,
     LostAssetKind extends AssetKind
   >(input: {
@@ -69,9 +82,9 @@ export class CandleClient {
           })
         | { kind: "failure"; error: Error }
     ) => void;
-  }): void {
-    const quote = this.convertTradeQuote(input.tradeQuote);
-    this.candle.candleTradeExecutionSheet(
+  }): void => {
+    const quote = convertTradeQuote(input.tradeQuote);
+    getCandle().candleTradeExecutionSheet(
       quote,
       input.presentationBackground ?? "default",
       (result) => {
@@ -82,13 +95,13 @@ export class CandleClient {
           input.completion({
             kind: "success",
             ...result.trade,
-            counterparty: this.convertToCounterparty(result.trade.counterparty),
-            lost: this.assertTradeAsset({
-              tradeAsset: this.convertTradeAsset(result.trade.lost),
+            counterparty: convertToCounterparty(result.trade.counterparty),
+            lost: assertTradeAsset({
+              tradeAsset: convertTradeAsset(result.trade.lost),
               expectedAssetKind: input.tradeQuote.lost.assetKind,
             }),
-            gained: this.assertTradeAsset({
-              tradeAsset: this.convertTradeAsset(result.trade.gained),
+            gained: assertTradeAsset({
+              tradeAsset: convertTradeAsset(result.trade.gained),
               expectedAssetKind: input.tradeQuote.gained.assetKind,
             }),
           });
@@ -104,9 +117,9 @@ export class CandleClient {
         }
       }
     );
-  }
+  },
 
-  public presentCandleLinkSheet({
+  presentCandleLinkSheet: ({
     services = undefined,
     cornerRadius = 24,
     customerName,
@@ -123,8 +136,8 @@ export class CandleClient {
     presentationBackground?: PresentationBackground;
     presentationStyle?: PresentationStyle;
     onSuccess: (account: LinkedAccount) => void;
-  }): void {
-    this.candle.candleLinkSheet(
+  }): void => {
+    getCandle().candleLinkSheet(
       true,
       services,
       cornerRadius,
@@ -134,10 +147,10 @@ export class CandleClient {
       presentationStyle,
       onSuccess
     );
-  }
+  },
 
-  public async getLinkedAccounts(): Promise<LinkedAccountDetail[]> {
-    const accounts = await this.candle.getLinkedAccounts();
+  getLinkedAccounts: async (): Promise<LinkedAccountDetail[]> => {
+    const accounts = await getCandle().getLinkedAccounts();
     return accounts.map((account) => {
       if (account.details.activeLinkedAccountDetails !== undefined) {
         return {
@@ -169,85 +182,78 @@ export class CandleClient {
         throw new Error("Internal Candle Error: corrupted linked account.");
       }
     });
-  }
+  },
 
-  public async getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount> {
-    return this.candle.getLinkedAccount(ref);
-  }
+  getLinkedAccount: async (ref: LinkedAccountRef): Promise<LinkedAccount> =>
+    getCandle().getLinkedAccount(ref),
 
-  public async unlinkAccount(path: LinkedAccountRef): Promise<void> {
-    await this.candle.unlinkAccount(path);
-  }
+  unlinkAccount: async (ref: LinkedAccountRef): Promise<void> =>
+    getCandle().unlinkAccount(ref),
 
-  public async deleteUser(): Promise<void> {
-    await this.candle.deleteUser();
-  }
+  createUser: async (input: { appUserID: string }): Promise<void> => {
+    await getCandle().createUser(input.appUserID);
+  },
 
-  public async getAvailableTools(): Promise<Array<Record<string, any>>> {
-    return this.candle.getAvailableTools();
-  }
+  deleteUser: async (): Promise<void> => getCandle().deleteUser(),
 
-  public async executeTool(tool: {
-    name: string;
-    arguments: string;
-  }): Promise<string> {
-    return this.candle.executeTool(tool);
-  }
-
-  public async getAssetAccounts(query: AssetAccountQuery = {}): Promise<{
+  getAssetAccounts: async (
+    query: AssetAccountQuery = {}
+  ): Promise<{
     assetAccounts: AssetAccount[];
     linkedAccounts: LinkedAccountStatusRef[];
-  }> {
+  }> => {
     const { assetAccounts, linkedAccounts } =
-      await this.candle.getAssetAccounts(query);
+      await getCandle().getAssetAccounts(query);
     return {
       assetAccounts: assetAccounts.map((account) =>
-        this.convertToAssetAccount(account)
+        convertToAssetAccount(account)
       ),
       linkedAccounts,
     };
-  }
+  },
 
-  public async getAssetAccount(ref: AssetAccountRef): Promise<AssetAccount> {
-    const account = await this.candle.getAssetAccount(ref);
-    return this.convertToAssetAccount(account);
-  }
+  getAssetAccount: async (ref: AssetAccountRef): Promise<AssetAccount> => {
+    const account = await getCandle().getAssetAccount(ref);
+    return convertToAssetAccount(account);
+  },
 
-  public async getTrades(query: TradeQuery = {}): Promise<{
+  getTrades: async (
+    query: TradeQuery = {}
+  ): Promise<{
     trades: Trade[];
     linkedAccounts: LinkedAccountStatusRef[];
-  }> {
-    const { trades, linkedAccounts } = await this.candle.getTrades(query);
+  }> => {
+    const { trades, linkedAccounts } = await getCandle().getTrades(query);
     return {
       trades: trades.map(({ dateTime, counterparty, gained, lost, state }) => ({
         dateTime,
         state,
-        counterparty: this.convertToCounterparty(counterparty),
-        lost: this.convertTradeAsset(lost),
-        gained: this.convertTradeAsset(gained),
+        counterparty: convertToCounterparty(counterparty),
+        lost: convertTradeAsset(lost),
+        gained: convertTradeAsset(gained),
       })),
       linkedAccounts,
     };
-  }
+  },
 
-  public async getTrade(input: {
+  getTrade: async (input: {
     lost: TradeAssetRef;
     gained: TradeAssetRef;
-  }): Promise<Trade> {
-    const trade = await this.candle.getTrade({
-      lost: this.convertTradeAssetRef(input.lost),
-      gained: this.convertTradeAssetRef(input.gained),
+  }): Promise<Trade> => {
+    const trade = await getCandle().getTrade({
+      lost: convertTradeAssetRef(input.lost),
+      gained: convertTradeAssetRef(input.gained),
     });
     return {
       dateTime: trade.dateTime,
       state: trade.state,
-      counterparty: this.convertToCounterparty(trade.counterparty),
-      lost: this.convertTradeAsset(trade.lost),
-      gained: this.convertTradeAsset(trade.gained),
+      counterparty: convertToCounterparty(trade.counterparty),
+      lost: convertTradeAsset(trade.lost),
+      gained: convertTradeAsset(trade.gained),
     };
-  }
+  },
 
-  public async getTradeQuotes<
+  getTradeQuotes: async <
     GainedAssetKind extends AssetKind,
     LostAssetKind extends AssetKind
   >(request: {
@@ -257,7 +263,7 @@ export class CandleClient {
   }): Promise<{
     tradeQuotes: TradeQuote<GainedAssetKind, LostAssetKind>[];
     linkedAccounts: LinkedAccountStatusRef[];
-  }> {
+  }> => {
     let gainedRequest: TradeAssetQuoteRequest;
 
     switch (request.gained.assetKind) {
@@ -294,7 +300,7 @@ export class CandleClient {
         break;
     }
 
-    const { linkedAccounts, tradeQuotes } = await this.candle.getTradeQuotes({
+    const { linkedAccounts, tradeQuotes } = await getCandle().getTradeQuotes({
       linkedAccountIDs: request.linkedAccountIDs,
       gained: gainedRequest,
       lost: lostRequest,
@@ -303,12 +309,12 @@ export class CandleClient {
     return {
       tradeQuotes: tradeQuotes.map((quote) => {
         return {
-          gained: this.assertTradeAsset({
-            tradeAsset: this.convertTradeAsset(quote.gained),
+          gained: assertTradeAsset({
+            tradeAsset: convertTradeAsset(quote.gained),
             expectedAssetKind: request.gained.assetKind,
           }),
-          lost: this.assertTradeAsset({
-            tradeAsset: this.convertTradeAsset(quote.lost),
+          lost: assertTradeAsset({
+            tradeAsset: convertTradeAsset(quote.lost),
             expectedAssetKind: request.lost.assetKind,
           }),
           context: quote.context,
@@ -317,199 +323,197 @@ export class CandleClient {
       }),
       linkedAccounts,
     };
-  }
+  },
+};
 
-  private convertTradeAssetRef(
-    tradeAssetRef: TradeAssetRef
-  ): InternalTradeAssetRef {
-    switch (tradeAssetRef.assetKind) {
-      case "fiat":
-        return {
-          fiatAssetRef: {
-            assetKind: "fiat",
-            linkedAccountID: tradeAssetRef.linkedAccountID,
-            serviceTradeID: tradeAssetRef.serviceTradeID,
-          },
-        };
-      case "stock":
-      case "crypto":
-        return {
-          marketTradeAssetRef: {
-            assetKind: tradeAssetRef.assetKind,
-            linkedAccountID: tradeAssetRef.linkedAccountID,
-            serviceTradeID: tradeAssetRef.serviceTradeID,
-          },
-        };
-      case "transport":
-        return {
-          transportAssetRef: {
-            assetKind: "transport",
-            linkedAccountID: tradeAssetRef.linkedAccountID,
-            serviceTradeID: tradeAssetRef.serviceTradeID,
-          },
-        };
-      case "other":
-        return {
-          otherAssetRef: {
-            assetKind: "other",
-          },
-        };
-      case "nothing":
-        return {
-          nothingAssetRef: {
-            assetKind: "nothing",
-          },
-        };
-    }
+const convertTradeAssetRef = (
+  tradeAssetRef: TradeAssetRef
+): InternalTradeAssetRef => {
+  switch (tradeAssetRef.assetKind) {
+    case "fiat":
+      return {
+        fiatAssetRef: {
+          assetKind: "fiat",
+          linkedAccountID: tradeAssetRef.linkedAccountID,
+          serviceTradeID: tradeAssetRef.serviceTradeID,
+        },
+      };
+    case "stock":
+    case "crypto":
+      return {
+        marketTradeAssetRef: {
+          assetKind: tradeAssetRef.assetKind,
+          linkedAccountID: tradeAssetRef.linkedAccountID,
+          serviceTradeID: tradeAssetRef.serviceTradeID,
+        },
+      };
+    case "transport":
+      return {
+        transportAssetRef: {
+          assetKind: "transport",
+          linkedAccountID: tradeAssetRef.linkedAccountID,
+          serviceTradeID: tradeAssetRef.serviceTradeID,
+        },
+      };
+    case "other":
+      return {
+        otherAssetRef: {
+          assetKind: "other",
+        },
+      };
+    case "nothing":
+      return {
+        nothingAssetRef: {
+          assetKind: "nothing",
+        },
+      };
   }
+};
 
-  private toInternalTradeAsset(asset: TradeAsset): InternalTradeAsset {
-    switch (asset.assetKind) {
-      case "fiat":
-        return { fiatAsset: asset };
-      case "stock":
-      case "crypto":
-        return {
-          marketTradeAsset: {
-            ...asset,
-            assetKind: asset.assetKind,
-          },
-        };
-      case "transport":
-        return { transportAsset: asset };
-      case "other":
-        return { otherAsset: asset };
-      case "nothing":
-        return { nothingAsset: asset };
-    }
+const toInternalTradeAsset = (asset: TradeAsset): InternalTradeAsset => {
+  switch (asset.assetKind) {
+    case "fiat":
+      return { fiatAsset: asset };
+    case "stock":
+    case "crypto":
+      return {
+        marketTradeAsset: {
+          ...asset,
+          assetKind: asset.assetKind,
+        },
+      };
+    case "transport":
+      return { transportAsset: asset };
+    case "other":
+      return { otherAsset: asset };
+    case "nothing":
+      return { nothingAsset: asset };
   }
+};
 
-  private convertTradeQuote(
-    tradeQuote: TradeQuote<AssetKind, AssetKind>
-  ): InternalTradeQuote {
-    const { context, gained, lost } = tradeQuote;
+const convertTradeQuote = (
+  tradeQuote: TradeQuote<AssetKind, AssetKind>
+): InternalTradeQuote => {
+  const { context, gained, lost } = tradeQuote;
+  return {
+    context,
+    gained: toInternalTradeAsset(gained),
+    lost: toInternalTradeAsset(lost),
+    expirationDateTime: tradeQuote.expirationDateTime,
+  };
+};
+
+const convertTradeAsset = (tradeAsset: InternalTradeAsset): TradeAsset => {
+  if (tradeAsset.fiatAsset !== undefined) {
     return {
-      context,
-      gained: this.toInternalTradeAsset(gained),
-      lost: this.toInternalTradeAsset(lost),
-      expirationDateTime: tradeQuote.expirationDateTime,
+      ...tradeAsset.fiatAsset,
+      assetKind: "fiat",
     };
+  } else if (tradeAsset.marketTradeAsset !== undefined) {
+    assertMarketAssetKind(tradeAsset.marketTradeAsset.assetKind);
+    return {
+      ...tradeAsset.marketTradeAsset,
+      assetKind: assertMarketAssetKind(tradeAsset.marketTradeAsset.assetKind),
+    };
+  } else if (tradeAsset.transportAsset !== undefined) {
+    return {
+      ...tradeAsset.transportAsset,
+      assetKind: "transport",
+    };
+  } else if (tradeAsset.otherAsset !== undefined) {
+    return { assetKind: "other" };
+  } else if (tradeAsset.nothingAsset !== undefined) {
+    return { assetKind: "nothing" };
+  } else {
+    throw new Error("Internal Candle Error: corrupted trade asset.");
   }
+};
 
-  private convertTradeAsset(tradeAsset: InternalTradeAsset): TradeAsset {
-    if (tradeAsset.fiatAsset !== undefined) {
-      return {
-        ...tradeAsset.fiatAsset,
-        assetKind: "fiat",
-      };
-    } else if (tradeAsset.marketTradeAsset !== undefined) {
-      this.assertMarketAssetKind(tradeAsset.marketTradeAsset.assetKind);
-      return {
-        ...tradeAsset.marketTradeAsset,
-        assetKind: this.assertMarketAssetKind(
-          tradeAsset.marketTradeAsset.assetKind
-        ),
-      };
-    } else if (tradeAsset.transportAsset !== undefined) {
-      return {
-        ...tradeAsset.transportAsset,
-        assetKind: "transport",
-      };
-    } else if (tradeAsset.otherAsset !== undefined) {
-      return { assetKind: "other" };
-    } else if (tradeAsset.nothingAsset !== undefined) {
-      return { assetKind: "nothing" };
-    } else {
-      throw new Error("Internal Candle Error: corrupted trade asset.");
-    }
+const assertTradeAsset = <ExpectedAssetKind extends AssetKind>(input: {
+  tradeAsset: TradeAsset;
+  expectedAssetKind: ExpectedAssetKind;
+}): TradeAsset & {
+  assetKind: ExpectedAssetKind;
+} => {
+  if (input.tradeAsset.assetKind === input.expectedAssetKind) {
+    // NOTE: This cast is due to a typescript generics limitation and should be cleaned up when possible
+    return input.tradeAsset as TradeAsset & {
+      assetKind: ExpectedAssetKind;
+    };
+  } else {
+    throw new Error("Internal Candle Error: asset kind mismatch.");
   }
+};
 
-  private assertTradeAsset<ExpectedAssetKind extends AssetKind>(input: {
-    tradeAsset: TradeAsset;
-    expectedAssetKind: ExpectedAssetKind;
-  }): TradeAsset & {
-    assetKind: ExpectedAssetKind;
-  } {
-    if (input.tradeAsset.assetKind === input.expectedAssetKind) {
-      // NOTE: This cast is due to a typescript generics limitation and should be cleaned up when possible
-      return input.tradeAsset as TradeAsset & {
-        assetKind: ExpectedAssetKind;
-      };
-    } else {
-      throw new Error("Internal Candle Error: asset kind mismatch.");
-    }
+const convertToCounterparty = (
+  counterparty: InternalCounterparty
+): Counterparty => {
+  if (counterparty.merchantCounterparty !== undefined) {
+    return {
+      ...counterparty.merchantCounterparty,
+      kind: "merchant",
+    };
+  } else if (counterparty.userCounterparty !== undefined) {
+    return {
+      ...counterparty.userCounterparty,
+      kind: "user",
+    };
+  } else if (counterparty.serviceCounterparty !== undefined) {
+    return {
+      ...counterparty.serviceCounterparty,
+      kind: "service",
+    };
+  } else {
+    throw new Error("Unknown counterparty kind");
   }
+};
 
-  private convertToCounterparty(
-    counterparty: InternalCounterparty
-  ): Counterparty {
-    if (counterparty.merchantCounterparty !== undefined) {
-      return {
-        ...counterparty.merchantCounterparty,
-        kind: "merchant",
-      };
-    } else if (counterparty.userCounterparty !== undefined) {
-      return {
-        ...counterparty.userCounterparty,
-        kind: "user",
-      };
-    } else if (counterparty.serviceCounterparty !== undefined) {
-      return {
-        ...counterparty.serviceCounterparty,
-        kind: "service",
-      };
-    } else {
-      throw new Error("Unknown counterparty kind");
-    }
+const assertFiatAssetKind = (kind: string): "fiat" => {
+  if (kind !== "fiat") {
+    throw new Error("Internal Candle Error: corrupted market account.");
+  } else {
+    return kind;
   }
+};
 
-  private assertFiatAssetKind(kind: string): "fiat" {
-    if (kind !== "fiat") {
-      throw new Error("Internal Candle Error: corrupted market account.");
-    } else {
-      return kind;
-    }
+const assertMarketAssetKind = (kind: string): "stock" | "crypto" => {
+  if (kind !== "stock" && kind !== "crypto") {
+    throw new Error("Internal Candle Error: corrupted market account.");
+  } else {
+    return kind;
   }
+};
 
-  private assertMarketAssetKind(kind: string): "stock" | "crypto" {
-    if (kind !== "stock" && kind !== "crypto") {
-      throw new Error("Internal Candle Error: corrupted market account.");
-    } else {
-      return kind;
-    }
+const assertTransportAssetKind = (kind: string): "transport" => {
+  if (kind !== "transport") {
+    throw new Error("Internal Candle Error: corrupted market account.");
+  } else {
+    return kind;
   }
+};
 
-  private assertTransportAssetKind(kind: string): "transport" {
-    if (kind !== "transport") {
-      throw new Error("Internal Candle Error: corrupted market account.");
-    } else {
-      return kind;
-    }
+const convertToAssetAccount = (account: InternalAssetAccount): AssetAccount => {
+  const { fiatAccount, marketAccount, transportAccount } = account;
+
+  if (fiatAccount !== undefined) {
+    return {
+      ...fiatAccount,
+      assetKind: assertFiatAssetKind(fiatAccount.assetKind),
+    };
+  } else if (marketAccount !== undefined) {
+    return {
+      ...marketAccount,
+      assetKind: assertMarketAssetKind(marketAccount.assetKind),
+    };
+  } else if (transportAccount !== undefined) {
+    return {
+      ...transportAccount,
+      assetKind: assertTransportAssetKind(transportAccount.assetKind),
+    };
+  } else {
+    throw new Error("Internal Candle Error: corrupted asset account.");
   }
-
-  private convertToAssetAccount(account: InternalAssetAccount): AssetAccount {
-    const { fiatAccount, marketAccount, transportAccount } = account;
-
-    if (fiatAccount !== undefined) {
-      return {
-        ...fiatAccount,
-        assetKind: this.assertFiatAssetKind(fiatAccount.assetKind),
-      };
-    } else if (marketAccount !== undefined) {
-      return {
-        ...marketAccount,
-        assetKind: this.assertMarketAssetKind(marketAccount.assetKind),
-      };
-    } else if (transportAccount !== undefined) {
-      return {
-        ...transportAccount,
-        assetKind: this.assertTransportAssetKind(transportAccount.assetKind),
-      };
-    } else {
-      throw new Error("Internal Candle Error: corrupted asset account.");
-    }
-  }
-}
+};
 
 type AssetKind = "nothing" | "transport" | "fiat" | "stock" | "crypto";
 

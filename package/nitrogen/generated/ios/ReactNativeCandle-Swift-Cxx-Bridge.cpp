@@ -93,22 +93,6 @@ namespace margelo::nitro::rncandle::bridge::swift {
     };
   }
   
-  // pragma MARK: std::function<void(const std::vector<std::shared_ptr<AnyMap>>& /* result */)>
-  Func_void_std__vector_std__shared_ptr_AnyMap__ create_Func_void_std__vector_std__shared_ptr_AnyMap__(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__vector_std__shared_ptr_AnyMap__::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::vector<std::shared_ptr<AnyMap>>& result) mutable -> void {
-      swiftClosure.call(result);
-    };
-  }
-  
-  // pragma MARK: std::function<void(const std::string& /* result */)>
-  Func_void_std__string create_Func_void_std__string(void* _Nonnull swiftClosureWrapper) {
-    auto swiftClosure = ReactNativeCandle::Func_void_std__string::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const std::string& result) mutable -> void {
-      swiftClosure.call(result);
-    };
-  }
-  
   // pragma MARK: std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>
   std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec> create_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(void* _Nonnull swiftUnsafePointer) {
     ReactNativeCandle::HybridRNCandleSpec_cxx swiftPart = ReactNativeCandle::HybridRNCandleSpec_cxx::fromUnsafe(swiftUnsafePointer);
