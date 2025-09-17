@@ -157,7 +157,7 @@ public enum RNClientError: Error {
         }
     }
 
-    public func getAssetAccounts(query: AssetAccountQuery) throws -> Promise<AssetAccountsResponse>
+    public func getAssetAccounts(query: AssetAccountsQuery) throws -> Promise<AssetAccountsResponse>
     {
         .async {
             let accounts = try await Client.shared.getAssetAccounts(query: .init(reactModel: query))
@@ -182,7 +182,7 @@ public enum RNClientError: Error {
         }
     }
 
-    public func getTrades(query: TradeQuery) throws -> Promise<TradesResponse> {
+    public func getTrades(query: TradesQuery) throws -> Promise<TradesResponse> {
         .async {
             let trades = try await Client.shared.getTrades(query: .init(reactModel: query))
             return TradesResponse(
@@ -192,7 +192,7 @@ public enum RNClientError: Error {
         }
     }
 
-    public func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<TradeQuotesResponse> {
+    public func getTradeQuotes(request: TradeQuotesRequest) throws -> Promise<TradeQuotesResponse> {
         .async {
             let accounts = try await Client.shared.getTradeQuotes(
                 request: .init(reactModel: request)
