@@ -44,15 +44,35 @@ import type {
   WireDetails,
 } from "./specs/RNCandle.nitro";
 
-let _candle: RNCandle | undefined;
-const getCandle = (): RNCandle => {
-  if (_candle === undefined) {
-    throw Error(
-      `Candle has not been initialized. In your app's launch handler (e.g. in index.ts before AppRegistry.registerComponent), call \`candle.initialize({ appKey: ..., appSecret: ... })\``
-    );
-  }
-  return _candle;
+// candle-context.tsx
+import * as React from "react";
+
+type CandleCtx = {
+  ready: boolean;
+  // expose other status/events you want
 };
+
+const CandleContext = React.createContext<CandleCtx | null>(null);
+
+// Only export the Provider and the hook — not the Context itself.
+export function CandleProvider(props: {
+  value: CandleCtx;
+  children: React.ReactNode;
+}) {
+  const _candle = NitroModules.createHybridObject<RNCandle>("RNCandle");
+  return (
+    <Context.Provider value={props.value}>{props.children}</Context.Provider>
+  );
+}
+
+export function useCandleCtx(): CandleCtx {
+  const ctx = React.useContext(Context);
+  if (!ctx) {
+    // Runtime guard: clear, immediate failure if used outside provider
+    throw new Error("useCandleCtx must be used within <CandleProvider>.");
+  }
+  return ctx;
+}
 
 export const candle = {
   initialize: (input: {
