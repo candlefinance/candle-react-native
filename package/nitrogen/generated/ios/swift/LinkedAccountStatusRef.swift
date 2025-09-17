@@ -16,8 +16,9 @@ extension LinkedAccountStatusRef {
   /**
    * Create a new instance of `LinkedAccountStatusRef`.
    */
-  public init(linkedAccountID: String, service: Service, serviceUserID: String, state: StatePayload)
-  {
+  public init(
+    linkedAccountID: String, service: Service, serviceUserID: String, state: LinkedAccountState
+  ) {
     self.init(std.string(linkedAccountID), service, std.string(serviceUserID), state)
   }
 
@@ -54,7 +55,7 @@ extension LinkedAccountStatusRef {
     }
   }
 
-  public var state: StatePayload {
+  public var state: LinkedAccountState {
     @inline(__always)
     get {
       return self.__state

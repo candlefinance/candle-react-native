@@ -14,10 +14,9 @@ import SwiftUI
     }
 
     var body: some View {
-        Color.clear
-            .candleTradeExecutionSheet(
-                item: $viewModel.tradeQuote,
-                presentationBackground: toCandlePresentationBackground
-            ) { result in viewModel.tradeResult = result }
+        Color.clear.candleTradeExecutionSheet(
+            item: $viewModel.tradeQuote,
+            presentationBackground: toCandlePresentationBackground
+        ) { result in viewModel.tradeResult = result }
     }
 }

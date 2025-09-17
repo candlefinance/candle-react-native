@@ -16,8 +16,8 @@ extension AssetAccountRef {
   /**
    * Create a new instance of `AssetAccountRef`.
    */
-  public init(linkedAccountID: String, assetKind: String, serviceAccountID: String) {
-    self.init(std.string(linkedAccountID), std.string(assetKind), std.string(serviceAccountID))
+  public init(linkedAccountID: String, assetKind: AssetAccountKind, serviceAccountID: String) {
+    self.init(std.string(linkedAccountID), assetKind, std.string(serviceAccountID))
   }
 
   public var linkedAccountID: String {
@@ -31,14 +31,14 @@ extension AssetAccountRef {
     }
   }
 
-  public var assetKind: String {
+  public var assetKind: AssetAccountKind {
     @inline(__always)
     get {
-      return String(self.__assetKind)
+      return self.__assetKind
     }
     @inline(__always)
     set {
-      self.__assetKind = std.string(newValue)
+      self.__assetKind = newValue
     }
   }
 

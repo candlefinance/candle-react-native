@@ -11,7 +11,7 @@ import SwiftUI
                 Spacer()
                     .candleLinkSheet(
                         isPresented: $viewModel.showSheet,
-                        service: service.toRNModel,
+                        service: .init(reactModel: service),
                         customerName: viewModel.customerName,
                         cornerRadius: viewModel.cornerRadius,
                         showDynamicLoading: viewModel.showDynamicLoading,
@@ -27,7 +27,7 @@ import SwiftUI
                         isPresented: $viewModel.showSheet,
                         customerName: viewModel.customerName,
                         cornerRadius: viewModel.cornerRadius,
-                        services: services.map(\.toRNModel),
+                        services: services.map(Models.Service.init(reactModel:)),
                         showDynamicLoading: viewModel.showDynamicLoading,
                         presentationStyle: viewModel.toCandlePresentationStyle,
                         presentationBackground: viewModel.toCandlePresentationBackground

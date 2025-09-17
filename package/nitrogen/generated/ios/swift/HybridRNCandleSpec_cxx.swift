@@ -256,7 +256,7 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func getAssetAccounts(query: AssetAccountQuery)
+  public final func getAssetAccounts(query: AssetAccountsQuery)
     -> bridge.Result_std__shared_ptr_Promise_AssetAccountsResponse___
   {
     do {
@@ -298,7 +298,7 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func getTrades(query: TradeQuery)
+  public final func getTrades(query: TradesQuery)
     -> bridge.Result_std__shared_ptr_Promise_TradesResponse___
   {
     do {
@@ -338,7 +338,7 @@ public class HybridRNCandleSpec_cxx {
   }
 
   @inline(__always)
-  public final func getTradeQuotes(request: TradeQuoteRequest)
+  public final func getTradeQuotes(request: TradeQuotesRequest)
     -> bridge.Result_std__shared_ptr_Promise_TradeQuotesResponse___
   {
     do {

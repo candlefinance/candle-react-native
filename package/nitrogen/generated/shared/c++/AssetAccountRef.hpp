@@ -18,9 +18,11 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
-
+// Forward declaration of `AssetAccountKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 
 #include <string>
+#include "AssetAccountKind.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -30,12 +32,12 @@ namespace margelo::nitro::rncandle {
   struct AssetAccountRef {
   public:
     std::string linkedAccountID     SWIFT_PRIVATE;
-    std::string assetKind     SWIFT_PRIVATE;
+    AssetAccountKind assetKind     SWIFT_PRIVATE;
     std::string serviceAccountID     SWIFT_PRIVATE;
 
   public:
     AssetAccountRef() = default;
-    explicit AssetAccountRef(std::string linkedAccountID, std::string assetKind, std::string serviceAccountID): linkedAccountID(linkedAccountID), assetKind(assetKind), serviceAccountID(serviceAccountID) {}
+    explicit AssetAccountRef(std::string linkedAccountID, AssetAccountKind assetKind, std::string serviceAccountID): linkedAccountID(linkedAccountID), assetKind(assetKind), serviceAccountID(serviceAccountID) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -51,14 +53,14 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return AssetAccountRef(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+        JSIConverter<AssetAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const AssetAccountRef& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<AssetAccountKind>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAccountID));
       return obj;
     }
@@ -68,7 +70,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<AssetAccountKind>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       return true;
     }

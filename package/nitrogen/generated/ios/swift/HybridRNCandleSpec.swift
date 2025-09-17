@@ -25,11 +25,11 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
   func getLinkedAccounts() throws -> Promise<[LinkedAccount]>
   func getLinkedAccount(ref: LinkedAccountRef) throws -> Promise<LinkedAccount>
   func unlinkAccount(ref: LinkedAccountRef) throws -> Promise<Void>
-  func getAssetAccounts(query: AssetAccountQuery) throws -> Promise<AssetAccountsResponse>
+  func getAssetAccounts(query: AssetAccountsQuery) throws -> Promise<AssetAccountsResponse>
   func getAssetAccount(ref: AssetAccountRef) throws -> Promise<AssetAccount>
-  func getTrades(query: TradeQuery) throws -> Promise<TradesResponse>
+  func getTrades(query: TradesQuery) throws -> Promise<TradesResponse>
   func getTrade(ref: TradeRef) throws -> Promise<Trade>
-  func getTradeQuotes(request: TradeQuoteRequest) throws -> Promise<TradeQuotesResponse>
+  func getTradeQuotes(request: TradeQuotesRequest) throws -> Promise<TradeQuotesResponse>
   func createUser(appUserID: String) throws -> Promise<Void>
   func deleteUser() throws -> Promise<Void>
 }

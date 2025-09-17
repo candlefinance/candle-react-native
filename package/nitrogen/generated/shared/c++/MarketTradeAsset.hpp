@@ -18,9 +18,12 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `MarketAssetKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
 
+#include "MarketAssetKind.hpp"
 #include <string>
 #include "Service.hpp"
 
@@ -31,7 +34,7 @@ namespace margelo::nitro::rncandle {
    */
   struct MarketTradeAsset {
   public:
-    std::string assetKind     SWIFT_PRIVATE;
+    MarketAssetKind assetKind     SWIFT_PRIVATE;
     std::string serviceAccountID     SWIFT_PRIVATE;
     std::string serviceAssetID     SWIFT_PRIVATE;
     std::string symbol     SWIFT_PRIVATE;
@@ -45,7 +48,7 @@ namespace margelo::nitro::rncandle {
 
   public:
     MarketTradeAsset() = default;
-    explicit MarketTradeAsset(std::string assetKind, std::string serviceAccountID, std::string serviceAssetID, std::string symbol, double amount, std::string serviceTradeID, std::string linkedAccountID, std::string name, std::string color, std::string logoURL, Service service): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount), serviceTradeID(serviceTradeID), linkedAccountID(linkedAccountID), name(name), color(color), logoURL(logoURL), service(service) {}
+    explicit MarketTradeAsset(MarketAssetKind assetKind, std::string serviceAccountID, std::string serviceAssetID, std::string symbol, double amount, std::string serviceTradeID, std::string linkedAccountID, std::string name, std::string color, std::string logoURL, Service service): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount), serviceTradeID(serviceTradeID), linkedAccountID(linkedAccountID), name(name), color(color), logoURL(logoURL), service(service) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -60,7 +63,7 @@ namespace margelo::nitro {
     static inline MarketTradeAsset fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return MarketTradeAsset(
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+        JSIConverter<MarketAssetKind>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAssetID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "symbol")),
@@ -75,7 +78,7 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const MarketTradeAsset& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<MarketAssetKind>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAccountID));
       obj.setProperty(runtime, "serviceAssetID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAssetID));
       obj.setProperty(runtime, "symbol", JSIConverter<std::string>::toJSI(runtime, arg.symbol));
@@ -93,7 +96,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<MarketAssetKind>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAssetID"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "symbol"))) return false;

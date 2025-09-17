@@ -17,11 +17,11 @@ extension MarketAssetQuoteRequest {
    * Create a new instance of `MarketAssetQuoteRequest`.
    */
   public init(
-    assetKind: String, serviceAccountID: String?, serviceAssetID: String?, symbol: String?,
+    assetKind: MarketAssetKind, serviceAccountID: String?, serviceAssetID: String?, symbol: String?,
     amount: Double?
   ) {
     self.init(
-      std.string(assetKind),
+      assetKind,
       { () -> bridge.std__optional_std__string_ in
         if let __unwrappedValue = serviceAccountID {
           return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
@@ -52,14 +52,14 @@ extension MarketAssetQuoteRequest {
       }())
   }
 
-  public var assetKind: String {
+  public var assetKind: MarketAssetKind {
     @inline(__always)
     get {
-      return String(self.__assetKind)
+      return self.__assetKind
     }
     @inline(__always)
     set {
-      self.__assetKind = std.string(newValue)
+      self.__assetKind = newValue
     }
   }
 

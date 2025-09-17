@@ -29,24 +29,24 @@ namespace margelo::nitro::rncandle { struct TradeExecutionResult; }
 namespace margelo::nitro::rncandle { struct LinkedAccountRef; }
 // Forward declaration of `AssetAccountsResponse` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccountsResponse; }
-// Forward declaration of `AssetAccountQuery` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct AssetAccountQuery; }
+// Forward declaration of `AssetAccountsQuery` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct AssetAccountsQuery; }
 // Forward declaration of `AssetAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccount; }
 // Forward declaration of `AssetAccountRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct AssetAccountRef; }
 // Forward declaration of `TradesResponse` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradesResponse; }
-// Forward declaration of `TradeQuery` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct TradeQuery; }
+// Forward declaration of `TradesQuery` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradesQuery; }
 // Forward declaration of `Trade` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Trade; }
 // Forward declaration of `TradeRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeRef; }
 // Forward declaration of `TradeQuotesResponse` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuotesResponse; }
-// Forward declaration of `TradeQuoteRequest` to properly resolve imports.
-namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
+// Forward declaration of `TradeQuotesRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct TradeQuotesRequest; }
 
 #include <optional>
 #include <vector>
@@ -61,15 +61,15 @@ namespace margelo::nitro::rncandle { struct TradeQuoteRequest; }
 #include <NitroModules/Promise.hpp>
 #include "LinkedAccountRef.hpp"
 #include "AssetAccountsResponse.hpp"
-#include "AssetAccountQuery.hpp"
+#include "AssetAccountsQuery.hpp"
 #include "AssetAccount.hpp"
 #include "AssetAccountRef.hpp"
 #include "TradesResponse.hpp"
-#include "TradeQuery.hpp"
+#include "TradesQuery.hpp"
 #include "Trade.hpp"
 #include "TradeRef.hpp"
 #include "TradeQuotesResponse.hpp"
-#include "TradeQuoteRequest.hpp"
+#include "TradeQuotesRequest.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -108,11 +108,11 @@ namespace margelo::nitro::rncandle {
       virtual std::shared_ptr<Promise<std::vector<LinkedAccount>>> getLinkedAccounts() = 0;
       virtual std::shared_ptr<Promise<LinkedAccount>> getLinkedAccount(const LinkedAccountRef& ref) = 0;
       virtual std::shared_ptr<Promise<void>> unlinkAccount(const LinkedAccountRef& ref) = 0;
-      virtual std::shared_ptr<Promise<AssetAccountsResponse>> getAssetAccounts(const AssetAccountQuery& query) = 0;
+      virtual std::shared_ptr<Promise<AssetAccountsResponse>> getAssetAccounts(const AssetAccountsQuery& query) = 0;
       virtual std::shared_ptr<Promise<AssetAccount>> getAssetAccount(const AssetAccountRef& ref) = 0;
-      virtual std::shared_ptr<Promise<TradesResponse>> getTrades(const TradeQuery& query) = 0;
+      virtual std::shared_ptr<Promise<TradesResponse>> getTrades(const TradesQuery& query) = 0;
       virtual std::shared_ptr<Promise<Trade>> getTrade(const TradeRef& ref) = 0;
-      virtual std::shared_ptr<Promise<TradeQuotesResponse>> getTradeQuotes(const TradeQuoteRequest& request) = 0;
+      virtual std::shared_ptr<Promise<TradeQuotesResponse>> getTradeQuotes(const TradeQuotesRequest& request) = 0;
       virtual std::shared_ptr<Promise<void>> createUser(const std::string& appUserID) = 0;
       virtual std::shared_ptr<Promise<void>> deleteUser() = 0;
 

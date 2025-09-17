@@ -20,12 +20,12 @@
 
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
-// Forward declaration of `StatePayload` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class StatePayload; }
+// Forward declaration of `LinkedAccountState` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class LinkedAccountState; }
 
 #include <string>
 #include "Service.hpp"
-#include "StatePayload.hpp"
+#include "LinkedAccountState.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -37,11 +37,11 @@ namespace margelo::nitro::rncandle {
     std::string linkedAccountID     SWIFT_PRIVATE;
     Service service     SWIFT_PRIVATE;
     std::string serviceUserID     SWIFT_PRIVATE;
-    StatePayload state     SWIFT_PRIVATE;
+    LinkedAccountState state     SWIFT_PRIVATE;
 
   public:
     LinkedAccountStatusRef() = default;
-    explicit LinkedAccountStatusRef(std::string linkedAccountID, Service service, std::string serviceUserID, StatePayload state): linkedAccountID(linkedAccountID), service(service), serviceUserID(serviceUserID), state(state) {}
+    explicit LinkedAccountStatusRef(std::string linkedAccountID, Service service, std::string serviceUserID, LinkedAccountState state): linkedAccountID(linkedAccountID), service(service), serviceUserID(serviceUserID), state(state) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -59,7 +59,7 @@ namespace margelo::nitro {
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
         JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceUserID")),
-        JSIConverter<StatePayload>::fromJSI(runtime, obj.getProperty(runtime, "state"))
+        JSIConverter<LinkedAccountState>::fromJSI(runtime, obj.getProperty(runtime, "state"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const LinkedAccountStatusRef& arg) {
@@ -67,7 +67,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
       obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
       obj.setProperty(runtime, "serviceUserID", JSIConverter<std::string>::toJSI(runtime, arg.serviceUserID));
-      obj.setProperty(runtime, "state", JSIConverter<StatePayload>::toJSI(runtime, arg.state));
+      obj.setProperty(runtime, "state", JSIConverter<LinkedAccountState>::toJSI(runtime, arg.state));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -78,7 +78,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
       if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceUserID"))) return false;
-      if (!JSIConverter<StatePayload>::canConvert(runtime, obj.getProperty(runtime, "state"))) return false;
+      if (!JSIConverter<LinkedAccountState>::canConvert(runtime, obj.getProperty(runtime, "state"))) return false;
       return true;
     }
   };

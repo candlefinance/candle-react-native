@@ -24,6 +24,8 @@ namespace margelo::nitro::rncandle { struct AssetAccount; }
 namespace margelo::nitro::rncandle { struct AssetAccountsResponse; }
 // Forward declaration of `Coordinates` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Coordinates; }
+// Forward declaration of `CounterpartyKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
 // Forward declaration of `FiatAccount` to properly resolve imports.
@@ -42,12 +44,16 @@ namespace margelo::nitro::rncandle { class HybridRNCandleSpec; }
 namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
 // Forward declaration of `LinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountDetails; }
+// Forward declaration of `LinkedAccountState` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class LinkedAccountState; }
 // Forward declaration of `LinkedAccountStatusRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccountStatusRef; }
 // Forward declaration of `LinkedAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct LinkedAccount; }
 // Forward declaration of `MarketAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAccount; }
+// Forward declaration of `MarketAssetKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
 // Forward declaration of `MarketAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 // Forward declaration of `MarketTradeAssetRef` to properly resolve imports.
@@ -72,8 +78,8 @@ namespace margelo::nitro::rncandle { struct OtherAsset; }
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
-// Forward declaration of `StatePayload` to properly resolve imports.
-namespace margelo::nitro::rncandle { enum class StatePayload; }
+// Forward declaration of `TradeAssetKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class TradeAssetKind; }
 // Forward declaration of `TradeAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeAsset; }
 // Forward declaration of `TradeExecutionResult` to properly resolve imports.
@@ -119,6 +125,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "AssetAccountsResponse.hpp"
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
+#include "CounterpartyKind.hpp"
 #include "FiatAccount.hpp"
 #include "FiatAsset.hpp"
 #include "FiatAssetQuoteRequest.hpp"
@@ -128,8 +135,10 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "InactiveLinkedAccountDetails.hpp"
 #include "LinkedAccount.hpp"
 #include "LinkedAccountDetails.hpp"
+#include "LinkedAccountState.hpp"
 #include "LinkedAccountStatusRef.hpp"
 #include "MarketAccount.hpp"
+#include "MarketAssetKind.hpp"
 #include "MarketAssetQuoteRequest.hpp"
 #include "MarketTradeAsset.hpp"
 #include "MarketTradeAssetRef.hpp"
@@ -142,9 +151,9 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "OtherAssetRef.hpp"
 #include "Service.hpp"
 #include "ServiceCounterparty.hpp"
-#include "StatePayload.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
+#include "TradeAssetKind.hpp"
 #include "TradeExecutionResult.hpp"
 #include "TradeQuote.hpp"
 #include "TradeQuotesResponse.hpp"
@@ -673,6 +682,24 @@ namespace margelo::nitro::rncandle::bridge::swift {
   Func_void_TradesResponse create_Func_void_TradesResponse(void* _Nonnull swiftClosureWrapper);
   inline Func_void_TradesResponse_Wrapper wrap_Func_void_TradesResponse(Func_void_TradesResponse value) {
     return Func_void_TradesResponse_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::optional<TradeAssetKind>
+  /**
+   * Specialized version of `std::optional<TradeAssetKind>`.
+   */
+  using std__optional_TradeAssetKind_ = std::optional<TradeAssetKind>;
+  inline std::optional<TradeAssetKind> create_std__optional_TradeAssetKind_(const TradeAssetKind& value) {
+    return std::optional<TradeAssetKind>(value);
+  }
+  
+  // pragma MARK: std::optional<CounterpartyKind>
+  /**
+   * Specialized version of `std::optional<CounterpartyKind>`.
+   */
+  using std__optional_CounterpartyKind_ = std::optional<CounterpartyKind>;
+  inline std::optional<CounterpartyKind> create_std__optional_CounterpartyKind_(const CounterpartyKind& value) {
+    return std::optional<CounterpartyKind>(value);
   }
   
   // pragma MARK: std::shared_ptr<Promise<Trade>>
