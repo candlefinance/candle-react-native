@@ -4,8 +4,6 @@ import SwiftUI
 @available(iOS 17.0, *)
 final class CandleLinkViewModel: ObservableObject {
 
-  let candleClient: CandleClient
-
   @Published var showSheet = false
   @Published var linkedAccount: Models.LinkedAccount?
   @Published var isPresented: Bool = false
@@ -16,9 +14,7 @@ final class CandleLinkViewModel: ObservableObject {
   @Published var presentationBackground: PresentationBackground = .default
   @Published var presentationStyle: PresentationStyle = .fullscreen
 
-  init(candleClient: Candle.CandleClient) {
-    self.candleClient = candleClient
-  }
+  init() {}
 
   @available(iOS 17.0, *)
   var toCandlePresentationStyle: Candle.PresentationStyle {
