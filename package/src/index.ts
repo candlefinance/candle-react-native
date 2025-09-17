@@ -54,6 +54,26 @@ const getCandle = (): RNCandle => {
   return _candle;
 };
 
+// Only export the Provider and the hook — not the Context itself.
+export function CandleProvider(props: {
+  value: CandleCtx;
+  children: React.ReactNode;
+}) {
+  const _candle = NitroModules.createHybridObject<RNCandle>("RNCandle");
+  return (
+    <Context.Provider value={props.value}>{props.children}</Context.Provider>
+  );
+}
+
+export function useCandleCtx(): CandleCtx {
+  const ctx = React.useContext(Context);
+  if (!ctx) {
+    // Runtime guard: clear, immediate failure if used outside provider
+    throw new Error("useCandleCtx must be used within <CandleProvider>.");
+  }
+  return ctx;
+}
+
 export const candle = {
   initialize: (input: {
     appKey: string;
