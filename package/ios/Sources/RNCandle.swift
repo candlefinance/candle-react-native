@@ -28,6 +28,7 @@ public enum RNClientError: Error {
     // MARK: - UI
 
     public func initialize(appKey: String, appSecret: String, accessGroup: String?) throws {
+        try Client.initialize(appKey: appKey, appSecret: appSecret, accessGroup: accessGroup)
         Task { @MainActor in
             let wrapperView = CandleLinkSheetWrapper()
             let hostingVC = UIHostingController(rootView: wrapperView)
