@@ -58,7 +58,7 @@ export default function GetTradeQuotesScreen() {
       });
       setQuotes(accounts);
     } catch (error) {
-      Alert.alert(`Failed to fetch trades: ${error}`);
+      Alert.alert("Get Trade Quotes Error", `${error}`);
     }
   };
 

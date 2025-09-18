@@ -17,7 +17,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fi.candle.example",
+      "bundleIdentifier": "com.trycandle.expo",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -28,7 +28,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "fi.candle.example"
+      "package": "com.trycandle.expo"
     },
     "web": {
       "bundler": "metro",

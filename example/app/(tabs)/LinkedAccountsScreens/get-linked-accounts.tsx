@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   Alert,
+  Modal,
   RefreshControl,
   ScrollView,
+  Settings,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -25,19 +27,35 @@ type GetLinkedAccountsRouteProp = RouteProp<
   "Get Linked Accounts Screen"
 >;
 
+const SKIP_ONBOARDING_KEY = "com.trycandle.expo.skip_onboarding";
+
 export default function GetLinkedAccountsScreen() {
   const route = useRoute<GetLinkedAccountsRouteProp>();
   const candle = useCandle();
 
   const navigation = useNavigation<any>();
 
+  // FIXME: Collect this value from the user
+  const [username, _] = useState<string>("");
+
   const [isLoading, setIsLoading] = useState(false);
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
+  const [skipOnboarding, setSkipOnboarding] = useState<boolean>(() => {
+    const value = Settings.get(SKIP_ONBOARDING_KEY);
+    // FIXME: Use a different synchronous user defaults wrapper that is type-safe
+    return !!value;
+  });
+
+  useEffect(
+    () => Settings.set({ [SKIP_ONBOARDING_KEY]: skipOnboarding }),
+    [skipOnboarding]
+  );
 
   useEffect(() => {
-    if (linkedAccounts.length > 0) return;
-    onRefresh();
-  }, []);
+    if (skipOnboarding) {
+      onRefresh();
+    }
+  }, [skipOnboarding]);
 
   useEffect(() => {
     if (route.params?.shouldRefreshLinkedAccounts) {
@@ -51,8 +69,7 @@ export default function GetLinkedAccountsScreen() {
       const accounts = await candle.getLinkedAccounts();
       setLinkedAccounts(accounts);
     } catch (error) {
-      console.error("Failed to fetch linked accounts:", error);
-      Alert.alert("Error", "Failed to fetch linked accounts.");
+      Alert.alert("Get Linked Accounts Error", `${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -60,6 +77,48 @@ export default function GetLinkedAccountsScreen() {
 
   return (
     <SafeAreaView style={[styles.container]}>
+      <Modal
+        visible={!skipOnboarding}
+        animationType="slide"
+        presentationStyle="fullScreen"
+      >
+        <SafeAreaView
+          style={[
+            styles.container,
+            { justifyContent: "space-between", padding: 24 },
+          ]}
+        >
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Text style={{ fontSize: 32, fontWeight: "800", marginBottom: 12 }}>
+              Welcome to
+            </Text>
+            <Text style={{ fontSize: 40, fontWeight: "900", marginBottom: 8 }}>
+              Candle
+            </Text>
+            <Text style={{ fontSize: 16, textAlign: "center", opacity: 0.7 }}>
+              Explore the functionality of the Candle SDK
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={[styles.primaryButton, { marginBottom: 20 }]}
+            onPress={async () => {
+              try {
+                await candle.createUser({ appUserID: username });
+
+                setSkipOnboarding(true);
+              } catch (error) {
+                Alert.alert("Create User Error", `${error}`);
+              }
+            }}
+          >
+            <Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>
+              Get Started
+            </Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </Modal>
       <ScrollView
         contentInsetAdjustmentBehavior="always"
         refreshControl={
@@ -144,10 +203,11 @@ export default function GetLinkedAccountsScreen() {
                     setIsLoading(true);
                     try {
                       await candle.deleteUser();
-                      setLinkedAccounts([]);
+
+                      setSkipOnboarding(false);
                       Alert.alert("User deleted successfully.");
                     } catch (error) {
-                      Alert.alert("Error", `Failed to delete user: ${error}`);
+                      Alert.alert("Delete User Error", `${error}`);
                     } finally {
                       setIsLoading(false);
                     }
@@ -155,7 +215,6 @@ export default function GetLinkedAccountsScreen() {
                 },
                 {
                   text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
                   style: "cancel",
                 },
               ]

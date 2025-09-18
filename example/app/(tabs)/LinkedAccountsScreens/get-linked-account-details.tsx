@@ -47,8 +47,7 @@ export default function GetLinkedAccountDetailsScreen() {
       }
       navigation.goBack();
     } catch (error) {
-      console.error("Failed to unlink account:", error);
-      Alert.alert("Error", "Failed to unlink account.");
+      Alert.alert("Unlink Account Error", `${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +73,6 @@ export default function GetLinkedAccountDetailsScreen() {
               },
               {
                 text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
                 style: "cancel",
               },
             ]

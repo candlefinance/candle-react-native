@@ -32,7 +32,7 @@ export default function GetTradesScreen() {
       const accounts = await candle.getTrades();
       setTrades(accounts);
     } catch (error) {
-      Alert.alert(`Failed to fetch trades: ${error}`);
+      Alert.alert("Get Trades Error", `${error}`);
     }
   };
 

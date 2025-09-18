@@ -28,7 +28,7 @@ export default function GetAssetAccountsScreen() {
       const accounts = await candle.getAssetAccounts();
       setAssetAccounts(accounts);
     } catch (error) {
-      Alert.alert(`Failed to fetch asset accounts: ${error}`);
+      Alert.alert("Get Asset Accounts Error", `${error}`);
     }
   };
 
