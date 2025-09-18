@@ -1,5 +1,9 @@
 import Candle
 
+enum CandleError: Swift.Error {
+    case unexpected(message: String)
+}
+
 // MARK: Encoding & decoding
 
 extension Models.MarketTradeAsset.AssetKindPayload {
@@ -258,7 +262,7 @@ extension Models.TradeAsset {
         } else if reactModel.nothingAsset != nil {
             self = .NothingAsset(.init(assetKind: .nothing))
         } else {
-            throw RNClientError.badInitialization(
+            throw CandleError.unexpected(
                 message: "Internal Candle Error: corrupted trade asset ref."
             )
         }
@@ -728,7 +732,7 @@ extension Models.TradeAssetQuoteRequest {
         } else if reactModel.nothingAssetQuoteRequest != nil {
             self = .NothingAssetQuoteRequest(.init(assetKind: .nothing))
         } else {
-            throw RNClientError.badInitialization(
+            throw CandleError.unexpected(
                 message: "Internal Candle Error: corrupted trade asset quote request."
             )
         }
@@ -826,7 +830,7 @@ extension Models.TradeAssetRef {
         } else if reactModel.nothingAssetRef != nil {
             self = .NothingAsset(.init(assetKind: .nothing))
         } else {
-            throw RNClientError.badInitialization(
+            throw CandleError.unexpected(
                 message: "Internal Candle Error: corrupted trade asset ref."
             )
         }

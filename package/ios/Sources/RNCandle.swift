@@ -5,13 +5,7 @@ import NitroModules
 import SwiftUI
 import UIKit
 
-public enum RNClientError: Error {
-    case badEncoding
-    case badInitialization(message: String)
-}
-
 @available(iOS 17.0, *) final class HybridRNCandle: HybridRNCandleSpec {
-
     private var rootVC: UIHostingController<CandleLinkSheetWrapper>?
 
     private var cancellables = Set<AnyCancellable>()
@@ -19,7 +13,7 @@ public enum RNClientError: Error {
     var viewModel: CandleLinkViewModel {
         get throws {
             if let viewModel = rootVC?.rootView.viewModel { return viewModel }
-            throw RNClientError.badInitialization(
+            throw CandleError.unexpected(
                 message: "Failed to properly initialize the client."
             )
         }
@@ -55,7 +49,7 @@ public enum RNClientError: Error {
             try viewModel.presentationBackground = presentationBackground
             try viewModel.presentationStyle = presentationStyle
             guard let rootViewController = UIApplication.keyWindow?.rootViewController else {
-                throw RNClientError.badInitialization(
+                throw CandleError.unexpected(
                     message: "Application root view was not initialized."
                 )
             }
@@ -102,7 +96,7 @@ public enum RNClientError: Error {
             let hostingVC = UIHostingController(rootView: wrapperView)
             hostingVC.view.backgroundColor = .clear
             guard let rootHostingVC = UIApplication.keyWindow?.rootViewController else {
-                throw RNClientError.badInitialization(
+                throw CandleError.unexpected(
                     message: "\(#function) \(#line): Candle client was not initialized."
                 )
             }
