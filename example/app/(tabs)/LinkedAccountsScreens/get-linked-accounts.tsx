@@ -8,9 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { LinkedAccountDetail } from "react-native-candle";
+import { LinkedAccount, useCandle } from "react-native-candle";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getLogo } from "../../Utils";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
@@ -28,14 +27,12 @@ type GetLinkedAccountsRouteProp = RouteProp<
 
 export default function GetLinkedAccountsScreen() {
   const route = useRoute<GetLinkedAccountsRouteProp>();
-  const candleClient = useCandleClient();
+  const candle = useCandle();
 
   const navigation = useNavigation<any>();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccountDetail[]>(
-    []
-  );
+  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
 
   useEffect(() => {
     if (linkedAccounts.length > 0) return;
@@ -51,7 +48,7 @@ export default function GetLinkedAccountsScreen() {
   const onRefresh = async () => {
     setIsLoading(true);
     try {
-      const accounts = await candleClient.getLinkedAccounts();
+      const accounts = await candle.getLinkedAccounts();
       setLinkedAccounts(accounts);
     } catch (error) {
       console.error("Failed to fetch linked accounts:", error);
@@ -97,7 +94,7 @@ export default function GetLinkedAccountsScreen() {
         <TouchableOpacity
           style={styles.primaryButton}
           onPress={() => {
-            candleClient.presentCandleLinkSheet({
+            candle.presentCandleLinkSheet({
               services: [
                 "lyft",
                 "uber",
@@ -106,7 +103,7 @@ export default function GetLinkedAccountsScreen() {
                 "robinhood",
                 "sandbox",
               ],
-              onSuccess: (linkedAccount) => {
+              onSuccess: () => {
                 onRefresh();
               },
               customerName: "Akme Inc.",
@@ -146,7 +143,7 @@ export default function GetLinkedAccountsScreen() {
                   onPress: async () => {
                     setIsLoading(true);
                     try {
-                      await candleClient.deleteUser();
+                      await candle.deleteUser();
                       setLinkedAccounts([]);
                       Alert.alert("User deleted successfully.");
                     } catch (error) {

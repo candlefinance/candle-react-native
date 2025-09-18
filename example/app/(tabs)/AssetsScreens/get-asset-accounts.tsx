@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { AssetAccount, LinkedAccountStatusRef } from "react-native-candle";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useCandleClient } from "../../Context/candle-context";
+import { useCandle } from "react-native-candle";
 import { getLogo } from "../../Utils";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 
@@ -21,11 +21,11 @@ export default function GetAssetAccountsScreen() {
   }>();
   const navigation = useNavigation<any>();
   const [isLoading, setIsLoading] = useState(true);
-  const candleClient = useCandleClient();
+  const candle = useCandle();
 
   const fetchAssetAccounts = async () => {
     try {
-      const accounts = await candleClient.getAssetAccounts();
+      const accounts = await candle.getAssetAccounts();
       setAssetAccounts(accounts);
     } catch (error) {
       Alert.alert(`Failed to fetch asset accounts: ${error}`);

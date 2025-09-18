@@ -6,26 +6,30 @@ import {
   ActivityIndicator,
   Text,
 } from "react-native";
-import { useCandleClient } from "../../Context/candle-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
-import { LinkedAccountStatusRef, Trade } from "react-native-candle";
+import {
+  LinkedAccountStatusRef,
+  Trade,
+  TradeAssetKind,
+  useCandle,
+} from "react-native-candle";
 import { SharedListRow } from "../SharedComponents/shared-list-row";
 import { useNavigation } from "@react-navigation/native";
 import { getLogo } from "@/app/Utils";
 
 export default function GetTradesScreen() {
   const [trades, setTrades] = useState<{
-    trades: Trade[];
+    trades: Trade<TradeAssetKind, TradeAssetKind>[];
     linkedAccounts: LinkedAccountStatusRef[];
   }>();
   const navigation = useNavigation<any>();
   const [isLoading, setIsLoading] = useState(true);
-  const candleClient = useCandleClient();
+  const candle = useCandle();
 
   const fetchTrades = async () => {
     try {
-      const accounts = await candleClient.getTrades();
+      const accounts = await candle.getTrades();
       setTrades(accounts);
     } catch (error) {
       Alert.alert(`Failed to fetch trades: ${error}`);

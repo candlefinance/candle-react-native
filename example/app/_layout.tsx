@@ -1,6 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useMemo } from "react";
 import "react-native-reanimated";
 import GetLinkedAccounts from "./(tabs)/LinkedAccountsScreens/get-linked-accounts";
 import GetTradeQuotesScreen from "./(tabs)/TradeQuoteScreens/get-trade-quotes";
@@ -10,8 +8,7 @@ import GetLinkedAccountDetailsScreen from "./(tabs)/LinkedAccountsScreens/get-li
 import GetAssetAccountDetailsScreen from "./(tabs)/AssetsScreens/get-asset-accounts-details";
 import GetTradeQuotesDetailsScreen from "./(tabs)/TradeQuoteScreens/get-trade-quote-details";
 import GetTradeDetailsScreen from "./(tabs)/TradeScreen/get-trade-details";
-import { CandleClient } from "react-native-candle";
-import { CandleClientContext } from "./Context/candle-context";
+import { CandleProvider } from "react-native-candle";
 
 const Stack = createNativeStackNavigator();
 const AssetStack = createNativeStackNavigator();
@@ -101,22 +98,16 @@ export default function RootLayout() {
     );
   }
 
-  const candleClient = useMemo(() => {
-    const appKey = process.env.EXPO_PUBLIC_CANDLE_APP_KEY;
-    const appSecret = process.env.EXPO_PUBLIC_CANDLE_APP_SECRET;
-    if (!appKey || !appSecret) {
-      throw new Error(
-        "EXPO_PUBLIC_CANDLE_APP_KEY and EXPO_PUBLIC_CANDLE_APP_SECRET must be set in .env file"
-      );
-    }
-    return new CandleClient({
-      appKey: appKey,
-      appSecret: appSecret,
-    });
-  }, []);
+  const appKey = process.env.EXPO_PUBLIC_CANDLE_APP_KEY;
+  const appSecret = process.env.EXPO_PUBLIC_CANDLE_APP_SECRET;
+  if (!appKey || !appSecret) {
+    throw new Error(
+      "EXPO_PUBLIC_CANDLE_APP_KEY and EXPO_PUBLIC_CANDLE_APP_SECRET must be set in .env file"
+    );
+  }
 
   return (
-    <CandleClientContext.Provider value={candleClient}>
+    <CandleProvider appKey={appKey} appSecret={appSecret}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen
           options={{
@@ -173,6 +164,6 @@ export default function RootLayout() {
           }}
         />
       </Stack.Navigator>
-    </CandleClientContext.Provider>
+    </CandleProvider>
   );
 }
