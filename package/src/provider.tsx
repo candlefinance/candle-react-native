@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import type { CandleContextValue } from "./context";
 import { CandleContext } from "./context";
 import {
@@ -25,7 +25,7 @@ export const CandleProvider: React.FC<{
     NitroModules.createHybridObject<RNCandle>("RNCandle")
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     nativeCandle.initialize(appKey, appSecret, accessGroup);
   }, [appKey, appSecret, accessGroup]);
 
