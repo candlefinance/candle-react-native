@@ -65,7 +65,8 @@ extension MerchantCounterparty {
     @inline(__always)
     get {
       return { () -> MerchantLocation? in
-        if let __unwrapped = self.__location.value {
+        if bridge.has_value_std__optional_MerchantLocation_(self.__location) {
+          let __unwrapped = bridge.get_std__optional_MerchantLocation_(self.__location)
           return __unwrapped
         } else {
           return nil

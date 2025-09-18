@@ -1,10 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LinkedAccountStatusRef, TradeQuote } from "react-native-candle";
+import {
+  LinkedAccountStatusRef,
+  TradeQuote,
+  useCandle,
+} from "react-native-candle";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { flattenObject } from "../../Utils";
 import { DetailScrollView } from "../SharedComponents/detail-scroll-view";
-import { useCandleClient } from "@/app/Context/candle-context";
 
 type TabParamList = {
   GetTradeQuoteDetailsScreen: {
@@ -21,7 +24,7 @@ type GetTradeQuoteDetailsRouteProp = RouteProp<
 >;
 
 export default function GetTradeQuoteDetailsScreen() {
-  const candleClient = useCandleClient();
+  const candle = useCandle();
   const {
     params: { quote },
   } = useRoute<GetTradeQuoteDetailsRouteProp>();
@@ -33,10 +36,10 @@ export default function GetTradeQuoteDetailsScreen() {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          candleClient.presentCandleTradeExecutionSheet({
+          candle.presentCandleTradeExecutionSheet({
             presentationBackground: "blur",
             tradeQuote: quote.tradeQuotes,
-            completion: (trade) => {},
+            completion: () => {},
           });
         }}
       >

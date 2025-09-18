@@ -89,7 +89,8 @@ extension TransportAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__serviceAssetID.value {
+        if bridge.has_value_std__optional_std__string_(self.__serviceAssetID) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__serviceAssetID)
           return String(__unwrapped)
         } else {
           return nil
@@ -112,7 +113,8 @@ extension TransportAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> Coordinates? in
-        if let __unwrapped = self.__originCoordinates.value {
+        if bridge.has_value_std__optional_Coordinates_(self.__originCoordinates) {
+          let __unwrapped = bridge.get_std__optional_Coordinates_(self.__originCoordinates)
           return __unwrapped
         } else {
           return nil
@@ -135,7 +137,8 @@ extension TransportAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> Address? in
-        if let __unwrapped = self.__originAddress.value {
+        if bridge.has_value_std__optional_Address_(self.__originAddress) {
+          let __unwrapped = bridge.get_std__optional_Address_(self.__originAddress)
           return __unwrapped
         } else {
           return nil
@@ -158,7 +161,8 @@ extension TransportAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> Coordinates? in
-        if let __unwrapped = self.__destinationCoordinates.value {
+        if bridge.has_value_std__optional_Coordinates_(self.__destinationCoordinates) {
+          let __unwrapped = bridge.get_std__optional_Coordinates_(self.__destinationCoordinates)
           return __unwrapped
         } else {
           return nil
@@ -181,7 +185,8 @@ extension TransportAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> Address? in
-        if let __unwrapped = self.__destinationAddress.value {
+        if bridge.has_value_std__optional_Address_(self.__destinationAddress) {
+          let __unwrapped = bridge.get_std__optional_Address_(self.__destinationAddress)
           return __unwrapped
         } else {
           return nil
@@ -221,7 +226,8 @@ extension TransportAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__serviceAccountID.value {
+        if bridge.has_value_std__optional_std__string_(self.__serviceAccountID) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__serviceAccountID)
           return String(__unwrapped)
         } else {
           return nil

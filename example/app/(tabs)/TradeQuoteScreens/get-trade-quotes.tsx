@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
-import { useCandleClient } from "../../Context/candle-context";
+import { useCandle } from "react-native-candle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { LinkedAccountStatusRef, TradeQuote } from "react-native-candle";
@@ -35,12 +35,12 @@ export default function GetTradeQuotesScreen() {
     latitude: "40.7505",
     longitude: "-73.9935",
   });
-  const candleClient = useCandleClient();
+  const candle = useCandle();
   const navigation = useNavigation<any>();
 
   const fetchTradeQuotes = async () => {
     try {
-      const accounts = await candleClient.getTradeQuotes({
+      const accounts = await candle.getTradeQuotes({
         lost: {
           assetKind: "fiat",
         },
@@ -58,7 +58,7 @@ export default function GetTradeQuotesScreen() {
       });
       setQuotes(accounts);
     } catch (error) {
-      Alert.alert(`Failed to fetch trades: ${error}`);
+      Alert.alert("Get Trade Quotes Error", `${error}`);
     }
   };
 

@@ -18,11 +18,14 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `MarketAssetKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
 // Forward declaration of `FiatMarketAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class FiatMarketAccountKind; }
 // Forward declaration of `Service` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class Service; }
 
+#include "MarketAssetKind.hpp"
 #include <string>
 #include "FiatMarketAccountKind.hpp"
 #include "Service.hpp"
@@ -34,7 +37,7 @@ namespace margelo::nitro::rncandle {
    */
   struct MarketAccount {
   public:
-    std::string assetKind     SWIFT_PRIVATE;
+    MarketAssetKind assetKind     SWIFT_PRIVATE;
     std::string serviceAccountID     SWIFT_PRIVATE;
     FiatMarketAccountKind accountKind     SWIFT_PRIVATE;
     std::string nickname     SWIFT_PRIVATE;
@@ -43,37 +46,35 @@ namespace margelo::nitro::rncandle {
 
   public:
     MarketAccount() = default;
-    explicit MarketAccount(std::string assetKind, std::string serviceAccountID, FiatMarketAccountKind accountKind, std::string nickname, std::string linkedAccountID, Service service): assetKind(assetKind), serviceAccountID(serviceAccountID), accountKind(accountKind), nickname(nickname), linkedAccountID(linkedAccountID), service(service) {}
+    explicit MarketAccount(MarketAssetKind assetKind, std::string serviceAccountID, FiatMarketAccountKind accountKind, std::string nickname, std::string linkedAccountID, Service service): assetKind(assetKind), serviceAccountID(serviceAccountID), accountKind(accountKind), nickname(nickname), linkedAccountID(linkedAccountID), service(service) {}
   };
 
 } // namespace margelo::nitro::rncandle
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ MarketAccount <> JS MarketAccount (object)
   template <>
-  struct JSIConverter<MarketAccount> final {
-    static inline MarketAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::MarketAccount> final {
+    static inline margelo::nitro::rncandle::MarketAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return MarketAccount(
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+      return margelo::nitro::rncandle::MarketAccount(
+        JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
-        JSIConverter<FiatMarketAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind")),
+        JSIConverter<margelo::nitro::rncandle::FiatMarketAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "nickname")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
-        JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
+        JSIConverter<margelo::nitro::rncandle::Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const MarketAccount& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::MarketAccount& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAccountID));
-      obj.setProperty(runtime, "accountKind", JSIConverter<FiatMarketAccountKind>::toJSI(runtime, arg.accountKind));
+      obj.setProperty(runtime, "accountKind", JSIConverter<margelo::nitro::rncandle::FiatMarketAccountKind>::toJSI(runtime, arg.accountKind));
       obj.setProperty(runtime, "nickname", JSIConverter<std::string>::toJSI(runtime, arg.nickname));
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
-      obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
+      obj.setProperty(runtime, "service", JSIConverter<margelo::nitro::rncandle::Service>::toJSI(runtime, arg.service));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -81,12 +82,12 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
-      if (!JSIConverter<FiatMarketAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::FiatMarketAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "nickname"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
-      if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;
     }
   };

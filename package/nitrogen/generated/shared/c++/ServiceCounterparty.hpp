@@ -43,22 +43,20 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ ServiceCounterparty <> JS ServiceCounterparty (object)
   template <>
-  struct JSIConverter<ServiceCounterparty> final {
-    static inline ServiceCounterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::ServiceCounterparty> final {
+    static inline margelo::nitro::rncandle::ServiceCounterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return ServiceCounterparty(
+      return margelo::nitro::rncandle::ServiceCounterparty(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "kind")),
-        JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
+        JSIConverter<margelo::nitro::rncandle::Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const ServiceCounterparty& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::ServiceCounterparty& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "kind", JSIConverter<std::string>::toJSI(runtime, arg.kind));
-      obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
+      obj.setProperty(runtime, "service", JSIConverter<margelo::nitro::rncandle::Service>::toJSI(runtime, arg.service));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -67,7 +65,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "kind"))) return false;
-      if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;
     }
   };

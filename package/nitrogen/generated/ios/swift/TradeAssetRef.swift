@@ -63,7 +63,8 @@ extension TradeAssetRef {
     @inline(__always)
     get {
       return { () -> FiatAssetRef? in
-        if let __unwrapped = self.__fiatAssetRef.value {
+        if bridge.has_value_std__optional_FiatAssetRef_(self.__fiatAssetRef) {
+          let __unwrapped = bridge.get_std__optional_FiatAssetRef_(self.__fiatAssetRef)
           return __unwrapped
         } else {
           return nil
@@ -86,7 +87,9 @@ extension TradeAssetRef {
     @inline(__always)
     get {
       return { () -> MarketTradeAssetRef? in
-        if let __unwrapped = self.__marketTradeAssetRef.value {
+        if bridge.has_value_std__optional_MarketTradeAssetRef_(self.__marketTradeAssetRef) {
+          let __unwrapped = bridge.get_std__optional_MarketTradeAssetRef_(
+            self.__marketTradeAssetRef)
           return __unwrapped
         } else {
           return nil
@@ -109,7 +112,8 @@ extension TradeAssetRef {
     @inline(__always)
     get {
       return { () -> TransportAssetRef? in
-        if let __unwrapped = self.__transportAssetRef.value {
+        if bridge.has_value_std__optional_TransportAssetRef_(self.__transportAssetRef) {
+          let __unwrapped = bridge.get_std__optional_TransportAssetRef_(self.__transportAssetRef)
           return __unwrapped
         } else {
           return nil
@@ -132,7 +136,8 @@ extension TradeAssetRef {
     @inline(__always)
     get {
       return { () -> OtherAssetRef? in
-        if let __unwrapped = self.__otherAssetRef.value {
+        if bridge.has_value_std__optional_OtherAssetRef_(self.__otherAssetRef) {
+          let __unwrapped = bridge.get_std__optional_OtherAssetRef_(self.__otherAssetRef)
           return __unwrapped
         } else {
           return nil
@@ -155,7 +160,8 @@ extension TradeAssetRef {
     @inline(__always)
     get {
       return { () -> NothingAssetRef? in
-        if let __unwrapped = self.__nothingAssetRef.value {
+        if bridge.has_value_std__optional_NothingAssetRef_(self.__nothingAssetRef) {
+          let __unwrapped = bridge.get_std__optional_NothingAssetRef_(self.__nothingAssetRef)
           return __unwrapped
         } else {
           return nil

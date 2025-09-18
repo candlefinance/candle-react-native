@@ -53,32 +53,30 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TransportAssetQuoteRequest <> JS TransportAssetQuoteRequest (object)
   template <>
-  struct JSIConverter<TransportAssetQuoteRequest> final {
-    static inline TransportAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TransportAssetQuoteRequest> final {
+    static inline margelo::nitro::rncandle::TransportAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TransportAssetQuoteRequest(
+      return margelo::nitro::rncandle::TransportAssetQuoteRequest(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAssetID")),
-        JSIConverter<std::optional<Coordinates>>::fromJSI(runtime, obj.getProperty(runtime, "originCoordinates")),
-        JSIConverter<std::optional<Address>>::fromJSI(runtime, obj.getProperty(runtime, "originAddress")),
-        JSIConverter<std::optional<Coordinates>>::fromJSI(runtime, obj.getProperty(runtime, "destinationCoordinates")),
-        JSIConverter<std::optional<Address>>::fromJSI(runtime, obj.getProperty(runtime, "destinationAddress")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::Coordinates>>::fromJSI(runtime, obj.getProperty(runtime, "originCoordinates")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::Address>>::fromJSI(runtime, obj.getProperty(runtime, "originAddress")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::Coordinates>>::fromJSI(runtime, obj.getProperty(runtime, "destinationCoordinates")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::Address>>::fromJSI(runtime, obj.getProperty(runtime, "destinationAddress")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "seats")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TransportAssetQuoteRequest& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TransportAssetQuoteRequest& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAssetID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAssetID));
-      obj.setProperty(runtime, "originCoordinates", JSIConverter<std::optional<Coordinates>>::toJSI(runtime, arg.originCoordinates));
-      obj.setProperty(runtime, "originAddress", JSIConverter<std::optional<Address>>::toJSI(runtime, arg.originAddress));
-      obj.setProperty(runtime, "destinationCoordinates", JSIConverter<std::optional<Coordinates>>::toJSI(runtime, arg.destinationCoordinates));
-      obj.setProperty(runtime, "destinationAddress", JSIConverter<std::optional<Address>>::toJSI(runtime, arg.destinationAddress));
+      obj.setProperty(runtime, "originCoordinates", JSIConverter<std::optional<margelo::nitro::rncandle::Coordinates>>::toJSI(runtime, arg.originCoordinates));
+      obj.setProperty(runtime, "originAddress", JSIConverter<std::optional<margelo::nitro::rncandle::Address>>::toJSI(runtime, arg.originAddress));
+      obj.setProperty(runtime, "destinationCoordinates", JSIConverter<std::optional<margelo::nitro::rncandle::Coordinates>>::toJSI(runtime, arg.destinationCoordinates));
+      obj.setProperty(runtime, "destinationAddress", JSIConverter<std::optional<margelo::nitro::rncandle::Address>>::toJSI(runtime, arg.destinationAddress));
       obj.setProperty(runtime, "seats", JSIConverter<std::optional<double>>::toJSI(runtime, arg.seats));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAccountID));
       return obj;
@@ -90,10 +88,10 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAssetID"))) return false;
-      if (!JSIConverter<std::optional<Coordinates>>::canConvert(runtime, obj.getProperty(runtime, "originCoordinates"))) return false;
-      if (!JSIConverter<std::optional<Address>>::canConvert(runtime, obj.getProperty(runtime, "originAddress"))) return false;
-      if (!JSIConverter<std::optional<Coordinates>>::canConvert(runtime, obj.getProperty(runtime, "destinationCoordinates"))) return false;
-      if (!JSIConverter<std::optional<Address>>::canConvert(runtime, obj.getProperty(runtime, "destinationAddress"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::Coordinates>>::canConvert(runtime, obj.getProperty(runtime, "originCoordinates"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::Address>>::canConvert(runtime, obj.getProperty(runtime, "originAddress"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::Coordinates>>::canConvert(runtime, obj.getProperty(runtime, "destinationCoordinates"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::Address>>::canConvert(runtime, obj.getProperty(runtime, "destinationAddress"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "seats"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       return true;

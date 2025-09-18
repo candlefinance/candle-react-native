@@ -47,7 +47,8 @@ extension AssetAccount {
     @inline(__always)
     get {
       return { () -> FiatAccount? in
-        if let __unwrapped = self.__fiatAccount.value {
+        if bridge.has_value_std__optional_FiatAccount_(self.__fiatAccount) {
+          let __unwrapped = bridge.get_std__optional_FiatAccount_(self.__fiatAccount)
           return __unwrapped
         } else {
           return nil
@@ -70,7 +71,8 @@ extension AssetAccount {
     @inline(__always)
     get {
       return { () -> MarketAccount? in
-        if let __unwrapped = self.__marketAccount.value {
+        if bridge.has_value_std__optional_MarketAccount_(self.__marketAccount) {
+          let __unwrapped = bridge.get_std__optional_MarketAccount_(self.__marketAccount)
           return __unwrapped
         } else {
           return nil
@@ -93,7 +95,8 @@ extension AssetAccount {
     @inline(__always)
     get {
       return { () -> TransportAccount? in
-        if let __unwrapped = self.__transportAccount.value {
+        if bridge.has_value_std__optional_TransportAccount_(self.__transportAccount) {
+          let __unwrapped = bridge.get_std__optional_TransportAccount_(self.__transportAccount)
           return __unwrapped
         } else {
           return nil

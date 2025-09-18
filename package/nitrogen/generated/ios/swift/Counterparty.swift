@@ -48,7 +48,9 @@ extension Counterparty {
     @inline(__always)
     get {
       return { () -> MerchantCounterparty? in
-        if let __unwrapped = self.__merchantCounterparty.value {
+        if bridge.has_value_std__optional_MerchantCounterparty_(self.__merchantCounterparty) {
+          let __unwrapped = bridge.get_std__optional_MerchantCounterparty_(
+            self.__merchantCounterparty)
           return __unwrapped
         } else {
           return nil
@@ -71,7 +73,8 @@ extension Counterparty {
     @inline(__always)
     get {
       return { () -> UserCounterparty? in
-        if let __unwrapped = self.__userCounterparty.value {
+        if bridge.has_value_std__optional_UserCounterparty_(self.__userCounterparty) {
+          let __unwrapped = bridge.get_std__optional_UserCounterparty_(self.__userCounterparty)
           return __unwrapped
         } else {
           return nil
@@ -94,7 +97,9 @@ extension Counterparty {
     @inline(__always)
     get {
       return { () -> ServiceCounterparty? in
-        if let __unwrapped = self.__serviceCounterparty.value {
+        if bridge.has_value_std__optional_ServiceCounterparty_(self.__serviceCounterparty) {
+          let __unwrapped = bridge.get_std__optional_ServiceCounterparty_(
+            self.__serviceCounterparty)
           return __unwrapped
         } else {
           return nil

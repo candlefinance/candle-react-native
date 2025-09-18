@@ -123,7 +123,8 @@ extension FiatAccount {
     @inline(__always)
     get {
       return { () -> ACHDetails? in
-        if let __unwrapped = self.__ach.value {
+        if bridge.has_value_std__optional_ACHDetails_(self.__ach) {
+          let __unwrapped = bridge.get_std__optional_ACHDetails_(self.__ach)
           return __unwrapped
         } else {
           return nil
@@ -146,7 +147,8 @@ extension FiatAccount {
     @inline(__always)
     get {
       return { () -> WireDetails? in
-        if let __unwrapped = self.__wire.value {
+        if bridge.has_value_std__optional_WireDetails_(self.__wire) {
+          let __unwrapped = bridge.get_std__optional_WireDetails_(self.__wire)
           return __unwrapped
         } else {
           return nil

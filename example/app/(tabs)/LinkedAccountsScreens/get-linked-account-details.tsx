@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { useCandleClient } from "../../Context/candle-context";
+import { useCandle } from "react-native-candle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { LinkedAccountDetail } from "react-native-candle";
+import { LinkedAccount } from "react-native-candle";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { flattenObject } from "../../Utils";
@@ -16,7 +16,7 @@ import { DetailScrollView } from "../SharedComponents/detail-scroll-view";
 
 type TabParamList = {
   GetLinkedAccountDetails: {
-    account: LinkedAccountDetail;
+    account: LinkedAccount;
     onUnlinked?: () => void;
   };
 };
@@ -27,7 +27,7 @@ type GetLinkedAccountDetailsRouteProp = RouteProp<
 >;
 
 export default function GetLinkedAccountDetailsScreen() {
-  const candleClient = useCandleClient();
+  const candle = useCandle();
   const navigation = useNavigation<any>();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -39,7 +39,7 @@ export default function GetLinkedAccountDetailsScreen() {
   const unlink = async (accountId: string) => {
     try {
       setIsLoading(true);
-      await candleClient.unlinkAccount({
+      await candle.unlinkAccount({
         linkedAccountID: accountId,
       });
       if (onUnlinked) {
@@ -47,8 +47,7 @@ export default function GetLinkedAccountDetailsScreen() {
       }
       navigation.goBack();
     } catch (error) {
-      console.error("Failed to unlink account:", error);
-      Alert.alert("Error", "Failed to unlink account.");
+      Alert.alert("Unlink Account Error", `${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +73,6 @@ export default function GetLinkedAccountDetailsScreen() {
               },
               {
                 text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
                 style: "cancel",
               },
             ]

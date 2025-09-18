@@ -23,8 +23,8 @@ namespace margelo::nitro::rncandle { struct LinkedAccountStatusRef; }
 // Forward declaration of `TradeQuote` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuote; }
 
-#include <vector>
 #include "LinkedAccountStatusRef.hpp"
+#include <vector>
 #include "TradeQuote.hpp"
 
 namespace margelo::nitro::rncandle {
@@ -46,22 +46,20 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradeQuotesResponse <> JS TradeQuotesResponse (object)
   template <>
-  struct JSIConverter<TradeQuotesResponse> final {
-    static inline TradeQuotesResponse fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradeQuotesResponse> final {
+    static inline margelo::nitro::rncandle::TradeQuotesResponse fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TradeQuotesResponse(
-        JSIConverter<std::vector<LinkedAccountStatusRef>>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccounts")),
-        JSIConverter<std::vector<TradeQuote>>::fromJSI(runtime, obj.getProperty(runtime, "tradeQuotes"))
+      return margelo::nitro::rncandle::TradeQuotesResponse(
+        JSIConverter<std::vector<margelo::nitro::rncandle::LinkedAccountStatusRef>>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccounts")),
+        JSIConverter<std::vector<margelo::nitro::rncandle::TradeQuote>>::fromJSI(runtime, obj.getProperty(runtime, "tradeQuotes"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeQuotesResponse& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TradeQuotesResponse& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "linkedAccounts", JSIConverter<std::vector<LinkedAccountStatusRef>>::toJSI(runtime, arg.linkedAccounts));
-      obj.setProperty(runtime, "tradeQuotes", JSIConverter<std::vector<TradeQuote>>::toJSI(runtime, arg.tradeQuotes));
+      obj.setProperty(runtime, "linkedAccounts", JSIConverter<std::vector<margelo::nitro::rncandle::LinkedAccountStatusRef>>::toJSI(runtime, arg.linkedAccounts));
+      obj.setProperty(runtime, "tradeQuotes", JSIConverter<std::vector<margelo::nitro::rncandle::TradeQuote>>::toJSI(runtime, arg.tradeQuotes));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -69,8 +67,8 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::vector<LinkedAccountStatusRef>>::canConvert(runtime, obj.getProperty(runtime, "linkedAccounts"))) return false;
-      if (!JSIConverter<std::vector<TradeQuote>>::canConvert(runtime, obj.getProperty(runtime, "tradeQuotes"))) return false;
+      if (!JSIConverter<std::vector<margelo::nitro::rncandle::LinkedAccountStatusRef>>::canConvert(runtime, obj.getProperty(runtime, "linkedAccounts"))) return false;
+      if (!JSIConverter<std::vector<margelo::nitro::rncandle::TradeQuote>>::canConvert(runtime, obj.getProperty(runtime, "tradeQuotes"))) return false;
       return true;
     }
   };

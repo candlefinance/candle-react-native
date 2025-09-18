@@ -43,7 +43,8 @@ extension FiatAssetRef {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__serviceTradeID.value {
+        if bridge.has_value_std__optional_std__string_(self.__serviceTradeID) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__serviceTradeID)
           return String(__unwrapped)
         } else {
           return nil

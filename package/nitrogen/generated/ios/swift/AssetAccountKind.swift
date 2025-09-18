@@ -15,12 +15,12 @@ extension AssetAccountKind {
    */
   public init?(fromString string: String) {
     switch string {
-    case "fiat":
-      self = .fiat
     case "stock":
       self = .stock
     case "crypto":
       self = .crypto
+    case "fiat":
+      self = .fiat
     case "transport":
       self = .transport
     default:
@@ -33,12 +33,12 @@ extension AssetAccountKind {
    */
   public var stringValue: String {
     switch self {
-    case .fiat:
-      return "fiat"
     case .stock:
       return "stock"
     case .crypto:
       return "crypto"
+    case .fiat:
+      return "fiat"
     case .transport:
       return "transport"
     }

@@ -45,14 +45,12 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ ActiveLinkedAccountDetails <> JS ActiveLinkedAccountDetails (object)
   template <>
-  struct JSIConverter<ActiveLinkedAccountDetails> final {
-    static inline ActiveLinkedAccountDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::ActiveLinkedAccountDetails> final {
+    static inline margelo::nitro::rncandle::ActiveLinkedAccountDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return ActiveLinkedAccountDetails(
+      return margelo::nitro::rncandle::ActiveLinkedAccountDetails(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "state")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "accountOpened")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "username")),
@@ -60,7 +58,7 @@ namespace margelo::nitro {
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "legalName"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const ActiveLinkedAccountDetails& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::ActiveLinkedAccountDetails& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "state", JSIConverter<std::string>::toJSI(runtime, arg.state));
       obj.setProperty(runtime, "accountOpened", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.accountOpened));

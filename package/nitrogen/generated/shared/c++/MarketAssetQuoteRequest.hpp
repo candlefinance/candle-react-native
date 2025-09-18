@@ -18,8 +18,10 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `MarketAssetKind` to properly resolve imports.
+namespace margelo::nitro::rncandle { enum class MarketAssetKind; }
 
-
+#include "MarketAssetKind.hpp"
 #include <string>
 #include <optional>
 
@@ -30,7 +32,7 @@ namespace margelo::nitro::rncandle {
    */
   struct MarketAssetQuoteRequest {
   public:
-    std::string assetKind     SWIFT_PRIVATE;
+    MarketAssetKind assetKind     SWIFT_PRIVATE;
     std::optional<std::string> serviceAccountID     SWIFT_PRIVATE;
     std::optional<std::string> serviceAssetID     SWIFT_PRIVATE;
     std::optional<std::string> symbol     SWIFT_PRIVATE;
@@ -38,31 +40,29 @@ namespace margelo::nitro::rncandle {
 
   public:
     MarketAssetQuoteRequest() = default;
-    explicit MarketAssetQuoteRequest(std::string assetKind, std::optional<std::string> serviceAccountID, std::optional<std::string> serviceAssetID, std::optional<std::string> symbol, std::optional<double> amount): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount) {}
+    explicit MarketAssetQuoteRequest(MarketAssetKind assetKind, std::optional<std::string> serviceAccountID, std::optional<std::string> serviceAssetID, std::optional<std::string> symbol, std::optional<double> amount): assetKind(assetKind), serviceAccountID(serviceAccountID), serviceAssetID(serviceAssetID), symbol(symbol), amount(amount) {}
   };
 
 } // namespace margelo::nitro::rncandle
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ MarketAssetQuoteRequest <> JS MarketAssetQuoteRequest (object)
   template <>
-  struct JSIConverter<MarketAssetQuoteRequest> final {
-    static inline MarketAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::MarketAssetQuoteRequest> final {
+    static inline margelo::nitro::rncandle::MarketAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return MarketAssetQuoteRequest(
-        JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+      return margelo::nitro::rncandle::MarketAssetQuoteRequest(
+        JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAssetID")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "symbol")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "amount"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const MarketAssetQuoteRequest& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::MarketAssetQuoteRequest& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAccountID));
       obj.setProperty(runtime, "serviceAssetID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAssetID));
       obj.setProperty(runtime, "symbol", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.symbol));
@@ -74,7 +74,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "serviceAssetID"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "symbol"))) return false;

@@ -45,24 +45,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradeQuote <> JS TradeQuote (object)
   template <>
-  struct JSIConverter<TradeQuote> final {
-    static inline TradeQuote fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradeQuote> final {
+    static inline margelo::nitro::rncandle::TradeQuote fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TradeQuote(
-        JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
-        JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "gained")),
+      return margelo::nitro::rncandle::TradeQuote(
+        JSIConverter<margelo::nitro::rncandle::TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
+        JSIConverter<margelo::nitro::rncandle::TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "gained")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "context")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "expirationDateTime"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeQuote& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TradeQuote& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "lost", JSIConverter<TradeAsset>::toJSI(runtime, arg.lost));
-      obj.setProperty(runtime, "gained", JSIConverter<TradeAsset>::toJSI(runtime, arg.gained));
+      obj.setProperty(runtime, "lost", JSIConverter<margelo::nitro::rncandle::TradeAsset>::toJSI(runtime, arg.lost));
+      obj.setProperty(runtime, "gained", JSIConverter<margelo::nitro::rncandle::TradeAsset>::toJSI(runtime, arg.gained));
       obj.setProperty(runtime, "context", JSIConverter<std::string>::toJSI(runtime, arg.context));
       obj.setProperty(runtime, "expirationDateTime", JSIConverter<std::string>::toJSI(runtime, arg.expirationDateTime));
       return obj;
@@ -72,8 +70,8 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
-      if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "context"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "expirationDateTime"))) return false;
       return true;

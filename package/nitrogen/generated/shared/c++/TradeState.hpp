@@ -38,26 +38,24 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradeState <> JS TradeState (union)
   template <>
-  struct JSIConverter<TradeState> final {
-    static inline TradeState fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradeState> final {
+    static inline margelo::nitro::rncandle::TradeState fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("success"): return TradeState::SUCCESS;
-        case hashString("inProgress"): return TradeState::INPROGRESS;
-        case hashString("failure"): return TradeState::FAILURE;
+        case hashString("success"): return margelo::nitro::rncandle::TradeState::SUCCESS;
+        case hashString("inProgress"): return margelo::nitro::rncandle::TradeState::INPROGRESS;
+        case hashString("failure"): return margelo::nitro::rncandle::TradeState::FAILURE;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum TradeState - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, TradeState arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::TradeState arg) {
       switch (arg) {
-        case TradeState::SUCCESS: return JSIConverter<std::string>::toJSI(runtime, "success");
-        case TradeState::INPROGRESS: return JSIConverter<std::string>::toJSI(runtime, "inProgress");
-        case TradeState::FAILURE: return JSIConverter<std::string>::toJSI(runtime, "failure");
+        case margelo::nitro::rncandle::TradeState::SUCCESS: return JSIConverter<std::string>::toJSI(runtime, "success");
+        case margelo::nitro::rncandle::TradeState::INPROGRESS: return JSIConverter<std::string>::toJSI(runtime, "inProgress");
+        case margelo::nitro::rncandle::TradeState::FAILURE: return JSIConverter<std::string>::toJSI(runtime, "failure");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert TradeState to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

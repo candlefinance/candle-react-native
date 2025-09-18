@@ -50,30 +50,28 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TransportAccount <> JS TransportAccount (object)
   template <>
-  struct JSIConverter<TransportAccount> final {
-    static inline TransportAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TransportAccount> final {
+    static inline margelo::nitro::rncandle::TransportAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TransportAccount(
+      return margelo::nitro::rncandle::TransportAccount(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
-        JSIConverter<TransportAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind")),
+        JSIConverter<margelo::nitro::rncandle::TransportAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "nickname")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
-        JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
+        JSIConverter<margelo::nitro::rncandle::Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TransportAccount& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TransportAccount& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAccountID));
-      obj.setProperty(runtime, "accountKind", JSIConverter<TransportAccountKind>::toJSI(runtime, arg.accountKind));
+      obj.setProperty(runtime, "accountKind", JSIConverter<margelo::nitro::rncandle::TransportAccountKind>::toJSI(runtime, arg.accountKind));
       obj.setProperty(runtime, "nickname", JSIConverter<std::string>::toJSI(runtime, arg.nickname));
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
-      obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
+      obj.setProperty(runtime, "service", JSIConverter<margelo::nitro::rncandle::Service>::toJSI(runtime, arg.service));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -83,10 +81,10 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
-      if (!JSIConverter<TransportAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TransportAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "nickname"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
-      if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;
     }
   };

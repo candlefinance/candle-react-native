@@ -17,22 +17,22 @@ extension MarketAccount {
    * Create a new instance of `MarketAccount`.
    */
   public init(
-    assetKind: String, serviceAccountID: String, accountKind: FiatMarketAccountKind,
+    assetKind: MarketAssetKind, serviceAccountID: String, accountKind: FiatMarketAccountKind,
     nickname: String, linkedAccountID: String, service: Service
   ) {
     self.init(
-      std.string(assetKind), std.string(serviceAccountID), accountKind, std.string(nickname),
+      assetKind, std.string(serviceAccountID), accountKind, std.string(nickname),
       std.string(linkedAccountID), service)
   }
 
-  public var assetKind: String {
+  public var assetKind: MarketAssetKind {
     @inline(__always)
     get {
-      return String(self.__assetKind)
+      return self.__assetKind
     }
     @inline(__always)
     set {
-      self.__assetKind = std.string(newValue)
+      self.__assetKind = newValue
     }
   }
 

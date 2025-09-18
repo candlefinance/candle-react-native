@@ -17,24 +17,24 @@ extension MarketTradeAsset {
    * Create a new instance of `MarketTradeAsset`.
    */
   public init(
-    assetKind: String, serviceAccountID: String, serviceAssetID: String, symbol: String,
+    assetKind: MarketAssetKind, serviceAccountID: String, serviceAssetID: String, symbol: String,
     amount: Double, serviceTradeID: String, linkedAccountID: String, name: String, color: String,
     logoURL: String, service: Service
   ) {
     self.init(
-      std.string(assetKind), std.string(serviceAccountID), std.string(serviceAssetID),
-      std.string(symbol), amount, std.string(serviceTradeID), std.string(linkedAccountID),
-      std.string(name), std.string(color), std.string(logoURL), service)
+      assetKind, std.string(serviceAccountID), std.string(serviceAssetID), std.string(symbol),
+      amount, std.string(serviceTradeID), std.string(linkedAccountID), std.string(name),
+      std.string(color), std.string(logoURL), service)
   }
 
-  public var assetKind: String {
+  public var assetKind: MarketAssetKind {
     @inline(__always)
     get {
-      return String(self.__assetKind)
+      return self.__assetKind
     }
     @inline(__always)
     set {
-      self.__assetKind = std.string(newValue)
+      self.__assetKind = newValue
     }
   }
 

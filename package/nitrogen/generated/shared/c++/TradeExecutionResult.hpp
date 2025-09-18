@@ -21,8 +21,8 @@
 // Forward declaration of `Trade` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Trade; }
 
-#include <optional>
 #include "Trade.hpp"
+#include <optional>
 #include <string>
 
 namespace margelo::nitro::rncandle {
@@ -44,21 +44,19 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradeExecutionResult <> JS TradeExecutionResult (object)
   template <>
-  struct JSIConverter<TradeExecutionResult> final {
-    static inline TradeExecutionResult fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradeExecutionResult> final {
+    static inline margelo::nitro::rncandle::TradeExecutionResult fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TradeExecutionResult(
-        JSIConverter<std::optional<Trade>>::fromJSI(runtime, obj.getProperty(runtime, "trade")),
+      return margelo::nitro::rncandle::TradeExecutionResult(
+        JSIConverter<std::optional<margelo::nitro::rncandle::Trade>>::fromJSI(runtime, obj.getProperty(runtime, "trade")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "error"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeExecutionResult& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TradeExecutionResult& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "trade", JSIConverter<std::optional<Trade>>::toJSI(runtime, arg.trade));
+      obj.setProperty(runtime, "trade", JSIConverter<std::optional<margelo::nitro::rncandle::Trade>>::toJSI(runtime, arg.trade));
       obj.setProperty(runtime, "error", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.error));
       return obj;
     }
@@ -67,7 +65,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<Trade>>::canConvert(runtime, obj.getProperty(runtime, "trade"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::Trade>>::canConvert(runtime, obj.getProperty(runtime, "trade"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "error"))) return false;
       return true;
     }

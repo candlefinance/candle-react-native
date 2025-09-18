@@ -58,7 +58,8 @@ extension FiatAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__serviceAccountID.value {
+        if bridge.has_value_std__optional_std__string_(self.__serviceAccountID) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__serviceAccountID)
           return String(__unwrapped)
         } else {
           return nil
@@ -81,7 +82,8 @@ extension FiatAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__currencyCode.value {
+        if bridge.has_value_std__optional_std__string_(self.__currencyCode) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__currencyCode)
           return String(__unwrapped)
         } else {
           return nil

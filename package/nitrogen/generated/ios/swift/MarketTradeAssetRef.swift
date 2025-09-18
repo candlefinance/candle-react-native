@@ -16,18 +16,18 @@ extension MarketTradeAssetRef {
   /**
    * Create a new instance of `MarketTradeAssetRef`.
    */
-  public init(assetKind: String, serviceTradeID: String, linkedAccountID: String) {
-    self.init(std.string(assetKind), std.string(serviceTradeID), std.string(linkedAccountID))
+  public init(assetKind: MarketAssetKind, serviceTradeID: String, linkedAccountID: String) {
+    self.init(assetKind, std.string(serviceTradeID), std.string(linkedAccountID))
   }
 
-  public var assetKind: String {
+  public var assetKind: MarketAssetKind {
     @inline(__always)
     get {
-      return String(self.__assetKind)
+      return self.__assetKind
     }
     @inline(__always)
     set {
-      self.__assetKind = std.string(newValue)
+      self.__assetKind = newValue
     }
   }
 

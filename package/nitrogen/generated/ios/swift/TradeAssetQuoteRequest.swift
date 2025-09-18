@@ -57,7 +57,9 @@ extension TradeAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> FiatAssetQuoteRequest? in
-        if let __unwrapped = self.__fiatAssetQuoteRequest.value {
+        if bridge.has_value_std__optional_FiatAssetQuoteRequest_(self.__fiatAssetQuoteRequest) {
+          let __unwrapped = bridge.get_std__optional_FiatAssetQuoteRequest_(
+            self.__fiatAssetQuoteRequest)
           return __unwrapped
         } else {
           return nil
@@ -80,7 +82,9 @@ extension TradeAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> MarketAssetQuoteRequest? in
-        if let __unwrapped = self.__marketAssetQuoteRequest.value {
+        if bridge.has_value_std__optional_MarketAssetQuoteRequest_(self.__marketAssetQuoteRequest) {
+          let __unwrapped = bridge.get_std__optional_MarketAssetQuoteRequest_(
+            self.__marketAssetQuoteRequest)
           return __unwrapped
         } else {
           return nil
@@ -103,7 +107,11 @@ extension TradeAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> TransportAssetQuoteRequest? in
-        if let __unwrapped = self.__transportAssetQuoteRequest.value {
+        if bridge.has_value_std__optional_TransportAssetQuoteRequest_(
+          self.__transportAssetQuoteRequest)
+        {
+          let __unwrapped = bridge.get_std__optional_TransportAssetQuoteRequest_(
+            self.__transportAssetQuoteRequest)
           return __unwrapped
         } else {
           return nil
@@ -127,7 +135,10 @@ extension TradeAssetQuoteRequest {
     @inline(__always)
     get {
       return { () -> NothingAssetQuoteRequest? in
-        if let __unwrapped = self.__nothingAssetQuoteRequest.value {
+        if bridge.has_value_std__optional_NothingAssetQuoteRequest_(self.__nothingAssetQuoteRequest)
+        {
+          let __unwrapped = bridge.get_std__optional_NothingAssetQuoteRequest_(
+            self.__nothingAssetQuoteRequest)
           return __unwrapped
         } else {
           return nil

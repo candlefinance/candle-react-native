@@ -17,17 +17,18 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fi.candle.example",
+      "bundleIdentifier": "com.trycandle.expo",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "appleTeamId": "FW8BZ57ZU9"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "fi.candle.example"
+      "package": "com.trycandle.expo"
     },
     "web": {
       "bundler": "metro",
@@ -41,8 +42,7 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "17.0",
-            "newArchEnabled": true
+            "deploymentTarget": "17.0"
           }
         }
       ],

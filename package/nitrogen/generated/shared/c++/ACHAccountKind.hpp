@@ -37,24 +37,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ ACHAccountKind <> JS ACHAccountKind (union)
   template <>
-  struct JSIConverter<ACHAccountKind> final {
-    static inline ACHAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::ACHAccountKind> final {
+    static inline margelo::nitro::rncandle::ACHAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("checking"): return ACHAccountKind::CHECKING;
-        case hashString("savings"): return ACHAccountKind::SAVINGS;
+        case hashString("checking"): return margelo::nitro::rncandle::ACHAccountKind::CHECKING;
+        case hashString("savings"): return margelo::nitro::rncandle::ACHAccountKind::SAVINGS;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum ACHAccountKind - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, ACHAccountKind arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::ACHAccountKind arg) {
       switch (arg) {
-        case ACHAccountKind::CHECKING: return JSIConverter<std::string>::toJSI(runtime, "checking");
-        case ACHAccountKind::SAVINGS: return JSIConverter<std::string>::toJSI(runtime, "savings");
+        case margelo::nitro::rncandle::ACHAccountKind::CHECKING: return JSIConverter<std::string>::toJSI(runtime, "checking");
+        case margelo::nitro::rncandle::ACHAccountKind::SAVINGS: return JSIConverter<std::string>::toJSI(runtime, "savings");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert ACHAccountKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

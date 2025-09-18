@@ -42,22 +42,20 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradeRef <> JS TradeRef (object)
   template <>
-  struct JSIConverter<TradeRef> final {
-    static inline TradeRef fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradeRef> final {
+    static inline margelo::nitro::rncandle::TradeRef fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TradeRef(
-        JSIConverter<TradeAssetRef>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
-        JSIConverter<TradeAssetRef>::fromJSI(runtime, obj.getProperty(runtime, "gained"))
+      return margelo::nitro::rncandle::TradeRef(
+        JSIConverter<margelo::nitro::rncandle::TradeAssetRef>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
+        JSIConverter<margelo::nitro::rncandle::TradeAssetRef>::fromJSI(runtime, obj.getProperty(runtime, "gained"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeRef& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TradeRef& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "lost", JSIConverter<TradeAssetRef>::toJSI(runtime, arg.lost));
-      obj.setProperty(runtime, "gained", JSIConverter<TradeAssetRef>::toJSI(runtime, arg.gained));
+      obj.setProperty(runtime, "lost", JSIConverter<margelo::nitro::rncandle::TradeAssetRef>::toJSI(runtime, arg.lost));
+      obj.setProperty(runtime, "gained", JSIConverter<margelo::nitro::rncandle::TradeAssetRef>::toJSI(runtime, arg.gained));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -65,8 +63,8 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<TradeAssetRef>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
-      if (!JSIConverter<TradeAssetRef>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TradeAssetRef>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TradeAssetRef>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
       return true;
     }
   };

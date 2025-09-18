@@ -25,8 +25,8 @@ namespace margelo::nitro::rncandle { struct InactiveLinkedAccountDetails; }
 // Forward declaration of `UnavailableLinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct UnavailableLinkedAccountDetails; }
 
-#include <optional>
 #include "ActiveLinkedAccountDetails.hpp"
+#include <optional>
 #include "InactiveLinkedAccountDetails.hpp"
 #include "UnavailableLinkedAccountDetails.hpp"
 
@@ -50,24 +50,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ LinkedAccountDetails <> JS LinkedAccountDetails (object)
   template <>
-  struct JSIConverter<LinkedAccountDetails> final {
-    static inline LinkedAccountDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::LinkedAccountDetails> final {
+    static inline margelo::nitro::rncandle::LinkedAccountDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return LinkedAccountDetails(
-        JSIConverter<std::optional<ActiveLinkedAccountDetails>>::fromJSI(runtime, obj.getProperty(runtime, "activeLinkedAccountDetails")),
-        JSIConverter<std::optional<InactiveLinkedAccountDetails>>::fromJSI(runtime, obj.getProperty(runtime, "inactiveLinkedAccountDetails")),
-        JSIConverter<std::optional<UnavailableLinkedAccountDetails>>::fromJSI(runtime, obj.getProperty(runtime, "unavailableLinkedAccountDetails"))
+      return margelo::nitro::rncandle::LinkedAccountDetails(
+        JSIConverter<std::optional<margelo::nitro::rncandle::ActiveLinkedAccountDetails>>::fromJSI(runtime, obj.getProperty(runtime, "activeLinkedAccountDetails")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::InactiveLinkedAccountDetails>>::fromJSI(runtime, obj.getProperty(runtime, "inactiveLinkedAccountDetails")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::UnavailableLinkedAccountDetails>>::fromJSI(runtime, obj.getProperty(runtime, "unavailableLinkedAccountDetails"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const LinkedAccountDetails& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::LinkedAccountDetails& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "activeLinkedAccountDetails", JSIConverter<std::optional<ActiveLinkedAccountDetails>>::toJSI(runtime, arg.activeLinkedAccountDetails));
-      obj.setProperty(runtime, "inactiveLinkedAccountDetails", JSIConverter<std::optional<InactiveLinkedAccountDetails>>::toJSI(runtime, arg.inactiveLinkedAccountDetails));
-      obj.setProperty(runtime, "unavailableLinkedAccountDetails", JSIConverter<std::optional<UnavailableLinkedAccountDetails>>::toJSI(runtime, arg.unavailableLinkedAccountDetails));
+      obj.setProperty(runtime, "activeLinkedAccountDetails", JSIConverter<std::optional<margelo::nitro::rncandle::ActiveLinkedAccountDetails>>::toJSI(runtime, arg.activeLinkedAccountDetails));
+      obj.setProperty(runtime, "inactiveLinkedAccountDetails", JSIConverter<std::optional<margelo::nitro::rncandle::InactiveLinkedAccountDetails>>::toJSI(runtime, arg.inactiveLinkedAccountDetails));
+      obj.setProperty(runtime, "unavailableLinkedAccountDetails", JSIConverter<std::optional<margelo::nitro::rncandle::UnavailableLinkedAccountDetails>>::toJSI(runtime, arg.unavailableLinkedAccountDetails));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -75,9 +73,9 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<ActiveLinkedAccountDetails>>::canConvert(runtime, obj.getProperty(runtime, "activeLinkedAccountDetails"))) return false;
-      if (!JSIConverter<std::optional<InactiveLinkedAccountDetails>>::canConvert(runtime, obj.getProperty(runtime, "inactiveLinkedAccountDetails"))) return false;
-      if (!JSIConverter<std::optional<UnavailableLinkedAccountDetails>>::canConvert(runtime, obj.getProperty(runtime, "unavailableLinkedAccountDetails"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::ActiveLinkedAccountDetails>>::canConvert(runtime, obj.getProperty(runtime, "activeLinkedAccountDetails"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::InactiveLinkedAccountDetails>>::canConvert(runtime, obj.getProperty(runtime, "inactiveLinkedAccountDetails"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::UnavailableLinkedAccountDetails>>::canConvert(runtime, obj.getProperty(runtime, "unavailableLinkedAccountDetails"))) return false;
       return true;
     }
   };

@@ -25,8 +25,8 @@ namespace margelo::nitro::rncandle { struct MarketAccount; }
 // Forward declaration of `TransportAccount` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TransportAccount; }
 
-#include <optional>
 #include "FiatAccount.hpp"
+#include <optional>
 #include "MarketAccount.hpp"
 #include "TransportAccount.hpp"
 
@@ -50,24 +50,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ AssetAccount <> JS AssetAccount (object)
   template <>
-  struct JSIConverter<AssetAccount> final {
-    static inline AssetAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::AssetAccount> final {
+    static inline margelo::nitro::rncandle::AssetAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return AssetAccount(
-        JSIConverter<std::optional<FiatAccount>>::fromJSI(runtime, obj.getProperty(runtime, "fiatAccount")),
-        JSIConverter<std::optional<MarketAccount>>::fromJSI(runtime, obj.getProperty(runtime, "marketAccount")),
-        JSIConverter<std::optional<TransportAccount>>::fromJSI(runtime, obj.getProperty(runtime, "transportAccount"))
+      return margelo::nitro::rncandle::AssetAccount(
+        JSIConverter<std::optional<margelo::nitro::rncandle::FiatAccount>>::fromJSI(runtime, obj.getProperty(runtime, "fiatAccount")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::MarketAccount>>::fromJSI(runtime, obj.getProperty(runtime, "marketAccount")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::TransportAccount>>::fromJSI(runtime, obj.getProperty(runtime, "transportAccount"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const AssetAccount& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::AssetAccount& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "fiatAccount", JSIConverter<std::optional<FiatAccount>>::toJSI(runtime, arg.fiatAccount));
-      obj.setProperty(runtime, "marketAccount", JSIConverter<std::optional<MarketAccount>>::toJSI(runtime, arg.marketAccount));
-      obj.setProperty(runtime, "transportAccount", JSIConverter<std::optional<TransportAccount>>::toJSI(runtime, arg.transportAccount));
+      obj.setProperty(runtime, "fiatAccount", JSIConverter<std::optional<margelo::nitro::rncandle::FiatAccount>>::toJSI(runtime, arg.fiatAccount));
+      obj.setProperty(runtime, "marketAccount", JSIConverter<std::optional<margelo::nitro::rncandle::MarketAccount>>::toJSI(runtime, arg.marketAccount));
+      obj.setProperty(runtime, "transportAccount", JSIConverter<std::optional<margelo::nitro::rncandle::TransportAccount>>::toJSI(runtime, arg.transportAccount));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -75,9 +73,9 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<FiatAccount>>::canConvert(runtime, obj.getProperty(runtime, "fiatAccount"))) return false;
-      if (!JSIConverter<std::optional<MarketAccount>>::canConvert(runtime, obj.getProperty(runtime, "marketAccount"))) return false;
-      if (!JSIConverter<std::optional<TransportAccount>>::canConvert(runtime, obj.getProperty(runtime, "transportAccount"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::FiatAccount>>::canConvert(runtime, obj.getProperty(runtime, "fiatAccount"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::MarketAccount>>::canConvert(runtime, obj.getProperty(runtime, "marketAccount"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::TransportAccount>>::canConvert(runtime, obj.getProperty(runtime, "transportAccount"))) return false;
       return true;
     }
   };

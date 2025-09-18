@@ -41,19 +41,17 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ Coordinates <> JS Coordinates (object)
   template <>
-  struct JSIConverter<Coordinates> final {
-    static inline Coordinates fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::Coordinates> final {
+    static inline margelo::nitro::rncandle::Coordinates fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return Coordinates(
+      return margelo::nitro::rncandle::Coordinates(
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "latitude")),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, "longitude"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const Coordinates& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::Coordinates& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "latitude", JSIConverter<double>::toJSI(runtime, arg.latitude));
       obj.setProperty(runtime, "longitude", JSIConverter<double>::toJSI(runtime, arg.longitude));

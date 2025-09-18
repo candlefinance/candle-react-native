@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LinkedAccountStatusRef, Trade } from "react-native-candle";
+import {
+  LinkedAccountStatusRef,
+  Trade,
+  TradeAssetKind,
+} from "react-native-candle";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { flattenObject } from "../../Utils";
 import { DetailScrollView } from "../SharedComponents/detail-scroll-view";
@@ -8,7 +12,7 @@ import { DetailScrollView } from "../SharedComponents/detail-scroll-view";
 type TabParamList = {
   GetTradeDetailsScreen: {
     trade: {
-      trades: Trade;
+      trades: Trade<TradeAssetKind, TradeAssetKind>;
       linkedAccounts: LinkedAccountStatusRef;
     };
   };

@@ -1,4 +1,4 @@
-import type { AnyMap, HybridObject } from "react-native-nitro-modules";
+import type { HybridObject } from "react-native-nitro-modules";
 
 export type AppUser = {
   appKey: string;
@@ -41,8 +41,10 @@ type FiatAccount = {
   service: Service;
 };
 
+type MarketAssetKind = "stock" | "crypto";
+
 type MarketAccount = {
-  assetKind: string; // "stock" | "crypto"
+  assetKind: MarketAssetKind;
   serviceAccountID: string;
   accountKind: FiatMarketAccountKind;
   nickname: string;
@@ -67,7 +69,7 @@ export type AssetAccount = {
 
 type AssetAccountKind = "fiat" | "stock" | "crypto" | "transport";
 
-export type AssetAccountQuery = {
+export type AssetAccountsQuery = {
   linkedAccountIDs?: string;
   assetKind?: AssetAccountKind;
 };
@@ -83,7 +85,7 @@ export type FiatAsset = {
 };
 
 export type MarketTradeAsset = {
-  assetKind: string; // "stock" | "crypto"
+  assetKind: MarketAssetKind;
   serviceAccountID: string;
   serviceAssetID: string;
   symbol: string;
@@ -112,7 +114,6 @@ export type TransportAsset = {
   serviceAccountID: string;
   name: string;
   description: string;
-  // FIXME: use URL type for url fields
   imageURL: string;
   originCoordinates: Coordinates;
   originAddress: Address;
@@ -182,14 +183,22 @@ export type Trade = {
   gained: TradeAsset;
 };
 
-export type TradeQuery = {
+export type TradeAssetKind =
+  | "fiat"
+  | "stock"
+  | "crypto"
+  | "transport"
+  | "other"
+  | "nothing";
+
+export type CounterpartyKind = "merchant" | "user" | "service";
+
+export type TradesQuery = {
   linkedAccountIDs?: string;
-  // FIXME: To match the API this should be earliestDateTime
   dateTimeSpan?: string;
-  // FIXME: define enum here rather than in JS wrapper layer
-  gainedAssetKind?: string; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
-  lostAssetKind?: string; // "fiat" | "stock" | "crypto" | "transport" | "other" | "nothing"
-  counterpartyKind?: string; // "merchant" | "user" | "service"
+  gainedAssetKind?: TradeAssetKind;
+  lostAssetKind?: TradeAssetKind;
+  counterpartyKind?: CounterpartyKind;
 };
 
 export type FiatAssetQuoteRequest = {
@@ -200,7 +209,7 @@ export type FiatAssetQuoteRequest = {
 };
 
 export type MarketAssetQuoteRequest = {
-  assetKind: string; // "stock" | "crypto"
+  assetKind: MarketAssetKind;
   serviceAccountID?: string;
   serviceAssetID?: string;
   symbol?: string;
@@ -229,7 +238,7 @@ export type TradeAssetQuoteRequest = {
   nothingAssetQuoteRequest?: NothingAssetQuoteRequest;
 };
 
-export type TradeQuoteRequest = {
+export type TradeQuotesRequest = {
   linkedAccountIDs?: string;
   gained: TradeAssetQuoteRequest;
   lost: TradeAssetQuoteRequest;
@@ -363,18 +372,13 @@ export type LinkedAccount = {
   details: LinkedAccountDetails;
 };
 
-export type ToolCall = {
-  name: string;
-  arguments: string;
-};
-
 export type LinkedAccountRef = {
   linkedAccountID: string;
 };
 
 export type AssetAccountRef = {
   linkedAccountID: string;
-  assetKind: string; // "fiat" | "stock" | "crypto" | "transport"
+  assetKind: AssetAccountKind;
   serviceAccountID: string;
 };
 
@@ -385,7 +389,7 @@ export type FiatAssetRef = {
 };
 
 export type MarketTradeAssetRef = {
-  assetKind: string; // "stock" | "crypto"
+  assetKind: MarketAssetKind;
   serviceTradeID: string;
   linkedAccountID: string;
 };
@@ -422,13 +426,13 @@ export type TradeExecutionResult = {
   error?: string;
 };
 
-export type StatePayload = "active" | "inactive" | "unavailable";
+export type LinkedAccountState = "active" | "inactive" | "unavailable";
 
 export type LinkedAccountStatusRef = {
   linkedAccountID: string;
   service: Service;
   serviceUserID: string;
-  state: StatePayload;
+  state: LinkedAccountState;
 };
 
 export type AssetAccountsResponse = {
@@ -462,17 +466,22 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
     presentationBackground: PresentationBackground,
     completion: (result: TradeExecutionResult) => void
   ): void;
-  initialize(appUser: AppUser, accessGroup: string | undefined): void;
+
+  initialize(
+    appKey: string,
+    appSecret: string,
+    accessGroup: string | undefined
+  ): void;
+
   getLinkedAccounts(): Promise<LinkedAccount[]>;
   getLinkedAccount(ref: LinkedAccountRef): Promise<LinkedAccount>;
   unlinkAccount(ref: LinkedAccountRef): Promise<void>;
-  getAssetAccounts(query: AssetAccountQuery): Promise<AssetAccountsResponse>;
+  getAssetAccounts(query: AssetAccountsQuery): Promise<AssetAccountsResponse>;
   getAssetAccount(ref: AssetAccountRef): Promise<AssetAccount>;
-  getTrades(query: TradeQuery): Promise<TradesResponse>;
+  getTrades(query: TradesQuery): Promise<TradesResponse>;
   getTrade(ref: TradeRef): Promise<Trade>;
-  getTradeQuotes(request: TradeQuoteRequest): Promise<TradeQuotesResponse>;
+  getTradeQuotes(request: TradeQuotesRequest): Promise<TradeQuotesResponse>;
+
+  createUser(appUserID: string): Promise<void>;
   deleteUser(): Promise<void>;
-  // FIXME: The return type should be a more specific type based on the actual tool calls available.
-  getAvailableTools(): Promise<Array<AnyMap>>;
-  executeTool(tool: ToolCall): Promise<string>;
 }

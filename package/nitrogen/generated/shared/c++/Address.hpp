@@ -40,18 +40,16 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ Address <> JS Address (object)
   template <>
-  struct JSIConverter<Address> final {
-    static inline Address fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::Address> final {
+    static inline margelo::nitro::rncandle::Address fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return Address(
+      return margelo::nitro::rncandle::Address(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "value"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const Address& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::Address& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "value", JSIConverter<std::string>::toJSI(runtime, arg.value));
       return obj;
