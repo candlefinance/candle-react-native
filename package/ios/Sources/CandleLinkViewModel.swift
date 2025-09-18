@@ -12,20 +12,4 @@ import SwiftUI
     @Published var showDynamicLoading: Bool = false
     @Published var presentationBackground: PresentationBackground = .default
     @Published var presentationStyle: PresentationStyle = .fullscreen
-
-    init() {}
-
-    @available(iOS 17.0, *) var toCandlePresentationStyle: Candle.PresentationStyle {
-        switch presentationStyle {
-        case .fullscreen: return .fullScreen
-        case .sheet: return .sheet
-        }
-    }
-
-    var toCandlePresentationBackground: AnyShapeStyle? {
-        switch presentationBackground {
-        case .default: return nil
-        case .blur: return AnyShapeStyle(Material.regular)
-        }
-    }
 }

@@ -15,8 +15,8 @@ import SwiftUI
                         customerName: viewModel.customerName,
                         cornerRadius: viewModel.cornerRadius,
                         showDynamicLoading: viewModel.showDynamicLoading,
-                        presentationStyle: viewModel.toCandlePresentationStyle,
-                        presentationBackground: viewModel.toCandlePresentationBackground
+                        presentationStyle: .init(reactModel: viewModel.presentationStyle),
+                        presentationBackground: .init(reactModel: viewModel.presentationBackground)
                     ) { newLinkedAccount in viewModel.linkedAccount = newLinkedAccount }
                     .onChange(of: viewModel.showSheet) { _, newValue in
                         Task { @MainActor in viewModel.isPresented = newValue }
@@ -29,8 +29,8 @@ import SwiftUI
                         cornerRadius: viewModel.cornerRadius,
                         services: services.map(Models.Service.init(reactModel:)),
                         showDynamicLoading: viewModel.showDynamicLoading,
-                        presentationStyle: viewModel.toCandlePresentationStyle,
-                        presentationBackground: viewModel.toCandlePresentationBackground
+                        presentationStyle: .init(reactModel: viewModel.presentationStyle),
+                        presentationBackground: .init(reactModel: viewModel.presentationBackground)
                     ) { newLinkedAccount in viewModel.linkedAccount = newLinkedAccount }
             }
         } else {
@@ -41,8 +41,8 @@ import SwiftUI
                     cornerRadius: viewModel.cornerRadius,
                     services: .supported,
                     showDynamicLoading: viewModel.showDynamicLoading,
-                    presentationStyle: viewModel.toCandlePresentationStyle,
-                    presentationBackground: viewModel.toCandlePresentationBackground
+                    presentationStyle: .init(reactModel: viewModel.presentationStyle),
+                    presentationBackground: .init(reactModel: viewModel.presentationBackground)
                 ) { newLinkedAccount in viewModel.linkedAccount = newLinkedAccount }
         }
     }
