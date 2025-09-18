@@ -21,10 +21,9 @@ export const CandleProvider: React.FC<{
   accessGroup?: string;
 }> = ({ appKey, appSecret, accessGroup, children }) => {
   // NOTE: We only use useState here because useRef does not have a true lazy initializer
-  const [nativeCandle] = useState<RNCandle>(() => {
-    const native = NitroModules.createHybridObject<RNCandle>("RNCandle");
-    return native;
-  });
+  const [nativeCandle] = useState<RNCandle>(() =>
+    NitroModules.createHybridObject<RNCandle>("RNCandle")
+  );
 
   useEffect(() => {
     nativeCandle.initialize(appKey, appSecret, accessGroup);

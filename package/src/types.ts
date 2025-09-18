@@ -442,6 +442,8 @@ export const fromNativeTradeQuoteAndRequest =
     }),
   });
 
+// Generics assertions
+
 export const assertTradeAsset = <
   ExpectedAssetKind extends TradeQuoteAssetKind
 >(input: {
