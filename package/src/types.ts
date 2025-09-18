@@ -5,7 +5,7 @@ import type {
   FiatAssetQuoteRequest,
   FiatAssetRef,
   FiatMarketAccountKind,
-  LinkedAccount as _LinkedAccount, //√
+  LinkedAccount as _LinkedAccount,
   MarketAssetQuoteRequest,
   MarketTradeAsset,
   MarketTradeAssetRef,
@@ -24,16 +24,16 @@ import type {
   TransportAssetRef,
   UserCounterparty,
   WireDetails,
-  Trade as _Trade, //√
-  TradeQuotesRequest as _TradeQuotesRequest, //√
-  LinkedAccountDetails as _LinkedAccountDetails, //√
-  AssetAccount as _AssetAccount, //√
-  TradeRef as _TradeRef, //√
-  TradeAssetRef as _TradeAssetRef, //√
-  TradeAsset as _TradeAsset, //√
-  TradeQuote as _TradeQuote, //√
-  Counterparty as _Counterparty, //√
-  TradeAssetQuoteRequest as _TradeAssetQuoteRequest, //√
+  Trade as _Trade,
+  TradeQuotesRequest as _TradeQuotesRequest,
+  LinkedAccountDetails as _LinkedAccountDetails,
+  AssetAccount as _AssetAccount,
+  TradeRef as _TradeRef,
+  TradeAssetRef as _TradeAssetRef,
+  TradeAsset as _TradeAsset,
+  TradeQuote as _TradeQuote,
+  Counterparty as _Counterparty,
+  TradeAssetQuoteRequest as _TradeAssetQuoteRequest,
   InactiveLinkedAccountDetails,
   UnavailableLinkedAccountDetails,
   TradeAssetKind,
