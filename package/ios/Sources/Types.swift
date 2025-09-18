@@ -1,8 +1,6 @@
 import Candle
 
-enum CandleError: Swift.Error {
-    case unexpected(message: String)
-}
+enum CandleError: Swift.Error { case unexpected(message: String) }
 
 // MARK: Encoding & decoding
 

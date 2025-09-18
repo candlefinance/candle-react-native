@@ -13,9 +13,7 @@ import UIKit
     var viewModel: CandleLinkViewModel {
         get throws {
             if let viewModel = rootVC?.rootView.viewModel { return viewModel }
-            throw CandleError.unexpected(
-                message: "Failed to properly initialize the client."
-            )
+            throw CandleError.unexpected(message: "Failed to properly initialize the client.")
         }
     }
 
@@ -49,9 +47,7 @@ import UIKit
             try viewModel.presentationBackground = presentationBackground
             try viewModel.presentationStyle = presentationStyle
             guard let rootViewController = UIApplication.keyWindow?.rootViewController else {
-                throw CandleError.unexpected(
-                    message: "Application root view was not initialized."
-                )
+                throw CandleError.unexpected(message: "Application root view was not initialized.")
             }
 
             let parentVC = rootViewController.candleTopMost

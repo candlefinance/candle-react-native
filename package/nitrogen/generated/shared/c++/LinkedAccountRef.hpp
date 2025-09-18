@@ -40,18 +40,16 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ LinkedAccountRef <> JS LinkedAccountRef (object)
   template <>
-  struct JSIConverter<LinkedAccountRef> final {
-    static inline LinkedAccountRef fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::LinkedAccountRef> final {
+    static inline margelo::nitro::rncandle::LinkedAccountRef fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return LinkedAccountRef(
+      return margelo::nitro::rncandle::LinkedAccountRef(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const LinkedAccountRef& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::LinkedAccountRef& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
       return obj;

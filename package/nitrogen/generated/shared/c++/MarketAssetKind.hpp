@@ -37,24 +37,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ MarketAssetKind <> JS MarketAssetKind (union)
   template <>
-  struct JSIConverter<MarketAssetKind> final {
-    static inline MarketAssetKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::MarketAssetKind> final {
+    static inline margelo::nitro::rncandle::MarketAssetKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("stock"): return MarketAssetKind::STOCK;
-        case hashString("crypto"): return MarketAssetKind::CRYPTO;
+        case hashString("stock"): return margelo::nitro::rncandle::MarketAssetKind::STOCK;
+        case hashString("crypto"): return margelo::nitro::rncandle::MarketAssetKind::CRYPTO;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum MarketAssetKind - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, MarketAssetKind arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::MarketAssetKind arg) {
       switch (arg) {
-        case MarketAssetKind::STOCK: return JSIConverter<std::string>::toJSI(runtime, "stock");
-        case MarketAssetKind::CRYPTO: return JSIConverter<std::string>::toJSI(runtime, "crypto");
+        case margelo::nitro::rncandle::MarketAssetKind::STOCK: return JSIConverter<std::string>::toJSI(runtime, "stock");
+        case margelo::nitro::rncandle::MarketAssetKind::CRYPTO: return JSIConverter<std::string>::toJSI(runtime, "crypto");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert MarketAssetKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

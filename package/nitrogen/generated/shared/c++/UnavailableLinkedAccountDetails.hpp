@@ -40,18 +40,16 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ UnavailableLinkedAccountDetails <> JS UnavailableLinkedAccountDetails (object)
   template <>
-  struct JSIConverter<UnavailableLinkedAccountDetails> final {
-    static inline UnavailableLinkedAccountDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::UnavailableLinkedAccountDetails> final {
+    static inline margelo::nitro::rncandle::UnavailableLinkedAccountDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return UnavailableLinkedAccountDetails(
+      return margelo::nitro::rncandle::UnavailableLinkedAccountDetails(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "state"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const UnavailableLinkedAccountDetails& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::UnavailableLinkedAccountDetails& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "state", JSIConverter<std::string>::toJSI(runtime, arg.state));
       return obj;

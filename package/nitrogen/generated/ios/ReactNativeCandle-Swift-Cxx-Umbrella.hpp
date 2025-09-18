@@ -207,8 +207,9 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 
 // Common C++ types used in Swift
 #include <NitroModules/ArrayBufferHolder.hpp>
-#include <NitroModules/AnyMapHolder.hpp>
+#include <NitroModules/AnyMapUtils.hpp>
 #include <NitroModules/RuntimeError.hpp>
+#include <NitroModules/DateToChronoDate.hpp>
 
 // Forward declarations of Swift defined types
 // Forward declaration of `HybridRNCandleSpec_cxx` to properly resolve imports.

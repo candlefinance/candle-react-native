@@ -29,8 +29,8 @@ namespace margelo::nitro::rncandle { struct OtherAsset; }
 // Forward declaration of `NothingAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct NothingAsset; }
 
-#include <optional>
 #include "FiatAsset.hpp"
+#include <optional>
 #include "MarketTradeAsset.hpp"
 #include "TransportAsset.hpp"
 #include "OtherAsset.hpp"
@@ -58,28 +58,26 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradeAsset <> JS TradeAsset (object)
   template <>
-  struct JSIConverter<TradeAsset> final {
-    static inline TradeAsset fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradeAsset> final {
+    static inline margelo::nitro::rncandle::TradeAsset fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TradeAsset(
-        JSIConverter<std::optional<FiatAsset>>::fromJSI(runtime, obj.getProperty(runtime, "fiatAsset")),
-        JSIConverter<std::optional<MarketTradeAsset>>::fromJSI(runtime, obj.getProperty(runtime, "marketTradeAsset")),
-        JSIConverter<std::optional<TransportAsset>>::fromJSI(runtime, obj.getProperty(runtime, "transportAsset")),
-        JSIConverter<std::optional<OtherAsset>>::fromJSI(runtime, obj.getProperty(runtime, "otherAsset")),
-        JSIConverter<std::optional<NothingAsset>>::fromJSI(runtime, obj.getProperty(runtime, "nothingAsset"))
+      return margelo::nitro::rncandle::TradeAsset(
+        JSIConverter<std::optional<margelo::nitro::rncandle::FiatAsset>>::fromJSI(runtime, obj.getProperty(runtime, "fiatAsset")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::MarketTradeAsset>>::fromJSI(runtime, obj.getProperty(runtime, "marketTradeAsset")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::TransportAsset>>::fromJSI(runtime, obj.getProperty(runtime, "transportAsset")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::OtherAsset>>::fromJSI(runtime, obj.getProperty(runtime, "otherAsset")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::NothingAsset>>::fromJSI(runtime, obj.getProperty(runtime, "nothingAsset"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradeAsset& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TradeAsset& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "fiatAsset", JSIConverter<std::optional<FiatAsset>>::toJSI(runtime, arg.fiatAsset));
-      obj.setProperty(runtime, "marketTradeAsset", JSIConverter<std::optional<MarketTradeAsset>>::toJSI(runtime, arg.marketTradeAsset));
-      obj.setProperty(runtime, "transportAsset", JSIConverter<std::optional<TransportAsset>>::toJSI(runtime, arg.transportAsset));
-      obj.setProperty(runtime, "otherAsset", JSIConverter<std::optional<OtherAsset>>::toJSI(runtime, arg.otherAsset));
-      obj.setProperty(runtime, "nothingAsset", JSIConverter<std::optional<NothingAsset>>::toJSI(runtime, arg.nothingAsset));
+      obj.setProperty(runtime, "fiatAsset", JSIConverter<std::optional<margelo::nitro::rncandle::FiatAsset>>::toJSI(runtime, arg.fiatAsset));
+      obj.setProperty(runtime, "marketTradeAsset", JSIConverter<std::optional<margelo::nitro::rncandle::MarketTradeAsset>>::toJSI(runtime, arg.marketTradeAsset));
+      obj.setProperty(runtime, "transportAsset", JSIConverter<std::optional<margelo::nitro::rncandle::TransportAsset>>::toJSI(runtime, arg.transportAsset));
+      obj.setProperty(runtime, "otherAsset", JSIConverter<std::optional<margelo::nitro::rncandle::OtherAsset>>::toJSI(runtime, arg.otherAsset));
+      obj.setProperty(runtime, "nothingAsset", JSIConverter<std::optional<margelo::nitro::rncandle::NothingAsset>>::toJSI(runtime, arg.nothingAsset));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -87,11 +85,11 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<FiatAsset>>::canConvert(runtime, obj.getProperty(runtime, "fiatAsset"))) return false;
-      if (!JSIConverter<std::optional<MarketTradeAsset>>::canConvert(runtime, obj.getProperty(runtime, "marketTradeAsset"))) return false;
-      if (!JSIConverter<std::optional<TransportAsset>>::canConvert(runtime, obj.getProperty(runtime, "transportAsset"))) return false;
-      if (!JSIConverter<std::optional<OtherAsset>>::canConvert(runtime, obj.getProperty(runtime, "otherAsset"))) return false;
-      if (!JSIConverter<std::optional<NothingAsset>>::canConvert(runtime, obj.getProperty(runtime, "nothingAsset"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::FiatAsset>>::canConvert(runtime, obj.getProperty(runtime, "fiatAsset"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::MarketTradeAsset>>::canConvert(runtime, obj.getProperty(runtime, "marketTradeAsset"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::TransportAsset>>::canConvert(runtime, obj.getProperty(runtime, "transportAsset"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::OtherAsset>>::canConvert(runtime, obj.getProperty(runtime, "otherAsset"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::NothingAsset>>::canConvert(runtime, obj.getProperty(runtime, "nothingAsset"))) return false;
       return true;
     }
   };

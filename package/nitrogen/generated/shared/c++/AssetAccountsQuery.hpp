@@ -21,8 +21,8 @@
 // Forward declaration of `AssetAccountKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class AssetAccountKind; }
 
-#include <optional>
 #include <string>
+#include <optional>
 #include "AssetAccountKind.hpp"
 
 namespace margelo::nitro::rncandle {
@@ -44,22 +44,20 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ AssetAccountsQuery <> JS AssetAccountsQuery (object)
   template <>
-  struct JSIConverter<AssetAccountsQuery> final {
-    static inline AssetAccountsQuery fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::AssetAccountsQuery> final {
+    static inline margelo::nitro::rncandle::AssetAccountsQuery fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return AssetAccountsQuery(
+      return margelo::nitro::rncandle::AssetAccountsQuery(
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountIDs")),
-        JSIConverter<std::optional<AssetAccountKind>>::fromJSI(runtime, obj.getProperty(runtime, "assetKind"))
+        JSIConverter<std::optional<margelo::nitro::rncandle::AssetAccountKind>>::fromJSI(runtime, obj.getProperty(runtime, "assetKind"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const AssetAccountsQuery& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::AssetAccountsQuery& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "linkedAccountIDs", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.linkedAccountIDs));
-      obj.setProperty(runtime, "assetKind", JSIConverter<std::optional<AssetAccountKind>>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<std::optional<margelo::nitro::rncandle::AssetAccountKind>>::toJSI(runtime, arg.assetKind));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -68,7 +66,7 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountIDs"))) return false;
-      if (!JSIConverter<std::optional<AssetAccountKind>>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::AssetAccountKind>>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       return true;
     }
   };

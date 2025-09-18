@@ -43,20 +43,18 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ FiatAssetRef <> JS FiatAssetRef (object)
   template <>
-  struct JSIConverter<FiatAssetRef> final {
-    static inline FiatAssetRef fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::FiatAssetRef> final {
+    static inline margelo::nitro::rncandle::FiatAssetRef fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return FiatAssetRef(
+      return margelo::nitro::rncandle::FiatAssetRef(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceTradeID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const FiatAssetRef& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::FiatAssetRef& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceTradeID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceTradeID));

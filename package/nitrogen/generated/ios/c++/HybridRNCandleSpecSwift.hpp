@@ -133,14 +133,14 @@ namespace margelo::nitro::rncandle { struct TransportAssetQuoteRequest; }
 // Forward declaration of `NothingAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
 
-#include <optional>
-#include <vector>
 #include "Service.hpp"
+#include <vector>
+#include <optional>
 #include <string>
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
-#include <functional>
 #include "LinkedAccount.hpp"
+#include <functional>
 #include "LinkedAccountDetails.hpp"
 #include "ActiveLinkedAccountDetails.hpp"
 #include "InactiveLinkedAccountDetails.hpp"
@@ -227,9 +227,11 @@ namespace margelo::nitro::rncandle {
     }
 
   public:
-    // Get memory pressure
     inline size_t getExternalMemorySize() noexcept override {
       return _swiftPart.getMemorySize();
+    }
+    void dispose() noexcept override {
+      _swiftPart.dispose();
     }
 
   public:

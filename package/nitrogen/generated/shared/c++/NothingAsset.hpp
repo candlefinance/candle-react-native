@@ -40,18 +40,16 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ NothingAsset <> JS NothingAsset (object)
   template <>
-  struct JSIConverter<NothingAsset> final {
-    static inline NothingAsset fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::NothingAsset> final {
+    static inline margelo::nitro::rncandle::NothingAsset fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return NothingAsset(
+      return margelo::nitro::rncandle::NothingAsset(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const NothingAsset& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::NothingAsset& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       return obj;

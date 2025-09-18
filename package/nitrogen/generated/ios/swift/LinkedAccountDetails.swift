@@ -49,7 +49,11 @@ extension LinkedAccountDetails {
     @inline(__always)
     get {
       return { () -> ActiveLinkedAccountDetails? in
-        if let __unwrapped = self.__activeLinkedAccountDetails.value {
+        if bridge.has_value_std__optional_ActiveLinkedAccountDetails_(
+          self.__activeLinkedAccountDetails)
+        {
+          let __unwrapped = bridge.get_std__optional_ActiveLinkedAccountDetails_(
+            self.__activeLinkedAccountDetails)
           return __unwrapped
         } else {
           return nil
@@ -73,7 +77,11 @@ extension LinkedAccountDetails {
     @inline(__always)
     get {
       return { () -> InactiveLinkedAccountDetails? in
-        if let __unwrapped = self.__inactiveLinkedAccountDetails.value {
+        if bridge.has_value_std__optional_InactiveLinkedAccountDetails_(
+          self.__inactiveLinkedAccountDetails)
+        {
+          let __unwrapped = bridge.get_std__optional_InactiveLinkedAccountDetails_(
+            self.__inactiveLinkedAccountDetails)
           return __unwrapped
         } else {
           return nil
@@ -97,7 +105,11 @@ extension LinkedAccountDetails {
     @inline(__always)
     get {
       return { () -> UnavailableLinkedAccountDetails? in
-        if let __unwrapped = self.__unavailableLinkedAccountDetails.value {
+        if bridge.has_value_std__optional_UnavailableLinkedAccountDetails_(
+          self.__unavailableLinkedAccountDetails)
+        {
+          let __unwrapped = bridge.get_std__optional_UnavailableLinkedAccountDetails_(
+            self.__unavailableLinkedAccountDetails)
           return __unwrapped
         } else {
           return nil

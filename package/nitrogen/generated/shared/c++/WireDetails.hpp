@@ -41,19 +41,17 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ WireDetails <> JS WireDetails (object)
   template <>
-  struct JSIConverter<WireDetails> final {
-    static inline WireDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::WireDetails> final {
+    static inline margelo::nitro::rncandle::WireDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return WireDetails(
+      return margelo::nitro::rncandle::WireDetails(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "accountNumber")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "routingNumber"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const WireDetails& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::WireDetails& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "accountNumber", JSIConverter<std::string>::toJSI(runtime, arg.accountNumber));
       obj.setProperty(runtime, "routingNumber", JSIConverter<std::string>::toJSI(runtime, arg.routingNumber));

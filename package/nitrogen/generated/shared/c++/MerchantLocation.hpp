@@ -42,20 +42,18 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ MerchantLocation <> JS MerchantLocation (object)
   template <>
-  struct JSIConverter<MerchantLocation> final {
-    static inline MerchantLocation fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::MerchantLocation> final {
+    static inline margelo::nitro::rncandle::MerchantLocation fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return MerchantLocation(
+      return margelo::nitro::rncandle::MerchantLocation(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "countryCode")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "countrySubdivisionCode")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "localityName"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const MerchantLocation& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::MerchantLocation& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "countryCode", JSIConverter<std::string>::toJSI(runtime, arg.countryCode));
       obj.setProperty(runtime, "countrySubdivisionCode", JSIConverter<std::string>::toJSI(runtime, arg.countrySubdivisionCode));

@@ -41,32 +41,30 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradeAssetKind <> JS TradeAssetKind (union)
   template <>
-  struct JSIConverter<TradeAssetKind> final {
-    static inline TradeAssetKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradeAssetKind> final {
+    static inline margelo::nitro::rncandle::TradeAssetKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("stock"): return TradeAssetKind::STOCK;
-        case hashString("crypto"): return TradeAssetKind::CRYPTO;
-        case hashString("fiat"): return TradeAssetKind::FIAT;
-        case hashString("transport"): return TradeAssetKind::TRANSPORT;
-        case hashString("other"): return TradeAssetKind::OTHER;
-        case hashString("nothing"): return TradeAssetKind::NOTHING;
+        case hashString("stock"): return margelo::nitro::rncandle::TradeAssetKind::STOCK;
+        case hashString("crypto"): return margelo::nitro::rncandle::TradeAssetKind::CRYPTO;
+        case hashString("fiat"): return margelo::nitro::rncandle::TradeAssetKind::FIAT;
+        case hashString("transport"): return margelo::nitro::rncandle::TradeAssetKind::TRANSPORT;
+        case hashString("other"): return margelo::nitro::rncandle::TradeAssetKind::OTHER;
+        case hashString("nothing"): return margelo::nitro::rncandle::TradeAssetKind::NOTHING;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum TradeAssetKind - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, TradeAssetKind arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::TradeAssetKind arg) {
       switch (arg) {
-        case TradeAssetKind::STOCK: return JSIConverter<std::string>::toJSI(runtime, "stock");
-        case TradeAssetKind::CRYPTO: return JSIConverter<std::string>::toJSI(runtime, "crypto");
-        case TradeAssetKind::FIAT: return JSIConverter<std::string>::toJSI(runtime, "fiat");
-        case TradeAssetKind::TRANSPORT: return JSIConverter<std::string>::toJSI(runtime, "transport");
-        case TradeAssetKind::OTHER: return JSIConverter<std::string>::toJSI(runtime, "other");
-        case TradeAssetKind::NOTHING: return JSIConverter<std::string>::toJSI(runtime, "nothing");
+        case margelo::nitro::rncandle::TradeAssetKind::STOCK: return JSIConverter<std::string>::toJSI(runtime, "stock");
+        case margelo::nitro::rncandle::TradeAssetKind::CRYPTO: return JSIConverter<std::string>::toJSI(runtime, "crypto");
+        case margelo::nitro::rncandle::TradeAssetKind::FIAT: return JSIConverter<std::string>::toJSI(runtime, "fiat");
+        case margelo::nitro::rncandle::TradeAssetKind::TRANSPORT: return JSIConverter<std::string>::toJSI(runtime, "transport");
+        case margelo::nitro::rncandle::TradeAssetKind::OTHER: return JSIConverter<std::string>::toJSI(runtime, "other");
+        case margelo::nitro::rncandle::TradeAssetKind::NOTHING: return JSIConverter<std::string>::toJSI(runtime, "nothing");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert TradeAssetKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

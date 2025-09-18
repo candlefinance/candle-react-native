@@ -44,24 +44,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ ACHDetails <> JS ACHDetails (object)
   template <>
-  struct JSIConverter<ACHDetails> final {
-    static inline ACHDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::ACHDetails> final {
+    static inline margelo::nitro::rncandle::ACHDetails fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return ACHDetails(
+      return margelo::nitro::rncandle::ACHDetails(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "accountNumber")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "routingNumber")),
-        JSIConverter<ACHAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind"))
+        JSIConverter<margelo::nitro::rncandle::ACHAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const ACHDetails& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::ACHDetails& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "accountNumber", JSIConverter<std::string>::toJSI(runtime, arg.accountNumber));
       obj.setProperty(runtime, "routingNumber", JSIConverter<std::string>::toJSI(runtime, arg.routingNumber));
-      obj.setProperty(runtime, "accountKind", JSIConverter<ACHAccountKind>::toJSI(runtime, arg.accountKind));
+      obj.setProperty(runtime, "accountKind", JSIConverter<margelo::nitro::rncandle::ACHAccountKind>::toJSI(runtime, arg.accountKind));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -71,7 +69,7 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "accountNumber"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "routingNumber"))) return false;
-      if (!JSIConverter<ACHAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::ACHAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
       return true;
     }
   };

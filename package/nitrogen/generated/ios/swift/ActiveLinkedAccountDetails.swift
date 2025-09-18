@@ -60,7 +60,8 @@ extension ActiveLinkedAccountDetails {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__accountOpened.value {
+        if bridge.has_value_std__optional_std__string_(self.__accountOpened) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__accountOpened)
           return String(__unwrapped)
         } else {
           return nil
@@ -83,7 +84,8 @@ extension ActiveLinkedAccountDetails {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__username.value {
+        if bridge.has_value_std__optional_std__string_(self.__username) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__username)
           return String(__unwrapped)
         } else {
           return nil
@@ -106,7 +108,8 @@ extension ActiveLinkedAccountDetails {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__emailAddress.value {
+        if bridge.has_value_std__optional_std__string_(self.__emailAddress) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__emailAddress)
           return String(__unwrapped)
         } else {
           return nil

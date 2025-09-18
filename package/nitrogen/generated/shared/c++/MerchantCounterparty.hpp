@@ -22,8 +22,8 @@
 namespace margelo::nitro::rncandle { struct MerchantLocation; }
 
 #include <string>
-#include <optional>
 #include "MerchantLocation.hpp"
+#include <optional>
 
 namespace margelo::nitro::rncandle {
 
@@ -46,26 +46,24 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ MerchantCounterparty <> JS MerchantCounterparty (object)
   template <>
-  struct JSIConverter<MerchantCounterparty> final {
-    static inline MerchantCounterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::MerchantCounterparty> final {
+    static inline margelo::nitro::rncandle::MerchantCounterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return MerchantCounterparty(
+      return margelo::nitro::rncandle::MerchantCounterparty(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "kind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "name")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "logoURL")),
-        JSIConverter<std::optional<MerchantLocation>>::fromJSI(runtime, obj.getProperty(runtime, "location"))
+        JSIConverter<std::optional<margelo::nitro::rncandle::MerchantLocation>>::fromJSI(runtime, obj.getProperty(runtime, "location"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const MerchantCounterparty& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::MerchantCounterparty& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "kind", JSIConverter<std::string>::toJSI(runtime, arg.kind));
       obj.setProperty(runtime, "name", JSIConverter<std::string>::toJSI(runtime, arg.name));
       obj.setProperty(runtime, "logoURL", JSIConverter<std::string>::toJSI(runtime, arg.logoURL));
-      obj.setProperty(runtime, "location", JSIConverter<std::optional<MerchantLocation>>::toJSI(runtime, arg.location));
+      obj.setProperty(runtime, "location", JSIConverter<std::optional<margelo::nitro::rncandle::MerchantLocation>>::toJSI(runtime, arg.location));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -76,7 +74,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "kind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "name"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "logoURL"))) return false;
-      if (!JSIConverter<std::optional<MerchantLocation>>::canConvert(runtime, obj.getProperty(runtime, "location"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::MerchantLocation>>::canConvert(runtime, obj.getProperty(runtime, "location"))) return false;
       return true;
     }
   };

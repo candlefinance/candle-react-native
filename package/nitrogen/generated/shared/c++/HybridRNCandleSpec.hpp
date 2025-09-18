@@ -48,14 +48,14 @@ namespace margelo::nitro::rncandle { struct TradeQuotesResponse; }
 // Forward declaration of `TradeQuotesRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeQuotesRequest; }
 
-#include <optional>
-#include <vector>
 #include "Service.hpp"
+#include <vector>
+#include <optional>
 #include <string>
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
-#include <functional>
 #include "LinkedAccount.hpp"
+#include <functional>
 #include "TradeQuote.hpp"
 #include "TradeExecutionResult.hpp"
 #include <NitroModules/Promise.hpp>

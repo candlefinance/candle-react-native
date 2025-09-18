@@ -43,21 +43,19 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ UserCounterparty <> JS UserCounterparty (object)
   template <>
-  struct JSIConverter<UserCounterparty> final {
-    static inline UserCounterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::UserCounterparty> final {
+    static inline margelo::nitro::rncandle::UserCounterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return UserCounterparty(
+      return margelo::nitro::rncandle::UserCounterparty(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "kind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "legalName")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "avatarURL")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "username"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const UserCounterparty& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::UserCounterparty& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "kind", JSIConverter<std::string>::toJSI(runtime, arg.kind));
       obj.setProperty(runtime, "legalName", JSIConverter<std::string>::toJSI(runtime, arg.legalName));

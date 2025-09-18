@@ -24,7 +24,7 @@
   HybridObjectRegistry::registerHybridObjectConstructor(
     "RNCandle",
     []() -> std::shared_ptr<HybridObject> {
-      std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec> hybridObject = ReactNativeCandle::ReactNativeCandleAutolinking::createRNCandle();
+      std::shared_ptr<HybridRNCandleSpec> hybridObject = ReactNativeCandle::ReactNativeCandleAutolinking::createRNCandle();
       return hybridObject;
     }
   );

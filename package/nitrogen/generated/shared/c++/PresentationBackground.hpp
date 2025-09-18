@@ -37,24 +37,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ PresentationBackground <> JS PresentationBackground (union)
   template <>
-  struct JSIConverter<PresentationBackground> final {
-    static inline PresentationBackground fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::PresentationBackground> final {
+    static inline margelo::nitro::rncandle::PresentationBackground fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("default"): return PresentationBackground::DEFAULT;
-        case hashString("blur"): return PresentationBackground::BLUR;
+        case hashString("default"): return margelo::nitro::rncandle::PresentationBackground::DEFAULT;
+        case hashString("blur"): return margelo::nitro::rncandle::PresentationBackground::BLUR;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum PresentationBackground - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, PresentationBackground arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::PresentationBackground arg) {
       switch (arg) {
-        case PresentationBackground::DEFAULT: return JSIConverter<std::string>::toJSI(runtime, "default");
-        case PresentationBackground::BLUR: return JSIConverter<std::string>::toJSI(runtime, "blur");
+        case margelo::nitro::rncandle::PresentationBackground::DEFAULT: return JSIConverter<std::string>::toJSI(runtime, "default");
+        case margelo::nitro::rncandle::PresentationBackground::BLUR: return JSIConverter<std::string>::toJSI(runtime, "blur");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert PresentationBackground to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

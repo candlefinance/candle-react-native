@@ -38,26 +38,24 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TransportAccountKind <> JS TransportAccountKind (union)
   template <>
-  struct JSIConverter<TransportAccountKind> final {
-    static inline TransportAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TransportAccountKind> final {
+    static inline margelo::nitro::rncandle::TransportAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("individual"): return TransportAccountKind::INDIVIDUAL;
-        case hashString("joint"): return TransportAccountKind::JOINT;
-        case hashString("business"): return TransportAccountKind::BUSINESS;
+        case hashString("individual"): return margelo::nitro::rncandle::TransportAccountKind::INDIVIDUAL;
+        case hashString("joint"): return margelo::nitro::rncandle::TransportAccountKind::JOINT;
+        case hashString("business"): return margelo::nitro::rncandle::TransportAccountKind::BUSINESS;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum TransportAccountKind - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, TransportAccountKind arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::TransportAccountKind arg) {
       switch (arg) {
-        case TransportAccountKind::INDIVIDUAL: return JSIConverter<std::string>::toJSI(runtime, "individual");
-        case TransportAccountKind::JOINT: return JSIConverter<std::string>::toJSI(runtime, "joint");
-        case TransportAccountKind::BUSINESS: return JSIConverter<std::string>::toJSI(runtime, "business");
+        case margelo::nitro::rncandle::TransportAccountKind::INDIVIDUAL: return JSIConverter<std::string>::toJSI(runtime, "individual");
+        case margelo::nitro::rncandle::TransportAccountKind::JOINT: return JSIConverter<std::string>::toJSI(runtime, "joint");
+        case margelo::nitro::rncandle::TransportAccountKind::BUSINESS: return JSIConverter<std::string>::toJSI(runtime, "business");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert TransportAccountKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

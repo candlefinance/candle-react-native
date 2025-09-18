@@ -61,38 +61,36 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ FiatAccount <> JS FiatAccount (object)
   template <>
-  struct JSIConverter<FiatAccount> final {
-    static inline FiatAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::FiatAccount> final {
+    static inline margelo::nitro::rncandle::FiatAccount fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return FiatAccount(
+      return margelo::nitro::rncandle::FiatAccount(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
-        JSIConverter<FiatMarketAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind")),
+        JSIConverter<margelo::nitro::rncandle::FiatMarketAccountKind>::fromJSI(runtime, obj.getProperty(runtime, "accountKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "nickname")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "currencyCode")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "balance")),
-        JSIConverter<std::optional<ACHDetails>>::fromJSI(runtime, obj.getProperty(runtime, "ach")),
-        JSIConverter<std::optional<WireDetails>>::fromJSI(runtime, obj.getProperty(runtime, "wire")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::ACHDetails>>::fromJSI(runtime, obj.getProperty(runtime, "ach")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::WireDetails>>::fromJSI(runtime, obj.getProperty(runtime, "wire")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountID")),
-        JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
+        JSIConverter<margelo::nitro::rncandle::Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const FiatAccount& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::FiatAccount& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAccountID));
-      obj.setProperty(runtime, "accountKind", JSIConverter<FiatMarketAccountKind>::toJSI(runtime, arg.accountKind));
+      obj.setProperty(runtime, "accountKind", JSIConverter<margelo::nitro::rncandle::FiatMarketAccountKind>::toJSI(runtime, arg.accountKind));
       obj.setProperty(runtime, "nickname", JSIConverter<std::string>::toJSI(runtime, arg.nickname));
       obj.setProperty(runtime, "currencyCode", JSIConverter<std::string>::toJSI(runtime, arg.currencyCode));
       obj.setProperty(runtime, "balance", JSIConverter<std::optional<double>>::toJSI(runtime, arg.balance));
-      obj.setProperty(runtime, "ach", JSIConverter<std::optional<ACHDetails>>::toJSI(runtime, arg.ach));
-      obj.setProperty(runtime, "wire", JSIConverter<std::optional<WireDetails>>::toJSI(runtime, arg.wire));
+      obj.setProperty(runtime, "ach", JSIConverter<std::optional<margelo::nitro::rncandle::ACHDetails>>::toJSI(runtime, arg.ach));
+      obj.setProperty(runtime, "wire", JSIConverter<std::optional<margelo::nitro::rncandle::WireDetails>>::toJSI(runtime, arg.wire));
       obj.setProperty(runtime, "linkedAccountID", JSIConverter<std::string>::toJSI(runtime, arg.linkedAccountID));
-      obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
+      obj.setProperty(runtime, "service", JSIConverter<margelo::nitro::rncandle::Service>::toJSI(runtime, arg.service));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -102,14 +100,14 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
-      if (!JSIConverter<FiatMarketAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::FiatMarketAccountKind>::canConvert(runtime, obj.getProperty(runtime, "accountKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "nickname"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "currencyCode"))) return false;
       if (!JSIConverter<std::optional<double>>::canConvert(runtime, obj.getProperty(runtime, "balance"))) return false;
-      if (!JSIConverter<std::optional<ACHDetails>>::canConvert(runtime, obj.getProperty(runtime, "ach"))) return false;
-      if (!JSIConverter<std::optional<WireDetails>>::canConvert(runtime, obj.getProperty(runtime, "wire"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::ACHDetails>>::canConvert(runtime, obj.getProperty(runtime, "ach"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::WireDetails>>::canConvert(runtime, obj.getProperty(runtime, "wire"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountID"))) return false;
-      if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;
     }
   };

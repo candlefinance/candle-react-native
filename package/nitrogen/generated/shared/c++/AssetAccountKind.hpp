@@ -39,28 +39,26 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ AssetAccountKind <> JS AssetAccountKind (union)
   template <>
-  struct JSIConverter<AssetAccountKind> final {
-    static inline AssetAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::AssetAccountKind> final {
+    static inline margelo::nitro::rncandle::AssetAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("stock"): return AssetAccountKind::STOCK;
-        case hashString("crypto"): return AssetAccountKind::CRYPTO;
-        case hashString("fiat"): return AssetAccountKind::FIAT;
-        case hashString("transport"): return AssetAccountKind::TRANSPORT;
+        case hashString("stock"): return margelo::nitro::rncandle::AssetAccountKind::STOCK;
+        case hashString("crypto"): return margelo::nitro::rncandle::AssetAccountKind::CRYPTO;
+        case hashString("fiat"): return margelo::nitro::rncandle::AssetAccountKind::FIAT;
+        case hashString("transport"): return margelo::nitro::rncandle::AssetAccountKind::TRANSPORT;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum AssetAccountKind - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, AssetAccountKind arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::AssetAccountKind arg) {
       switch (arg) {
-        case AssetAccountKind::STOCK: return JSIConverter<std::string>::toJSI(runtime, "stock");
-        case AssetAccountKind::CRYPTO: return JSIConverter<std::string>::toJSI(runtime, "crypto");
-        case AssetAccountKind::FIAT: return JSIConverter<std::string>::toJSI(runtime, "fiat");
-        case AssetAccountKind::TRANSPORT: return JSIConverter<std::string>::toJSI(runtime, "transport");
+        case margelo::nitro::rncandle::AssetAccountKind::STOCK: return JSIConverter<std::string>::toJSI(runtime, "stock");
+        case margelo::nitro::rncandle::AssetAccountKind::CRYPTO: return JSIConverter<std::string>::toJSI(runtime, "crypto");
+        case margelo::nitro::rncandle::AssetAccountKind::FIAT: return JSIConverter<std::string>::toJSI(runtime, "fiat");
+        case margelo::nitro::rncandle::AssetAccountKind::TRANSPORT: return JSIConverter<std::string>::toJSI(runtime, "transport");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert AssetAccountKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

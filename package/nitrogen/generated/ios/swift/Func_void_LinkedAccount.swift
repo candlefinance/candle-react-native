@@ -7,20 +7,20 @@
 
 import NitroModules
 
-/// Wraps a Swift `(_ value: LinkedAccount) -> Void` as a class.
+/// Wraps a Swift `(_ account: LinkedAccount) -> Void` as a class.
 /// This class can be used from C++, e.g. to wrap the Swift closure as a `std::function`.
 public final class Func_void_LinkedAccount {
   public typealias bridge = margelo.nitro.rncandle.bridge.swift
 
-  private let closure: (_ value: LinkedAccount) -> Void
+  private let closure: (_ account: LinkedAccount) -> Void
 
-  public init(_ closure: @escaping (_ value: LinkedAccount) -> Void) {
+  public init(_ closure: @escaping (_ account: LinkedAccount) -> Void) {
     self.closure = closure
   }
 
   @inline(__always)
-  public func call(value: LinkedAccount) {
-    self.closure(value)
+  public func call(account: LinkedAccount) {
+    self.closure(account)
   }
 
   /**

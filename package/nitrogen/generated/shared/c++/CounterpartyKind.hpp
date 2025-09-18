@@ -38,26 +38,24 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ CounterpartyKind <> JS CounterpartyKind (union)
   template <>
-  struct JSIConverter<CounterpartyKind> final {
-    static inline CounterpartyKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::CounterpartyKind> final {
+    static inline margelo::nitro::rncandle::CounterpartyKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("merchant"): return CounterpartyKind::MERCHANT;
-        case hashString("user"): return CounterpartyKind::USER;
-        case hashString("service"): return CounterpartyKind::SERVICE;
+        case hashString("merchant"): return margelo::nitro::rncandle::CounterpartyKind::MERCHANT;
+        case hashString("user"): return margelo::nitro::rncandle::CounterpartyKind::USER;
+        case hashString("service"): return margelo::nitro::rncandle::CounterpartyKind::SERVICE;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum CounterpartyKind - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, CounterpartyKind arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::CounterpartyKind arg) {
       switch (arg) {
-        case CounterpartyKind::MERCHANT: return JSIConverter<std::string>::toJSI(runtime, "merchant");
-        case CounterpartyKind::USER: return JSIConverter<std::string>::toJSI(runtime, "user");
-        case CounterpartyKind::SERVICE: return JSIConverter<std::string>::toJSI(runtime, "service");
+        case margelo::nitro::rncandle::CounterpartyKind::MERCHANT: return JSIConverter<std::string>::toJSI(runtime, "merchant");
+        case margelo::nitro::rncandle::CounterpartyKind::USER: return JSIConverter<std::string>::toJSI(runtime, "user");
+        case margelo::nitro::rncandle::CounterpartyKind::SERVICE: return JSIConverter<std::string>::toJSI(runtime, "service");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert CounterpartyKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

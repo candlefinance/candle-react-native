@@ -23,8 +23,8 @@ namespace margelo::nitro::rncandle { enum class TradeAssetKind; }
 // Forward declaration of `CounterpartyKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
 
-#include <optional>
 #include <string>
+#include <optional>
 #include "TradeAssetKind.hpp"
 #include "CounterpartyKind.hpp"
 
@@ -50,28 +50,26 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ TradesQuery <> JS TradesQuery (object)
   template <>
-  struct JSIConverter<TradesQuery> final {
-    static inline TradesQuery fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::TradesQuery> final {
+    static inline margelo::nitro::rncandle::TradesQuery fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return TradesQuery(
+      return margelo::nitro::rncandle::TradesQuery(
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountIDs")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "dateTimeSpan")),
-        JSIConverter<std::optional<TradeAssetKind>>::fromJSI(runtime, obj.getProperty(runtime, "gainedAssetKind")),
-        JSIConverter<std::optional<TradeAssetKind>>::fromJSI(runtime, obj.getProperty(runtime, "lostAssetKind")),
-        JSIConverter<std::optional<CounterpartyKind>>::fromJSI(runtime, obj.getProperty(runtime, "counterpartyKind"))
+        JSIConverter<std::optional<margelo::nitro::rncandle::TradeAssetKind>>::fromJSI(runtime, obj.getProperty(runtime, "gainedAssetKind")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::TradeAssetKind>>::fromJSI(runtime, obj.getProperty(runtime, "lostAssetKind")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::CounterpartyKind>>::fromJSI(runtime, obj.getProperty(runtime, "counterpartyKind"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const TradesQuery& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TradesQuery& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "linkedAccountIDs", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.linkedAccountIDs));
       obj.setProperty(runtime, "dateTimeSpan", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.dateTimeSpan));
-      obj.setProperty(runtime, "gainedAssetKind", JSIConverter<std::optional<TradeAssetKind>>::toJSI(runtime, arg.gainedAssetKind));
-      obj.setProperty(runtime, "lostAssetKind", JSIConverter<std::optional<TradeAssetKind>>::toJSI(runtime, arg.lostAssetKind));
-      obj.setProperty(runtime, "counterpartyKind", JSIConverter<std::optional<CounterpartyKind>>::toJSI(runtime, arg.counterpartyKind));
+      obj.setProperty(runtime, "gainedAssetKind", JSIConverter<std::optional<margelo::nitro::rncandle::TradeAssetKind>>::toJSI(runtime, arg.gainedAssetKind));
+      obj.setProperty(runtime, "lostAssetKind", JSIConverter<std::optional<margelo::nitro::rncandle::TradeAssetKind>>::toJSI(runtime, arg.lostAssetKind));
+      obj.setProperty(runtime, "counterpartyKind", JSIConverter<std::optional<margelo::nitro::rncandle::CounterpartyKind>>::toJSI(runtime, arg.counterpartyKind));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -81,9 +79,9 @@ namespace margelo::nitro {
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountIDs"))) return false;
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "dateTimeSpan"))) return false;
-      if (!JSIConverter<std::optional<TradeAssetKind>>::canConvert(runtime, obj.getProperty(runtime, "gainedAssetKind"))) return false;
-      if (!JSIConverter<std::optional<TradeAssetKind>>::canConvert(runtime, obj.getProperty(runtime, "lostAssetKind"))) return false;
-      if (!JSIConverter<std::optional<CounterpartyKind>>::canConvert(runtime, obj.getProperty(runtime, "counterpartyKind"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::TradeAssetKind>>::canConvert(runtime, obj.getProperty(runtime, "gainedAssetKind"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::TradeAssetKind>>::canConvert(runtime, obj.getProperty(runtime, "lostAssetKind"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::CounterpartyKind>>::canConvert(runtime, obj.getProperty(runtime, "counterpartyKind"))) return false;
       return true;
     }
   };

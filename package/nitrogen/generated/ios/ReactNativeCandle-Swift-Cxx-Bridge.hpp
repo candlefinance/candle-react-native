@@ -188,7 +188,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::vector<Service>`.
    */
   using std__vector_Service_ = std::vector<Service>;
-  inline std::vector<Service> create_std__vector_Service_(size_t size) {
+  inline std::vector<Service> create_std__vector_Service_(size_t size) noexcept {
     std::vector<Service> vector;
     vector.reserve(size);
     return vector;
@@ -199,8 +199,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<std::vector<Service>>`.
    */
   using std__optional_std__vector_Service__ = std::optional<std::vector<Service>>;
-  inline std::optional<std::vector<Service>> create_std__optional_std__vector_Service__(const std::vector<Service>& value) {
+  inline std::optional<std::vector<Service>> create_std__optional_std__vector_Service__(const std::vector<Service>& value) noexcept {
     return std::optional<std::vector<Service>>(value);
+  }
+  inline bool has_value_std__optional_std__vector_Service__(const std::optional<std::vector<Service>>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline std::vector<Service> get_std__optional_std__vector_Service__(const std::optional<std::vector<Service>>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<std::string>
@@ -208,8 +214,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<std::string>`.
    */
   using std__optional_std__string_ = std::optional<std::string>;
-  inline std::optional<std::string> create_std__optional_std__string_(const std::string& value) {
+  inline std::optional<std::string> create_std__optional_std__string_(const std::string& value) noexcept {
     return std::optional<std::string>(value);
+  }
+  inline bool has_value_std__optional_std__string_(const std::optional<std::string>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline std::string get_std__optional_std__string_(const std::optional<std::string>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<ActiveLinkedAccountDetails>
@@ -217,8 +229,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<ActiveLinkedAccountDetails>`.
    */
   using std__optional_ActiveLinkedAccountDetails_ = std::optional<ActiveLinkedAccountDetails>;
-  inline std::optional<ActiveLinkedAccountDetails> create_std__optional_ActiveLinkedAccountDetails_(const ActiveLinkedAccountDetails& value) {
+  inline std::optional<ActiveLinkedAccountDetails> create_std__optional_ActiveLinkedAccountDetails_(const ActiveLinkedAccountDetails& value) noexcept {
     return std::optional<ActiveLinkedAccountDetails>(value);
+  }
+  inline bool has_value_std__optional_ActiveLinkedAccountDetails_(const std::optional<ActiveLinkedAccountDetails>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline ActiveLinkedAccountDetails get_std__optional_ActiveLinkedAccountDetails_(const std::optional<ActiveLinkedAccountDetails>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<InactiveLinkedAccountDetails>
@@ -226,8 +244,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<InactiveLinkedAccountDetails>`.
    */
   using std__optional_InactiveLinkedAccountDetails_ = std::optional<InactiveLinkedAccountDetails>;
-  inline std::optional<InactiveLinkedAccountDetails> create_std__optional_InactiveLinkedAccountDetails_(const InactiveLinkedAccountDetails& value) {
+  inline std::optional<InactiveLinkedAccountDetails> create_std__optional_InactiveLinkedAccountDetails_(const InactiveLinkedAccountDetails& value) noexcept {
     return std::optional<InactiveLinkedAccountDetails>(value);
+  }
+  inline bool has_value_std__optional_InactiveLinkedAccountDetails_(const std::optional<InactiveLinkedAccountDetails>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline InactiveLinkedAccountDetails get_std__optional_InactiveLinkedAccountDetails_(const std::optional<InactiveLinkedAccountDetails>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<UnavailableLinkedAccountDetails>
@@ -235,8 +259,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<UnavailableLinkedAccountDetails>`.
    */
   using std__optional_UnavailableLinkedAccountDetails_ = std::optional<UnavailableLinkedAccountDetails>;
-  inline std::optional<UnavailableLinkedAccountDetails> create_std__optional_UnavailableLinkedAccountDetails_(const UnavailableLinkedAccountDetails& value) {
+  inline std::optional<UnavailableLinkedAccountDetails> create_std__optional_UnavailableLinkedAccountDetails_(const UnavailableLinkedAccountDetails& value) noexcept {
     return std::optional<UnavailableLinkedAccountDetails>(value);
+  }
+  inline bool has_value_std__optional_UnavailableLinkedAccountDetails_(const std::optional<UnavailableLinkedAccountDetails>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline UnavailableLinkedAccountDetails get_std__optional_UnavailableLinkedAccountDetails_(const std::optional<UnavailableLinkedAccountDetails>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::function<void(const LinkedAccount& /* account */)>
@@ -249,15 +279,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_LinkedAccount_Wrapper final {
   public:
-    explicit Func_void_LinkedAccount_Wrapper(std::function<void(const LinkedAccount& /* account */)>&& func): _function(std::make_shared<std::function<void(const LinkedAccount& /* account */)>>(std::move(func))) {}
-    inline void call(LinkedAccount account) const {
+    explicit Func_void_LinkedAccount_Wrapper(std::function<void(const LinkedAccount& /* account */)>&& func): _function(std::make_unique<std::function<void(const LinkedAccount& /* account */)>>(std::move(func))) {}
+    inline void call(LinkedAccount account) const noexcept {
       _function->operator()(account);
     }
   private:
-    std::shared_ptr<std::function<void(const LinkedAccount& /* account */)>> _function;
-  };
-  Func_void_LinkedAccount create_Func_void_LinkedAccount(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_LinkedAccount_Wrapper wrap_Func_void_LinkedAccount(Func_void_LinkedAccount value) {
+    std::unique_ptr<std::function<void(const LinkedAccount& /* account */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_LinkedAccount create_Func_void_LinkedAccount(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_LinkedAccount_Wrapper wrap_Func_void_LinkedAccount(Func_void_LinkedAccount value) noexcept {
     return Func_void_LinkedAccount_Wrapper(std::move(value));
   }
   
@@ -266,8 +296,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<FiatAsset>`.
    */
   using std__optional_FiatAsset_ = std::optional<FiatAsset>;
-  inline std::optional<FiatAsset> create_std__optional_FiatAsset_(const FiatAsset& value) {
+  inline std::optional<FiatAsset> create_std__optional_FiatAsset_(const FiatAsset& value) noexcept {
     return std::optional<FiatAsset>(value);
+  }
+  inline bool has_value_std__optional_FiatAsset_(const std::optional<FiatAsset>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline FiatAsset get_std__optional_FiatAsset_(const std::optional<FiatAsset>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<MarketTradeAsset>
@@ -275,8 +311,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<MarketTradeAsset>`.
    */
   using std__optional_MarketTradeAsset_ = std::optional<MarketTradeAsset>;
-  inline std::optional<MarketTradeAsset> create_std__optional_MarketTradeAsset_(const MarketTradeAsset& value) {
+  inline std::optional<MarketTradeAsset> create_std__optional_MarketTradeAsset_(const MarketTradeAsset& value) noexcept {
     return std::optional<MarketTradeAsset>(value);
+  }
+  inline bool has_value_std__optional_MarketTradeAsset_(const std::optional<MarketTradeAsset>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline MarketTradeAsset get_std__optional_MarketTradeAsset_(const std::optional<MarketTradeAsset>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<TransportAsset>
@@ -284,8 +326,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<TransportAsset>`.
    */
   using std__optional_TransportAsset_ = std::optional<TransportAsset>;
-  inline std::optional<TransportAsset> create_std__optional_TransportAsset_(const TransportAsset& value) {
+  inline std::optional<TransportAsset> create_std__optional_TransportAsset_(const TransportAsset& value) noexcept {
     return std::optional<TransportAsset>(value);
+  }
+  inline bool has_value_std__optional_TransportAsset_(const std::optional<TransportAsset>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline TransportAsset get_std__optional_TransportAsset_(const std::optional<TransportAsset>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<OtherAsset>
@@ -293,8 +341,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<OtherAsset>`.
    */
   using std__optional_OtherAsset_ = std::optional<OtherAsset>;
-  inline std::optional<OtherAsset> create_std__optional_OtherAsset_(const OtherAsset& value) {
+  inline std::optional<OtherAsset> create_std__optional_OtherAsset_(const OtherAsset& value) noexcept {
     return std::optional<OtherAsset>(value);
+  }
+  inline bool has_value_std__optional_OtherAsset_(const std::optional<OtherAsset>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline OtherAsset get_std__optional_OtherAsset_(const std::optional<OtherAsset>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<NothingAsset>
@@ -302,8 +356,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<NothingAsset>`.
    */
   using std__optional_NothingAsset_ = std::optional<NothingAsset>;
-  inline std::optional<NothingAsset> create_std__optional_NothingAsset_(const NothingAsset& value) {
+  inline std::optional<NothingAsset> create_std__optional_NothingAsset_(const NothingAsset& value) noexcept {
     return std::optional<NothingAsset>(value);
+  }
+  inline bool has_value_std__optional_NothingAsset_(const std::optional<NothingAsset>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline NothingAsset get_std__optional_NothingAsset_(const std::optional<NothingAsset>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<MerchantLocation>
@@ -311,8 +371,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<MerchantLocation>`.
    */
   using std__optional_MerchantLocation_ = std::optional<MerchantLocation>;
-  inline std::optional<MerchantLocation> create_std__optional_MerchantLocation_(const MerchantLocation& value) {
+  inline std::optional<MerchantLocation> create_std__optional_MerchantLocation_(const MerchantLocation& value) noexcept {
     return std::optional<MerchantLocation>(value);
+  }
+  inline bool has_value_std__optional_MerchantLocation_(const std::optional<MerchantLocation>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline MerchantLocation get_std__optional_MerchantLocation_(const std::optional<MerchantLocation>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<MerchantCounterparty>
@@ -320,8 +386,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<MerchantCounterparty>`.
    */
   using std__optional_MerchantCounterparty_ = std::optional<MerchantCounterparty>;
-  inline std::optional<MerchantCounterparty> create_std__optional_MerchantCounterparty_(const MerchantCounterparty& value) {
+  inline std::optional<MerchantCounterparty> create_std__optional_MerchantCounterparty_(const MerchantCounterparty& value) noexcept {
     return std::optional<MerchantCounterparty>(value);
+  }
+  inline bool has_value_std__optional_MerchantCounterparty_(const std::optional<MerchantCounterparty>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline MerchantCounterparty get_std__optional_MerchantCounterparty_(const std::optional<MerchantCounterparty>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<UserCounterparty>
@@ -329,8 +401,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<UserCounterparty>`.
    */
   using std__optional_UserCounterparty_ = std::optional<UserCounterparty>;
-  inline std::optional<UserCounterparty> create_std__optional_UserCounterparty_(const UserCounterparty& value) {
+  inline std::optional<UserCounterparty> create_std__optional_UserCounterparty_(const UserCounterparty& value) noexcept {
     return std::optional<UserCounterparty>(value);
+  }
+  inline bool has_value_std__optional_UserCounterparty_(const std::optional<UserCounterparty>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline UserCounterparty get_std__optional_UserCounterparty_(const std::optional<UserCounterparty>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<ServiceCounterparty>
@@ -338,8 +416,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<ServiceCounterparty>`.
    */
   using std__optional_ServiceCounterparty_ = std::optional<ServiceCounterparty>;
-  inline std::optional<ServiceCounterparty> create_std__optional_ServiceCounterparty_(const ServiceCounterparty& value) {
+  inline std::optional<ServiceCounterparty> create_std__optional_ServiceCounterparty_(const ServiceCounterparty& value) noexcept {
     return std::optional<ServiceCounterparty>(value);
+  }
+  inline bool has_value_std__optional_ServiceCounterparty_(const std::optional<ServiceCounterparty>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline ServiceCounterparty get_std__optional_ServiceCounterparty_(const std::optional<ServiceCounterparty>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<Trade>
@@ -347,8 +431,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<Trade>`.
    */
   using std__optional_Trade_ = std::optional<Trade>;
-  inline std::optional<Trade> create_std__optional_Trade_(const Trade& value) {
+  inline std::optional<Trade> create_std__optional_Trade_(const Trade& value) noexcept {
     return std::optional<Trade>(value);
+  }
+  inline bool has_value_std__optional_Trade_(const std::optional<Trade>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline Trade get_std__optional_Trade_(const std::optional<Trade>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::function<void(const TradeExecutionResult& /* result */)>
@@ -361,15 +451,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_TradeExecutionResult_Wrapper final {
   public:
-    explicit Func_void_TradeExecutionResult_Wrapper(std::function<void(const TradeExecutionResult& /* result */)>&& func): _function(std::make_shared<std::function<void(const TradeExecutionResult& /* result */)>>(std::move(func))) {}
-    inline void call(TradeExecutionResult result) const {
+    explicit Func_void_TradeExecutionResult_Wrapper(std::function<void(const TradeExecutionResult& /* result */)>&& func): _function(std::make_unique<std::function<void(const TradeExecutionResult& /* result */)>>(std::move(func))) {}
+    inline void call(TradeExecutionResult result) const noexcept {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const TradeExecutionResult& /* result */)>> _function;
-  };
-  Func_void_TradeExecutionResult create_Func_void_TradeExecutionResult(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_TradeExecutionResult_Wrapper wrap_Func_void_TradeExecutionResult(Func_void_TradeExecutionResult value) {
+    std::unique_ptr<std::function<void(const TradeExecutionResult& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_TradeExecutionResult create_Func_void_TradeExecutionResult(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_TradeExecutionResult_Wrapper wrap_Func_void_TradeExecutionResult(Func_void_TradeExecutionResult value) noexcept {
     return Func_void_TradeExecutionResult_Wrapper(std::move(value));
   }
   
@@ -378,7 +468,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::vector<LinkedAccount>`.
    */
   using std__vector_LinkedAccount_ = std::vector<LinkedAccount>;
-  inline std::vector<LinkedAccount> create_std__vector_LinkedAccount_(size_t size) {
+  inline std::vector<LinkedAccount> create_std__vector_LinkedAccount_(size_t size) noexcept {
     std::vector<LinkedAccount> vector;
     vector.reserve(size);
     return vector;
@@ -389,10 +479,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<std::vector<LinkedAccount>>>`.
    */
   using std__shared_ptr_Promise_std__vector_LinkedAccount___ = std::shared_ptr<Promise<std::vector<LinkedAccount>>>;
-  inline std::shared_ptr<Promise<std::vector<LinkedAccount>>> create_std__shared_ptr_Promise_std__vector_LinkedAccount___() {
+  inline std::shared_ptr<Promise<std::vector<LinkedAccount>>> create_std__shared_ptr_Promise_std__vector_LinkedAccount___() noexcept {
     return Promise<std::vector<LinkedAccount>>::create();
   }
-  inline PromiseHolder<std::vector<LinkedAccount>> wrap_std__shared_ptr_Promise_std__vector_LinkedAccount___(std::shared_ptr<Promise<std::vector<LinkedAccount>>> promise) {
+  inline PromiseHolder<std::vector<LinkedAccount>> wrap_std__shared_ptr_Promise_std__vector_LinkedAccount___(std::shared_ptr<Promise<std::vector<LinkedAccount>>> promise) noexcept {
     return PromiseHolder<std::vector<LinkedAccount>>(std::move(promise));
   }
   
@@ -406,15 +496,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_std__vector_LinkedAccount__Wrapper final {
   public:
-    explicit Func_void_std__vector_LinkedAccount__Wrapper(std::function<void(const std::vector<LinkedAccount>& /* result */)>&& func): _function(std::make_shared<std::function<void(const std::vector<LinkedAccount>& /* result */)>>(std::move(func))) {}
-    inline void call(std::vector<LinkedAccount> result) const {
+    explicit Func_void_std__vector_LinkedAccount__Wrapper(std::function<void(const std::vector<LinkedAccount>& /* result */)>&& func): _function(std::make_unique<std::function<void(const std::vector<LinkedAccount>& /* result */)>>(std::move(func))) {}
+    inline void call(std::vector<LinkedAccount> result) const noexcept {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const std::vector<LinkedAccount>& /* result */)>> _function;
-  };
-  Func_void_std__vector_LinkedAccount_ create_Func_void_std__vector_LinkedAccount_(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__vector_LinkedAccount__Wrapper wrap_Func_void_std__vector_LinkedAccount_(Func_void_std__vector_LinkedAccount_ value) {
+    std::unique_ptr<std::function<void(const std::vector<LinkedAccount>& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__vector_LinkedAccount_ create_Func_void_std__vector_LinkedAccount_(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_std__vector_LinkedAccount__Wrapper wrap_Func_void_std__vector_LinkedAccount_(Func_void_std__vector_LinkedAccount_ value) noexcept {
     return Func_void_std__vector_LinkedAccount__Wrapper(std::move(value));
   }
   
@@ -428,15 +518,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_std__exception_ptr_Wrapper final {
   public:
-    explicit Func_void_std__exception_ptr_Wrapper(std::function<void(const std::exception_ptr& /* error */)>&& func): _function(std::make_shared<std::function<void(const std::exception_ptr& /* error */)>>(std::move(func))) {}
-    inline void call(std::exception_ptr error) const {
+    explicit Func_void_std__exception_ptr_Wrapper(std::function<void(const std::exception_ptr& /* error */)>&& func): _function(std::make_unique<std::function<void(const std::exception_ptr& /* error */)>>(std::move(func))) {}
+    inline void call(std::exception_ptr error) const noexcept {
       _function->operator()(error);
     }
   private:
-    std::shared_ptr<std::function<void(const std::exception_ptr& /* error */)>> _function;
-  };
-  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_std__exception_ptr_Wrapper wrap_Func_void_std__exception_ptr(Func_void_std__exception_ptr value) {
+    std::unique_ptr<std::function<void(const std::exception_ptr& /* error */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_std__exception_ptr_Wrapper wrap_Func_void_std__exception_ptr(Func_void_std__exception_ptr value) noexcept {
     return Func_void_std__exception_ptr_Wrapper(std::move(value));
   }
   
@@ -445,10 +535,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<LinkedAccount>>`.
    */
   using std__shared_ptr_Promise_LinkedAccount__ = std::shared_ptr<Promise<LinkedAccount>>;
-  inline std::shared_ptr<Promise<LinkedAccount>> create_std__shared_ptr_Promise_LinkedAccount__() {
+  inline std::shared_ptr<Promise<LinkedAccount>> create_std__shared_ptr_Promise_LinkedAccount__() noexcept {
     return Promise<LinkedAccount>::create();
   }
-  inline PromiseHolder<LinkedAccount> wrap_std__shared_ptr_Promise_LinkedAccount__(std::shared_ptr<Promise<LinkedAccount>> promise) {
+  inline PromiseHolder<LinkedAccount> wrap_std__shared_ptr_Promise_LinkedAccount__(std::shared_ptr<Promise<LinkedAccount>> promise) noexcept {
     return PromiseHolder<LinkedAccount>(std::move(promise));
   }
   
@@ -457,10 +547,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<void>>`.
    */
   using std__shared_ptr_Promise_void__ = std::shared_ptr<Promise<void>>;
-  inline std::shared_ptr<Promise<void>> create_std__shared_ptr_Promise_void__() {
+  inline std::shared_ptr<Promise<void>> create_std__shared_ptr_Promise_void__() noexcept {
     return Promise<void>::create();
   }
-  inline PromiseHolder<void> wrap_std__shared_ptr_Promise_void__(std::shared_ptr<Promise<void>> promise) {
+  inline PromiseHolder<void> wrap_std__shared_ptr_Promise_void__(std::shared_ptr<Promise<void>> promise) noexcept {
     return PromiseHolder<void>(std::move(promise));
   }
   
@@ -474,15 +564,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_Wrapper final {
   public:
-    explicit Func_void_Wrapper(std::function<void()>&& func): _function(std::make_shared<std::function<void()>>(std::move(func))) {}
-    inline void call() const {
+    explicit Func_void_Wrapper(std::function<void()>&& func): _function(std::make_unique<std::function<void()>>(std::move(func))) {}
+    inline void call() const noexcept {
       _function->operator()();
     }
   private:
-    std::shared_ptr<std::function<void()>> _function;
-  };
-  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_Wrapper wrap_Func_void(Func_void value) {
+    std::unique_ptr<std::function<void()>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_Wrapper wrap_Func_void(Func_void value) noexcept {
     return Func_void_Wrapper(std::move(value));
   }
   
@@ -491,7 +581,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::vector<LinkedAccountStatusRef>`.
    */
   using std__vector_LinkedAccountStatusRef_ = std::vector<LinkedAccountStatusRef>;
-  inline std::vector<LinkedAccountStatusRef> create_std__vector_LinkedAccountStatusRef_(size_t size) {
+  inline std::vector<LinkedAccountStatusRef> create_std__vector_LinkedAccountStatusRef_(size_t size) noexcept {
     std::vector<LinkedAccountStatusRef> vector;
     vector.reserve(size);
     return vector;
@@ -502,8 +592,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<double>`.
    */
   using std__optional_double_ = std::optional<double>;
-  inline std::optional<double> create_std__optional_double_(const double& value) {
+  inline std::optional<double> create_std__optional_double_(const double& value) noexcept {
     return std::optional<double>(value);
+  }
+  inline bool has_value_std__optional_double_(const std::optional<double>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline double get_std__optional_double_(const std::optional<double>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<ACHDetails>
@@ -511,8 +607,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<ACHDetails>`.
    */
   using std__optional_ACHDetails_ = std::optional<ACHDetails>;
-  inline std::optional<ACHDetails> create_std__optional_ACHDetails_(const ACHDetails& value) {
+  inline std::optional<ACHDetails> create_std__optional_ACHDetails_(const ACHDetails& value) noexcept {
     return std::optional<ACHDetails>(value);
+  }
+  inline bool has_value_std__optional_ACHDetails_(const std::optional<ACHDetails>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline ACHDetails get_std__optional_ACHDetails_(const std::optional<ACHDetails>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<WireDetails>
@@ -520,8 +622,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<WireDetails>`.
    */
   using std__optional_WireDetails_ = std::optional<WireDetails>;
-  inline std::optional<WireDetails> create_std__optional_WireDetails_(const WireDetails& value) {
+  inline std::optional<WireDetails> create_std__optional_WireDetails_(const WireDetails& value) noexcept {
     return std::optional<WireDetails>(value);
+  }
+  inline bool has_value_std__optional_WireDetails_(const std::optional<WireDetails>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline WireDetails get_std__optional_WireDetails_(const std::optional<WireDetails>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<FiatAccount>
@@ -529,8 +637,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<FiatAccount>`.
    */
   using std__optional_FiatAccount_ = std::optional<FiatAccount>;
-  inline std::optional<FiatAccount> create_std__optional_FiatAccount_(const FiatAccount& value) {
+  inline std::optional<FiatAccount> create_std__optional_FiatAccount_(const FiatAccount& value) noexcept {
     return std::optional<FiatAccount>(value);
+  }
+  inline bool has_value_std__optional_FiatAccount_(const std::optional<FiatAccount>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline FiatAccount get_std__optional_FiatAccount_(const std::optional<FiatAccount>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<MarketAccount>
@@ -538,8 +652,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<MarketAccount>`.
    */
   using std__optional_MarketAccount_ = std::optional<MarketAccount>;
-  inline std::optional<MarketAccount> create_std__optional_MarketAccount_(const MarketAccount& value) {
+  inline std::optional<MarketAccount> create_std__optional_MarketAccount_(const MarketAccount& value) noexcept {
     return std::optional<MarketAccount>(value);
+  }
+  inline bool has_value_std__optional_MarketAccount_(const std::optional<MarketAccount>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline MarketAccount get_std__optional_MarketAccount_(const std::optional<MarketAccount>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<TransportAccount>
@@ -547,8 +667,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<TransportAccount>`.
    */
   using std__optional_TransportAccount_ = std::optional<TransportAccount>;
-  inline std::optional<TransportAccount> create_std__optional_TransportAccount_(const TransportAccount& value) {
+  inline std::optional<TransportAccount> create_std__optional_TransportAccount_(const TransportAccount& value) noexcept {
     return std::optional<TransportAccount>(value);
+  }
+  inline bool has_value_std__optional_TransportAccount_(const std::optional<TransportAccount>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline TransportAccount get_std__optional_TransportAccount_(const std::optional<TransportAccount>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::vector<AssetAccount>
@@ -556,7 +682,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::vector<AssetAccount>`.
    */
   using std__vector_AssetAccount_ = std::vector<AssetAccount>;
-  inline std::vector<AssetAccount> create_std__vector_AssetAccount_(size_t size) {
+  inline std::vector<AssetAccount> create_std__vector_AssetAccount_(size_t size) noexcept {
     std::vector<AssetAccount> vector;
     vector.reserve(size);
     return vector;
@@ -567,10 +693,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<AssetAccountsResponse>>`.
    */
   using std__shared_ptr_Promise_AssetAccountsResponse__ = std::shared_ptr<Promise<AssetAccountsResponse>>;
-  inline std::shared_ptr<Promise<AssetAccountsResponse>> create_std__shared_ptr_Promise_AssetAccountsResponse__() {
+  inline std::shared_ptr<Promise<AssetAccountsResponse>> create_std__shared_ptr_Promise_AssetAccountsResponse__() noexcept {
     return Promise<AssetAccountsResponse>::create();
   }
-  inline PromiseHolder<AssetAccountsResponse> wrap_std__shared_ptr_Promise_AssetAccountsResponse__(std::shared_ptr<Promise<AssetAccountsResponse>> promise) {
+  inline PromiseHolder<AssetAccountsResponse> wrap_std__shared_ptr_Promise_AssetAccountsResponse__(std::shared_ptr<Promise<AssetAccountsResponse>> promise) noexcept {
     return PromiseHolder<AssetAccountsResponse>(std::move(promise));
   }
   
@@ -584,15 +710,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_AssetAccountsResponse_Wrapper final {
   public:
-    explicit Func_void_AssetAccountsResponse_Wrapper(std::function<void(const AssetAccountsResponse& /* result */)>&& func): _function(std::make_shared<std::function<void(const AssetAccountsResponse& /* result */)>>(std::move(func))) {}
-    inline void call(AssetAccountsResponse result) const {
+    explicit Func_void_AssetAccountsResponse_Wrapper(std::function<void(const AssetAccountsResponse& /* result */)>&& func): _function(std::make_unique<std::function<void(const AssetAccountsResponse& /* result */)>>(std::move(func))) {}
+    inline void call(AssetAccountsResponse result) const noexcept {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const AssetAccountsResponse& /* result */)>> _function;
-  };
-  Func_void_AssetAccountsResponse create_Func_void_AssetAccountsResponse(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_AssetAccountsResponse_Wrapper wrap_Func_void_AssetAccountsResponse(Func_void_AssetAccountsResponse value) {
+    std::unique_ptr<std::function<void(const AssetAccountsResponse& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_AssetAccountsResponse create_Func_void_AssetAccountsResponse(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_AssetAccountsResponse_Wrapper wrap_Func_void_AssetAccountsResponse(Func_void_AssetAccountsResponse value) noexcept {
     return Func_void_AssetAccountsResponse_Wrapper(std::move(value));
   }
   
@@ -601,8 +727,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<AssetAccountKind>`.
    */
   using std__optional_AssetAccountKind_ = std::optional<AssetAccountKind>;
-  inline std::optional<AssetAccountKind> create_std__optional_AssetAccountKind_(const AssetAccountKind& value) {
+  inline std::optional<AssetAccountKind> create_std__optional_AssetAccountKind_(const AssetAccountKind& value) noexcept {
     return std::optional<AssetAccountKind>(value);
+  }
+  inline bool has_value_std__optional_AssetAccountKind_(const std::optional<AssetAccountKind>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline AssetAccountKind get_std__optional_AssetAccountKind_(const std::optional<AssetAccountKind>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::shared_ptr<Promise<AssetAccount>>
@@ -610,10 +742,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<AssetAccount>>`.
    */
   using std__shared_ptr_Promise_AssetAccount__ = std::shared_ptr<Promise<AssetAccount>>;
-  inline std::shared_ptr<Promise<AssetAccount>> create_std__shared_ptr_Promise_AssetAccount__() {
+  inline std::shared_ptr<Promise<AssetAccount>> create_std__shared_ptr_Promise_AssetAccount__() noexcept {
     return Promise<AssetAccount>::create();
   }
-  inline PromiseHolder<AssetAccount> wrap_std__shared_ptr_Promise_AssetAccount__(std::shared_ptr<Promise<AssetAccount>> promise) {
+  inline PromiseHolder<AssetAccount> wrap_std__shared_ptr_Promise_AssetAccount__(std::shared_ptr<Promise<AssetAccount>> promise) noexcept {
     return PromiseHolder<AssetAccount>(std::move(promise));
   }
   
@@ -627,15 +759,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_AssetAccount_Wrapper final {
   public:
-    explicit Func_void_AssetAccount_Wrapper(std::function<void(const AssetAccount& /* result */)>&& func): _function(std::make_shared<std::function<void(const AssetAccount& /* result */)>>(std::move(func))) {}
-    inline void call(AssetAccount result) const {
+    explicit Func_void_AssetAccount_Wrapper(std::function<void(const AssetAccount& /* result */)>&& func): _function(std::make_unique<std::function<void(const AssetAccount& /* result */)>>(std::move(func))) {}
+    inline void call(AssetAccount result) const noexcept {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const AssetAccount& /* result */)>> _function;
-  };
-  Func_void_AssetAccount create_Func_void_AssetAccount(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_AssetAccount_Wrapper wrap_Func_void_AssetAccount(Func_void_AssetAccount value) {
+    std::unique_ptr<std::function<void(const AssetAccount& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_AssetAccount create_Func_void_AssetAccount(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_AssetAccount_Wrapper wrap_Func_void_AssetAccount(Func_void_AssetAccount value) noexcept {
     return Func_void_AssetAccount_Wrapper(std::move(value));
   }
   
@@ -644,7 +776,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::vector<Trade>`.
    */
   using std__vector_Trade_ = std::vector<Trade>;
-  inline std::vector<Trade> create_std__vector_Trade_(size_t size) {
+  inline std::vector<Trade> create_std__vector_Trade_(size_t size) noexcept {
     std::vector<Trade> vector;
     vector.reserve(size);
     return vector;
@@ -655,10 +787,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<TradesResponse>>`.
    */
   using std__shared_ptr_Promise_TradesResponse__ = std::shared_ptr<Promise<TradesResponse>>;
-  inline std::shared_ptr<Promise<TradesResponse>> create_std__shared_ptr_Promise_TradesResponse__() {
+  inline std::shared_ptr<Promise<TradesResponse>> create_std__shared_ptr_Promise_TradesResponse__() noexcept {
     return Promise<TradesResponse>::create();
   }
-  inline PromiseHolder<TradesResponse> wrap_std__shared_ptr_Promise_TradesResponse__(std::shared_ptr<Promise<TradesResponse>> promise) {
+  inline PromiseHolder<TradesResponse> wrap_std__shared_ptr_Promise_TradesResponse__(std::shared_ptr<Promise<TradesResponse>> promise) noexcept {
     return PromiseHolder<TradesResponse>(std::move(promise));
   }
   
@@ -672,15 +804,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_TradesResponse_Wrapper final {
   public:
-    explicit Func_void_TradesResponse_Wrapper(std::function<void(const TradesResponse& /* result */)>&& func): _function(std::make_shared<std::function<void(const TradesResponse& /* result */)>>(std::move(func))) {}
-    inline void call(TradesResponse result) const {
+    explicit Func_void_TradesResponse_Wrapper(std::function<void(const TradesResponse& /* result */)>&& func): _function(std::make_unique<std::function<void(const TradesResponse& /* result */)>>(std::move(func))) {}
+    inline void call(TradesResponse result) const noexcept {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const TradesResponse& /* result */)>> _function;
-  };
-  Func_void_TradesResponse create_Func_void_TradesResponse(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_TradesResponse_Wrapper wrap_Func_void_TradesResponse(Func_void_TradesResponse value) {
+    std::unique_ptr<std::function<void(const TradesResponse& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_TradesResponse create_Func_void_TradesResponse(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_TradesResponse_Wrapper wrap_Func_void_TradesResponse(Func_void_TradesResponse value) noexcept {
     return Func_void_TradesResponse_Wrapper(std::move(value));
   }
   
@@ -689,8 +821,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<TradeAssetKind>`.
    */
   using std__optional_TradeAssetKind_ = std::optional<TradeAssetKind>;
-  inline std::optional<TradeAssetKind> create_std__optional_TradeAssetKind_(const TradeAssetKind& value) {
+  inline std::optional<TradeAssetKind> create_std__optional_TradeAssetKind_(const TradeAssetKind& value) noexcept {
     return std::optional<TradeAssetKind>(value);
+  }
+  inline bool has_value_std__optional_TradeAssetKind_(const std::optional<TradeAssetKind>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline TradeAssetKind get_std__optional_TradeAssetKind_(const std::optional<TradeAssetKind>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<CounterpartyKind>
@@ -698,8 +836,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<CounterpartyKind>`.
    */
   using std__optional_CounterpartyKind_ = std::optional<CounterpartyKind>;
-  inline std::optional<CounterpartyKind> create_std__optional_CounterpartyKind_(const CounterpartyKind& value) {
+  inline std::optional<CounterpartyKind> create_std__optional_CounterpartyKind_(const CounterpartyKind& value) noexcept {
     return std::optional<CounterpartyKind>(value);
+  }
+  inline bool has_value_std__optional_CounterpartyKind_(const std::optional<CounterpartyKind>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline CounterpartyKind get_std__optional_CounterpartyKind_(const std::optional<CounterpartyKind>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::shared_ptr<Promise<Trade>>
@@ -707,10 +851,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<Trade>>`.
    */
   using std__shared_ptr_Promise_Trade__ = std::shared_ptr<Promise<Trade>>;
-  inline std::shared_ptr<Promise<Trade>> create_std__shared_ptr_Promise_Trade__() {
+  inline std::shared_ptr<Promise<Trade>> create_std__shared_ptr_Promise_Trade__() noexcept {
     return Promise<Trade>::create();
   }
-  inline PromiseHolder<Trade> wrap_std__shared_ptr_Promise_Trade__(std::shared_ptr<Promise<Trade>> promise) {
+  inline PromiseHolder<Trade> wrap_std__shared_ptr_Promise_Trade__(std::shared_ptr<Promise<Trade>> promise) noexcept {
     return PromiseHolder<Trade>(std::move(promise));
   }
   
@@ -724,15 +868,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_Trade_Wrapper final {
   public:
-    explicit Func_void_Trade_Wrapper(std::function<void(const Trade& /* result */)>&& func): _function(std::make_shared<std::function<void(const Trade& /* result */)>>(std::move(func))) {}
-    inline void call(Trade result) const {
+    explicit Func_void_Trade_Wrapper(std::function<void(const Trade& /* result */)>&& func): _function(std::make_unique<std::function<void(const Trade& /* result */)>>(std::move(func))) {}
+    inline void call(Trade result) const noexcept {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const Trade& /* result */)>> _function;
-  };
-  Func_void_Trade create_Func_void_Trade(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_Trade_Wrapper wrap_Func_void_Trade(Func_void_Trade value) {
+    std::unique_ptr<std::function<void(const Trade& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_Trade create_Func_void_Trade(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_Trade_Wrapper wrap_Func_void_Trade(Func_void_Trade value) noexcept {
     return Func_void_Trade_Wrapper(std::move(value));
   }
   
@@ -741,8 +885,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<FiatAssetRef>`.
    */
   using std__optional_FiatAssetRef_ = std::optional<FiatAssetRef>;
-  inline std::optional<FiatAssetRef> create_std__optional_FiatAssetRef_(const FiatAssetRef& value) {
+  inline std::optional<FiatAssetRef> create_std__optional_FiatAssetRef_(const FiatAssetRef& value) noexcept {
     return std::optional<FiatAssetRef>(value);
+  }
+  inline bool has_value_std__optional_FiatAssetRef_(const std::optional<FiatAssetRef>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline FiatAssetRef get_std__optional_FiatAssetRef_(const std::optional<FiatAssetRef>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<MarketTradeAssetRef>
@@ -750,8 +900,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<MarketTradeAssetRef>`.
    */
   using std__optional_MarketTradeAssetRef_ = std::optional<MarketTradeAssetRef>;
-  inline std::optional<MarketTradeAssetRef> create_std__optional_MarketTradeAssetRef_(const MarketTradeAssetRef& value) {
+  inline std::optional<MarketTradeAssetRef> create_std__optional_MarketTradeAssetRef_(const MarketTradeAssetRef& value) noexcept {
     return std::optional<MarketTradeAssetRef>(value);
+  }
+  inline bool has_value_std__optional_MarketTradeAssetRef_(const std::optional<MarketTradeAssetRef>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline MarketTradeAssetRef get_std__optional_MarketTradeAssetRef_(const std::optional<MarketTradeAssetRef>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<TransportAssetRef>
@@ -759,8 +915,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<TransportAssetRef>`.
    */
   using std__optional_TransportAssetRef_ = std::optional<TransportAssetRef>;
-  inline std::optional<TransportAssetRef> create_std__optional_TransportAssetRef_(const TransportAssetRef& value) {
+  inline std::optional<TransportAssetRef> create_std__optional_TransportAssetRef_(const TransportAssetRef& value) noexcept {
     return std::optional<TransportAssetRef>(value);
+  }
+  inline bool has_value_std__optional_TransportAssetRef_(const std::optional<TransportAssetRef>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline TransportAssetRef get_std__optional_TransportAssetRef_(const std::optional<TransportAssetRef>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<OtherAssetRef>
@@ -768,8 +930,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<OtherAssetRef>`.
    */
   using std__optional_OtherAssetRef_ = std::optional<OtherAssetRef>;
-  inline std::optional<OtherAssetRef> create_std__optional_OtherAssetRef_(const OtherAssetRef& value) {
+  inline std::optional<OtherAssetRef> create_std__optional_OtherAssetRef_(const OtherAssetRef& value) noexcept {
     return std::optional<OtherAssetRef>(value);
+  }
+  inline bool has_value_std__optional_OtherAssetRef_(const std::optional<OtherAssetRef>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline OtherAssetRef get_std__optional_OtherAssetRef_(const std::optional<OtherAssetRef>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<NothingAssetRef>
@@ -777,8 +945,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<NothingAssetRef>`.
    */
   using std__optional_NothingAssetRef_ = std::optional<NothingAssetRef>;
-  inline std::optional<NothingAssetRef> create_std__optional_NothingAssetRef_(const NothingAssetRef& value) {
+  inline std::optional<NothingAssetRef> create_std__optional_NothingAssetRef_(const NothingAssetRef& value) noexcept {
     return std::optional<NothingAssetRef>(value);
+  }
+  inline bool has_value_std__optional_NothingAssetRef_(const std::optional<NothingAssetRef>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline NothingAssetRef get_std__optional_NothingAssetRef_(const std::optional<NothingAssetRef>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::vector<TradeQuote>
@@ -786,7 +960,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::vector<TradeQuote>`.
    */
   using std__vector_TradeQuote_ = std::vector<TradeQuote>;
-  inline std::vector<TradeQuote> create_std__vector_TradeQuote_(size_t size) {
+  inline std::vector<TradeQuote> create_std__vector_TradeQuote_(size_t size) noexcept {
     std::vector<TradeQuote> vector;
     vector.reserve(size);
     return vector;
@@ -797,10 +971,10 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::shared_ptr<Promise<TradeQuotesResponse>>`.
    */
   using std__shared_ptr_Promise_TradeQuotesResponse__ = std::shared_ptr<Promise<TradeQuotesResponse>>;
-  inline std::shared_ptr<Promise<TradeQuotesResponse>> create_std__shared_ptr_Promise_TradeQuotesResponse__() {
+  inline std::shared_ptr<Promise<TradeQuotesResponse>> create_std__shared_ptr_Promise_TradeQuotesResponse__() noexcept {
     return Promise<TradeQuotesResponse>::create();
   }
-  inline PromiseHolder<TradeQuotesResponse> wrap_std__shared_ptr_Promise_TradeQuotesResponse__(std::shared_ptr<Promise<TradeQuotesResponse>> promise) {
+  inline PromiseHolder<TradeQuotesResponse> wrap_std__shared_ptr_Promise_TradeQuotesResponse__(std::shared_ptr<Promise<TradeQuotesResponse>> promise) noexcept {
     return PromiseHolder<TradeQuotesResponse>(std::move(promise));
   }
   
@@ -814,15 +988,15 @@ namespace margelo::nitro::rncandle::bridge::swift {
    */
   class Func_void_TradeQuotesResponse_Wrapper final {
   public:
-    explicit Func_void_TradeQuotesResponse_Wrapper(std::function<void(const TradeQuotesResponse& /* result */)>&& func): _function(std::make_shared<std::function<void(const TradeQuotesResponse& /* result */)>>(std::move(func))) {}
-    inline void call(TradeQuotesResponse result) const {
+    explicit Func_void_TradeQuotesResponse_Wrapper(std::function<void(const TradeQuotesResponse& /* result */)>&& func): _function(std::make_unique<std::function<void(const TradeQuotesResponse& /* result */)>>(std::move(func))) {}
+    inline void call(TradeQuotesResponse result) const noexcept {
       _function->operator()(result);
     }
   private:
-    std::shared_ptr<std::function<void(const TradeQuotesResponse& /* result */)>> _function;
-  };
-  Func_void_TradeQuotesResponse create_Func_void_TradeQuotesResponse(void* _Nonnull swiftClosureWrapper);
-  inline Func_void_TradeQuotesResponse_Wrapper wrap_Func_void_TradeQuotesResponse(Func_void_TradeQuotesResponse value) {
+    std::unique_ptr<std::function<void(const TradeQuotesResponse& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_TradeQuotesResponse create_Func_void_TradeQuotesResponse(void* _Nonnull swiftClosureWrapper) noexcept;
+  inline Func_void_TradeQuotesResponse_Wrapper wrap_Func_void_TradeQuotesResponse(Func_void_TradeQuotesResponse value) noexcept {
     return Func_void_TradeQuotesResponse_Wrapper(std::move(value));
   }
   
@@ -831,8 +1005,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<FiatAssetQuoteRequest>`.
    */
   using std__optional_FiatAssetQuoteRequest_ = std::optional<FiatAssetQuoteRequest>;
-  inline std::optional<FiatAssetQuoteRequest> create_std__optional_FiatAssetQuoteRequest_(const FiatAssetQuoteRequest& value) {
+  inline std::optional<FiatAssetQuoteRequest> create_std__optional_FiatAssetQuoteRequest_(const FiatAssetQuoteRequest& value) noexcept {
     return std::optional<FiatAssetQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_FiatAssetQuoteRequest_(const std::optional<FiatAssetQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline FiatAssetQuoteRequest get_std__optional_FiatAssetQuoteRequest_(const std::optional<FiatAssetQuoteRequest>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<MarketAssetQuoteRequest>
@@ -840,8 +1020,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<MarketAssetQuoteRequest>`.
    */
   using std__optional_MarketAssetQuoteRequest_ = std::optional<MarketAssetQuoteRequest>;
-  inline std::optional<MarketAssetQuoteRequest> create_std__optional_MarketAssetQuoteRequest_(const MarketAssetQuoteRequest& value) {
+  inline std::optional<MarketAssetQuoteRequest> create_std__optional_MarketAssetQuoteRequest_(const MarketAssetQuoteRequest& value) noexcept {
     return std::optional<MarketAssetQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_MarketAssetQuoteRequest_(const std::optional<MarketAssetQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline MarketAssetQuoteRequest get_std__optional_MarketAssetQuoteRequest_(const std::optional<MarketAssetQuoteRequest>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<Coordinates>
@@ -849,8 +1035,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<Coordinates>`.
    */
   using std__optional_Coordinates_ = std::optional<Coordinates>;
-  inline std::optional<Coordinates> create_std__optional_Coordinates_(const Coordinates& value) {
+  inline std::optional<Coordinates> create_std__optional_Coordinates_(const Coordinates& value) noexcept {
     return std::optional<Coordinates>(value);
+  }
+  inline bool has_value_std__optional_Coordinates_(const std::optional<Coordinates>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline Coordinates get_std__optional_Coordinates_(const std::optional<Coordinates>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<Address>
@@ -858,8 +1050,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<Address>`.
    */
   using std__optional_Address_ = std::optional<Address>;
-  inline std::optional<Address> create_std__optional_Address_(const Address& value) {
+  inline std::optional<Address> create_std__optional_Address_(const Address& value) noexcept {
     return std::optional<Address>(value);
+  }
+  inline bool has_value_std__optional_Address_(const std::optional<Address>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline Address get_std__optional_Address_(const std::optional<Address>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<TransportAssetQuoteRequest>
@@ -867,8 +1065,14 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<TransportAssetQuoteRequest>`.
    */
   using std__optional_TransportAssetQuoteRequest_ = std::optional<TransportAssetQuoteRequest>;
-  inline std::optional<TransportAssetQuoteRequest> create_std__optional_TransportAssetQuoteRequest_(const TransportAssetQuoteRequest& value) {
+  inline std::optional<TransportAssetQuoteRequest> create_std__optional_TransportAssetQuoteRequest_(const TransportAssetQuoteRequest& value) noexcept {
     return std::optional<TransportAssetQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_TransportAssetQuoteRequest_(const std::optional<TransportAssetQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline TransportAssetQuoteRequest get_std__optional_TransportAssetQuoteRequest_(const std::optional<TransportAssetQuoteRequest>& optional) noexcept {
+    return *optional;
   }
   
   // pragma MARK: std::optional<NothingAssetQuoteRequest>
@@ -876,100 +1080,106 @@ namespace margelo::nitro::rncandle::bridge::swift {
    * Specialized version of `std::optional<NothingAssetQuoteRequest>`.
    */
   using std__optional_NothingAssetQuoteRequest_ = std::optional<NothingAssetQuoteRequest>;
-  inline std::optional<NothingAssetQuoteRequest> create_std__optional_NothingAssetQuoteRequest_(const NothingAssetQuoteRequest& value) {
+  inline std::optional<NothingAssetQuoteRequest> create_std__optional_NothingAssetQuoteRequest_(const NothingAssetQuoteRequest& value) noexcept {
     return std::optional<NothingAssetQuoteRequest>(value);
   }
+  inline bool has_value_std__optional_NothingAssetQuoteRequest_(const std::optional<NothingAssetQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline NothingAssetQuoteRequest get_std__optional_NothingAssetQuoteRequest_(const std::optional<NothingAssetQuoteRequest>& optional) noexcept {
+    return *optional;
+  }
   
-  // pragma MARK: std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>
+  // pragma MARK: std::shared_ptr<HybridRNCandleSpec>
   /**
-   * Specialized version of `std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>`.
+   * Specialized version of `std::shared_ptr<HybridRNCandleSpec>`.
    */
-  using std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ = std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>;
-  std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec> create_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(void* _Nonnull swiftUnsafePointer);
-  void* _Nonnull get_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ cppType);
+  using std__shared_ptr_HybridRNCandleSpec_ = std::shared_ptr<HybridRNCandleSpec>;
+  std::shared_ptr<HybridRNCandleSpec> create_std__shared_ptr_HybridRNCandleSpec_(void* _Nonnull swiftUnsafePointer) noexcept;
+  void* _Nonnull get_std__shared_ptr_HybridRNCandleSpec_(std__shared_ptr_HybridRNCandleSpec_ cppType) noexcept;
   
-  // pragma MARK: std::weak_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>
-  using std__weak_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ = std::weak_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>;
-  inline std__weak_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ weakify_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(const std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>& strong) { return strong; }
+  // pragma MARK: std::weak_ptr<HybridRNCandleSpec>
+  using std__weak_ptr_HybridRNCandleSpec_ = std::weak_ptr<HybridRNCandleSpec>;
+  inline std__weak_ptr_HybridRNCandleSpec_ weakify_std__shared_ptr_HybridRNCandleSpec_(const std::shared_ptr<HybridRNCandleSpec>& strong) noexcept { return strong; }
   
   // pragma MARK: Result<void>
   using Result_void_ = Result<void>;
-  inline Result_void_ create_Result_void_() {
+  inline Result_void_ create_Result_void_() noexcept {
     return Result<void>::withValue();
   }
-  inline Result_void_ create_Result_void_(const std::exception_ptr& error) {
+  inline Result_void_ create_Result_void_(const std::exception_ptr& error) noexcept {
     return Result<void>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>
   using Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ = Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>;
-  inline Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(const std::shared_ptr<Promise<std::vector<LinkedAccount>>>& value) {
+  inline Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(const std::shared_ptr<Promise<std::vector<LinkedAccount>>>& value) noexcept {
     return Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_std__vector_LinkedAccount____ create_Result_std__shared_ptr_Promise_std__vector_LinkedAccount____(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<std::vector<LinkedAccount>>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<LinkedAccount>>>
   using Result_std__shared_ptr_Promise_LinkedAccount___ = Result<std::shared_ptr<Promise<LinkedAccount>>>;
-  inline Result_std__shared_ptr_Promise_LinkedAccount___ create_Result_std__shared_ptr_Promise_LinkedAccount___(const std::shared_ptr<Promise<LinkedAccount>>& value) {
+  inline Result_std__shared_ptr_Promise_LinkedAccount___ create_Result_std__shared_ptr_Promise_LinkedAccount___(const std::shared_ptr<Promise<LinkedAccount>>& value) noexcept {
     return Result<std::shared_ptr<Promise<LinkedAccount>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_LinkedAccount___ create_Result_std__shared_ptr_Promise_LinkedAccount___(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_LinkedAccount___ create_Result_std__shared_ptr_Promise_LinkedAccount___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<LinkedAccount>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<void>>>
   using Result_std__shared_ptr_Promise_void___ = Result<std::shared_ptr<Promise<void>>>;
-  inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::shared_ptr<Promise<void>>& value) {
+  inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::shared_ptr<Promise<void>>& value) noexcept {
     return Result<std::shared_ptr<Promise<void>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_void___ create_Result_std__shared_ptr_Promise_void___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<void>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<AssetAccountsResponse>>>
   using Result_std__shared_ptr_Promise_AssetAccountsResponse___ = Result<std::shared_ptr<Promise<AssetAccountsResponse>>>;
-  inline Result_std__shared_ptr_Promise_AssetAccountsResponse___ create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(const std::shared_ptr<Promise<AssetAccountsResponse>>& value) {
+  inline Result_std__shared_ptr_Promise_AssetAccountsResponse___ create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(const std::shared_ptr<Promise<AssetAccountsResponse>>& value) noexcept {
     return Result<std::shared_ptr<Promise<AssetAccountsResponse>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_AssetAccountsResponse___ create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_AssetAccountsResponse___ create_Result_std__shared_ptr_Promise_AssetAccountsResponse___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<AssetAccountsResponse>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<AssetAccount>>>
   using Result_std__shared_ptr_Promise_AssetAccount___ = Result<std::shared_ptr<Promise<AssetAccount>>>;
-  inline Result_std__shared_ptr_Promise_AssetAccount___ create_Result_std__shared_ptr_Promise_AssetAccount___(const std::shared_ptr<Promise<AssetAccount>>& value) {
+  inline Result_std__shared_ptr_Promise_AssetAccount___ create_Result_std__shared_ptr_Promise_AssetAccount___(const std::shared_ptr<Promise<AssetAccount>>& value) noexcept {
     return Result<std::shared_ptr<Promise<AssetAccount>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_AssetAccount___ create_Result_std__shared_ptr_Promise_AssetAccount___(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_AssetAccount___ create_Result_std__shared_ptr_Promise_AssetAccount___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<AssetAccount>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<TradesResponse>>>
   using Result_std__shared_ptr_Promise_TradesResponse___ = Result<std::shared_ptr<Promise<TradesResponse>>>;
-  inline Result_std__shared_ptr_Promise_TradesResponse___ create_Result_std__shared_ptr_Promise_TradesResponse___(const std::shared_ptr<Promise<TradesResponse>>& value) {
+  inline Result_std__shared_ptr_Promise_TradesResponse___ create_Result_std__shared_ptr_Promise_TradesResponse___(const std::shared_ptr<Promise<TradesResponse>>& value) noexcept {
     return Result<std::shared_ptr<Promise<TradesResponse>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_TradesResponse___ create_Result_std__shared_ptr_Promise_TradesResponse___(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_TradesResponse___ create_Result_std__shared_ptr_Promise_TradesResponse___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<TradesResponse>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<Trade>>>
   using Result_std__shared_ptr_Promise_Trade___ = Result<std::shared_ptr<Promise<Trade>>>;
-  inline Result_std__shared_ptr_Promise_Trade___ create_Result_std__shared_ptr_Promise_Trade___(const std::shared_ptr<Promise<Trade>>& value) {
+  inline Result_std__shared_ptr_Promise_Trade___ create_Result_std__shared_ptr_Promise_Trade___(const std::shared_ptr<Promise<Trade>>& value) noexcept {
     return Result<std::shared_ptr<Promise<Trade>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_Trade___ create_Result_std__shared_ptr_Promise_Trade___(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_Trade___ create_Result_std__shared_ptr_Promise_Trade___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<Trade>>>::withError(error);
   }
   
   // pragma MARK: Result<std::shared_ptr<Promise<TradeQuotesResponse>>>
   using Result_std__shared_ptr_Promise_TradeQuotesResponse___ = Result<std::shared_ptr<Promise<TradeQuotesResponse>>>;
-  inline Result_std__shared_ptr_Promise_TradeQuotesResponse___ create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(const std::shared_ptr<Promise<TradeQuotesResponse>>& value) {
+  inline Result_std__shared_ptr_Promise_TradeQuotesResponse___ create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(const std::shared_ptr<Promise<TradeQuotesResponse>>& value) noexcept {
     return Result<std::shared_ptr<Promise<TradeQuotesResponse>>>::withValue(value);
   }
-  inline Result_std__shared_ptr_Promise_TradeQuotesResponse___ create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(const std::exception_ptr& error) {
+  inline Result_std__shared_ptr_Promise_TradeQuotesResponse___ create_Result_std__shared_ptr_Promise_TradeQuotesResponse___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<TradeQuotesResponse>>>::withError(error);
   }
 

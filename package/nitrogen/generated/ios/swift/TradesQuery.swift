@@ -62,7 +62,8 @@ extension TradesQuery {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__linkedAccountIDs.value {
+        if bridge.has_value_std__optional_std__string_(self.__linkedAccountIDs) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__linkedAccountIDs)
           return String(__unwrapped)
         } else {
           return nil
@@ -85,7 +86,8 @@ extension TradesQuery {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__dateTimeSpan.value {
+        if bridge.has_value_std__optional_std__string_(self.__dateTimeSpan) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__dateTimeSpan)
           return String(__unwrapped)
         } else {
           return nil

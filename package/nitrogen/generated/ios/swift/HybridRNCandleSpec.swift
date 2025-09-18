@@ -35,8 +35,9 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
 }
 
 /// See ``HybridRNCandleSpec``
-public class HybridRNCandleSpec_base {
+open class HybridRNCandleSpec_base {
   private weak var cxxWrapper: HybridRNCandleSpec_cxx? = nil
+  public init() {}
   public func getCxxWrapper() -> HybridRNCandleSpec_cxx {
     #if DEBUG
       guard self is HybridRNCandleSpec else {

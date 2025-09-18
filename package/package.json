@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf android/build node_modules/**/android/build lib android/.cxx node_modules/**/android/.cxx",
     "release": "release-it",
-    "specs": "bun typecheck && nitro-codegen --logLevel=\\\"debug\\\" && bun run build",
+    "specs": "bun typecheck && nitrogen --logLevel=\\\"debug\\\" && bun run build",
     "specs:pod": "bun specs && bun --cwd ../example pod"
   },
   "keywords": [
@@ -52,12 +52,12 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@expo/config-plugins": "^9.0.10",
-    "react": "^18.3.1",
-    "react-native": "^0.78.1",
-    "nitro-codegen": "^0.25.2",
-    "react-native-nitro-modules": "^0.25.2",
-    "react-native-builder-bob": "^0.35.2",
+    "@expo/config-plugins": "^54.0.1",
+    "react": "19.1.0",
+    "react-native": "^0.81.4",
+    "nitrogen": "^0.29.6",
+    "react-native-nitro-modules": "^0.29.6",
+    "react-native-builder-bob": "^0.40.13",
     "release-it": "^19.0.4",
     "@release-it/bumper": "^7.0.5",
     "@release-it/conventional-changelog": "^10.0.1"
@@ -98,9 +98,7 @@
       ],
       [
         "typescript",
-        {
-          "esm": true
-        }
+        {}
       ]
     ]
   },

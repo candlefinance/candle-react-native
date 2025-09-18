@@ -44,21 +44,19 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ FiatAssetQuoteRequest <> JS FiatAssetQuoteRequest (object)
   template <>
-  struct JSIConverter<FiatAssetQuoteRequest> final {
-    static inline FiatAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::FiatAssetQuoteRequest> final {
+    static inline margelo::nitro::rncandle::FiatAssetQuoteRequest fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return FiatAssetQuoteRequest(
+      return margelo::nitro::rncandle::FiatAssetQuoteRequest(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "currencyCode")),
         JSIConverter<std::optional<double>>::fromJSI(runtime, obj.getProperty(runtime, "amount"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const FiatAssetQuoteRequest& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::FiatAssetQuoteRequest& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "assetKind", JSIConverter<std::string>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.serviceAccountID));

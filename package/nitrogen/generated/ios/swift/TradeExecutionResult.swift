@@ -38,7 +38,8 @@ extension TradeExecutionResult {
     @inline(__always)
     get {
       return { () -> Trade? in
-        if let __unwrapped = self.__trade.value {
+        if bridge.has_value_std__optional_Trade_(self.__trade) {
+          let __unwrapped = bridge.get_std__optional_Trade_(self.__trade)
           return __unwrapped
         } else {
           return nil
@@ -61,7 +62,8 @@ extension TradeExecutionResult {
     @inline(__always)
     get {
       return { () -> String? in
-        if let __unwrapped = self.__error.value {
+        if bridge.has_value_std__optional_std__string_(self.__error) {
+          let __unwrapped = bridge.get_std__optional_std__string_(self.__error)
           return String(__unwrapped)
         } else {
           return nil

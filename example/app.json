@@ -20,7 +20,8 @@
       "bundleIdentifier": "fi.candle.example",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "appleTeamId": "FW8BZ57ZU9"
     },
     "android": {
       "adaptiveIcon": {
@@ -41,8 +42,7 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "17.0",
-            "newArchEnabled": true
+            "deploymentTarget": "17.0"
           }
         }
       ],

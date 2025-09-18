@@ -14,7 +14,7 @@
 namespace margelo::nitro::rncandle::bridge::swift {
 
   // pragma MARK: std::function<void(const LinkedAccount& /* account */)>
-  Func_void_LinkedAccount create_Func_void_LinkedAccount(void* _Nonnull swiftClosureWrapper) {
+  Func_void_LinkedAccount create_Func_void_LinkedAccount(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_LinkedAccount::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const LinkedAccount& account) mutable -> void {
       swiftClosure.call(account);
@@ -22,7 +22,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const TradeExecutionResult& /* result */)>
-  Func_void_TradeExecutionResult create_Func_void_TradeExecutionResult(void* _Nonnull swiftClosureWrapper) {
+  Func_void_TradeExecutionResult create_Func_void_TradeExecutionResult(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_TradeExecutionResult::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const TradeExecutionResult& result) mutable -> void {
       swiftClosure.call(result);
@@ -30,7 +30,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const std::vector<LinkedAccount>& /* result */)>
-  Func_void_std__vector_LinkedAccount_ create_Func_void_std__vector_LinkedAccount_(void* _Nonnull swiftClosureWrapper) {
+  Func_void_std__vector_LinkedAccount_ create_Func_void_std__vector_LinkedAccount_(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_std__vector_LinkedAccount_::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const std::vector<LinkedAccount>& result) mutable -> void {
       swiftClosure.call(result);
@@ -38,7 +38,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
-  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* _Nonnull swiftClosureWrapper) {
+  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_std__exception_ptr::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const std::exception_ptr& error) mutable -> void {
       swiftClosure.call(error);
@@ -46,7 +46,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void()>
-  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper) {
+  Func_void create_Func_void(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)]() mutable -> void {
       swiftClosure.call();
@@ -54,7 +54,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const AssetAccountsResponse& /* result */)>
-  Func_void_AssetAccountsResponse create_Func_void_AssetAccountsResponse(void* _Nonnull swiftClosureWrapper) {
+  Func_void_AssetAccountsResponse create_Func_void_AssetAccountsResponse(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_AssetAccountsResponse::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const AssetAccountsResponse& result) mutable -> void {
       swiftClosure.call(result);
@@ -62,7 +62,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const AssetAccount& /* result */)>
-  Func_void_AssetAccount create_Func_void_AssetAccount(void* _Nonnull swiftClosureWrapper) {
+  Func_void_AssetAccount create_Func_void_AssetAccount(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_AssetAccount::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const AssetAccount& result) mutable -> void {
       swiftClosure.call(result);
@@ -70,7 +70,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const TradesResponse& /* result */)>
-  Func_void_TradesResponse create_Func_void_TradesResponse(void* _Nonnull swiftClosureWrapper) {
+  Func_void_TradesResponse create_Func_void_TradesResponse(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_TradesResponse::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const TradesResponse& result) mutable -> void {
       swiftClosure.call(result);
@@ -78,7 +78,7 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const Trade& /* result */)>
-  Func_void_Trade create_Func_void_Trade(void* _Nonnull swiftClosureWrapper) {
+  Func_void_Trade create_Func_void_Trade(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_Trade::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const Trade& result) mutable -> void {
       swiftClosure.call(result);
@@ -86,25 +86,25 @@ namespace margelo::nitro::rncandle::bridge::swift {
   }
   
   // pragma MARK: std::function<void(const TradeQuotesResponse& /* result */)>
-  Func_void_TradeQuotesResponse create_Func_void_TradeQuotesResponse(void* _Nonnull swiftClosureWrapper) {
+  Func_void_TradeQuotesResponse create_Func_void_TradeQuotesResponse(void* _Nonnull swiftClosureWrapper) noexcept {
     auto swiftClosure = ReactNativeCandle::Func_void_TradeQuotesResponse::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const TradeQuotesResponse& result) mutable -> void {
       swiftClosure.call(result);
     };
   }
   
-  // pragma MARK: std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec>
-  std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpec> create_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(void* _Nonnull swiftUnsafePointer) {
+  // pragma MARK: std::shared_ptr<HybridRNCandleSpec>
+  std::shared_ptr<HybridRNCandleSpec> create_std__shared_ptr_HybridRNCandleSpec_(void* _Nonnull swiftUnsafePointer) noexcept {
     ReactNativeCandle::HybridRNCandleSpec_cxx swiftPart = ReactNativeCandle::HybridRNCandleSpec_cxx::fromUnsafe(swiftUnsafePointer);
     return std::make_shared<margelo::nitro::rncandle::HybridRNCandleSpecSwift>(swiftPart);
   }
-  void* _Nonnull get_std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_(std__shared_ptr_margelo__nitro__rncandle__HybridRNCandleSpec_ cppType) {
+  void* _Nonnull get_std__shared_ptr_HybridRNCandleSpec_(std__shared_ptr_HybridRNCandleSpec_ cppType) noexcept {
     std::shared_ptr<margelo::nitro::rncandle::HybridRNCandleSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::rncandle::HybridRNCandleSpecSwift>(cppType);
-  #ifdef NITRO_DEBUG
+    #ifdef NITRO_DEBUG
     if (swiftWrapper == nullptr) [[unlikely]] {
       throw std::runtime_error("Class \"HybridRNCandleSpec\" is not implemented in Swift!");
     }
-  #endif
+    #endif
     ReactNativeCandle::HybridRNCandleSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }

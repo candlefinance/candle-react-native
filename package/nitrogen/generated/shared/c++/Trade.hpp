@@ -52,28 +52,26 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ Trade <> JS Trade (object)
   template <>
-  struct JSIConverter<Trade> final {
-    static inline Trade fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::Trade> final {
+    static inline margelo::nitro::rncandle::Trade fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return Trade(
+      return margelo::nitro::rncandle::Trade(
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "dateTime")),
-        JSIConverter<TradeState>::fromJSI(runtime, obj.getProperty(runtime, "state")),
-        JSIConverter<Counterparty>::fromJSI(runtime, obj.getProperty(runtime, "counterparty")),
-        JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
-        JSIConverter<TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "gained"))
+        JSIConverter<margelo::nitro::rncandle::TradeState>::fromJSI(runtime, obj.getProperty(runtime, "state")),
+        JSIConverter<margelo::nitro::rncandle::Counterparty>::fromJSI(runtime, obj.getProperty(runtime, "counterparty")),
+        JSIConverter<margelo::nitro::rncandle::TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
+        JSIConverter<margelo::nitro::rncandle::TradeAsset>::fromJSI(runtime, obj.getProperty(runtime, "gained"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const Trade& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::Trade& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, "dateTime", JSIConverter<std::string>::toJSI(runtime, arg.dateTime));
-      obj.setProperty(runtime, "state", JSIConverter<TradeState>::toJSI(runtime, arg.state));
-      obj.setProperty(runtime, "counterparty", JSIConverter<Counterparty>::toJSI(runtime, arg.counterparty));
-      obj.setProperty(runtime, "lost", JSIConverter<TradeAsset>::toJSI(runtime, arg.lost));
-      obj.setProperty(runtime, "gained", JSIConverter<TradeAsset>::toJSI(runtime, arg.gained));
+      obj.setProperty(runtime, "state", JSIConverter<margelo::nitro::rncandle::TradeState>::toJSI(runtime, arg.state));
+      obj.setProperty(runtime, "counterparty", JSIConverter<margelo::nitro::rncandle::Counterparty>::toJSI(runtime, arg.counterparty));
+      obj.setProperty(runtime, "lost", JSIConverter<margelo::nitro::rncandle::TradeAsset>::toJSI(runtime, arg.lost));
+      obj.setProperty(runtime, "gained", JSIConverter<margelo::nitro::rncandle::TradeAsset>::toJSI(runtime, arg.gained));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -82,10 +80,10 @@ namespace margelo::nitro {
       }
       jsi::Object obj = value.getObject(runtime);
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "dateTime"))) return false;
-      if (!JSIConverter<TradeState>::canConvert(runtime, obj.getProperty(runtime, "state"))) return false;
-      if (!JSIConverter<Counterparty>::canConvert(runtime, obj.getProperty(runtime, "counterparty"))) return false;
-      if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
-      if (!JSIConverter<TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TradeState>::canConvert(runtime, obj.getProperty(runtime, "state"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::Counterparty>::canConvert(runtime, obj.getProperty(runtime, "counterparty"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::TradeAsset>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
       return true;
     }
   };

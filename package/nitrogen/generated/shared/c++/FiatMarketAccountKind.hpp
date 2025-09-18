@@ -40,30 +40,28 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ FiatMarketAccountKind <> JS FiatMarketAccountKind (union)
   template <>
-  struct JSIConverter<FiatMarketAccountKind> final {
-    static inline FiatMarketAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::FiatMarketAccountKind> final {
+    static inline margelo::nitro::rncandle::FiatMarketAccountKind fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("individual"): return FiatMarketAccountKind::INDIVIDUAL;
-        case hashString("joint"): return FiatMarketAccountKind::JOINT;
-        case hashString("traditionalIRA"): return FiatMarketAccountKind::TRADITIONALIRA;
-        case hashString("rothIRA"): return FiatMarketAccountKind::ROTHIRA;
-        case hashString("business"): return FiatMarketAccountKind::BUSINESS;
+        case hashString("individual"): return margelo::nitro::rncandle::FiatMarketAccountKind::INDIVIDUAL;
+        case hashString("joint"): return margelo::nitro::rncandle::FiatMarketAccountKind::JOINT;
+        case hashString("traditionalIRA"): return margelo::nitro::rncandle::FiatMarketAccountKind::TRADITIONALIRA;
+        case hashString("rothIRA"): return margelo::nitro::rncandle::FiatMarketAccountKind::ROTHIRA;
+        case hashString("business"): return margelo::nitro::rncandle::FiatMarketAccountKind::BUSINESS;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum FiatMarketAccountKind - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, FiatMarketAccountKind arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::FiatMarketAccountKind arg) {
       switch (arg) {
-        case FiatMarketAccountKind::INDIVIDUAL: return JSIConverter<std::string>::toJSI(runtime, "individual");
-        case FiatMarketAccountKind::JOINT: return JSIConverter<std::string>::toJSI(runtime, "joint");
-        case FiatMarketAccountKind::TRADITIONALIRA: return JSIConverter<std::string>::toJSI(runtime, "traditionalIRA");
-        case FiatMarketAccountKind::ROTHIRA: return JSIConverter<std::string>::toJSI(runtime, "rothIRA");
-        case FiatMarketAccountKind::BUSINESS: return JSIConverter<std::string>::toJSI(runtime, "business");
+        case margelo::nitro::rncandle::FiatMarketAccountKind::INDIVIDUAL: return JSIConverter<std::string>::toJSI(runtime, "individual");
+        case margelo::nitro::rncandle::FiatMarketAccountKind::JOINT: return JSIConverter<std::string>::toJSI(runtime, "joint");
+        case margelo::nitro::rncandle::FiatMarketAccountKind::TRADITIONALIRA: return JSIConverter<std::string>::toJSI(runtime, "traditionalIRA");
+        case margelo::nitro::rncandle::FiatMarketAccountKind::ROTHIRA: return JSIConverter<std::string>::toJSI(runtime, "rothIRA");
+        case margelo::nitro::rncandle::FiatMarketAccountKind::BUSINESS: return JSIConverter<std::string>::toJSI(runtime, "business");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert FiatMarketAccountKind to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

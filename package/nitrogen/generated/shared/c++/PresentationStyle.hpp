@@ -37,24 +37,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ PresentationStyle <> JS PresentationStyle (union)
   template <>
-  struct JSIConverter<PresentationStyle> final {
-    static inline PresentationStyle fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::PresentationStyle> final {
+    static inline margelo::nitro::rncandle::PresentationStyle fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("sheet"): return PresentationStyle::SHEET;
-        case hashString("fullScreen"): return PresentationStyle::FULLSCREEN;
+        case hashString("sheet"): return margelo::nitro::rncandle::PresentationStyle::SHEET;
+        case hashString("fullScreen"): return margelo::nitro::rncandle::PresentationStyle::FULLSCREEN;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum PresentationStyle - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, PresentationStyle arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::PresentationStyle arg) {
       switch (arg) {
-        case PresentationStyle::SHEET: return JSIConverter<std::string>::toJSI(runtime, "sheet");
-        case PresentationStyle::FULLSCREEN: return JSIConverter<std::string>::toJSI(runtime, "fullScreen");
+        case margelo::nitro::rncandle::PresentationStyle::SHEET: return JSIConverter<std::string>::toJSI(runtime, "sheet");
+        case margelo::nitro::rncandle::PresentationStyle::FULLSCREEN: return JSIConverter<std::string>::toJSI(runtime, "fullScreen");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert PresentationStyle to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

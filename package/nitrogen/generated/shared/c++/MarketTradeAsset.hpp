@@ -55,15 +55,13 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ MarketTradeAsset <> JS MarketTradeAsset (object)
   template <>
-  struct JSIConverter<MarketTradeAsset> final {
-    static inline MarketTradeAsset fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::MarketTradeAsset> final {
+    static inline margelo::nitro::rncandle::MarketTradeAsset fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return MarketTradeAsset(
-        JSIConverter<MarketAssetKind>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
+      return margelo::nitro::rncandle::MarketTradeAsset(
+        JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::fromJSI(runtime, obj.getProperty(runtime, "assetKind")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAccountID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "serviceAssetID")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "symbol")),
@@ -73,12 +71,12 @@ namespace margelo::nitro {
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "name")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "color")),
         JSIConverter<std::string>::fromJSI(runtime, obj.getProperty(runtime, "logoURL")),
-        JSIConverter<Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
+        JSIConverter<margelo::nitro::rncandle::Service>::fromJSI(runtime, obj.getProperty(runtime, "service"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const MarketTradeAsset& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::MarketTradeAsset& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "assetKind", JSIConverter<MarketAssetKind>::toJSI(runtime, arg.assetKind));
+      obj.setProperty(runtime, "assetKind", JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::toJSI(runtime, arg.assetKind));
       obj.setProperty(runtime, "serviceAccountID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAccountID));
       obj.setProperty(runtime, "serviceAssetID", JSIConverter<std::string>::toJSI(runtime, arg.serviceAssetID));
       obj.setProperty(runtime, "symbol", JSIConverter<std::string>::toJSI(runtime, arg.symbol));
@@ -88,7 +86,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "name", JSIConverter<std::string>::toJSI(runtime, arg.name));
       obj.setProperty(runtime, "color", JSIConverter<std::string>::toJSI(runtime, arg.color));
       obj.setProperty(runtime, "logoURL", JSIConverter<std::string>::toJSI(runtime, arg.logoURL));
-      obj.setProperty(runtime, "service", JSIConverter<Service>::toJSI(runtime, arg.service));
+      obj.setProperty(runtime, "service", JSIConverter<margelo::nitro::rncandle::Service>::toJSI(runtime, arg.service));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -96,7 +94,7 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<MarketAssetKind>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::MarketAssetKind>::canConvert(runtime, obj.getProperty(runtime, "assetKind"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAccountID"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "serviceAssetID"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "symbol"))) return false;
@@ -106,7 +104,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "name"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "color"))) return false;
       if (!JSIConverter<std::string>::canConvert(runtime, obj.getProperty(runtime, "logoURL"))) return false;
-      if (!JSIConverter<Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
+      if (!JSIConverter<margelo::nitro::rncandle::Service>::canConvert(runtime, obj.getProperty(runtime, "service"))) return false;
       return true;
     }
   };

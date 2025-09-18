@@ -38,26 +38,24 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ LinkedAccountState <> JS LinkedAccountState (union)
   template <>
-  struct JSIConverter<LinkedAccountState> final {
-    static inline LinkedAccountState fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::LinkedAccountState> final {
+    static inline margelo::nitro::rncandle::LinkedAccountState fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
-        case hashString("active"): return LinkedAccountState::ACTIVE;
-        case hashString("inactive"): return LinkedAccountState::INACTIVE;
-        case hashString("unavailable"): return LinkedAccountState::UNAVAILABLE;
+        case hashString("active"): return margelo::nitro::rncandle::LinkedAccountState::ACTIVE;
+        case hashString("inactive"): return margelo::nitro::rncandle::LinkedAccountState::INACTIVE;
+        case hashString("unavailable"): return margelo::nitro::rncandle::LinkedAccountState::UNAVAILABLE;
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert \"" + unionValue + "\" to enum LinkedAccountState - invalid value!");
       }
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, LinkedAccountState arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::rncandle::LinkedAccountState arg) {
       switch (arg) {
-        case LinkedAccountState::ACTIVE: return JSIConverter<std::string>::toJSI(runtime, "active");
-        case LinkedAccountState::INACTIVE: return JSIConverter<std::string>::toJSI(runtime, "inactive");
-        case LinkedAccountState::UNAVAILABLE: return JSIConverter<std::string>::toJSI(runtime, "unavailable");
+        case margelo::nitro::rncandle::LinkedAccountState::ACTIVE: return JSIConverter<std::string>::toJSI(runtime, "active");
+        case margelo::nitro::rncandle::LinkedAccountState::INACTIVE: return JSIConverter<std::string>::toJSI(runtime, "inactive");
+        case margelo::nitro::rncandle::LinkedAccountState::UNAVAILABLE: return JSIConverter<std::string>::toJSI(runtime, "unavailable");
         default: [[unlikely]]
           throw std::invalid_argument("Cannot convert LinkedAccountState to JS - invalid value: "
                                     + std::to_string(static_cast<int>(arg)) + "!");

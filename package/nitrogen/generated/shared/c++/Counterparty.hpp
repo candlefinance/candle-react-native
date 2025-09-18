@@ -25,8 +25,8 @@ namespace margelo::nitro::rncandle { struct UserCounterparty; }
 // Forward declaration of `ServiceCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 
-#include <optional>
 #include "MerchantCounterparty.hpp"
+#include <optional>
 #include "UserCounterparty.hpp"
 #include "ServiceCounterparty.hpp"
 
@@ -50,24 +50,22 @@ namespace margelo::nitro::rncandle {
 
 namespace margelo::nitro {
 
-  using namespace margelo::nitro::rncandle;
-
   // C++ Counterparty <> JS Counterparty (object)
   template <>
-  struct JSIConverter<Counterparty> final {
-    static inline Counterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
+  struct JSIConverter<margelo::nitro::rncandle::Counterparty> final {
+    static inline margelo::nitro::rncandle::Counterparty fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
-      return Counterparty(
-        JSIConverter<std::optional<MerchantCounterparty>>::fromJSI(runtime, obj.getProperty(runtime, "merchantCounterparty")),
-        JSIConverter<std::optional<UserCounterparty>>::fromJSI(runtime, obj.getProperty(runtime, "userCounterparty")),
-        JSIConverter<std::optional<ServiceCounterparty>>::fromJSI(runtime, obj.getProperty(runtime, "serviceCounterparty"))
+      return margelo::nitro::rncandle::Counterparty(
+        JSIConverter<std::optional<margelo::nitro::rncandle::MerchantCounterparty>>::fromJSI(runtime, obj.getProperty(runtime, "merchantCounterparty")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::UserCounterparty>>::fromJSI(runtime, obj.getProperty(runtime, "userCounterparty")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::ServiceCounterparty>>::fromJSI(runtime, obj.getProperty(runtime, "serviceCounterparty"))
       );
     }
-    static inline jsi::Value toJSI(jsi::Runtime& runtime, const Counterparty& arg) {
+    static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::Counterparty& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, "merchantCounterparty", JSIConverter<std::optional<MerchantCounterparty>>::toJSI(runtime, arg.merchantCounterparty));
-      obj.setProperty(runtime, "userCounterparty", JSIConverter<std::optional<UserCounterparty>>::toJSI(runtime, arg.userCounterparty));
-      obj.setProperty(runtime, "serviceCounterparty", JSIConverter<std::optional<ServiceCounterparty>>::toJSI(runtime, arg.serviceCounterparty));
+      obj.setProperty(runtime, "merchantCounterparty", JSIConverter<std::optional<margelo::nitro::rncandle::MerchantCounterparty>>::toJSI(runtime, arg.merchantCounterparty));
+      obj.setProperty(runtime, "userCounterparty", JSIConverter<std::optional<margelo::nitro::rncandle::UserCounterparty>>::toJSI(runtime, arg.userCounterparty));
+      obj.setProperty(runtime, "serviceCounterparty", JSIConverter<std::optional<margelo::nitro::rncandle::ServiceCounterparty>>::toJSI(runtime, arg.serviceCounterparty));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -75,9 +73,9 @@ namespace margelo::nitro {
         return false;
       }
       jsi::Object obj = value.getObject(runtime);
-      if (!JSIConverter<std::optional<MerchantCounterparty>>::canConvert(runtime, obj.getProperty(runtime, "merchantCounterparty"))) return false;
-      if (!JSIConverter<std::optional<UserCounterparty>>::canConvert(runtime, obj.getProperty(runtime, "userCounterparty"))) return false;
-      if (!JSIConverter<std::optional<ServiceCounterparty>>::canConvert(runtime, obj.getProperty(runtime, "serviceCounterparty"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::MerchantCounterparty>>::canConvert(runtime, obj.getProperty(runtime, "merchantCounterparty"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::UserCounterparty>>::canConvert(runtime, obj.getProperty(runtime, "userCounterparty"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::ServiceCounterparty>>::canConvert(runtime, obj.getProperty(runtime, "serviceCounterparty"))) return false;
       return true;
     }
   };
