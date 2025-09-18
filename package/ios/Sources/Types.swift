@@ -1,5 +1,4 @@
 import Candle
-import SwiftUI
 
 // MARK: Encoding & decoding
 
@@ -842,23 +841,5 @@ extension Models.TradeQuote {
             context: reactModel.context,
             expirationDateTime: reactModel.expirationDateTime
         )
-    }
-}
-
-@available(iOS 17.0, *) extension Candle.PresentationStyle {
-    init(reactModel: PresentationStyle) {
-        switch reactModel {
-        case .fullscreen: self = .fullScreen
-        case .sheet: self = .sheet
-        }
-    }
-}
-
-extension AnyShapeStyle? {
-    init(reactModel: PresentationBackground) {
-        switch reactModel {
-        case .default: self = nil
-        case .blur: self = .init(Material.regular)
-        }
     }
 }
