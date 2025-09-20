@@ -14,7 +14,7 @@
     },
     "example": {
       "name": "example",
-      "version": "0.1.43",
+      "version": "0.1.44",
       "dependencies": {
         "@expo/vector-icons": "^15.0.2",
         "@react-navigation/native": "^7.1.8",
@@ -34,7 +34,6 @@
         "react-dom": "19.1.0",
         "react-native": "^0.81.4",
         "react-native-candle": "*",
-        "react-native-nitro-modules": "^0.29.6",
         "react-native-reanimated": "^4.1.0",
         "react-native-safe-area-context": "^5.6.1",
         "react-native-screens": "^4.16.0",
@@ -48,7 +47,7 @@
     },
     "package": {
       "name": "react-native-candle",
-      "version": "0.1.43",
+      "version": "0.1.44",
       "devDependencies": {
         "@expo/config-plugins": "^54.0.1",
         "@release-it/bumper": "^7.0.5",
@@ -61,9 +60,7 @@
         "release-it": "^19.0.4",
       },
       "peerDependencies": {
-        "react": "*",
-        "react-native": "*",
-        "react-native-nitro-modules": "*",
+        "react-native-nitro-modules": "^0.29.6",
       },
     },
   },
