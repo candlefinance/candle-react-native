@@ -63,7 +63,8 @@
     "@release-it/conventional-changelog": "^10.0.1"
   },
   "peerDependencies": {
-    "react-native-nitro-modules": "^0.29.6"
+    "react-native-nitro-modules": "^0.29.6",
+    "@types/react": "^19.1.13"
   },
   "release-it": {
     "npm": {
