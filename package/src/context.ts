@@ -71,6 +71,11 @@ export type CandleContextValue = {
     tradeQuotes: TradeQuote<GainedAssetKind, LostAssetKind>[];
     linkedAccounts: LinkedAccountStatusRef[];
   }>;
+
+  /**
+   * This programmatic API is only available for customers on the Candle Enterprise Plan.
+   * You can always execute trades by calling `presentCandleTradeExecutionSheet` which obtains user permission for the action.
+   */
   executeTrade: <
     GainedAssetKind extends TradeQuoteAssetKind,
     LostAssetKind extends TradeQuoteAssetKind
