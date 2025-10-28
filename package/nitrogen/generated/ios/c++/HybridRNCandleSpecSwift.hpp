@@ -322,6 +322,14 @@ namespace margelo::nitro::rncandle {
       auto __value = std::move(__result.value());
       return __value;
     }
+    inline std::shared_ptr<Promise<Trade>> executeTrade(const TradeQuote& quote) override {
+      auto __result = _swiftPart.executeTrade(quote);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
     inline std::shared_ptr<Promise<void>> createUser(const std::string& appUserID) override {
       auto __result = _swiftPart.createUser(appUserID);
       if (__result.hasError()) [[unlikely]] {

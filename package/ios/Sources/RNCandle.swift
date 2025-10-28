@@ -193,6 +193,14 @@ import UIKit
             )
         }
     }
+
+    public func executeTrade(quote: TradeQuote) throws -> Promise<Trade> {
+        .async {
+            let trade = try await Client.shared.executeTrade(quote: .init(reactModel: quote))
+            return trade.reactModel
+        }
+    }
+
     public func createUser(appUserID: String) throws -> Promise<Void> {
         .async { try await Client.shared.createUser(appUserID: appUserID) }
     }

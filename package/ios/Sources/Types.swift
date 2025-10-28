@@ -4,6 +4,25 @@ enum CandleError: Swift.Error { case unexpected(message: String) }
 
 // MARK: Encoding & decoding
 
+extension Models.TradeQuote {
+    init(reactModel: TradeQuote) throws {
+        self = .init(
+            lost: try .init(reactModel: reactModel.lost),
+            gained: try .init(reactModel: reactModel.gained),
+            context: reactModel.context,
+            expirationDateTime: reactModel.expirationDateTime
+        )
+    }
+    var reactModel: TradeQuote {
+        .init(
+            lost: lost.reactModel,
+            gained: gained.reactModel,
+            context: context,
+            expirationDateTime: expirationDateTime
+        )
+    }
+}
+
 extension Models.MarketTradeAsset.AssetKindPayload {
     init(reactModel: MarketAssetKind) {
         switch reactModel {
@@ -482,17 +501,6 @@ extension Models.Trade {
     }
 }
 
-extension Models.TradeQuote {
-    var reactModel: TradeQuote {
-        .init(
-            lost: lost.reactModel,
-            gained: gained.reactModel,
-            context: context,
-            expirationDateTime: expirationDateTime
-        )
-    }
-}
-
 extension Models.FiatMarketAccountKind {
     var reactModel: FiatMarketAccountKind {
         switch self {
@@ -832,16 +840,5 @@ extension Models.TradeAssetRef {
                 message: "Internal Candle Error: corrupted trade asset ref."
             )
         }
-    }
-}
-
-extension Models.TradeQuote {
-    init(reactModel: TradeQuote) throws {
-        self.init(
-            lost: try .init(reactModel: reactModel.lost),
-            gained: try .init(reactModel: reactModel.gained),
-            context: reactModel.context,
-            expirationDateTime: reactModel.expirationDateTime
-        )
     }
 }

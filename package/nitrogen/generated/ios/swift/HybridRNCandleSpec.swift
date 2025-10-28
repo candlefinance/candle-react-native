@@ -30,6 +30,7 @@ public protocol HybridRNCandleSpec_protocol: HybridObject {
   func getTrades(query: TradesQuery) throws -> Promise<TradesResponse>
   func getTrade(ref: TradeRef) throws -> Promise<Trade>
   func getTradeQuotes(request: TradeQuotesRequest) throws -> Promise<TradeQuotesResponse>
+  func executeTrade(quote: TradeQuote) throws -> Promise<Trade>
   func createUser(appUserID: String) throws -> Promise<Void>
   func deleteUser() throws -> Promise<Void>
 }
