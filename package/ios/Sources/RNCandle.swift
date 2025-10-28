@@ -193,7 +193,7 @@ import UIKit
             )
         }
     }
-    
+
     public func executeTrade(quote: TradeQuote) throws -> Promise<Trade> {
         .async {
             let trade = try await Client.shared.executeTrade(quote: .init(reactModel: quote))
