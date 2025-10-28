@@ -71,6 +71,12 @@ export type CandleContextValue = {
     tradeQuotes: TradeQuote<GainedAssetKind, LostAssetKind>[];
     linkedAccounts: LinkedAccountStatusRef[];
   }>;
+  executeTrade: <
+    GainedAssetKind extends TradeQuoteAssetKind,
+    LostAssetKind extends TradeQuoteAssetKind
+  >(
+    tradeQuote: TradeQuote<GainedAssetKind, LostAssetKind>
+  ) => Promise<Trade<GainedAssetKind, LostAssetKind>>;
 };
 
 export const CandleContext = createContext<CandleContextValue | null>(null);

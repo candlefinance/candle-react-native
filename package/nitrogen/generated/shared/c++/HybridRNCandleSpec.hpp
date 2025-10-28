@@ -113,6 +113,7 @@ namespace margelo::nitro::rncandle {
       virtual std::shared_ptr<Promise<TradesResponse>> getTrades(const TradesQuery& query) = 0;
       virtual std::shared_ptr<Promise<Trade>> getTrade(const TradeRef& ref) = 0;
       virtual std::shared_ptr<Promise<TradeQuotesResponse>> getTradeQuotes(const TradeQuotesRequest& request) = 0;
+      virtual std::shared_ptr<Promise<Trade>> executeTrade(const TradeQuote& quote) = 0;
       virtual std::shared_ptr<Promise<void>> createUser(const std::string& appUserID) = 0;
       virtual std::shared_ptr<Promise<void>> deleteUser() = 0;
 

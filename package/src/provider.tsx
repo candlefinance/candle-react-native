@@ -142,6 +142,12 @@ export const CandleProvider: React.FC<{
           ),
         };
       },
+
+      executeTrade: async (quote) => {
+        const nativeQuote = toNativeTradeQuote(quote);
+        const nativeTrade = await nativeCandle.executeTrade(nativeQuote);
+        return fromNativeTradeAndQuote(quote)(nativeTrade);
+      },
     }),
     [nativeCandle]
   );

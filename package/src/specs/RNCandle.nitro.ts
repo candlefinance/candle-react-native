@@ -481,6 +481,7 @@ export interface RNCandle extends HybridObject<{ ios: "swift" }> {
   getTrades(query: TradesQuery): Promise<TradesResponse>;
   getTrade(ref: TradeRef): Promise<Trade>;
   getTradeQuotes(request: TradeQuotesRequest): Promise<TradeQuotesResponse>;
+  executeTrade(quote: TradeQuote): Promise<Trade>;
 
   createUser(appUserID: string): Promise<void>;
   deleteUser(): Promise<void>;
