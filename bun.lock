@@ -14,7 +14,7 @@
     },
     "example": {
       "name": "example",
-      "version": "0.1.46",
+      "version": "0.1.47",
       "dependencies": {
         "@expo/vector-icons": "^15.0.2",
         "@react-navigation/native": "^7.1.8",
@@ -50,7 +50,7 @@
     },
     "package": {
       "name": "react-native-candle",
-      "version": "0.1.46",
+      "version": "0.1.47",
       "devDependencies": {
         "@expo/config-plugins": "^54.0.1",
         "@release-it/bumper": "^7.0.5",
