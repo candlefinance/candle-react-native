@@ -1,14 +1,14 @@
 {
   "name": "example",
   "main": "expo-router/entry",
-  "version": "0.1.46",
+  "version": "0.1.47",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "prebuild": "expo prebuild",
-    "build": "xcodebuild -workspace CandleReactNative.xcworkspace -scheme CandleReactNative -sdk iphonesimulator -configuration Release clean build",
+    "build": "cd ios && xcodebuild -workspace CandleReactNative.xcworkspace -scheme CandleReactNative -sdk iphonesimulator -configuration Release clean build",
     "pod": "pod install --project-directory=ios"
   },
   "dependencies": {
