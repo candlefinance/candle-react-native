@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "react-native-candle",
@@ -14,7 +15,7 @@
     },
     "example": {
       "name": "example",
-      "version": "0.1.47",
+      "version": "0.1.48",
       "dependencies": {
         "@expo/vector-icons": "^15.0.2",
         "@react-navigation/native": "^7.1.8",
@@ -50,7 +51,7 @@
     },
     "package": {
       "name": "react-native-candle",
-      "version": "0.1.47",
+      "version": "0.1.48",
       "devDependencies": {
         "@expo/config-plugins": "^54.0.1",
         "@release-it/bumper": "^7.0.5",
