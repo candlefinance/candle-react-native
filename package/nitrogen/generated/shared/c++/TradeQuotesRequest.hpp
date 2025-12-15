@@ -20,10 +20,13 @@
 
 // Forward declaration of `TradeAssetQuoteRequest` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct TradeAssetQuoteRequest; }
+// Forward declaration of `CounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct CounterpartyQuoteRequest; }
 
 #include <string>
 #include <optional>
 #include "TradeAssetQuoteRequest.hpp"
+#include "CounterpartyQuoteRequest.hpp"
 
 namespace margelo::nitro::rncandle {
 
@@ -35,10 +38,11 @@ namespace margelo::nitro::rncandle {
     std::optional<std::string> linkedAccountIDs     SWIFT_PRIVATE;
     TradeAssetQuoteRequest gained     SWIFT_PRIVATE;
     TradeAssetQuoteRequest lost     SWIFT_PRIVATE;
+    std::optional<CounterpartyQuoteRequest> counterparty     SWIFT_PRIVATE;
 
   public:
     TradeQuotesRequest() = default;
-    explicit TradeQuotesRequest(std::optional<std::string> linkedAccountIDs, TradeAssetQuoteRequest gained, TradeAssetQuoteRequest lost): linkedAccountIDs(linkedAccountIDs), gained(gained), lost(lost) {}
+    explicit TradeQuotesRequest(std::optional<std::string> linkedAccountIDs, TradeAssetQuoteRequest gained, TradeAssetQuoteRequest lost, std::optional<CounterpartyQuoteRequest> counterparty): linkedAccountIDs(linkedAccountIDs), gained(gained), lost(lost), counterparty(counterparty) {}
   };
 
 } // namespace margelo::nitro::rncandle
@@ -53,7 +57,8 @@ namespace margelo::nitro {
       return margelo::nitro::rncandle::TradeQuotesRequest(
         JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, "linkedAccountIDs")),
         JSIConverter<margelo::nitro::rncandle::TradeAssetQuoteRequest>::fromJSI(runtime, obj.getProperty(runtime, "gained")),
-        JSIConverter<margelo::nitro::rncandle::TradeAssetQuoteRequest>::fromJSI(runtime, obj.getProperty(runtime, "lost"))
+        JSIConverter<margelo::nitro::rncandle::TradeAssetQuoteRequest>::fromJSI(runtime, obj.getProperty(runtime, "lost")),
+        JSIConverter<std::optional<margelo::nitro::rncandle::CounterpartyQuoteRequest>>::fromJSI(runtime, obj.getProperty(runtime, "counterparty"))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::rncandle::TradeQuotesRequest& arg) {
@@ -61,6 +66,7 @@ namespace margelo::nitro {
       obj.setProperty(runtime, "linkedAccountIDs", JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.linkedAccountIDs));
       obj.setProperty(runtime, "gained", JSIConverter<margelo::nitro::rncandle::TradeAssetQuoteRequest>::toJSI(runtime, arg.gained));
       obj.setProperty(runtime, "lost", JSIConverter<margelo::nitro::rncandle::TradeAssetQuoteRequest>::toJSI(runtime, arg.lost));
+      obj.setProperty(runtime, "counterparty", JSIConverter<std::optional<margelo::nitro::rncandle::CounterpartyQuoteRequest>>::toJSI(runtime, arg.counterparty));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -71,6 +77,7 @@ namespace margelo::nitro {
       if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, "linkedAccountIDs"))) return false;
       if (!JSIConverter<margelo::nitro::rncandle::TradeAssetQuoteRequest>::canConvert(runtime, obj.getProperty(runtime, "gained"))) return false;
       if (!JSIConverter<margelo::nitro::rncandle::TradeAssetQuoteRequest>::canConvert(runtime, obj.getProperty(runtime, "lost"))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::rncandle::CounterpartyQuoteRequest>>::canConvert(runtime, obj.getProperty(runtime, "counterparty"))) return false;
       return true;
     }
   };

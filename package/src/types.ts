@@ -15,6 +15,7 @@ import type {
   NothingAssetRef,
   OtherAsset,
   OtherAssetRef,
+  OtherAssetQuoteRequest,
   Service,
   ServiceCounterparty,
   TradeState,
@@ -33,10 +34,14 @@ import type {
   TradeAsset as _TradeAsset,
   TradeQuote as _TradeQuote,
   Counterparty as _Counterparty,
+  CounterpartyQuoteRequest as _CounterpartyQuoteRequest,
   TradeAssetQuoteRequest as _TradeAssetQuoteRequest,
   InactiveLinkedAccountDetails,
   UnavailableLinkedAccountDetails,
   TradeAssetKind,
+  MerchantCounterpartyQuoteRequest,
+  ServiceCounterpartyQuoteRequest,
+  UserCounterpartyQuoteRequest,
 } from "./specs/RNCandle.nitro";
 
 export type {
@@ -47,6 +52,10 @@ export type {
   FiatAssetRef,
   FiatMarketAccountKind,
   MarketAssetQuoteRequest,
+  UserCounterpartyQuoteRequest,
+  OtherAssetQuoteRequest,
+  MerchantCounterpartyQuoteRequest,
+  ServiceCounterpartyQuoteRequest,
   MarketTradeAsset,
   MarketTradeAssetRef,
   MerchantCounterparty,
@@ -89,7 +98,15 @@ export type TradeAssetQuoteRequest =
     } & NothingAssetQuoteRequest)
   | ({ assetKind: "transport" } & TransportAssetQuoteRequest)
   | ({ assetKind: "fiat" } & FiatAssetQuoteRequest)
-  | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest);
+  | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest)
+  | ({ assetKind: "other" } & OtherAssetQuoteRequest);
+
+export type CounterpartyQuoteRequest =
+  | ({
+      kind: "user";
+    } & UserCounterpartyQuoteRequest)
+  | ({ kind: "merchant" } & MerchantCounterpartyQuoteRequest)
+  | ({ kind: "service" } & ServiceCounterpartyQuoteRequest);
 
 export type TradeAsset =
   | ({
@@ -156,6 +173,7 @@ export type TradeQuotesRequest<
   linkedAccountIDs?: string;
   gained: TradeAssetQuoteRequest & { assetKind: GainedAssetKind };
   lost: TradeAssetQuoteRequest & { assetKind: LostAssetKind };
+  counterparty?: CounterpartyQuoteRequest;
 };
 
 export type TradeRef = {
@@ -169,6 +187,7 @@ export type TradeQuote<
 > = {
   gained: TradeAsset & { assetKind: GainedAssetKind };
   lost: TradeAsset & { assetKind: LostAssetKind };
+  counterparty: Counterparty;
   context: string;
   expirationDateTime: string;
 };
@@ -224,6 +243,19 @@ export const toNativeTradeAsset = (tradeAsset: TradeAsset): _TradeAsset => {
   }
 };
 
+export const toNativeCounterparty = (
+  counterparty: Counterparty
+): _Counterparty => {
+  switch (counterparty.kind) {
+    case "user":
+      return { userCounterparty: counterparty };
+    case "merchant":
+      return { merchantCounterparty: counterparty };
+    case "service":
+      return { serviceCounterparty: counterparty };
+  }
+};
+
 export const toNativeTradeAssetQuoteRequest = (
   tradeAssetQuoteRequest: TradeAssetQuoteRequest
 ): _TradeAssetQuoteRequest => {
@@ -235,8 +267,23 @@ export const toNativeTradeAssetQuoteRequest = (
       return { marketAssetQuoteRequest: tradeAssetQuoteRequest };
     case "transport":
       return { transportAssetQuoteRequest: tradeAssetQuoteRequest };
+    case "other":
+      return { otherAssetQuoteRequest: tradeAssetQuoteRequest };
     case "nothing":
       return { nothingAssetQuoteRequest: tradeAssetQuoteRequest };
+  }
+};
+
+export const toNativeCounterpartyQuoteRequest = (
+  counterpartyQuoteRequest: CounterpartyQuoteRequest
+): _CounterpartyQuoteRequest => {
+  switch (counterpartyQuoteRequest.kind) {
+    case "user":
+      return { userCounterpartyQuoteRequest: counterpartyQuoteRequest };
+    case "merchant":
+      return { merchantCounterpartyQuoteRequest: counterpartyQuoteRequest };
+    case "service":
+      return { serviceCounterpartyQuoteRequest: counterpartyQuoteRequest };
   }
 };
 
@@ -248,6 +295,7 @@ export const toNativeTradeQuote = (
   ...tradeQuote,
   gained: toNativeTradeAsset(tradeQuote.gained),
   lost: toNativeTradeAsset(tradeQuote.lost),
+  counterparty: toNativeCounterparty(tradeQuote.counterparty),
 });
 
 export const toNativeTradeQuoteRequest = (
@@ -259,6 +307,10 @@ export const toNativeTradeQuoteRequest = (
   ...tradeQuoteRequest,
   gained: toNativeTradeAssetQuoteRequest(tradeQuoteRequest.gained),
   lost: toNativeTradeAssetQuoteRequest(tradeQuoteRequest.lost),
+  counterparty:
+    tradeQuoteRequest.counterparty === undefined
+      ? undefined
+      : toNativeCounterpartyQuoteRequest(tradeQuoteRequest.counterparty),
 });
 
 export const toNativeTradeRef = (tradeRef: TradeRef): _TradeRef => ({
@@ -440,6 +492,7 @@ export const fromNativeTradeQuoteAndRequest =
       tradeAsset: fromNativeTradeAsset(nativeTradeQuote.lost),
       expectedAssetKind: tradeQuoteRequest.lost.assetKind,
     }),
+    counterparty: fromNativeCounterparty(nativeTradeQuote.counterparty),
   });
 
 // Generics assertions

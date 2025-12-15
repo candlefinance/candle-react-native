@@ -9,6 +9,7 @@ extension Models.TradeQuote {
         self = .init(
             lost: try .init(reactModel: reactModel.lost),
             gained: try .init(reactModel: reactModel.gained),
+            counterparty: try .init(reactModel: reactModel.counterparty),
             context: reactModel.context,
             expirationDateTime: reactModel.expirationDateTime
         )
@@ -17,6 +18,7 @@ extension Models.TradeQuote {
         .init(
             lost: lost.reactModel,
             gained: gained.reactModel,
+            counterparty: counterparty.reactModel,
             context: context,
             expirationDateTime: expirationDateTime
         )
@@ -221,6 +223,77 @@ extension Models.Service {
     }
 }
 
+extension Models.Counterparty {
+    init(reactModel: Counterparty) throws {
+        if let merchantCounterparty = reactModel.merchantCounterparty {
+            self = .MerchantCounterparty(
+                .init(
+                    kind: .merchant,
+                    name: merchantCounterparty.name,
+                    logoURL: merchantCounterparty.logoURL,
+                    location: merchantCounterparty.location.map {
+                        .init(
+                            countryCode: $0.countryCode,
+                            countrySubdivisionCode: $0.countrySubdivisionCode,
+                            localityName: $0.localityName
+                        )
+                    }
+                )
+            )
+        } else if let userCounterparty = reactModel.userCounterparty {
+            self = .UserCounterparty(
+                .init(
+                    kind: .user,
+                    legalName: userCounterparty.legalName,
+                    avatarURL: userCounterparty.avatarURL,
+                    username: userCounterparty.username
+                )
+            )
+        } else if let serviceCounterparty = reactModel.serviceCounterparty {
+            self = .ServiceCounterparty(
+                .init(kind: .service, service: .init(reactModel: serviceCounterparty.service))
+            )
+        } else {
+            throw CandleError.unexpected(message: "Internal Candle Error: corrupted counterparty.")
+        }
+    }
+    var reactModel: Counterparty {
+        switch self {
+        case .MerchantCounterparty(let merchantCounterparty):
+            return .init(
+                merchantCounterparty: .init(
+                    kind: merchantCounterparty.kind.rawValue,
+                    name: merchantCounterparty.name,
+                    logoURL: merchantCounterparty.logoURL,
+                    location: merchantCounterparty.location.map(\.reactModel)
+                ),
+                userCounterparty: nil,
+                serviceCounterparty: nil
+            )
+        case .UserCounterparty(let userCounterparty):
+            return .init(
+                merchantCounterparty: nil,
+                userCounterparty: .init(
+                    kind: userCounterparty.kind.rawValue,
+                    legalName: userCounterparty.legalName,
+                    avatarURL: userCounterparty.avatarURL,
+                    username: userCounterparty.username
+                ),
+                serviceCounterparty: nil
+            )
+        case .ServiceCounterparty(let serviceCounterparty):
+            return .init(
+                merchantCounterparty: nil,
+                userCounterparty: nil,
+                serviceCounterparty: .init(
+                    kind: serviceCounterparty.kind.rawValue,
+                    service: serviceCounterparty.service.reactModel
+                )
+            )
+        }
+    }
+}
+
 extension Models.TradeAsset {
     init(reactModel: TradeAsset) throws {
         if let fiatAsset = reactModel.fiatAsset {
@@ -279,9 +352,7 @@ extension Models.TradeAsset {
         } else if reactModel.nothingAsset != nil {
             self = .NothingAsset(.init(assetKind: .nothing))
         } else {
-            throw CandleError.unexpected(
-                message: "Internal Candle Error: corrupted trade asset ref."
-            )
+            throw CandleError.unexpected(message: "Internal Candle Error: corrupted trade asset.")
         }
     }
     var reactModel: TradeAsset {
@@ -421,44 +492,6 @@ extension Models.MerchantLocation {
             countrySubdivisionCode: countrySubdivisionCode,
             localityName: localityName
         )
-    }
-}
-
-extension Models.Counterparty {
-    var reactModel: Counterparty {
-        switch self {
-        case .MerchantCounterparty(let merchantCounterparty):
-            return .init(
-                merchantCounterparty: .init(
-                    kind: merchantCounterparty.kind.rawValue,
-                    name: merchantCounterparty.name,
-                    logoURL: merchantCounterparty.logoURL,
-                    location: merchantCounterparty.location.map(\.reactModel)
-                ),
-                userCounterparty: nil,
-                serviceCounterparty: nil
-            )
-        case .UserCounterparty(let userCounterparty):
-            return .init(
-                merchantCounterparty: nil,
-                userCounterparty: .init(
-                    kind: userCounterparty.kind.rawValue,
-                    legalName: userCounterparty.legalName,
-                    avatarURL: userCounterparty.avatarURL,
-                    username: userCounterparty.username
-                ),
-                serviceCounterparty: nil
-            )
-        case .ServiceCounterparty(let serviceCounterparty):
-            return .init(
-                merchantCounterparty: nil,
-                userCounterparty: nil,
-                serviceCounterparty: .init(
-                    kind: serviceCounterparty.kind.rawValue,
-                    service: serviceCounterparty.service.reactModel
-                )
-            )
-        }
     }
 }
 
@@ -688,7 +721,10 @@ extension Models.TradeQuotesRequest {
         self.init(
             linkedAccountIDs: reactModel.linkedAccountIDs,
             gained: try .init(reactModel: reactModel.gained),
-            lost: try .init(reactModel: reactModel.lost)
+            lost: try .init(reactModel: reactModel.lost),
+            counterparty: try reactModel.counterparty.map(
+                Models.CounterpartyQuoteRequest.init(reactModel:)
+            )
         )
     }
 }
@@ -737,9 +773,35 @@ extension Models.TradeAssetQuoteRequest {
             )
         } else if reactModel.nothingAssetQuoteRequest != nil {
             self = .NothingAssetQuoteRequest(.init(assetKind: .nothing))
+        } else if reactModel.otherAssetQuoteRequest != nil {
+            self = .OtherAssetQuoteRequest(.init(assetKind: .other))
         } else {
             throw CandleError.unexpected(
                 message: "Internal Candle Error: corrupted trade asset quote request."
+            )
+        }
+    }
+}
+
+extension Models.CounterpartyQuoteRequest {
+    init(reactModel: CounterpartyQuoteRequest) throws {
+        if let merchantCounterpartyQuoteRequest = reactModel.merchantCounterpartyQuoteRequest {
+            self = .MerchantCounterpartyQuoteRequest(
+                .init(kind: .merchant, name: merchantCounterpartyQuoteRequest.name)
+            )
+        } else if let userCounterpartyQuoteRequest = reactModel.userCounterpartyQuoteRequest {
+            self = .UserCounterpartyQuoteRequest(
+                .init(
+                    kind: .user,
+                    legalName: userCounterpartyQuoteRequest.legalName,
+                    username: userCounterpartyQuoteRequest.username
+                )
+            )
+        } else if reactModel.serviceCounterpartyQuoteRequest != nil {
+            self = .ServiceCounterpartyQuoteRequest(.init(kind: .service))
+        } else {
+            throw CandleError.unexpected(
+                message: "Internal Candle Error: corrupted counterparty quote request."
             )
         }
     }

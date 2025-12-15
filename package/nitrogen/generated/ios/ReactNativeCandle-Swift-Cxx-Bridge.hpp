@@ -26,6 +26,8 @@ namespace margelo::nitro::rncandle { struct AssetAccountsResponse; }
 namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `CounterpartyKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
+// Forward declaration of `CounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct CounterpartyQuoteRequest; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
 // Forward declaration of `FiatAccount` to properly resolve imports.
@@ -60,6 +62,8 @@ namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct MarketTradeAssetRef; }
 // Forward declaration of `MarketTradeAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketTradeAsset; }
+// Forward declaration of `MerchantCounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MerchantCounterpartyQuoteRequest; }
 // Forward declaration of `MerchantCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MerchantCounterparty; }
 // Forward declaration of `MerchantLocation` to properly resolve imports.
@@ -70,10 +74,14 @@ namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct NothingAssetRef; }
 // Forward declaration of `NothingAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct NothingAsset; }
+// Forward declaration of `OtherAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct OtherAssetQuoteRequest; }
 // Forward declaration of `OtherAssetRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct OtherAssetRef; }
 // Forward declaration of `OtherAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct OtherAsset; }
+// Forward declaration of `ServiceCounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ServiceCounterpartyQuoteRequest; }
 // Forward declaration of `ServiceCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
@@ -106,6 +114,8 @@ namespace margelo::nitro::rncandle { struct TransportAssetRef; }
 namespace margelo::nitro::rncandle { struct TransportAsset; }
 // Forward declaration of `UnavailableLinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct UnavailableLinkedAccountDetails; }
+// Forward declaration of `UserCounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct UserCounterpartyQuoteRequest; }
 // Forward declaration of `UserCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct UserCounterparty; }
 // Forward declaration of `WireDetails` to properly resolve imports.
@@ -126,6 +136,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
 #include "CounterpartyKind.hpp"
+#include "CounterpartyQuoteRequest.hpp"
 #include "FiatAccount.hpp"
 #include "FiatAsset.hpp"
 #include "FiatAssetQuoteRequest.hpp"
@@ -143,14 +154,17 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "MarketTradeAsset.hpp"
 #include "MarketTradeAssetRef.hpp"
 #include "MerchantCounterparty.hpp"
+#include "MerchantCounterpartyQuoteRequest.hpp"
 #include "MerchantLocation.hpp"
 #include "NothingAsset.hpp"
 #include "NothingAssetQuoteRequest.hpp"
 #include "NothingAssetRef.hpp"
 #include "OtherAsset.hpp"
+#include "OtherAssetQuoteRequest.hpp"
 #include "OtherAssetRef.hpp"
 #include "Service.hpp"
 #include "ServiceCounterparty.hpp"
+#include "ServiceCounterpartyQuoteRequest.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
 #include "TradeAssetKind.hpp"
@@ -166,6 +180,7 @@ namespace ReactNativeCandle { class HybridRNCandleSpec_cxx; }
 #include "TransportAssetRef.hpp"
 #include "UnavailableLinkedAccountDetails.hpp"
 #include "UserCounterparty.hpp"
+#include "UserCounterpartyQuoteRequest.hpp"
 #include "WireDetails.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/PromiseHolder.hpp>
@@ -1087,6 +1102,81 @@ namespace margelo::nitro::rncandle::bridge::swift {
     return optional.has_value();
   }
   inline NothingAssetQuoteRequest get_std__optional_NothingAssetQuoteRequest_(const std::optional<NothingAssetQuoteRequest>& optional) noexcept {
+    return *optional;
+  }
+  
+  // pragma MARK: std::optional<OtherAssetQuoteRequest>
+  /**
+   * Specialized version of `std::optional<OtherAssetQuoteRequest>`.
+   */
+  using std__optional_OtherAssetQuoteRequest_ = std::optional<OtherAssetQuoteRequest>;
+  inline std::optional<OtherAssetQuoteRequest> create_std__optional_OtherAssetQuoteRequest_(const OtherAssetQuoteRequest& value) noexcept {
+    return std::optional<OtherAssetQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_OtherAssetQuoteRequest_(const std::optional<OtherAssetQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline OtherAssetQuoteRequest get_std__optional_OtherAssetQuoteRequest_(const std::optional<OtherAssetQuoteRequest>& optional) noexcept {
+    return *optional;
+  }
+  
+  // pragma MARK: std::optional<UserCounterpartyQuoteRequest>
+  /**
+   * Specialized version of `std::optional<UserCounterpartyQuoteRequest>`.
+   */
+  using std__optional_UserCounterpartyQuoteRequest_ = std::optional<UserCounterpartyQuoteRequest>;
+  inline std::optional<UserCounterpartyQuoteRequest> create_std__optional_UserCounterpartyQuoteRequest_(const UserCounterpartyQuoteRequest& value) noexcept {
+    return std::optional<UserCounterpartyQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_UserCounterpartyQuoteRequest_(const std::optional<UserCounterpartyQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline UserCounterpartyQuoteRequest get_std__optional_UserCounterpartyQuoteRequest_(const std::optional<UserCounterpartyQuoteRequest>& optional) noexcept {
+    return *optional;
+  }
+  
+  // pragma MARK: std::optional<MerchantCounterpartyQuoteRequest>
+  /**
+   * Specialized version of `std::optional<MerchantCounterpartyQuoteRequest>`.
+   */
+  using std__optional_MerchantCounterpartyQuoteRequest_ = std::optional<MerchantCounterpartyQuoteRequest>;
+  inline std::optional<MerchantCounterpartyQuoteRequest> create_std__optional_MerchantCounterpartyQuoteRequest_(const MerchantCounterpartyQuoteRequest& value) noexcept {
+    return std::optional<MerchantCounterpartyQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_MerchantCounterpartyQuoteRequest_(const std::optional<MerchantCounterpartyQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline MerchantCounterpartyQuoteRequest get_std__optional_MerchantCounterpartyQuoteRequest_(const std::optional<MerchantCounterpartyQuoteRequest>& optional) noexcept {
+    return *optional;
+  }
+  
+  // pragma MARK: std::optional<ServiceCounterpartyQuoteRequest>
+  /**
+   * Specialized version of `std::optional<ServiceCounterpartyQuoteRequest>`.
+   */
+  using std__optional_ServiceCounterpartyQuoteRequest_ = std::optional<ServiceCounterpartyQuoteRequest>;
+  inline std::optional<ServiceCounterpartyQuoteRequest> create_std__optional_ServiceCounterpartyQuoteRequest_(const ServiceCounterpartyQuoteRequest& value) noexcept {
+    return std::optional<ServiceCounterpartyQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_ServiceCounterpartyQuoteRequest_(const std::optional<ServiceCounterpartyQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline ServiceCounterpartyQuoteRequest get_std__optional_ServiceCounterpartyQuoteRequest_(const std::optional<ServiceCounterpartyQuoteRequest>& optional) noexcept {
+    return *optional;
+  }
+  
+  // pragma MARK: std::optional<CounterpartyQuoteRequest>
+  /**
+   * Specialized version of `std::optional<CounterpartyQuoteRequest>`.
+   */
+  using std__optional_CounterpartyQuoteRequest_ = std::optional<CounterpartyQuoteRequest>;
+  inline std::optional<CounterpartyQuoteRequest> create_std__optional_CounterpartyQuoteRequest_(const CounterpartyQuoteRequest& value) noexcept {
+    return std::optional<CounterpartyQuoteRequest>(value);
+  }
+  inline bool has_value_std__optional_CounterpartyQuoteRequest_(const std::optional<CounterpartyQuoteRequest>& optional) noexcept {
+    return optional.has_value();
+  }
+  inline CounterpartyQuoteRequest get_std__optional_CounterpartyQuoteRequest_(const std::optional<CounterpartyQuoteRequest>& optional) noexcept {
     return *optional;
   }
   

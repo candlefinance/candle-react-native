@@ -30,6 +30,8 @@ namespace margelo::nitro::rncandle { struct AssetAccountsResponse; }
 namespace margelo::nitro::rncandle { struct Coordinates; }
 // Forward declaration of `CounterpartyKind` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class CounterpartyKind; }
+// Forward declaration of `CounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct CounterpartyQuoteRequest; }
 // Forward declaration of `Counterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct Counterparty; }
 // Forward declaration of `FiatAccount` to properly resolve imports.
@@ -66,6 +68,8 @@ namespace margelo::nitro::rncandle { struct MarketAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct MarketTradeAssetRef; }
 // Forward declaration of `MarketTradeAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MarketTradeAsset; }
+// Forward declaration of `MerchantCounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct MerchantCounterpartyQuoteRequest; }
 // Forward declaration of `MerchantCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct MerchantCounterparty; }
 // Forward declaration of `MerchantLocation` to properly resolve imports.
@@ -76,6 +80,8 @@ namespace margelo::nitro::rncandle { struct NothingAssetQuoteRequest; }
 namespace margelo::nitro::rncandle { struct NothingAssetRef; }
 // Forward declaration of `NothingAsset` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct NothingAsset; }
+// Forward declaration of `OtherAssetQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct OtherAssetQuoteRequest; }
 // Forward declaration of `OtherAssetRef` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct OtherAssetRef; }
 // Forward declaration of `OtherAsset` to properly resolve imports.
@@ -84,6 +90,8 @@ namespace margelo::nitro::rncandle { struct OtherAsset; }
 namespace margelo::nitro::rncandle { enum class PresentationBackground; }
 // Forward declaration of `PresentationStyle` to properly resolve imports.
 namespace margelo::nitro::rncandle { enum class PresentationStyle; }
+// Forward declaration of `ServiceCounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct ServiceCounterpartyQuoteRequest; }
 // Forward declaration of `ServiceCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct ServiceCounterparty; }
 // Forward declaration of `Service` to properly resolve imports.
@@ -126,6 +134,8 @@ namespace margelo::nitro::rncandle { struct TransportAssetRef; }
 namespace margelo::nitro::rncandle { struct TransportAsset; }
 // Forward declaration of `UnavailableLinkedAccountDetails` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct UnavailableLinkedAccountDetails; }
+// Forward declaration of `UserCounterpartyQuoteRequest` to properly resolve imports.
+namespace margelo::nitro::rncandle { struct UserCounterpartyQuoteRequest; }
 // Forward declaration of `UserCounterparty` to properly resolve imports.
 namespace margelo::nitro::rncandle { struct UserCounterparty; }
 // Forward declaration of `WireDetails` to properly resolve imports.
@@ -144,6 +154,7 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "Coordinates.hpp"
 #include "Counterparty.hpp"
 #include "CounterpartyKind.hpp"
+#include "CounterpartyQuoteRequest.hpp"
 #include "FiatAccount.hpp"
 #include "FiatAsset.hpp"
 #include "FiatAssetQuoteRequest.hpp"
@@ -162,16 +173,19 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "MarketTradeAsset.hpp"
 #include "MarketTradeAssetRef.hpp"
 #include "MerchantCounterparty.hpp"
+#include "MerchantCounterpartyQuoteRequest.hpp"
 #include "MerchantLocation.hpp"
 #include "NothingAsset.hpp"
 #include "NothingAssetQuoteRequest.hpp"
 #include "NothingAssetRef.hpp"
 #include "OtherAsset.hpp"
+#include "OtherAssetQuoteRequest.hpp"
 #include "OtherAssetRef.hpp"
 #include "PresentationBackground.hpp"
 #include "PresentationStyle.hpp"
 #include "Service.hpp"
 #include "ServiceCounterparty.hpp"
+#include "ServiceCounterpartyQuoteRequest.hpp"
 #include "Trade.hpp"
 #include "TradeAsset.hpp"
 #include "TradeAssetKind.hpp"
@@ -192,6 +206,7 @@ namespace margelo::nitro::rncandle { struct WireDetails; }
 #include "TransportAssetRef.hpp"
 #include "UnavailableLinkedAccountDetails.hpp"
 #include "UserCounterparty.hpp"
+#include "UserCounterpartyQuoteRequest.hpp"
 #include "WireDetails.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
