@@ -15,6 +15,7 @@ import type {
   NothingAssetRef,
   OtherAsset,
   OtherAssetRef,
+  OtherAssetQuoteRequest,
   Service,
   ServiceCounterparty,
   TradeState,
@@ -52,6 +53,7 @@ export type {
   FiatMarketAccountKind,
   MarketAssetQuoteRequest,
   UserCounterpartyQuoteRequest,
+  OtherAssetQuoteRequest,
   MerchantCounterpartyQuoteRequest,
   ServiceCounterpartyQuoteRequest,
   MarketTradeAsset,
@@ -96,7 +98,8 @@ export type TradeAssetQuoteRequest =
     } & NothingAssetQuoteRequest)
   | ({ assetKind: "transport" } & TransportAssetQuoteRequest)
   | ({ assetKind: "fiat" } & FiatAssetQuoteRequest)
-  | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest);
+  | ({ assetKind: "stock" | "crypto" } & MarketAssetQuoteRequest)
+  | ({ assetKind: "other" } & OtherAssetQuoteRequest);
 
 export type CounterpartyQuoteRequest =
   | ({
@@ -264,6 +267,8 @@ export const toNativeTradeAssetQuoteRequest = (
       return { marketAssetQuoteRequest: tradeAssetQuoteRequest };
     case "transport":
       return { transportAssetQuoteRequest: tradeAssetQuoteRequest };
+    case "other":
+      return { otherAssetQuoteRequest: tradeAssetQuoteRequest };
     case "nothing":
       return { nothingAssetQuoteRequest: tradeAssetQuoteRequest };
   }
