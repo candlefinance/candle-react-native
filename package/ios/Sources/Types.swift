@@ -800,7 +800,9 @@ extension Models.CounterpartyQuoteRequest {
         } else if reactModel.serviceCounterpartyQuoteRequest != nil {
             self = .ServiceCounterpartyQuoteRequest(.init(kind: .service))
         } else {
-            throw CandleError.unexpected(message: "Internal Candle Error: corrupted counterparty quote request.")
+            throw CandleError.unexpected(
+                message: "Internal Candle Error: corrupted counterparty quote request."
+            )
         }
     }
 }
