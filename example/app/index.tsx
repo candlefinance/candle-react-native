@@ -12,6 +12,13 @@ import GetTradeDetailsScreen from "./(tabs)/TradeScreen/get-trade-details";
 
 import GetTradeQuotesScreen from "./(tabs)/TradeQuoteScreens/get-trade-quotes";
 import GetTradeQuotesDetailsScreen from "./(tabs)/TradeQuoteScreens/get-trade-quote-details";
+import {
+  AssetAccount,
+  LinkedAccountStatusRef,
+  Trade,
+  TradeAssetKind,
+  useCandle,
+} from "react-native-candle";
 
 const Stack = createNativeStackNavigator();
 const AssetStack = createNativeStackNavigator();
@@ -137,4 +144,232 @@ export default function Index() {
       />
     </Stack.Navigator>
   );
+}
+
+async function t() {
+  // import { useCandle } from "react-native-candle";
+
+  const candle = useCandle();
+
+  (await candle.getAssetAccounts()) satisfies AssetAccountsResponse;
+
+  // import { useCandle } from "react-native-candle";
+
+  // const candle = useCandle();
+
+  (await candle.getAssetAccounts({
+    assetKind: "transport",
+  })) satisfies AssetAccountsResponse;
+
+  //   import { useCandle } from "react-native-candle"
+
+  // const candle = useCandle()
+
+  // TIP: Store important IDs for future use
+  let robinhoodIDs = (await candle.getLinkedAccounts())
+    .filter(({ service }) => service == "robinhood")
+    .map(({ linkedAccountID }) => linkedAccountID)
+    .join();
+
+  (await candle.getAssetAccounts({
+    linkedAccountIDs: robinhoodIDs,
+  })) satisfies AssetAccountsResponse;
+
+  //   import { useCandle } from "react-native-candle"
+  // const candle = useCandle()
+
+  // TIP: Store important refs for future use
+  const accountRef = (await candle.getAssetAccounts()).assetAccounts[0];
+
+  (await candle.getAssetAccount(accountRef)) satisfies AssetAccount;
+
+  // import { useCandle } from "react-native-candle";
+
+  // const candle = useCandle();
+
+  (await candle.getTrades()) satisfies TradesResponse;
+
+  // import { useCandle } from "react-native-candle";
+
+  // const candle = useCandle();
+
+  (await candle.getTrades({
+    gainedAssetKind: "transport",
+  })) satisfies TradesResponse;
+
+  //   import { useCandle } from "react-native-candle"
+
+  // const candle = useCandle()
+
+  (await candle.getTrades({
+    lostAssetKind: "stock",
+  })) satisfies TradesResponse;
+
+  //   import { useCandle } from "react-native-candle"
+
+  // const candle = useCandle()
+
+  (await candle.getTrades({
+    counterpartyKind: "merchant",
+  })) satisfies TradesResponse;
+
+  // import { useCandle } from "react-native-candle";
+
+  // const candle = useCandle();
+
+  (await candle.getTrades({
+    dateTimeSpan: "P1W",
+  })) satisfies TradesResponse;
+
+  type AssetAccountsResponse = {
+    assetAccounts: AssetAccount[];
+    linkedAccounts: LinkedAccountStatusRef[];
+  };
+
+  //   import { useCandle } from "react-native-candle"
+
+  // const candle = useCandle()
+
+  // TIP: Store important IDs for future use
+  // let robinhoodIDs = (await candle.getLinkedAccounts())
+  //   .filter(({ service }) => service == "robinhood")
+  //   .map(({ linkedAccountID }) => linkedAccountID)
+  //   .join();
+
+  (await candle.getTrades({
+    linkedAccountIDs: robinhoodIDs,
+  })) satisfies TradesResponse;
+
+  //   import { useCandle } from "react-native-candle"
+
+  // const candle = useCandle()
+
+  // TIP: Store important refs for future use
+  const tradeRef = (await candle.getTrades()).trades[0];
+
+  (await candle.getTrade(tradeRef)) satisfies Trade<
+    TradeAssetKind,
+    TradeAssetKind
+  >;
+
+  type TradesResponse = {
+    trades: Trade<TradeAssetKind, TradeAssetKind>[];
+    linkedAccounts: LinkedAccountStatusRef[];
+  };
+
+  const _1: AssetAccountsResponse = {
+    assetAccounts: [
+      {
+        assetKind: "fiat",
+        accountKind: "individual",
+        nickname: "Apple Card",
+        currencyCode: "USD",
+        balance: -1245.06,
+        serviceAccountID: "...",
+        linkedAccountID: "...",
+        service: "apple",
+      },
+      {
+        assetKind: "stock",
+        accountKind: "joint",
+        nickname: "Joint Investing",
+        serviceAccountID: "...",
+        linkedAccountID: "...",
+        service: "robinhood",
+      },
+      {
+        assetKind: "transport",
+        accountKind: "business",
+        nickname: "Acme Inc",
+        serviceAccountID: "...",
+        linkedAccountID: "...",
+        service: "uber",
+      },
+    ],
+    linkedAccounts: [
+      {
+        service: "uber",
+        state: "active",
+        serviceUserID: "...",
+        linkedAccountID: "...",
+      },
+      {
+        service: "robinhood",
+        state: "active",
+        linkedAccountID: "...",
+        serviceUserID: "...",
+      },
+      {
+        service: "apple",
+        state: "active",
+        linkedAccountID: "...",
+        serviceUserID: "...",
+      },
+    ],
+  };
+
+  const _2: AssetAccountsResponse = {
+    assetAccounts: [
+      {
+        assetKind: "transport",
+        accountKind: "business",
+        nickname: "Acme Inc",
+        serviceAccountID: "...",
+        linkedAccountID: "...",
+        service: "uber",
+      },
+    ],
+    linkedAccounts: [
+      {
+        service: "uber",
+        state: "active",
+        serviceUserID: "...",
+        linkedAccountID: "...",
+      },
+      {
+        service: "robinhood",
+        state: "active",
+        linkedAccountID: "...",
+        serviceUserID: "...",
+      },
+      {
+        service: "apple",
+        state: "active",
+        linkedAccountID: "...",
+        serviceUserID: "...",
+      },
+    ],
+  };
+
+  const _3: AssetAccountsResponse = {
+    assetAccounts: [
+      {
+        assetKind: "stock",
+        accountKind: "joint",
+        nickname: "Joint Investing",
+        serviceAccountID: "...",
+        linkedAccountID: "...",
+        service: "robinhood",
+      },
+    ],
+    linkedAccounts: [
+      {
+        service: "robinhood",
+        state: "active",
+        linkedAccountID: "...",
+        serviceUserID: "...",
+      },
+    ],
+  };
+
+  const _4: AssetAccount = {
+    assetKind: "fiat",
+    accountKind: "individual",
+    nickname: "Apple Card",
+    currencyCode: "USD",
+    balance: -1245.06,
+    serviceAccountID: "...",
+    linkedAccountID: "...",
+    service: "apple",
+  };
 }
