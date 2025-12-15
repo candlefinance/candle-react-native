@@ -17,7 +17,8 @@ extension TradeQuotesRequest {
    * Create a new instance of `TradeQuotesRequest`.
    */
   public init(
-    linkedAccountIDs: String?, gained: TradeAssetQuoteRequest, lost: TradeAssetQuoteRequest
+    linkedAccountIDs: String?, gained: TradeAssetQuoteRequest, lost: TradeAssetQuoteRequest,
+    counterparty: CounterpartyQuoteRequest?
   ) {
     self.init(
       { () -> bridge.std__optional_std__string_ in
@@ -26,7 +27,14 @@ extension TradeQuotesRequest {
         } else {
           return .init()
         }
-      }(), gained, lost)
+      }(), gained, lost,
+      { () -> bridge.std__optional_CounterpartyQuoteRequest_ in
+        if let __unwrappedValue = counterparty {
+          return bridge.create_std__optional_CounterpartyQuoteRequest_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }())
   }
 
   public var linkedAccountIDs: String? {
@@ -72,6 +80,30 @@ extension TradeQuotesRequest {
     @inline(__always)
     set {
       self.__lost = newValue
+    }
+  }
+
+  public var counterparty: CounterpartyQuoteRequest? {
+    @inline(__always)
+    get {
+      return { () -> CounterpartyQuoteRequest? in
+        if bridge.has_value_std__optional_CounterpartyQuoteRequest_(self.__counterparty) {
+          let __unwrapped = bridge.get_std__optional_CounterpartyQuoteRequest_(self.__counterparty)
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__counterparty = { () -> bridge.std__optional_CounterpartyQuoteRequest_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_CounterpartyQuoteRequest_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
     }
   }
 }

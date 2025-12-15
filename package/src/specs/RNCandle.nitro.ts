@@ -231,17 +231,44 @@ export type NothingAssetQuoteRequest = {
   assetKind: string; // "nothing"
 };
 
+export type OtherAssetQuoteRequest = {
+  assetKind: string; // "other"
+};
+
 export type TradeAssetQuoteRequest = {
   fiatAssetQuoteRequest?: FiatAssetQuoteRequest;
   marketAssetQuoteRequest?: MarketAssetQuoteRequest;
   transportAssetQuoteRequest?: TransportAssetQuoteRequest;
   nothingAssetQuoteRequest?: NothingAssetQuoteRequest;
+  otherAssetQuoteRequest?: OtherAssetQuoteRequest;
+};
+
+export type MerchantCounterpartyQuoteRequest = {
+  kind: string; // "merchant";
+  name?: string;
+};
+
+export type UserCounterpartyQuoteRequest = {
+  kind: string; // "user"
+  legalName?: string;
+  username?: string;
+};
+
+export type ServiceCounterpartyQuoteRequest = {
+  kind: string; // "service"
+};
+
+export type CounterpartyQuoteRequest = {
+  userCounterpartyQuoteRequest?: UserCounterpartyQuoteRequest;
+  merchantCounterpartyQuoteRequest?: MerchantCounterpartyQuoteRequest;
+  serviceCounterpartyQuoteRequest?: ServiceCounterpartyQuoteRequest;
 };
 
 export type TradeQuotesRequest = {
   linkedAccountIDs?: string;
   gained: TradeAssetQuoteRequest;
   lost: TradeAssetQuoteRequest;
+  counterparty?: CounterpartyQuoteRequest;
 };
 
 export type ExecuteTradeRequest = {
@@ -252,6 +279,7 @@ export type ExecuteTradeRequest = {
 export type TradeQuote = {
   lost: TradeAsset;
   gained: TradeAsset;
+  counterparty: Counterparty;
   context: string;
   expirationDateTime: string;
 };

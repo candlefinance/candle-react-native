@@ -20,7 +20,8 @@ extension TradeAssetQuoteRequest {
     fiatAssetQuoteRequest: FiatAssetQuoteRequest?,
     marketAssetQuoteRequest: MarketAssetQuoteRequest?,
     transportAssetQuoteRequest: TransportAssetQuoteRequest?,
-    nothingAssetQuoteRequest: NothingAssetQuoteRequest?
+    nothingAssetQuoteRequest: NothingAssetQuoteRequest?,
+    otherAssetQuoteRequest: OtherAssetQuoteRequest?
   ) {
     self.init(
       { () -> bridge.std__optional_FiatAssetQuoteRequest_ in
@@ -47,6 +48,13 @@ extension TradeAssetQuoteRequest {
       { () -> bridge.std__optional_NothingAssetQuoteRequest_ in
         if let __unwrappedValue = nothingAssetQuoteRequest {
           return bridge.create_std__optional_NothingAssetQuoteRequest_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }(),
+      { () -> bridge.std__optional_OtherAssetQuoteRequest_ in
+        if let __unwrappedValue = otherAssetQuoteRequest {
+          return bridge.create_std__optional_OtherAssetQuoteRequest_(__unwrappedValue)
         } else {
           return .init()
         }
@@ -150,6 +158,31 @@ extension TradeAssetQuoteRequest {
       self.__nothingAssetQuoteRequest = { () -> bridge.std__optional_NothingAssetQuoteRequest_ in
         if let __unwrappedValue = newValue {
           return bridge.create_std__optional_NothingAssetQuoteRequest_(__unwrappedValue)
+        } else {
+          return .init()
+        }
+      }()
+    }
+  }
+
+  public var otherAssetQuoteRequest: OtherAssetQuoteRequest? {
+    @inline(__always)
+    get {
+      return { () -> OtherAssetQuoteRequest? in
+        if bridge.has_value_std__optional_OtherAssetQuoteRequest_(self.__otherAssetQuoteRequest) {
+          let __unwrapped = bridge.get_std__optional_OtherAssetQuoteRequest_(
+            self.__otherAssetQuoteRequest)
+          return __unwrapped
+        } else {
+          return nil
+        }
+      }()
+    }
+    @inline(__always)
+    set {
+      self.__otherAssetQuoteRequest = { () -> bridge.std__optional_OtherAssetQuoteRequest_ in
+        if let __unwrappedValue = newValue {
+          return bridge.create_std__optional_OtherAssetQuoteRequest_(__unwrappedValue)
         } else {
           return .init()
         }
