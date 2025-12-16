@@ -96,6 +96,7 @@
       },
       "@release-it-plugins/workspaces": true,
       "@release-it/conventional-changelog": {
+        "preMajor": false,
         "preset": {
           "name": "conventionalcommits",
           "types": [
