@@ -8,6 +8,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    if: github.event.pull_request.draft == false
     steps:
       - name: Check for EXPO_CLI_TOKEN
         run: |
