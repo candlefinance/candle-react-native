@@ -5,7 +5,7 @@ on:
     types:
       - closed
     branches:
-      - main
+      - fix-release-it-3
 
 concurrency: ${{ github.workflow }}
 
@@ -36,6 +36,6 @@ jobs:
 
       - name: Release
         working-directory: .
-        run: bun release-it --non-interactive
+        run: bun release-it --non-interactive --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
