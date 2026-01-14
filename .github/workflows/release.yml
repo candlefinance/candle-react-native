@@ -2,8 +2,8 @@ name: Release
 
 on:
   pull_request:
-    types:
-      - closed
+    # types:
+    #   - closed
     branches:
       - main
 
@@ -11,8 +11,8 @@ concurrency: ${{ github.workflow }}
 
 jobs:
   create_release:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    runs-on: macos-15
+    # if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout repo
@@ -23,6 +23,11 @@ jobs:
 
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 16.2
 
       - name: Configure Git user
         run: |
@@ -35,8 +40,78 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Release
-        working-directory: .
-        run: bun release-it --non-interactive
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache Cocoapods
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('example/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Pods
+        working-directory: example
+        run: |
+          bun run prebuild --clean
+          # pod install is run as part of expo prebuild but the exit code appear to be swallowed so running it again in case it failed
+          cd ios
+          pod install
+
+      - name: Import Codesign Certs
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APPSTORE_CERTIFICATES_FILE_BASE64 }}
+          p12-password: ${{ secrets.APPSTORE_CERTIFICATES_PASSWORD }}
+
+      - name: Download Provisioning Profiles
+        uses: apple-actions/download-provisioning-profiles@v4
+        with:
+          bundle-id: "fi.candle.example"
+          profile-type: "IOS_APP_STORE"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+      # - name: Xcode-build
+      #   working-directory: example
+      #   # potentially need to set: mode, scheme, destination, buildfolder, target, development team
+      #   run: bun run build --mode Release --scheme CandleReactNative --buildFolder ./ios/.build --target CandleReactNative --development-team FW8BZ57ZU9
+      #   timeout-minutes: 45
+
+      # - name: Build Release .xcarchive
+      #   working-directory: example
+      #   run: |
+      #     xcodebuild \
+      #       -workspace ios/CandleReactNative.xcworkspace \
+      #       -scheme CandleReactNative \
+      #       -configuration Release \
+      #       -sdk iphoneos \
+      #       -archivePath ios/build/CandleReactNative.xcarchive \
+      #       clean archive \
+      #       DEVELOPMENT_TEAM=FW8BZ57ZU9
+      #   timeout-minutes: 45
+
+      # - name: Export .ipa
+      #   run: |
+      #     xcodebuild -exportArchive \
+      #       -archivePath ios/build/CandleReactNative.xcarchive \
+      #       -exportPath ios/build/exported \
+      #       -exportOptionsPlist exportOptions.plist
+
+      # - name: Release
+      #   working-directory: .
+      #   run: bun release-it --non-interactive
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Xcode-build
+        working-directory: example
+        run: bun ios
+        timeout-minutes: 45
+
+      - name: Upload app to TestFlight
+        uses: apple-actions/upload-testflight-build@v3
+        with:
+          app-path: "sdk-swift-example-app/.build/Artifacts/BasicExample.ipa"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
