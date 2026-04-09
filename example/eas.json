@@ -4,18 +4,21 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {
-      "autoIncrement": true
+    "release": {
+      "distribution": "store",
+      "autoIncrement": true,
+      "environment": "production"
     }
   },
   "submit": {
-    "production": {}
+    "release": {
+      "android": {
+        "track": "alpha",
+        "releaseStatus": "completed"
+      },
+      "ios": {
+        "ascAppId": "6761288087"
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-# Candle React Native SDK (beta)
+# Candle React Native Example App(s)
 
 #### Supported Platforms
 
@@ -20,6 +20,6 @@
 
 </div>
 
-The Candle Swift SDK is a simple & secure way for developers to connect external services to LLMs, agents, and apps. Visit our [quick start](https://docs.candle.fi/) guide to get started.
+The Candle React Native SDK is a simple & secure way for developers to connect external services to LLMs, agents, and apps. Visit our [quick start](https://docs.candle.fi) guide to get started.
 
 ![Candle Agent](Images/sdk-readme.png)
