@@ -16,6 +16,12 @@ export const displayTradeAssetKind = (assetKind: TradeAsset['assetKind']): strin
     case 'event': {
       return 'Event'
     }
+    case 'message_thread': {
+      return 'Message Thread'
+    }
+    case 'friend_request': {
+      return 'Friend Request'
+    }
     case 'other': {
       return 'Other'
     }
@@ -44,6 +50,12 @@ const getAssetKindTone = (assetKind: TradeAsset['assetKind']): BadgeTone => {
     }
     case 'event': {
       return 'cyan'
+    }
+    case 'message_thread': {
+      return 'blue'
+    }
+    case 'friend_request': {
+      return 'purple'
     }
     case 'nothing': {
       return 'crimson'
@@ -78,6 +90,12 @@ export function getTradeAssetTitle(asset: TradeAsset): string {
     case 'event': {
       return asset.name
     }
+    case 'message_thread': {
+      return 'Message Thread'
+    }
+    case 'friend_request': {
+      return asset.user.legalName
+    }
     case 'other': {
       return 'Other Asset'
     }
@@ -94,13 +112,25 @@ export function getTradeAssetSubtitle(asset: TradeAsset): string {
     }
     case 'stock':
     case 'crypto': {
-      return `${asset.symbol} • ${asset.amount}`
+      return `${asset.symbol} • ${String(asset.amount)}`
     }
     case 'transport': {
       return asset.description
     }
     case 'event': {
       return asset.description
+    }
+    case 'message_thread': {
+      const latestMessage = asset.messages[0]
+      if (latestMessage === undefined) {
+        return 'No messages'
+      }
+      return `${String(asset.messages.length)} ${
+        asset.messages.length === 1 ? 'message' : 'messages'
+      } • ${latestMessage.text}`
+    }
+    case 'friend_request': {
+      return asset.direction === 'received' ? 'Received request' : 'Sent request'
     }
     case 'other': {
       return 'Custom asset'
@@ -144,6 +174,22 @@ export function toTradeAssetRef(asset: TradeAsset): TradeAssetRef | undefined {
     case 'event': {
       return {
         assetKind: 'event',
+        linkedAccountID: asset.linkedAccountID,
+        serviceTradeID: asset.serviceTradeID,
+      }
+    }
+    case 'message_thread': {
+      return asset.serviceTradeID === undefined
+        ? undefined
+        : {
+            assetKind: 'message_thread',
+            linkedAccountID: asset.linkedAccountID,
+            serviceTradeID: asset.serviceTradeID,
+          }
+    }
+    case 'friend_request': {
+      return {
+        assetKind: 'friend_request',
         linkedAccountID: asset.linkedAccountID,
         serviceTradeID: asset.serviceTradeID,
       }

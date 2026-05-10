@@ -1,5 +1,5 @@
 import type { LinkedAccount, LinkedAccountStatusRef } from 'react-native-candle'
-import type { BadgeChip, BadgeTone } from '../Models/badge-chip'
+import type { BadgeChip } from '../Models/badge-chip'
 
 export const displayLinkedAccountState = (
   state: LinkedAccount['details']['state'] | LinkedAccountStatusRef['state'],
@@ -17,31 +17,22 @@ export const displayLinkedAccountState = (
   }
 }
 
-const getLinkedAccountStateTone = (
-  state: LinkedAccount['details']['state'] | LinkedAccountStatusRef['state'],
-): BadgeTone => {
-  if (state === 'active') {
-    return 'green'
-  }
-  if (state === 'unavailable') {
-    return 'yellow'
-  }
-  return 'red'
-}
-
 export const getLinkedAccountStateBadge = (
   state: LinkedAccount['details']['state'] | LinkedAccountStatusRef['state'],
 ): BadgeChip => ({
   id: 'state',
   text: displayLinkedAccountState(state),
-  tone: getLinkedAccountStateTone(state),
+  tone: state === 'active' ? 'green' : state === 'unavailable' ? 'yellow' : 'red',
 })
 
 export function getLinkedAccountBadges(
   linkedAccount: Pick<LinkedAccount, 'details'> | Pick<LinkedAccountStatusRef, 'state'>,
 ): BadgeChip[] {
-  const state = 'details' in linkedAccount ? linkedAccount.details.state : linkedAccount.state
-  return [getLinkedAccountStateBadge(state)]
+  return [
+    getLinkedAccountStateBadge(
+      'details' in linkedAccount ? linkedAccount.details.state : linkedAccount.state,
+    ),
+  ]
 }
 
 export function getLinkedAccountTitle(account: {

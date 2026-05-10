@@ -59,6 +59,35 @@ const applyCoordinateSelectionToRequest = ({
   }
 }
 
+const normalizeFriendRequestQuoteRequest = ({
+  gained,
+  lost,
+}: {
+  gained: TradeAssetQuoteRequest
+  lost: TradeAssetQuoteRequest
+}): {
+  gained: TradeAssetQuoteRequest
+  lost: TradeAssetQuoteRequest
+} => {
+  if (
+    gained.assetKind === 'friend_request' &&
+    gained.action === 'reject' &&
+    lost.assetKind === 'nothing'
+  ) {
+    return { gained: lost, lost: gained }
+  }
+
+  if (
+    lost.assetKind === 'friend_request' &&
+    lost.action !== 'reject' &&
+    gained.assetKind === 'nothing'
+  ) {
+    return { gained: lost, lost: gained }
+  }
+
+  return { gained, lost }
+}
+
 export function TradeQuotesRequestScreen({
   linkedAccounts,
   assetAccounts,
@@ -149,11 +178,15 @@ export function TradeQuotesRequestScreen({
     if (!areRequested) {
       return
     }
+    const assetRequests = normalizeFriendRequestQuoteRequest({
+      gained: gainedRequest,
+      lost: lostRequest,
+    })
     const request: TradeQuotesRequest<any, any> = {
       linkedAccountIDs:
         selectedLinkedAccountIDs.length === 0 ? undefined : selectedLinkedAccountIDs.join(','),
-      lost: lostRequest,
-      gained: gainedRequest,
+      lost: assetRequests.lost,
+      gained: assetRequests.gained,
       counterparty: counterpartyRequest,
     }
     stackNavigation.navigate('TradeQuotes', { request })
@@ -191,13 +224,7 @@ export function TradeQuotesRequestScreen({
                   onClose={() => {
                     setShowLinkedAccountModal(false)
                   }}
-                  onToggle={(id) => {
-                    setSelectedLinkedAccountIDs((current) =>
-                      current.includes(id)
-                        ? current.filter((value) => value !== id)
-                        : [...current, id],
-                    )
-                  }}
+                  onChange={setSelectedLinkedAccountIDs}
                 />
               </RNView>
             </RNView>

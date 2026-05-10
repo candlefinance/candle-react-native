@@ -8,6 +8,7 @@ export function QuoteFormTextField({
   onChangeText,
   keyboardType,
   autoCapitalize,
+  multiline = false,
 }: {
   label: string
   placeholder: string
@@ -15,6 +16,7 @@ export function QuoteFormTextField({
   onChangeText: (nextValue: string) => void
   keyboardType?: 'decimal-pad' | 'default' | 'number-pad'
   autoCapitalize?: 'characters' | 'none'
+  multiline?: boolean
 }) {
   return (
     <RNView style={styles.quoteFormRow}>
@@ -29,7 +31,7 @@ export function QuoteFormTextField({
         onChangeText={onChangeText}
         keyboardType={keyboardType}
         autoCapitalize={autoCapitalize}
-        multiline={false}
+        multiline={multiline}
         returnKeyType="done"
       />
     </RNView>

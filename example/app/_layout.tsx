@@ -10,7 +10,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <CandleProvider appKey={candleConfig.appKey} appSecret={candleConfig.appSecret}>
+        <CandleProvider clientID={candleConfig.clientID}>
           <RNStatusBar backgroundColor="#f2f2f7" barStyle="dark-content" />
           <Slot />
         </CandleProvider>

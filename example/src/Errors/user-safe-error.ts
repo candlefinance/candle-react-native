@@ -3,8 +3,6 @@ export type UserSafeError = {
   message: string
 }
 
-const hasMessageField = (value: object): value is { message?: unknown } => 'message' in value
-
 const extractMessage = (value: unknown): string | undefined => {
   if (value === null || value === undefined) {
     return undefined
@@ -15,16 +13,11 @@ const extractMessage = (value: unknown): string | undefined => {
   if (value instanceof Error) {
     return value.message
   }
-  if (typeof value === 'object' && hasMessageField(value)) {
+  if (typeof value === 'object' && 'message' in value) {
     const unknownMessage = value.message
     return typeof unknownMessage === 'string' ? unknownMessage : undefined
   }
   return undefined
-}
-
-const payloadMessage = (raw: string): string | undefined => {
-  const match = /message:\s*"([^"]+)"/u.exec(raw)
-  return match?.[1]
 }
 
 const matches = (raw: string, pattern: string): boolean =>
@@ -39,7 +32,7 @@ export function toUserSafeError(error: unknown): UserSafeError {
     }
   }
 
-  const serverMessage = payloadMessage(raw)
+  const serverMessage = /message:\s*"([^"]+)"/u.exec(raw)?.[1]
   if (matches(raw, 'noActiveUser')) {
     return {
       title: 'No Active User',

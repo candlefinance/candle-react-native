@@ -48,7 +48,7 @@ export function LinkedAccountStatusRefsSection({
             <RNView style={styles.linkedAccountsDisclosureSummary}>
               {linkedAccounts.map((account) => (
                 <RNView
-                  key={`${account.linkedAccountID}:${account.service}:${account.serviceUserID}`}
+                  key={`${account.linkedAccountID}:${account.service.id}:${account.serviceUserID}`}
                   style={styles.linkedAccountsSummaryRow}
                 >
                   <AnyImage

@@ -27,17 +27,19 @@ export function CounterpartyQuoteRequestGroup({
             placeholder="Required"
             value={value.location?.localityName ?? ''}
             onChangeText={(localityName) => {
-              const nextLocation =
-                localityName.length === 0 &&
-                (value.location?.countrySubdivisionCode ?? '').length === 0 &&
-                (value.location?.countryCode ?? '').length === 0
-                  ? undefined
-                  : {
-                      localityName,
-                      countrySubdivisionCode: value.location?.countrySubdivisionCode ?? '',
-                      countryCode: value.location?.countryCode ?? '',
-                    }
-              onChange({ ...value, location: nextLocation })
+              onChange({
+                ...value,
+                location:
+                  localityName.length === 0 &&
+                  (value.location?.countrySubdivisionCode ?? '').length === 0 &&
+                  (value.location?.countryCode ?? '').length === 0
+                    ? undefined
+                    : {
+                        localityName,
+                        countrySubdivisionCode: value.location?.countrySubdivisionCode ?? '',
+                        countryCode: value.location?.countryCode ?? '',
+                      },
+              })
             }}
           />
           <QuoteFormTextField
@@ -45,17 +47,19 @@ export function CounterpartyQuoteRequestGroup({
             placeholder="Required"
             value={value.location?.countrySubdivisionCode ?? ''}
             onChangeText={(countrySubdivisionCode) => {
-              const nextLocation =
-                countrySubdivisionCode.length === 0 &&
-                (value.location?.localityName ?? '').length === 0 &&
-                (value.location?.countryCode ?? '').length === 0
-                  ? undefined
-                  : {
-                      localityName: value.location?.localityName ?? '',
-                      countrySubdivisionCode: countrySubdivisionCode.toUpperCase(),
-                      countryCode: value.location?.countryCode ?? '',
-                    }
-              onChange({ ...value, location: nextLocation })
+              onChange({
+                ...value,
+                location:
+                  countrySubdivisionCode.length === 0 &&
+                  (value.location?.localityName ?? '').length === 0 &&
+                  (value.location?.countryCode ?? '').length === 0
+                    ? undefined
+                    : {
+                        localityName: value.location?.localityName ?? '',
+                        countrySubdivisionCode: countrySubdivisionCode.toUpperCase(),
+                        countryCode: value.location?.countryCode ?? '',
+                      },
+              })
             }}
             autoCapitalize="characters"
           />
@@ -64,17 +68,19 @@ export function CounterpartyQuoteRequestGroup({
             placeholder="Required"
             value={value.location?.countryCode ?? ''}
             onChangeText={(countryCode) => {
-              const nextLocation =
-                countryCode.length === 0 &&
-                (value.location?.localityName ?? '').length === 0 &&
-                (value.location?.countrySubdivisionCode ?? '').length === 0
-                  ? undefined
-                  : {
-                      localityName: value.location?.localityName ?? '',
-                      countrySubdivisionCode: value.location?.countrySubdivisionCode ?? '',
-                      countryCode: countryCode.toUpperCase(),
-                    }
-              onChange({ ...value, location: nextLocation })
+              onChange({
+                ...value,
+                location:
+                  countryCode.length === 0 &&
+                  (value.location?.localityName ?? '').length === 0 &&
+                  (value.location?.countrySubdivisionCode ?? '').length === 0
+                    ? undefined
+                    : {
+                        localityName: value.location?.localityName ?? '',
+                        countrySubdivisionCode: value.location?.countrySubdivisionCode ?? '',
+                        countryCode: countryCode.toUpperCase(),
+                      },
+              })
             }}
             autoCapitalize="characters"
           />
@@ -85,7 +91,7 @@ export function CounterpartyQuoteRequestGroup({
         <>
           <QuoteFormTextField
             label="Legal Name"
-            placeholder="Automatic"
+            placeholder="Required if username empty"
             value={value.legalName ?? ''}
             onChangeText={(legalName) => {
               onChange({ ...value, legalName: legalName.length === 0 ? undefined : legalName })
@@ -93,7 +99,7 @@ export function CounterpartyQuoteRequestGroup({
           />
           <QuoteFormTextField
             label="Username"
-            placeholder="Required"
+            placeholder="Required if legal name empty"
             value={value.username ?? ''}
             onChangeText={(username) => {
               onChange({ ...value, username: username.length === 0 ? undefined : username })

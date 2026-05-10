@@ -9,11 +9,17 @@ export type RequestAssetKind = TradeQuoteAssetKind | 'other'
 export type QuoteTemplateID =
   | 'fiatTransport'
   | 'nothingEventMerchant'
+  | 'nothingMessageThreadUser'
+  | 'nothingFriendRequestUser'
+  | 'friendRequestNothingUser'
   | 'fiatOtherUser'
   | 'fiatCrypto'
   | 'cryptoFiat'
 type QuoteTemplateIcon =
   | 'car-sport-outline'
+  | 'chatbubble-ellipses-outline'
+  | 'person-add-outline'
+  | 'person-remove-outline'
   | 'restaurant-outline'
   | 'paper-plane-outline'
   | 'trending-up-outline'
@@ -28,16 +34,23 @@ export type QuoteTemplate = {
   counterparty?: CounterpartyQuoteRequest
 }
 
-const defaultEventQuoteDate = () => {
+const defaultEventQuoteRequest = (): TradeAssetQuoteRequest => {
   const now = new Date()
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 19, 0, 0, 0)
-}
 
-const defaultEventQuoteRequest = (): TradeAssetQuoteRequest => ({
-  assetKind: 'event',
-  dateTime: defaultEventQuoteDate().toISOString(),
-  partySize: 2,
-})
+  return {
+    assetKind: 'event',
+    dateTime: new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+      19,
+      0,
+      0,
+      0,
+    ).toISOString(),
+    partySize: 2,
+  }
+}
 
 export const QUOTE_TEMPLATES: QuoteTemplate[] = [
   {
@@ -54,6 +67,30 @@ export const QUOTE_TEMPLATES: QuoteTemplate[] = [
     lost: { assetKind: 'nothing' },
     gained: defaultEventQuoteRequest(),
     counterparty: { kind: 'merchant' },
+  },
+  {
+    id: 'nothingMessageThreadUser',
+    title: 'Send Message',
+    icon: 'chatbubble-ellipses-outline',
+    lost: { assetKind: 'nothing' },
+    gained: { assetKind: 'message_thread', text: '' },
+    counterparty: { kind: 'user' },
+  },
+  {
+    id: 'nothingFriendRequestUser',
+    title: 'Add Friend',
+    icon: 'person-add-outline',
+    lost: { assetKind: 'nothing' },
+    gained: { assetKind: 'friend_request', action: 'send' },
+    counterparty: { kind: 'user' },
+  },
+  {
+    id: 'friendRequestNothingUser',
+    title: 'Withdraw Friend Request',
+    icon: 'person-remove-outline',
+    lost: { assetKind: 'friend_request', action: 'withdraw' },
+    gained: { assetKind: 'nothing' },
+    counterparty: { kind: 'user' },
   },
   {
     id: 'fiatOtherUser',
@@ -95,6 +132,12 @@ export function defaultAssetQuoteRequest(assetKind: RequestAssetKind): TradeAsse
     }
     case 'event': {
       return defaultEventQuoteRequest()
+    }
+    case 'message_thread': {
+      return { assetKind: 'message_thread', text: '' }
+    }
+    case 'friend_request': {
+      return { assetKind: 'friend_request', action: 'send' }
     }
     case 'other': {
       return { assetKind: 'other' }

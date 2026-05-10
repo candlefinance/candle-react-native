@@ -159,13 +159,7 @@ export function AssetAccountsScreen({
                 onClose={() => {
                   setShowLinkedAccountModal(false)
                 }}
-                onToggle={(id) => {
-                  setSelectedLinkedAccountIDs((current) =>
-                    current.includes(id)
-                      ? current.filter((value) => value !== id)
-                      : [...current, id],
-                  )
-                }}
+                onChange={setSelectedLinkedAccountIDs}
               />
             </RNView>
           </RNView>

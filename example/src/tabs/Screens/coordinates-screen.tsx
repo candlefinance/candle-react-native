@@ -41,12 +41,6 @@ const createRegion = ({
       : focusedLongitudeDelta,
 })
 
-const regionsMatch = (left: Region, right: Region) =>
-  roundCoordinate(left.latitude) === roundCoordinate(right.latitude) &&
-  roundCoordinate(left.longitude) === roundCoordinate(right.longitude) &&
-  roundCoordinate(left.latitudeDelta) === roundCoordinate(right.latitudeDelta) &&
-  roundCoordinate(left.longitudeDelta) === roundCoordinate(right.longitudeDelta)
-
 const pushSelectionToRequest = ({
   stackNavigation,
   latitude,
@@ -159,7 +153,15 @@ export const CoordinatesScreen = () => {
         region={region}
         showsUserLocation
         onRegionChangeComplete={(nextRegion) => {
-          if (ignoredRegion !== undefined && regionsMatch(ignoredRegion, nextRegion)) {
+          if (
+            ignoredRegion !== undefined &&
+            roundCoordinate(ignoredRegion.latitude) === roundCoordinate(nextRegion.latitude) &&
+            roundCoordinate(ignoredRegion.longitude) === roundCoordinate(nextRegion.longitude) &&
+            roundCoordinate(ignoredRegion.latitudeDelta) ===
+              roundCoordinate(nextRegion.latitudeDelta) &&
+            roundCoordinate(ignoredRegion.longitudeDelta) ===
+              roundCoordinate(nextRegion.longitudeDelta)
+          ) {
             setIgnoredRegion(undefined)
             return
           }

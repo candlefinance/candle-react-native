@@ -50,16 +50,6 @@ export const HeaderDropdownMenu = ({
     setVisible(false)
   }
 
-  const menuRight =
-    anchorRect === undefined
-      ? SCREEN_PADDING
-      : Math.max(
-          SCREEN_PADDING,
-          Dimensions.get('window').width - anchorRect.x - anchorRect.width + SCREEN_PADDING,
-        )
-  const menuTop =
-    anchorRect === undefined ? SCREEN_PADDING : anchorRect.y + anchorRect.height + MENU_MARGIN
-
   return (
     <>
       <Pressable
@@ -84,8 +74,20 @@ export const HeaderDropdownMenu = ({
             style={[
               styles.headerMenuCard,
               {
-                right: menuRight,
-                top: menuTop,
+                right:
+                  anchorRect === undefined
+                    ? SCREEN_PADDING
+                    : Math.max(
+                        SCREEN_PADDING,
+                        Dimensions.get('window').width -
+                          anchorRect.x -
+                          anchorRect.width +
+                          SCREEN_PADDING,
+                      ),
+                top:
+                  anchorRect === undefined
+                    ? SCREEN_PADDING
+                    : anchorRect.y + anchorRect.height + MENU_MARGIN,
                 width: MENU_WIDTH,
               },
             ]}

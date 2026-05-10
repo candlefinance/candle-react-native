@@ -3,7 +3,7 @@ import type { BadgeChip } from '../Models/badge-chip'
 import { getCounterpartyImage, getCounterpartyTitle } from './counterparty'
 import { formatDate, formatMoney } from './format'
 import { getServiceLogo } from './service'
-import { getAssetKindBadge, toTradeAssetRef } from './trade-asset'
+import { getAssetKindBadge, getTradeAssetSubtitle, toTradeAssetRef } from './trade-asset'
 
 export const displayTradeState = (state: TradeState): string => {
   switch (state) {
@@ -36,6 +36,9 @@ export function getTradeTitle(trade: Trade<TradeAssetKind, TradeAssetKind>): str
   if (trade.gained.assetKind === 'event') {
     return trade.gained.name
   }
+  if (trade.gained.assetKind === 'friend_request') {
+    return trade.gained.user.legalName
+  }
   if (trade.lost.assetKind === 'stock' || trade.lost.assetKind === 'crypto') {
     return trade.lost.name
   }
@@ -44,6 +47,9 @@ export function getTradeTitle(trade: Trade<TradeAssetKind, TradeAssetKind>): str
   }
   if (trade.lost.assetKind === 'event') {
     return trade.lost.name
+  }
+  if (trade.lost.assetKind === 'friend_request') {
+    return trade.lost.user.legalName
   }
   return getCounterpartyTitle(trade.counterparty)
 }
@@ -54,6 +60,22 @@ export function getTradeValue(trade: Trade<TradeAssetKind, TradeAssetKind>): str
   }
   if (trade.lost.assetKind === 'fiat') {
     return formatMoney(-trade.lost.amount, trade.lost.currencyCode)
+  }
+  return undefined
+}
+
+export function getTradeSubtitle(trade: Trade<TradeAssetKind, TradeAssetKind>): string | undefined {
+  if (trade.gained.assetKind === 'message_thread') {
+    return getTradeAssetSubtitle(trade.gained)
+  }
+  if (trade.gained.assetKind === 'friend_request') {
+    return getTradeAssetSubtitle(trade.gained)
+  }
+  if (trade.lost.assetKind === 'message_thread') {
+    return getTradeAssetSubtitle(trade.lost)
+  }
+  if (trade.lost.assetKind === 'friend_request') {
+    return getTradeAssetSubtitle(trade.lost)
   }
   return undefined
 }
@@ -71,6 +93,9 @@ export function getTradeLogo(trade: Trade<TradeAssetKind, TradeAssetKind>): stri
   if (trade.gained.assetKind === 'event') {
     return trade.gained.imageURL
   }
+  if (trade.gained.assetKind === 'friend_request') {
+    return trade.gained.user.avatarURL
+  }
   if (trade.lost.assetKind === 'fiat') {
     return getServiceLogo(trade.lost.service)
   }
@@ -82,6 +107,9 @@ export function getTradeLogo(trade: Trade<TradeAssetKind, TradeAssetKind>): stri
   }
   if (trade.lost.assetKind === 'event') {
     return trade.lost.imageURL
+  }
+  if (trade.lost.assetKind === 'friend_request') {
+    return trade.lost.user.avatarURL
   }
   return getCounterpartyImage(trade.counterparty)
 }

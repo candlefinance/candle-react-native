@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons'
+import { useEffect, useState } from 'react'
 import { Image as RNImage, Text as RNText, View as RNView } from 'react-native'
 import type { Logo } from '../Models/logo'
 import { styles } from '../styles'
 
 const LOGO_TONE_STYLES = {
+  blue: styles.anyImageToneBlue,
   crimson: styles.anyImageToneCrimson,
   gray: styles.anyImageToneGray,
   teal: styles.anyImageToneTeal,
@@ -34,6 +36,12 @@ const ICON_SIZES: Record<AnyImageSize, number> = {
 export function AnyImage({ logo, size = 'row' }: { logo: Logo; size?: AnyImageSize }) {
   const imageStyle = IMAGE_STYLES[size]
   const textStyle = TEXT_STYLES[size]
+  const imageURI = logo.kind === 'uri' ? logo.uri : undefined
+  const [imageFailed, setImageFailed] = useState(false)
+
+  useEffect(() => {
+    setImageFailed(false)
+  }, [imageURI])
 
   switch (logo.kind) {
     case 'text': {
@@ -51,7 +59,24 @@ export function AnyImage({ logo, size = 'row' }: { logo: Logo; size?: AnyImageSi
       )
     }
     case 'uri': {
-      return <RNImage source={{ uri: logo.uri }} style={imageStyle} resizeMode="cover" />
+      if (imageFailed || logo.uri === 'https://www.linkedin.com/') {
+        return (
+          <RNView style={[imageStyle, styles.anyImageToneGray]}>
+            <Ionicons name="image" size={ICON_SIZES[size]} color="#ffffff" />
+          </RNView>
+        )
+      }
+
+      return (
+        <RNImage
+          source={{ uri: logo.uri }}
+          style={imageStyle}
+          resizeMode="cover"
+          onError={() => {
+            setImageFailed(true)
+          }}
+        />
+      )
     }
   }
 }

@@ -13,8 +13,7 @@ This app demonstrates the React Native Candle SDK:
 Set environment variables:
 
 ```env
-export EXPO_PUBLIC_CANDLE_APP_KEY=your_api_key_here
-export EXPO_PUBLIC_CANDLE_APP_SECRET=your_api_secret_here
+export EXPO_PUBLIC_CANDLE_CLIENT_ID=your_client_id_here
 export GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
 ```
 

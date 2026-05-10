@@ -1,4 +1,4 @@
-export type LogoTone = 'crimson' | 'gray' | 'teal' | 'green' | 'red'
+export type LogoTone = 'blue' | 'crimson' | 'gray' | 'teal' | 'green' | 'red'
 
 export type Logo =
   | {
@@ -12,6 +12,6 @@ export type Logo =
     }
   | {
       kind: 'symbol'
-      symbol: 'ellipsis-horizontal' | 'gift' | 'image'
+      symbol: 'chatbubble-ellipses' | 'ellipsis-horizontal' | 'gift' | 'image'
       tone: LogoTone
     }

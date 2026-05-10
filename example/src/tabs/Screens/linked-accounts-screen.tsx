@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Alert, Pressable, RefreshControl, View as RNView, ScrollView } from 'react-native'
-import type { LinkedAccount } from 'react-native-candle'
+import type { LinkedAccount, ServiceID } from 'react-native-candle'
 import { useCandle } from 'react-native-candle'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import type { UserSafeError } from '../../Errors/user-safe-error'
@@ -37,13 +37,11 @@ export function LinkedAccountsScreen({
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<UserSafeError | undefined>(undefined)
   const [viewState, setViewState] = useState<ViewState>('initial')
-  const [showOnboarding, setShowOnboarding] = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState<boolean | undefined>(undefined)
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
-  const [showLinkSheet, setShowLinkSheet] = useState(false)
   const [showSDKVersion, setShowSDKVersion] = useState(false)
   const [accountToUnlink, setAccountToUnlink] = useState<LinkedAccount | undefined>(undefined)
   const [newLinkedAccount, setNewLinkedAccount] = useState<LinkedAccount | undefined>(undefined)
-  const [creatingUser, setCreatingUser] = useState(false)
   const sdkVersion = useMemo(() => getSDKVersion(), [])
 
   const refreshLinkedAccounts = useCallback(
@@ -68,29 +66,33 @@ export function LinkedAccountsScreen({
     [candle, onLinkedAccountsUpdated],
   )
 
-  const presentLinkSheet = useCallback(() => {
-    candle.presentCandleLinkSheet({
-      services: ['cash_app', 'lyft', 'opentable', 'robinhood', 'sandbox', 'uber', 'venmo'],
-      customerName: 'Acme Inc',
-      presentationBackground: 'blur',
-      presentationStyle: 'fullScreen',
-      onSuccess: (account) => {
-        void (async () => {
-          const accounts = await candle.getLinkedAccounts()
-          onLinkedAccountsUpdated(accounts)
-          setViewState('normal')
-          const nextLinkedAccount = accounts.find(
-            (linkedAccount) => linkedAccount.linkedAccountID === account.linkedAccountID,
-          )
-          if (nextLinkedAccount !== undefined) {
-            setNewLinkedAccount(nextLinkedAccount)
-          }
-        })().catch((error_: unknown) => {
-          setError(toUserSafeError(error_))
-        })
-      },
-    })
-  }, [candle, onLinkedAccountsUpdated])
+  const presentLinkSheet = useCallback(
+    (input: { services?: ServiceID[]; showSandbox?: boolean } = {}) => {
+      candle.presentCandleLinkSheet({
+        customerName: 'Acme Inc',
+        presentationBackground: 'blur',
+        presentationStyle: 'fullScreen',
+        ...(input.services === undefined ? {} : { services: input.services }),
+        ...(input.showSandbox === undefined ? {} : { showSandbox: input.showSandbox }),
+        onSuccess: (account) => {
+          void (async () => {
+            const accounts = await candle.getLinkedAccounts()
+            onLinkedAccountsUpdated(accounts)
+            setViewState('normal')
+            const nextLinkedAccount = accounts.find(
+              (linkedAccount) => linkedAccount.linkedAccountID === account.linkedAccountID,
+            )
+            if (nextLinkedAccount !== undefined) {
+              setNewLinkedAccount(nextLinkedAccount)
+            }
+          })().catch((error_: unknown) => {
+            setError(toUserSafeError(error_))
+          })
+        },
+      })
+    },
+    [candle, onLinkedAccountsUpdated],
+  )
 
   const unlinkAccount = useCallback(
     async (account: LinkedAccount) => {
@@ -107,10 +109,10 @@ export function LinkedAccountsScreen({
     [candle, onAssetAccountsCleared, refreshLinkedAccounts],
   )
 
-  const deleteUser = useCallback(async () => {
+  const signOut = useCallback(async () => {
     setViewState('loading')
     try {
-      await candle.deleteUser()
+      await candle.signOut()
       onLinkedAccountsUpdated([])
       onAssetAccountsCleared()
       await NonSensitiveStorage.setBoolean(SKIP_ONBOARDING_KEY, false)
@@ -145,7 +147,7 @@ export function LinkedAccountsScreen({
           />
           <Pressable
             onPress={() => {
-              setShowLinkSheet(true)
+              presentLinkSheet({ showSandbox: true })
             }}
             style={styles.headerActionButton}
           >
@@ -154,22 +156,14 @@ export function LinkedAccountsScreen({
         </RNView>
       ),
     })
-  }, [stackNavigation])
+  }, [presentLinkSheet, stackNavigation])
 
   useEffect(() => {
-    if (showOnboarding || viewState !== 'initial') {
+    if (showOnboarding !== false) {
       return
     }
     void refreshLinkedAccounts()
-  }, [refreshLinkedAccounts, showOnboarding, viewState])
-
-  useEffect(() => {
-    if (!showLinkSheet) {
-      return
-    }
-    setShowLinkSheet(false)
-    presentLinkSheet()
-  }, [presentLinkSheet, showLinkSheet])
+  }, [refreshLinkedAccounts, showOnboarding])
 
   useEffect(() => {
     if (newLinkedAccount === undefined) {
@@ -220,16 +214,16 @@ export function LinkedAccountsScreen({
           },
         },
         {
-          text: 'Delete User',
+          text: 'Sign Out',
           style: 'destructive',
           onPress: () => {
             setShowDeleteConfirmation(false)
-            void deleteUser()
+            void signOut()
           },
         },
       ],
     )
-  }, [deleteUser, showDeleteConfirmation])
+  }, [signOut, showDeleteConfirmation])
 
   useEffect(() => {
     if (!showSDKVersion) {
@@ -274,34 +268,16 @@ export function LinkedAccountsScreen({
     )
   }, [accountToUnlink, unlinkAccount])
 
-  const createUser = useCallback(async () => {
-    setCreatingUser(true)
-    try {
-      await candle.createUser({ appUserID: '' })
-      await NonSensitiveStorage.setBoolean(SKIP_ONBOARDING_KEY, true)
-      setShowOnboarding(false)
-    } catch (error_) {
-      const safeError = toUserSafeError(error_)
-      if (safeError.title === 'Existing Active User') {
-        setError(safeError)
-        await NonSensitiveStorage.setBoolean(SKIP_ONBOARDING_KEY, true)
-        setShowOnboarding(false)
-        return
-      }
-      setError(safeError)
-    } finally {
-      setCreatingUser(false)
-    }
-  }, [candle])
-
   return (
     <SafeAreaView style={styles.screen} edges={['left', 'right']}>
       <OnboardingScreen
-        visible={showOnboarding}
-        onCreateUser={() => {
-          void createUser()
+        visible={showOnboarding ?? false}
+        onReady={() => {
+          void (async () => {
+            await NonSensitiveStorage.setBoolean(SKIP_ONBOARDING_KEY, true)
+            setShowOnboarding(false)
+          })()
         }}
-        isSubmitting={creatingUser}
       />
 
       <ScrollView
@@ -344,7 +320,7 @@ export function LinkedAccountsScreen({
                           label: 'Re-Link',
                           variant: 'success' as const,
                           onPress: () => {
-                            setShowLinkSheet(true)
+                            presentLinkSheet({ services: [account.service.id] })
                           },
                         },
                       ]

@@ -12,6 +12,7 @@ import { BadgeChip } from './badge-chip'
 
 export function ItemRow({
   title,
+  subtitle,
   logo,
   value,
   onPress,
@@ -20,6 +21,7 @@ export function ItemRow({
   swipeActions = [],
 }: {
   title: string
+  subtitle?: string | undefined
   logo: Logo
   value?: string | undefined
   onPress?: (() => void) | undefined
@@ -40,6 +42,11 @@ export function ItemRow({
         <RNText style={styles.rowTitle} numberOfLines={1}>
           {title}
         </RNText>
+        {subtitle === undefined ? null : (
+          <RNText style={styles.rowSubtitle} numberOfLines={1}>
+            {subtitle}
+          </RNText>
+        )}
         {badges.length === 0 ? null : (
           <RNView style={styles.rowBadges}>
             {badges.map((badge) => (

@@ -20,13 +20,8 @@ const getCurrencyDisplayNames = () => {
   return new Intl.DisplayNames(undefined, { type: 'currency' })
 }
 
-const getLocalizedCurrencyName = (currencyCode: string) => {
-  const currencyDisplayNames = getCurrencyDisplayNames()
-  return currencyDisplayNames?.of(currencyCode) ?? currencyCode
-}
-
-const getSupportedCurrencyCodes = () =>
-  typeof Intl.supportedValuesOf === 'function' ? Intl.supportedValuesOf('currency') : []
+const getLocalizedCurrencyName = (currencyCode: string) =>
+  getCurrencyDisplayNames()?.of(currencyCode) ?? currencyCode
 
 const normalizeCoordinateInput = ({
   latitude,
@@ -69,13 +64,12 @@ const toEventQuoteDateTime = (input: {
   ).toISOString()
 }
 
-const formatEventQuoteDate = (value?: string) => parseEventQuoteDate(value).toLocaleDateString()
-
-const formatEventQuoteTime = (value?: string) =>
-  parseEventQuoteDate(value).toLocaleTimeString([], {
-    hour: 'numeric',
-    minute: '2-digit',
-  })
+const friendRequestActionOptions = [
+  { id: 'send', label: 'Send request' },
+  { id: 'accept', label: 'Accept request' },
+  { id: 'reject', label: 'Reject request' },
+  { id: 'withdraw', label: 'Withdraw request' },
+]
 
 export function TradeAssetQuoteRequestGroup({
   title,
@@ -98,12 +92,15 @@ export function TradeAssetQuoteRequestGroup({
   const [showAccountModal, setShowAccountModal] = useState(false)
   const [showEventDatePicker, setShowEventDatePicker] = useState(false)
   const [showEventTimePicker, setShowEventTimePicker] = useState(false)
+  const [showFriendRequestActionModal, setShowFriendRequestActionModal] = useState(false)
 
   const currencyOptions = useMemo(() => {
-    const accountCurrencyCodes = assetAccounts
-      .filter((account) => account.assetKind === 'fiat')
-      .map((account) => account.currencyCode)
-    const currencyCodes = new Set([...getSupportedCurrencyCodes(), ...accountCurrencyCodes])
+    const currencyCodes = new Set([
+      ...(typeof Intl.supportedValuesOf === 'function' ? Intl.supportedValuesOf('currency') : []),
+      ...assetAccounts
+        .filter((account) => account.assetKind === 'fiat')
+        .map((account) => account.currencyCode),
+    ])
     return [...currencyCodes]
       .map((currencyCode) => ({
         id: currencyCode,
@@ -147,10 +144,6 @@ export function TradeAssetQuoteRequestGroup({
   const selectedAccountLabel = accountOptions.find(
     (option) => option.id === selectedAccountID,
   )?.label
-  const selectedCurrencyLabel =
-    value.assetKind === 'fiat' && value.currencyCode !== undefined
-      ? getLocalizedCurrencyName(value.currencyCode)
-      : undefined
 
   return (
     <RNView style={styles.detailSectionContent}>
@@ -159,7 +152,11 @@ export function TradeAssetQuoteRequestGroup({
           <QuoteFormPickerField
             label="Currency"
             placeholder="Automatic"
-            value={selectedCurrencyLabel}
+            value={
+              value.assetKind === 'fiat' && value.currencyCode !== undefined
+                ? getLocalizedCurrencyName(value.currencyCode)
+                : undefined
+            }
             onPress={() => {
               setShowCurrencyModal(true)
             }}
@@ -352,7 +349,7 @@ export function TradeAssetQuoteRequestGroup({
               <QuoteFormPickerField
                 label="Date"
                 placeholder="Required"
-                value={formatEventQuoteDate(value.dateTime)}
+                value={parseEventQuoteDate(value.dateTime).toLocaleDateString()}
                 onPress={() => {
                   setShowEventDatePicker(true)
                 }}
@@ -360,7 +357,10 @@ export function TradeAssetQuoteRequestGroup({
               <QuoteFormPickerField
                 label="Time"
                 placeholder="Required"
-                value={formatEventQuoteTime(value.dateTime)}
+                value={parseEventQuoteDate(value.dateTime).toLocaleTimeString([], {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                })}
                 onPress={() => {
                   setShowEventTimePicker(true)
                 }}
@@ -429,6 +429,36 @@ export function TradeAssetQuoteRequestGroup({
         </RNView>
       ) : null}
 
+      {value.assetKind === 'message_thread' ? (
+        <RNView style={styles.editorGroup}>
+          <QuoteFormTextField
+            label="Message"
+            placeholder="Required"
+            value={value.text}
+            onChangeText={(text) => {
+              onChange({ ...value, text })
+            }}
+            multiline
+          />
+        </RNView>
+      ) : null}
+
+      {value.assetKind === 'friend_request' ? (
+        <RNView style={styles.editorGroup}>
+          <QuoteFormPickerField
+            label="Action"
+            placeholder="Required"
+            value={
+              friendRequestActionOptions.find((option) => option.id === value.action)?.label ??
+              value.action
+            }
+            onPress={() => {
+              setShowFriendRequestActionModal(true)
+            }}
+          />
+        </RNView>
+      ) : null}
+
       <SingleSelectModal
         visible={showCurrencyModal}
         onClose={() => {
@@ -482,6 +512,25 @@ export function TradeAssetQuoteRequestGroup({
           ) {
             onChange({ ...value, serviceAccountID: id })
           }
+        }}
+      />
+
+      <SingleSelectModal
+        visible={showFriendRequestActionModal}
+        onClose={() => {
+          setShowFriendRequestActionModal(false)
+        }}
+        title="Friend Request Action"
+        selectedID={value.assetKind === 'friend_request' ? value.action : undefined}
+        options={friendRequestActionOptions}
+        onSelect={(id) => {
+          if (
+            value.assetKind !== 'friend_request' ||
+            (id !== 'send' && id !== 'accept' && id !== 'reject' && id !== 'withdraw')
+          ) {
+            return
+          }
+          onChange({ ...value, action: id })
         }}
       />
     </RNView>

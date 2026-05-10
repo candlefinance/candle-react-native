@@ -16,15 +16,19 @@ export function TabsRootScreen() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarIcon: ({ color, size }) => {
-          const iconName =
-            route.name === 'Services'
-              ? 'link-outline'
-              : route.name === 'Accounts'
-                ? 'wallet-outline'
-                : 'swap-horizontal-outline'
-          return <Ionicons name={iconName} size={size} color={color} />
-        },
+        tabBarIcon: ({ color, size }) => (
+          <Ionicons
+            name={
+              route.name === 'Services'
+                ? 'link-outline'
+                : route.name === 'Accounts'
+                  ? 'wallet-outline'
+                  : 'swap-horizontal-outline'
+            }
+            size={size}
+            color={color}
+          />
+        ),
       })}
     >
       <Tab.Screen name="Services">

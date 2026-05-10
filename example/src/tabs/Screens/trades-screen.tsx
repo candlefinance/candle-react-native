@@ -22,6 +22,7 @@ import {
   displayTradeState,
   getTradeBadges,
   getTradeLogo,
+  getTradeSubtitle,
   getTradeTitle,
   getTradeValue,
   groupTradesByDate,
@@ -167,16 +168,52 @@ export function TradesScreen({
     }
 
     const query = searchText.trim().toLowerCase()
-    return (response?.trades ?? []).filter((trade) => {
-      const tokens = [
+    return (response?.trades ?? []).filter((trade) =>
+      [
         getTradeTitle(trade),
+        getTradeSubtitle(trade) ?? '',
         getCounterpartyTitle(trade.counterparty),
         getTradeAssetTitle(trade.gained),
         getTradeAssetTitle(trade.lost),
         displayTradeState(trade.state),
-      ]
-      return tokens.some((token) => token.toLowerCase().includes(query))
-    })
+        ...(trade.gained.assetKind === 'message_thread'
+          ? trade.gained.messages.flatMap((message) => [
+              message.text,
+              message.senderProfileURN ?? '',
+              message.senderLegalName ?? '',
+              message.senderUsername ?? '',
+              message.serviceMessageID ?? '',
+            ])
+          : []),
+        ...(trade.gained.assetKind === 'friend_request'
+          ? [
+              trade.gained.direction,
+              trade.gained.serviceTradeID ?? '',
+              trade.gained.user.legalName,
+              trade.gained.user.username,
+              trade.gained.user.avatarURL,
+            ]
+          : []),
+        ...(trade.lost.assetKind === 'message_thread'
+          ? trade.lost.messages.flatMap((message) => [
+              message.text,
+              message.senderProfileURN ?? '',
+              message.senderLegalName ?? '',
+              message.senderUsername ?? '',
+              message.serviceMessageID ?? '',
+            ])
+          : []),
+        ...(trade.lost.assetKind === 'friend_request'
+          ? [
+              trade.lost.direction,
+              trade.lost.serviceTradeID ?? '',
+              trade.lost.user.legalName,
+              trade.lost.user.username,
+              trade.lost.user.avatarURL,
+            ]
+          : []),
+      ].some((token) => token.toLowerCase().includes(query)),
+    )
   }, [response, searchText])
 
   const groupedTrades = useMemo(() => groupTradesByDate(filteredTrades), [filteredTrades])
@@ -254,6 +291,9 @@ export function TradesScreen({
                     id === 'stock' ||
                     id === 'crypto' ||
                     id === 'transport' ||
+                    id === 'event' ||
+                    id === 'message_thread' ||
+                    id === 'friend_request' ||
                     id === 'other' ||
                     id === 'nothing'
                   ) {
@@ -291,6 +331,9 @@ export function TradesScreen({
                     id === 'stock' ||
                     id === 'crypto' ||
                     id === 'transport' ||
+                    id === 'event' ||
+                    id === 'message_thread' ||
+                    id === 'friend_request' ||
                     id === 'other' ||
                     id === 'nothing'
                   ) {
@@ -338,13 +381,7 @@ export function TradesScreen({
                 onClose={() => {
                   setShowLinkedAccountModal(false)
                 }}
-                onToggle={(id) => {
-                  setSelectedLinkedAccountIDs((current) =>
-                    current.includes(id)
-                      ? current.filter((value) => value !== id)
-                      : [...current, id],
-                  )
-                }}
+                onChange={setSelectedLinkedAccountIDs}
               />
             </RNView>
             <RNView style={styles.searchSection}>
@@ -400,6 +437,7 @@ export function TradesScreen({
                 <ItemRow
                   key={`${trade.dateTime}-${String(index)}`}
                   title={getTradeTitle(trade)}
+                  subtitle={getTradeSubtitle(trade)}
                   logo={{ kind: 'uri', uri: getTradeLogo(trade) }}
                   badges={getTradeBadges(trade)}
                   isLast={index === group.trades.length - 1}

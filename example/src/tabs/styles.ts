@@ -228,6 +228,9 @@ export const styles = RNStyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
   },
+  anyImageToneBlue: {
+    backgroundColor: '#2563eb',
+  },
   anyImageToneCrimson: {
     backgroundColor: '#9a031e',
   },
@@ -252,6 +255,11 @@ export const styles = RNStyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#111827',
+  },
+  rowSubtitle: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#6b7280',
   },
   rowTrailing: {
     alignItems: 'flex-end',
@@ -863,6 +871,12 @@ export const styles = RNStyleSheet.create({
   },
   infoRowCopyButton: {
     padding: 4,
+  },
+  messageThreadMessageSpacer: {
+    height: 8,
+    backgroundColor: '#f2f2f7',
+    borderBottomWidth: RNStyleSheet.hairlineWidth,
+    borderBottomColor: '#e5e7eb',
   },
   diagnosticsSheetCard: {
     borderRadius: 16,

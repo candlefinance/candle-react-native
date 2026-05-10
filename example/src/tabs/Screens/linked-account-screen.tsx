@@ -56,7 +56,7 @@ export function LinkedAccountScreen({
 
   const relink = useCallback(() => {
     candle.presentCandleLinkSheet({
-      services: ['cash_app', 'lyft', 'opentable', 'robinhood', 'sandbox', 'uber', 'venmo'],
+      services: [account.service.id],
       customerName: 'Acme Inc',
       presentationBackground: 'blur',
       presentationStyle: 'fullScreen',
@@ -65,7 +65,7 @@ export function LinkedAccountScreen({
         void refreshLinkedAccounts()
       },
     })
-  }, [candle, refresh, refreshLinkedAccounts])
+  }, [account.service, candle, refresh, refreshLinkedAccounts])
 
   const unlink = useCallback(async () => {
     setLoading(true)

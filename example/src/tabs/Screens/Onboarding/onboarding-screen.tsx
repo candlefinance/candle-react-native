@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState, type RefObject } from 'react'
+import { useCallback, useEffect, useRef, useState, type RefObject } from 'react'
 import {
-  ActivityIndicator as RNActivityIndicator,
+  ActivityIndicator,
   FlatList,
   Image as RNImage,
+  Linking,
   Modal as RNModal,
   Pressable,
   StatusBar as RNStatusBar,
@@ -10,6 +11,7 @@ import {
   View as RNView,
   type StatusBarProps,
 } from 'react-native'
+import { useCandle } from 'react-native-candle'
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { styles } from '../../styles'
 import { ItemPhoto } from './item-photo'
@@ -35,18 +37,9 @@ const onboardingSlides = [
 ] as const
 
 const getSlideInterval = () => onboardingCardWidth + onboardingCardSpacing
+const hostedRedirectUri = 'candle-rn://oauth/callback'
 
-const getNextSlideIndex = (currentIndex: number) => (currentIndex + 1) % onboardingSlides.length
-
-export function OnboardingScreen({
-  visible,
-  onCreateUser,
-  isSubmitting,
-}: {
-  visible: boolean
-  onCreateUser: () => void
-  isSubmitting: boolean
-}) {
+export function OnboardingScreen({ visible, onReady }: { visible: boolean; onReady: () => void }) {
   const listRef = useRef<FlatList<(typeof onboardingSlides)[number]>>(null)
   const statusBarEntryRef = useRef<StatusBarProps | null>(null)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
@@ -63,11 +56,11 @@ export function OnboardingScreen({
       setIsDragging(false)
       return
     }
-    if (isDragging || isSubmitting) {
+    if (isDragging) {
       return
     }
     const interval = setInterval(() => {
-      const nextSlideIndex = getNextSlideIndex(activeSlideIndex)
+      const nextSlideIndex = (activeSlideIndex + 1) % onboardingSlides.length
       listRef.current?.scrollToIndex({
         animated: true,
         index: nextSlideIndex,
@@ -77,7 +70,7 @@ export function OnboardingScreen({
     return () => {
       clearInterval(interval)
     }
-  }, [activeSlideIndex, isDragging, isSubmitting, visible])
+  }, [activeSlideIndex, isDragging, visible])
 
   useEffect(() => {
     if (!visible) {
@@ -103,9 +96,8 @@ export function OnboardingScreen({
       <SafeAreaProvider>
         <OnboardingModalContent
           activeSlideSource={activeSlide.source}
-          isSubmitting={isSubmitting}
           listRef={listRef}
-          onCreateUser={onCreateUser}
+          onReady={onReady}
           onSetActiveSlideIndex={setActiveSlideIndex}
           onSetIsDragging={setIsDragging}
         />
@@ -116,20 +108,68 @@ export function OnboardingScreen({
 
 function OnboardingModalContent({
   activeSlideSource,
-  isSubmitting,
   listRef,
-  onCreateUser,
+  onReady,
   onSetActiveSlideIndex,
   onSetIsDragging,
 }: {
   activeSlideSource: (typeof onboardingSlides)[number]['source']
-  isSubmitting: boolean
   listRef: RefObject<FlatList<(typeof onboardingSlides)[number]> | null>
-  onCreateUser: () => void
+  onReady: () => void
   onSetActiveSlideIndex: (nextIndex: number) => void
   onSetIsDragging: (isDragging: boolean) => void
 }) {
   const insets = useSafeAreaInsets()
+  const candle = useCandle()
+  const [isSigningIn, setIsSigningIn] = useState(false)
+  const [signInError, setSignInError] = useState<string | null>(null)
+
+  const completeHostedSignIn = useCallback(
+    async (url: string) => {
+      if (!url.startsWith(hostedRedirectUri)) {
+        return
+      }
+      setIsSigningIn(true)
+      setSignInError(null)
+      try {
+        await candle.completeHostedAuthorization(url)
+        onReady()
+      } catch (error) {
+        setSignInError(error instanceof Error ? error.message : 'Unable to sign in.')
+      } finally {
+        setIsSigningIn(false)
+      }
+    },
+    [candle, onReady],
+  )
+
+  useEffect(() => {
+    const subscription = Linking.addEventListener('url', ({ url }) => {
+      void completeHostedSignIn(url)
+    })
+    void Linking.getInitialURL().then((url) => {
+      if (url !== null) {
+        void completeHostedSignIn(url)
+      }
+    })
+    return () => {
+      subscription.remove()
+    }
+  }, [completeHostedSignIn])
+
+  const startHostedSignIn = useCallback(async () => {
+    setIsSigningIn(true)
+    setSignInError(null)
+    try {
+      await Linking.openURL(
+        candle.makeHostedAuthorizationRequest({ redirectUri: hostedRedirectUri }).url,
+      )
+    } catch (error) {
+      setSignInError(error instanceof Error ? error.message : 'Unable to sign in.')
+    } finally {
+      setIsSigningIn(false)
+    }
+  }, [candle])
 
   return (
     <SafeAreaView style={styles.onboardingContainer} edges={['left', 'right']}>
@@ -166,10 +206,9 @@ function OnboardingModalContent({
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.onboardingCarouselContent}
             onMomentumScrollEnd={(scrollEvent) => {
-              const nextIndex = Math.round(
-                scrollEvent.nativeEvent.contentOffset.x / getSlideInterval(),
+              onSetActiveSlideIndex(
+                Math.round(scrollEvent.nativeEvent.contentOffset.x / getSlideInterval()),
               )
-              onSetActiveSlideIndex(nextIndex)
             }}
             onScrollBeginDrag={() => {
               onSetIsDragging(true)
@@ -183,16 +222,31 @@ function OnboardingModalContent({
 
         <RNView style={styles.onboardingFooter}>
           <Pressable
-            onPress={onCreateUser}
-            style={[styles.onboardingCtaButton, isSubmitting ? styles.primaryButtonDisabled : null]}
-            disabled={isSubmitting}
+            disabled={isSigningIn}
+            onPress={() => {
+              void startHostedSignIn()
+            }}
+            style={styles.onboardingCtaButton}
           >
-            {isSubmitting ? (
-              <RNActivityIndicator color="#111827" />
+            {isSigningIn ? (
+              <ActivityIndicator color="#111827" />
             ) : (
-              <RNText style={styles.onboardingCtaLabel}>Get Started</RNText>
+              <RNText style={styles.onboardingCtaLabel}>Sign in with Candle</RNText>
             )}
           </Pressable>
+          {signInError === null ? null : (
+            <RNText
+              style={{
+                color: '#ff6961',
+                fontSize: 13,
+                fontWeight: '600',
+                marginTop: 12,
+                textAlign: 'center',
+              }}
+            >
+              {signInError}
+            </RNText>
+          )}
         </RNView>
       </RNView>
     </SafeAreaView>

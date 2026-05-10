@@ -6,6 +6,8 @@ export const TRADE_ASSET_KINDS: TradeAssetKind[] = [
   'crypto',
   'transport',
   'event',
+  'message_thread',
+  'friend_request',
   'other',
   'nothing',
 ]
