@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import { useCandle } from 'react-native-candle'
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { hostedRedirectUri } from '../../../hosted-auth'
 import { styles } from '../../styles'
 import { ItemPhoto } from './item-photo'
 import link1 from '../../../../assets/onboarding/link1.png'
@@ -37,9 +38,8 @@ const onboardingSlides = [
 ] as const
 
 const getSlideInterval = () => onboardingCardWidth + onboardingCardSpacing
-const hostedRedirectUri = 'candle-rn://oauth/callback'
 
-export function OnboardingScreen({ visible, onReady }: { visible: boolean; onReady: () => void }) {
+export function OnboardingScreen({ visible }: { visible: boolean }) {
   const listRef = useRef<FlatList<(typeof onboardingSlides)[number]>>(null)
   const statusBarEntryRef = useRef<StatusBarProps | null>(null)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
@@ -97,7 +97,6 @@ export function OnboardingScreen({ visible, onReady }: { visible: boolean; onRea
         <OnboardingModalContent
           activeSlideSource={activeSlide.source}
           listRef={listRef}
-          onReady={onReady}
           onSetActiveSlideIndex={setActiveSlideIndex}
           onSetIsDragging={setIsDragging}
         />
@@ -109,13 +108,11 @@ export function OnboardingScreen({ visible, onReady }: { visible: boolean; onRea
 function OnboardingModalContent({
   activeSlideSource,
   listRef,
-  onReady,
   onSetActiveSlideIndex,
   onSetIsDragging,
 }: {
   activeSlideSource: (typeof onboardingSlides)[number]['source']
   listRef: RefObject<FlatList<(typeof onboardingSlides)[number]> | null>
-  onReady: () => void
   onSetActiveSlideIndex: (nextIndex: number) => void
   onSetIsDragging: (isDragging: boolean) => void
 }) {
@@ -123,39 +120,6 @@ function OnboardingModalContent({
   const candle = useCandle()
   const [isSigningIn, setIsSigningIn] = useState(false)
   const [signInError, setSignInError] = useState<string | null>(null)
-
-  const completeHostedSignIn = useCallback(
-    async (url: string) => {
-      if (!url.startsWith(hostedRedirectUri)) {
-        return
-      }
-      setIsSigningIn(true)
-      setSignInError(null)
-      try {
-        await candle.completeHostedAuthorization(url)
-        onReady()
-      } catch (error) {
-        setSignInError(error instanceof Error ? error.message : 'Unable to sign in.')
-      } finally {
-        setIsSigningIn(false)
-      }
-    },
-    [candle, onReady],
-  )
-
-  useEffect(() => {
-    const subscription = Linking.addEventListener('url', ({ url }) => {
-      void completeHostedSignIn(url)
-    })
-    void Linking.getInitialURL().then((url) => {
-      if (url !== null) {
-        void completeHostedSignIn(url)
-      }
-    })
-    return () => {
-      subscription.remove()
-    }
-  }, [completeHostedSignIn])
 
   const startHostedSignIn = useCallback(async () => {
     setIsSigningIn(true)

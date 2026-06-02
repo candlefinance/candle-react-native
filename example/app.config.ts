@@ -3,6 +3,10 @@ import type { CandleConfig } from './src/candle-config-types'
 
 const googleMapsApiKey = process.env['GOOGLE_MAPS_API_KEY']
 const candleClientID = process.env['EXPO_PUBLIC_CANDLE_CLIENT_ID']
+const useExpoAutoSigning = process.env['CANDLE_IOS_USE_EXPO_AUTO_SIGNING'] === '1'
+const appleTeamId = useExpoAutoSigning
+  ? undefined
+  : (process.env['EXPO_IOS_APPLE_TEAM_ID'] ?? 'FW8BZ57ZU9')
 
 if (googleMapsApiKey == null || googleMapsApiKey.length === 0) {
   console.log('==================================================')
@@ -46,7 +50,7 @@ const config = {
       NSLocationWhenInUseUsageDescription:
         'Candle uses your location to center the map when you create location-based trade quotes.',
     },
-    appleTeamId: 'FW8BZ57ZU9',
+    ...(appleTeamId == null || appleTeamId.length === 0 ? {} : { appleTeamId }),
   },
   android: {
     package: 'com.trycandle.example.expo.android',

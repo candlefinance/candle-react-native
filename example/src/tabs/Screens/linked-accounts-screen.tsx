@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Alert, Pressable, RefreshControl, View as RNView, ScrollView } from 'react-native'
 import type { LinkedAccount, ServiceID } from 'react-native-candle'
@@ -173,15 +173,17 @@ export function LinkedAccountsScreen({
     setNewLinkedAccount(undefined)
   }, [newLinkedAccount, stackNavigation])
 
-  useEffect(() => {
-    void NonSensitiveStorage.getBoolean(SKIP_ONBOARDING_KEY)
-      .then((skipOnboarding) => {
-        setShowOnboarding(!(skipOnboarding ?? false))
-      })
-      .catch(() => {
-        setShowOnboarding(true)
-      })
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      void NonSensitiveStorage.getBoolean(SKIP_ONBOARDING_KEY)
+        .then((skipOnboarding) => {
+          setShowOnboarding(!(skipOnboarding ?? false))
+        })
+        .catch(() => {
+          setShowOnboarding(true)
+        })
+    }, []),
+  )
 
   useEffect(() => {
     if (error === undefined) {
@@ -270,15 +272,7 @@ export function LinkedAccountsScreen({
 
   return (
     <SafeAreaView style={styles.screen} edges={['left', 'right']}>
-      <OnboardingScreen
-        visible={showOnboarding ?? false}
-        onReady={() => {
-          void (async () => {
-            await NonSensitiveStorage.setBoolean(SKIP_ONBOARDING_KEY, true)
-            setShowOnboarding(false)
-          })()
-        }}
-      />
+      <OnboardingScreen visible={showOnboarding ?? false} />
 
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
