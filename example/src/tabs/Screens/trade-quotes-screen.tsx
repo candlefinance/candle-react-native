@@ -1,17 +1,19 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useCallback, useEffect, useState } from 'react'
 import { Alert, RefreshControl, ScrollView } from 'react-native'
-import type { LinkedAccountStatusRef, TradeQuote } from 'react-native-candle'
+import type { TradeQuote, TradeQuoteLinkedAccountResult } from 'react-native-candle'
 import { useCandle } from 'react-native-candle'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import type { UserSafeError } from '../../Errors/user-safe-error'
 import { toUserSafeError } from '../../Errors/user-safe-error'
+import type { BadgeChip } from '../Models/badge-chip'
 import {
   getTradeQuoteBadges,
   getTradeQuoteLogo,
   getTradeQuoteTitle,
   getTradeQuoteValue,
 } from '../Extensions/trade-quote'
+import { getServiceLogo } from '../Extensions/service'
 import type {
   TradeQuotesFlowNavigationProp,
   TradeQuotesFlowRouteProp,
@@ -21,17 +23,36 @@ import { styles } from '../styles'
 import { ContentUnavailableState } from '../Views/content-unavailable-state'
 import { DetailSection } from '../Views/detail-section'
 import { ItemRow } from '../Views/item-row'
-import { LinkedAccountStatusRefsSection } from '../Views/linked-account-status-refs-section'
 import { LoadingState } from '../Views/loading-state'
 
 type TradeQuotesResponse = {
-  linkedAccounts: LinkedAccountStatusRef[]
+  linkedAccountResults: TradeQuoteLinkedAccountResult[]
   tradeQuotes: TradeQuote<any, any>[]
 }
 type ScreenState =
   | { kind: 'initial' }
   | { kind: 'loading' }
   | { kind: 'normal'; response: TradeQuotesResponse }
+
+function getLinkedAccountResultBadges(result: TradeQuoteLinkedAccountResult): BadgeChip[] {
+  switch (result.outcome) {
+    case 'results_found': {
+      return [{ id: 'outcome', text: `results: ${String(result.count)}`, tone: 'green' }]
+    }
+    case 'no_results': {
+      return [{ id: 'outcome', text: result.reason, tone: 'yellow' }]
+    }
+    case 'session_expired': {
+      return [{ id: 'outcome', text: 'session_expired', tone: 'red' }]
+    }
+    case 'proxy_unavailable': {
+      return [{ id: 'outcome', text: 'proxy_unavailable', tone: 'orange' }]
+    }
+    case 'unexpected_error': {
+      return [{ id: 'outcome', text: 'unexpected_error', tone: 'red' }]
+    }
+  }
+}
 
 export function TradeQuotesScreen() {
   const candle = useCandle()
@@ -125,11 +146,32 @@ export function TradeQuotesScreen() {
           />
         }
       >
-        <LinkedAccountStatusRefsSection
-          state={state.kind}
-          linkedAccounts={response?.linkedAccounts}
-          emptyMessage="Try changing your filters or linking more services."
-        />
+        <DetailSection title="Linked Account Results">
+          {state.kind === 'initial' ? (
+            <ContentUnavailableState
+              title="Network Error"
+              message="Check your connection and pull to refresh."
+            />
+          ) : state.kind === 'loading' ? (
+            <LoadingState />
+          ) : response?.linkedAccountResults.length === 0 ? (
+            <ContentUnavailableState
+              title="No Linked Accounts"
+              message="Try changing your filters or linking more services."
+            />
+          ) : (
+            (response?.linkedAccountResults.map((result, index) => (
+              <ItemRow
+                key={`${result.linkedAccountID}:${result.outcome}:${String(index)}`}
+                title={result.linkedAccountID}
+                subtitle={result.serviceUserID}
+                logo={{ kind: 'uri', uri: getServiceLogo(result.service) }}
+                badges={getLinkedAccountResultBadges(result)}
+                isLast={index === response.linkedAccountResults.length - 1}
+              />
+            )) ?? null)
+          )}
+        </DetailSection>
 
         <DetailSection title="Trade Quotes">
           {state.kind === 'initial' ? (
