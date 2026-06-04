@@ -71,8 +71,8 @@ importers:
         specifier: ^0.83.6
         version: 0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0)
       react-native-candle:
-        specifier: 43.0.10-beta
-        version: 43.0.10-beta(react-native-nitro-modules@0.35.2(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0))(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+        specifier: 43.0.12-beta
+        version: 43.0.12-beta(react-native-nitro-modules@0.35.2(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0))(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
       react-native-gesture-handler:
         specifier: ^2.30.1
         version: 2.30.1(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
@@ -3866,8 +3866,8 @@ packages:
   react-is@19.2.4:
     resolution: {integrity: sha512-W+EWGn2v0ApPKgKKCy/7s7WHXkboGcsrXE+2joLyVxkbyVQfO3MUEaUQDHoSmb8TFFrSKYa9mw64WZHNHSDzYA==}
 
-  react-native-candle@43.0.10-beta:
-    resolution: {integrity: sha512-I3v8Wnjye3EMd9n4UhUoR2PdZ98YnxN7XLehTC4tHOHkpyQtGiOKE+GgLyKkeRBaSI4OFzDcTsR1a/I0qCOIng==}
+  react-native-candle@43.0.12-beta:
+    resolution: {integrity: sha512-x4a2QnFlURUvPmuofXeUnGJ5Z8UHPQqjwd9V7aoAxVWisJtTX33afwfCMZw4Xu7rluQw026PdsxpkWSUmnKepA==}
     peerDependencies:
       react: ^19.0.0
       react-native: ^0.83.0
@@ -9387,7 +9387,7 @@ snapshots:
 
   react-is@19.2.4: {}
 
-  react-native-candle@43.0.10-beta(react-native-nitro-modules@0.35.2(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0))(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0):
+  react-native-candle@43.0.12-beta(react-native-nitro-modules@0.35.2(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0))(react-native@0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
       react-native: 0.83.6(@babel/core@7.29.0)(@react-native-community/cli@20.1.3(typescript@6.0.3))(@types/react@19.2.14)(react@19.2.0)
